@@ -1,7 +1,7 @@
 # speechsynthe.si — « La Machine » : document de conception
 
 - **Date** : 2026-10-24
-- **Statut** : à valider par Jonas
+- **Statut** : validé par Jonas le 2026-10-24
 - **Dépôt** : `~/code/active/speech-synthesis/` → github.com/icanthateoncarti/speech-synthesis (public)
 - **En ligne** : https://speechsynthe.si (GitHub Pages, HTTPS actif, DNS chez OVH)
 
@@ -25,7 +25,7 @@ C'est un **projet fun** d'abord. L'argent (publicité, affiliation ElevenLabs) v
 ### Hors périmètre (v1)
 - Pages par usage (« lire un PDF », « voix off TikTok », « message de répondeur », « réviser à l'oral ») : **v2**, une fois l'outil solide.
 - Publicité, liens d'affiliation, newsletter, comptes utilisateurs.
-- Réglage de vitesse et de hauteur, troisième voix (« Pierre », le 2ᵉ locuteur du modèle UPMC).
+- Réglage de hauteur, troisième voix (« Pierre », le 2ᵉ locuteur du modèle UPMC).
 - Autres langues que le français.
 
 ### Anti-objectifs (ce qui ferait échouer le projet même si « ça marche »)
@@ -61,6 +61,7 @@ Inspirée du **Speak & Spell** (Texas Instruments, 1978, premier objet parlant g
   - **⬇ MP3**, **PDF**, **EFFACE** : jaunes, avec un effet d'enfoncement au clic.
 - **Vumètre** : barres qui réagissent au **vrai niveau audio** pendant la lecture.
 - **Bouton rotatif** argenté : deux positions, **JESSICA** / **TOM**, rotation animée.
+- **Curseur de vitesse** façon matériel (fader) sur le boîtier, de 0,7× à 1,5×, cran central à 1,0×. La valeur s'affiche sur la ligne d'état (`VITESSE 1.2×`).
 
 ### 4.2 Le texte pour Google sans casser le design
 1. **Titre gravé sur l'objet.** Le `<h1>` de la page est un nom de modèle sérigraphié sur le boîtier, par exemple « Synthèse vocale », dans le style du marquage. C'est du design pour l'œil et le titre principal pour Google.
@@ -97,6 +98,7 @@ Inspirée du **Speak & Spell** (Texas Instruments, 1978, premier objet parlant g
   - sinon, la synthèse démarre ;
   - un deuxième appui arrête la lecture.
 - **Bouton rotatif** : change de voix. Si un audio était déjà généré, il faut le regénérer avec la nouvelle voix.
+- **Vitesse** : appliquée **à la synthèse** via le paramètre `length_scale` de Piper (vitesse = 1 / length_scale). La voix garde donc un débit naturel, et le MP3 téléchargé est à la même vitesse que l'écoute. `@diffusionstudio/vits-web` lit ce paramètre dans la config du modèle sans l'exposer : on intègre et adapte sa source (MIT) pour le rendre réglable.
 - **⬇ MP3** : télécharge l'audio du texte actuel en **MP3**. Il est généré s'il ne l'est pas déjà.
 - **PDF** : ouvre un sélecteur de fichier, extrait le texte du PDF dans le navigateur et le place dans l'écran.
 - **EFFACE** : vide l'écran et l'audio.
@@ -138,11 +140,11 @@ Le grain et les ombres restent. Les touches font au moins 44 px.
 ## 7. Choix faits par Claude, pas par Jonas (à vérifier)
 - **Voix par défaut** : Jessica (comme sur la maquette).
 - **Import PDF dès la v1** : la touche est sur la maquette et « lire un PDF à voix haute » est une vraie recherche.
-- **Tutoiement** partout, FAQ comprise, dans la continuité de « TAPE » sur l'écran.
-- **Aucun outil de statistiques en v1**, pour rester cohérent avec « rien ne quitte ton ordinateur ». Le suivi SEO passera par Google Search Console.
-- **Pas de réglage de vitesse en v1** : la bibliothèque ne l'expose pas simplement.
+- **Formulation des questions de la FAQ calquée sur les recherches** (« Comment transformer un texte en audio MP3 ? », « Comment lire un PDF à voix haute ? ») ; réponses au **tutoiement**. Le tu/vous n'a pas d'effet SEO direct, c'est la correspondance avec la requête qui compte (validé par Jonas : « le plus optimisé pour le SEO »).
+- **Statistiques** (décidé par Jonas le 2026-10-24) : **Google Search Console** (aucun code sur le site, vérification par TXT chez OVH) + **un compteur de visites sans cookies**, donc **sans bannière de consentement** : GoatCounter (open source) ou Cloudflare Web Analytics (gratuit). Choix final à la création du compte par Jonas ; vérifier les conditions d'usage commercial de GoatCounter avant d'ajouter de la pub. Le compteur ne reçoit que la page vue, jamais le texte tapé. Google Analytics est exclu, à cause de la bannière cookies.
+- **Vitesse réglable dès la v1** (demandé par Jonas), de 0,7× à 1,5×.
 
 ## 8. Après la v1 (pour mémoire, non engagé)
 - Pages par usage, une par recherche (PDF, TikTok, répondeur, révisions), avec la machine intégrée.
-- Inscription du site dans Google Search Console (vérification par un enregistrement TXT chez OVH).
+- (Search Console et compteur sans cookies : voir §7, à brancher dès la v1.)
 - Publicité discrète et lien ElevenLabs « voix plus réaliste / usage commercial ».
