@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speech Synthesis — Vrai ou IA ?</title>
+  <meta name="description" content="Le média francophone de la voix IA : tests, comparatifs et tutos pour donner une vraie voix à ta chaîne sans visage.">
+  <meta property="og:title" content="Speech Synthesis — Vrai ou IA ?">
+  <meta property="og:description" content="Le média francophone de la voix IA. On teste les outils, on te piège avec de fausses voix, et on te montre comment donner une vraie voix à ta chaîne.">
+  <meta property="og:url" content="https://speechsynthe.si/">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0b0b12">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b12;
+      --bg-soft: #14141f;
+      --card: #191927;
+      --line: #2a2a3d;
+      --text: #f1f0f7;
+      --muted: #a3a1b8;
+      --accent: #b8ff5c;
+      --accent-2: #7c6cff;
+      --radius: 18px;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f7f6fb;
+        --bg-soft: #efedf7;
+        --card: #ffffff;
+        --line: #e0dded;
+        --text: #15141f;
+        --muted: #5e5b73;
+        --accent: #4f8a00;
+        --accent-2: #5a48f0;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 400 17px/1.6 Inter, system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+    header { padding: 22px 0; }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 700 18px/1 "Space Grotesk", sans-serif; letter-spacing: -0.01em; }
+    .logo small { color: var(--muted); font: 500 14px/1 Inter, sans-serif; }
+    .nav-links { display: flex; gap: 22px; font-size: 15px; color: var(--muted); }
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--text); }
+
+    .hero { padding-top: 72px; padding-bottom: 88px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
+    .kicker { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; color: var(--muted); }
+    .kicker i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+    h1, h2, h3 { font-family: "Space Grotesk", sans-serif; letter-spacing: -0.02em; line-height: 1.08; margin: 0; }
+    h1 { font-size: clamp(40px, 6vw, 68px); margin: 22px 0 20px; }
+    h1 em { font-style: normal; color: var(--accent); }
+    .lead { font-size: 19px; color: var(--muted); max-width: 34em; margin: 0 0 32px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 22px; border-radius: 999px; font-weight: 600; font-size: 16px; text-decoration: none; transition: transform .15s ease, background .15s ease; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); color: #0b0b12; }
+    .btn-ghost { border: 1px solid var(--line); }
+    .btn-ghost:hover { background: var(--bg-soft); }
+
+    .wave-card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 28px; }
+    .wave-row { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 14px; background: var(--bg-soft); }
+    .wave-row + .wave-row { margin-top: 12px; }
+    .wave-tag { flex: none; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px; font: 700 16px/1 "Space Grotesk", sans-serif; background: var(--bg); border: 1px solid var(--line); }
+    .bars { flex: 1; display: flex; align-items: center; gap: 3px; height: 40px; }
+    .bars span { flex: 1; border-radius: 3px; background: var(--accent-2); height: 30%; animation: pulse 1.2s ease-in-out infinite; }
+    .wave-row.b .bars span { background: var(--accent); }
+    @keyframes pulse { 0%, 100% { height: 20%; } 50% { height: 100%; } }
+    .wave-q { margin: 20px 0 0; text-align: center; color: var(--muted); font-size: 15px; }
+    .wave-q strong { color: var(--text); }
+
+    section { padding: 72px 0; border-top: 1px solid var(--line); }
+    .eyebrow { color: var(--accent); font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 12px; }
+    h2 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 16px; }
+    .sub { color: var(--muted); max-width: 40em; margin: 0 0 36px; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
+    .card .n { font: 700 14px/1 "Space Grotesk", sans-serif; color: var(--accent-2); margin-bottom: 18px; }
+    .card h3 { font-size: 22px; margin-bottom: 10px; }
+    .card p { color: var(--muted); margin: 0; font-size: 16px; }
+
+    .tool { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: stretch; }
+    .plans { display: grid; gap: 12px; }
+    .plan { display: flex; justify-content: space-between; gap: 16px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+    .plan b { font-family: "Space Grotesk", sans-serif; font-size: 18px; }
+    .plan span { color: var(--muted); font-size: 15px; text-align: right; }
+    .plan.no b::after { content: " — pas d'usage commercial"; color: #ff7a7a; font: 500 14px Inter, sans-serif; }
+    .note { color: var(--muted); font-size: 14px; margin: 14px 0 0; }
+    .tool-cta { display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+
+    .rule { display: flex; gap: 22px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
+    .rule .date { flex: none; font: 700 15px/1.2 "Space Grotesk", sans-serif; padding: 10px 14px; border-radius: 12px; background: var(--bg-soft); color: var(--accent); text-align: center; }
+    .rule p { margin: 0; color: var(--muted); }
+    .rule p + p { margin-top: 10px; }
+    .rule strong { color: var(--text); }
+
+    footer { padding: 40px 0 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
+    .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; padding-top: 40px; padding-bottom: 64px; }
+      .grid, .tool { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .rule { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bars span { animation: none; height: 60%; }
+      .btn { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <nav class="nav">
+      <a class="logo" href="#">
+        <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#b8ff5c"/><g fill="#0b0b12"><rect x="7" y="13" width="3" height="6" rx="1.5"/><rect x="12" y="9" width="3" height="14" rx="1.5"/><rect x="17" y="6" width="3" height="20" rx="1.5"/><rect x="22" y="11" width="3" height="10" rx="1.5"/></g></svg>
+        Speech Synthesis <small>speechsynthe.si</small>
+      </a>
+      <div class="nav-links">
+        <a href="#concept">Vrai ou IA ?</a>
+        <a href="#tutos">Tutos</a>
+        <a href="#outil">L'outil</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <div>
+        <span class="kicker"><i></i> Le média francophone de la voix IA</span>
+        <h1>Ta chaîne mérite une voix qui <em>ne sonne pas robot</em>.</h1>
+        <p class="lead">On teste les outils, on te piège avec de fausses voix, et on te montre comment donner une vraie voix à ta chaîne sans visage.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#outil">Voir l'outil qu'on utilise</a>
+          <a class="btn btn-ghost" href="#concept">Le concept</a>
+        </div>
+      </div>
+      <div class="wave-card" aria-label="Illustration : deux voix, une seule est humaine">
+        <div class="wave-row a"><span class="wave-tag">A</span><div class="bars" id="bars-a"></div></div>
+        <div class="wave-row b"><span class="wave-tag">B</span><div class="bars" id="bars-b"></div></div>
+        <p class="wave-q">Deux voix. <strong>Une seule est humaine.</strong></p>
+      </div>
+    </div>
+
+    <section id="concept">
+      <div class="wrap">
+        <p class="eyebrow">Vrai ou IA ?</p>
+        <h2>Tu ne fais plus la différence. Tes spectateurs non plus.</h2>
+        <p class="sub">Chaque épisode te fait écouter deux voix : l'une est enregistrée par un humain, l'autre est générée par une IA. Tu devines, on révèle, et on te montre comment la fausse a été faite. Premiers épisodes en préparation sur Instagram, TikTok et YouTube.</p>
+      </div>
+    </section>
+
+    <section id="tutos">
+      <div class="wrap">
+        <p class="eyebrow">Ce que tu vas apprendre</p>
+        <h2>De la voix robot à la voix qui retient.</h2>
+        <p class="sub">Des tutos courts, testés pour de vrai, pour ceux qui veulent une chaîne qui rapporte sans montrer leur visage.</p>
+        <div class="grid">
+          <article class="card">
+            <div class="n">01</div>
+            <h3>La voix de ta chaîne sans visage</h3>
+            <p>Choisir une voix qui colle à ton sujet, régler le rythme et les pauses, et éviter l'effet robot qui fait fuir.</p>
+          </article>
+          <article class="card">
+            <div class="n">02</div>
+            <h3>Cloner ta propre voix</h3>
+            <p>Garder ta voix sur toutes tes vidéos sans tout enregistrer toi-même à chaque fois.</p>
+          </article>
+          <article class="card">
+            <div class="n">03</div>
+            <h3>Monétiser sans mauvaise surprise</h3>
+            <p>Licence commerciale, règles des plateformes, obligations européennes : ce que tu as le droit de faire avec une voix IA.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="outil">
+      <div class="wrap">
+        <p class="eyebrow">L'outil qu'on utilise</p>
+        <h2>Gratuit, oui. Monétisable, non.</h2>
+        <p class="sub">On fait nos voix avec ElevenLabs. Le piège que beaucoup découvrent trop tard : la version gratuite n'autorise pas l'usage commercial. Dès que ta chaîne gagne de l'argent, il te faut une offre payante.</p>
+        <div class="tool">
+          <div>
+            <div class="plans">
+              <div class="plan no"><b>Gratuit</b><span>Pour tester</span></div>
+              <div class="plan"><b>Starter</b><span>Usage commercial<br>dès environ 5–6 $/mois</span></div>
+              <div class="plan"><b>Creator</b><span>Clonage de ta voix<br>environ 22 $/mois</span></div>
+            </div>
+            <p class="note">Prix indicatifs relevés en octobre 2026. Vérifie les tarifs à jour sur leur site.</p>
+          </div>
+          <div class="card tool-cta">
+            <h3>Commence avec la même voix que nous.</h3>
+            <p>Crée ton compte, teste gratuitement, et passe à l'offre payante seulement quand ta chaîne est prête à monétiser.</p>
+            <a class="btn btn-primary js-affiliate" href="https://elevenlabs.io/" target="_blank" rel="noopener sponsored">Essayer ElevenLabs</a>
+            <p class="note">Ce lien peut être un lien affilié : si tu t'abonnes, Speech Synthesis touche une commission, sans surcoût pour toi.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="regles">
+      <div class="wrap">
+        <p class="eyebrow">Les règles</p>
+        <h2>Une voix IA, ça se signale.</h2>
+        <div class="rule">
+          <div class="date">2 août<br>2026</div>
+          <div>
+            <p>Le règlement européen sur l'IA impose désormais de <strong>signaler les deepfakes</strong>, voix comprises, y compris dans les publicités.</p>
+            <p>Sur nos vidéos, on dit toujours quelle voix est générée. Et on t'explique comment faire pareil sur les tiennes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>© 2026 Speech Synthesis · speechsynthe.si</span>
+      <span>Bientôt sur Instagram, TikTok et YouTube.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Lien d'affiliation : remplacer cette valeur une fois le compte PartnerStack validé.
+    const AFFILIATE_URL = "https://elevenlabs.io/";
+
+    document.querySelectorAll(".js-affiliate").forEach(a => { a.href = AFFILIATE_URL; });
+
+    [["bars-a", 0], ["bars-b", 0.35]].forEach(([id, offset]) => {
+      const el = document.getElementById(id);
+      for (let i = 0; i < 28; i++) {
+        const s = document.createElement("span");
+        s.style.animationDelay = (offset + ((i * 7) % 11) / 10).toFixed(2) + "s";
+        el.appendChild(s);
+      }
+    });
+  </script>
+</body>
+</html>
