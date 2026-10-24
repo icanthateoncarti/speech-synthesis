@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>fixture tts</title>
+  <script type="importmap">
+    { "imports": { "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm" } }
+  </script>
+</head>
+<body>
+  <script type="module">
+    try {
+      const { createTts, VOICES } = await import("/src/tts.js");
+      const { wavDuration } = await import("/src/audio.js");
+      window.tts = createTts();
+      window.VOICES = VOICES;
+      window.wavDuration = wavDuration;
+      window.ttsReady = true;
+    } catch (err) {
+      window.ttsError = String(err?.stack ?? err);
+    }
+  </script>
+</body>
+</html>
