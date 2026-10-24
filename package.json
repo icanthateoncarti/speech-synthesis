@@ -1,0 +1,13 @@
+{
+  "name": "speech-synthesis",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"tests/unit/*.test.js\"",
+    "test:e2e": "node --test --test-concurrency=1 \"tests/e2e/*.test.js\""
+  },
+  "devDependencies": {
+    "@breezystack/lamejs": "1.2.7",
+    "puppeteer-core": "^23.0.0"
+  }
+}
