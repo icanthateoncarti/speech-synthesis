@@ -142,6 +142,12 @@ async function run(msg) {
   };
   await dropEmptyCache(voiceId);
   if (type === "download") {
+    // download() de vits-web retélécharge sans regarder le cache (et HF répond no-store).
+    const sizes = await cachedSizes(voiceId).catch(() => ({}));
+    if (Object.keys(sizes).length && Object.values(sizes).every((s) => s > 0)) {
+      self.postMessage({ id, type: "done" });
+      return;
+    }
     await download(voiceId, onProgress);
     await waitForCache(voiceId);
     self.postMessage({ id, type: "done" });

@@ -33,3 +33,5 @@ Licence : MIT (champ `license` du `package.json` ; le dépôt amont n'a pas de f
 - `fetch` n'est jamais vérifié (`res.ok`) : une page d'erreur HTTP serait mise en cache OPFS comme modèle. Le worker enveloppe `fetch` et lève une erreur réseau sur toute réponse non OK.
 - `download` n'attend pas la fin de l'écriture OPFS. Un fichier vide existe dès `getFileHandle({ create: true })` et `predict` le prendrait pour un modèle en cache. Le worker attend que les fichiers soient écrits, et supprime ceux de taille 0 avant chaque tâche (écriture interrompue par `cancel()`, onglet fermé…).
 - L'initialisation de piper se fait dans `new Promise(async …)` : une erreur à cet endroit ne rejette jamais `predict`. Le worker capte `unhandledrejection` et `error` pour faire échouer la tâche au lieu de la laisser bloquée.
+- `download` retélécharge le modèle même s'il est déjà dans OPFS (et HF répond `no-store`). Le worker saute `download` quand les deux fichiers sont déjà en cache et non vides.
+- `import(onnxruntime-web)` raté (hors ligne) reste en échec dans la table des modules du worker. `src/tts.js` remplace le worker après toute erreur réseau.

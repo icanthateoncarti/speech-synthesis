@@ -132,35 +132,83 @@ test("cancel() rejette avec kind 'cancelled', et la synthèse suivante marche", 
   assert.ok(r.nextSeconds > 1);
 });
 
-test("réseau coupé au premier téléchargement → err.kind === 'network'", { timeout: 120_000 }, async () => {
-  const profile = await mkdtemp(path.join(os.tmpdir(), "speechsynthesi-offline-"));
-  const local = await startServer();
-  const fresh = await launch({ profile });
+test("preload d'une voix déjà en cache : aucune requête vers huggingface.co", { timeout: 120_000 }, async () => {
+  // jessica est en cache OPFS depuis le premier test. Un Tts neuf = un worker neuf.
+  const seen = [];
+  const onRequest = (req) => {
+    seen.push(req.url());
+    req.continue();
+  };
+  await page.setRequestInterception(true);
+  page.on("request", onRequest);
   try {
+    const r = await page.evaluate(async (text) => {
+      const { createTts } = await import("/src/tts.js");
+      const tts = createTts();
+      const progress = [];
+      await tts.preload("jessica", { onProgress: (pct) => progress.push(pct) });
+      const res = await tts.synthesize({ text, voice: "jessica", speed: 1.0 });
+      return { progress, seconds: window.wavDuration(res.wav) };
+    }, PHRASE);
+    const hf = seen.filter((u) => u.includes("huggingface.co"));
+    assert.deepEqual(hf, [], `requêtes inattendues : ${hf.join(", ")}`);
+    assert.deepEqual(r.progress, []);
+    assert.ok(r.seconds > 1);
+    // témoin : les requêtes du worker sont bien visibles (import d'onnxruntime-web par le worker neuf)
+    assert.ok(seen.some((u) => u.includes("onnxruntime-web")), "requêtes du worker invisibles : test sans valeur");
+  } finally {
+    page.off("request", onRequest);
+    await page.setRequestInterception(false);
+  }
+});
+
+test("réseau coupé au premier téléchargement → err.kind === 'network', puis PARLE relance", { timeout: 180_000 }, async () => {
+  const profile = await mkdtemp(path.join(os.tmpdir(), "speechsynthesi-offline-"));
+  let local, fresh;
+  try {
+    local = await startServer();
+    fresh = await launch({ profile });
+    let offline = false;
     const blocked = [];
     await fresh.page.setRequestInterception(true);
     fresh.page.on("request", (req) => {
-      if (req.url().includes("huggingface.co")) {
-        blocked.push(req.url());
+      const u = req.url();
+      if (offline && (u.includes("huggingface.co") || u.includes("cdn.jsdelivr.net"))) {
+        blocked.push(u);
         req.abort("internetdisconnected");
       } else {
         req.continue();
       }
     });
+    // la page elle-même charge lamejs depuis jsDelivr : on coupe le réseau une fois chargée
     await openFixture(fresh.page, local.url);
-    const r = await fresh.page.evaluate(async (text) => {
+    offline = true;
+    const cut = await fresh.page.evaluate(async (text) => {
       const kindOf = (p) => p.then(() => "resolved", (err) => err.kind);
       return {
         synth: await kindOf(window.tts.synthesize({ text, voice: "jessica", speed: 1.0 })),
         preload: await kindOf(window.tts.preload("tom")),
       };
     }, PHRASE);
-    assert.equal(r.synth, "network");
-    assert.equal(r.preload, "network");
-    assert.ok(blocked.length > 0, "aucune requête vers huggingface.co n'a été interceptée");
+    assert.equal(cut.synth, "network");
+    assert.equal(cut.preload, "network");
+    assert.ok(blocked.some((u) => u.includes("onnxruntime-web")), "l'import d'onnxruntime-web n'a pas été coupé");
+    assert.ok(blocked.some((u) => u.includes("huggingface.co")), "aucune requête vers huggingface.co n'a été coupée");
+
+    offline = false;
+    const retry = await fresh.page.evaluate(async (text) => {
+      try {
+        const res = await window.tts.synthesize({ text, voice: "jessica", speed: 1.0 });
+        return { seconds: window.wavDuration(res.wav) };
+      } catch (err) {
+        return { error: `${err.kind} : ${err.message}` };
+      }
+    }, PHRASE);
+    assert.equal(retry.error, undefined, `la nouvelle tentative a échoué : ${retry.error}`);
+    assert.ok(retry.seconds > 1);
   } finally {
-    await fresh.browser.close();
-    await local.close();
+    await fresh?.browser.close();
+    await local?.close();
     await rm(profile, { recursive: true, force: true });
   }
 });
