@@ -260,3 +260,24 @@ test("symboles et titres : le moteur reçoit le texte à dire, et un vrai silenc
   assert.equal(r.after, 0, "une seconde de silence après le titre");
   assert.ok(r.speech > 1000, "le titre lui-même est bien prononcé");
 });
+
+test("texte anglais : voix anglaises libres de droits et règles de lecture anglaises", { timeout: 300_000 }, async () => {
+  const r = await page.evaluate(async () => {
+    const sent = [];
+    const post = Worker.prototype.postMessage;
+    Worker.prototype.postMessage = function (message, ...rest) {
+      if (message?.type === "synthesize") sent.push([message.voiceId, message.text]);
+      return post.call(this, message, ...rest);
+    };
+    try {
+      const text = "Replenishment is the process of moving inventory (stock) along the supply chain → the customer.";
+      const jessica = await window.tts.synthesize({ text, voice: "jessica", speed: 1 });
+      const tom = await window.tts.synthesize({ text, voice: "tom", speed: 1 });
+      return { sent, lang: jessica.lang, seconds: [window.wavDuration(jessica.wav), window.wavDuration(tom.wav)] };
+    } finally { Worker.prototype.postMessage = post; }
+  });
+  const spoken = "Replenishment is the process of moving inventory, in parentheses, stock, along the supply chain to the customer.";
+  assert.equal(r.lang, "en");
+  assert.deepEqual(r.sent, [["en_US-kristin-medium", spoken], ["en_US-joe-medium", spoken]]);
+  for (const s of r.seconds) assert.ok(s > 3, `audio anglais trop court : ${s}`);
+});

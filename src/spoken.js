@@ -43,17 +43,28 @@ function capsWord(raw) {
   return letters.length >= 2 && LETTERS.test(letters);
 }
 
-function pronounce(token, previous, next) {
+function pronounce(token, previous, next, lang) {
   const acronym = /^(\p{Lu}{2,4})s?$/u.exec(token);
   // Un titre en capitales (« LE FIL ROUGE ») n'est pas une suite de sigles.
   if (acronym && !ROMAN.test(acronym[1]) && !ACRONYM_WORDS.has(acronym[1]) && !capsWord(previous) && !capsWord(next)) {
     return [...acronym[1]].join(" ");
   }
+  if (lang !== "fr") return token;
   const lower = token.toLocaleLowerCase("fr");
   return LEXICON.get(lower) ?? (lower.endsWith("s") ? LEXICON.get(lower.slice(0, -1)) : undefined) ?? token;
 }
 
-const OPENERS = new Map([["(", "entre parenthèses"], ["[", "entre crochets"], ["«", "entre guillemets"], ["“", "entre guillemets"], ["„", "entre guillemets"]]);
+const OPENERS = {
+  fr: new Map([["(", "entre parenthèses"], ["[", "entre crochets"], ["«", "entre guillemets"], ["“", "entre guillemets"], ["„", "entre guillemets"], ['"', "entre guillemets"]]),
+  en: new Map([["(", "in parentheses"], ["[", "in brackets"], ["«", "in quotes"], ["“", "in quotes"], ["„", "in quotes"], ['"', "in quotes"]]),
+};
+const ARROWS_EN = [
+  [/<->|<=>|[↔⇔⟷⟺]/gu, ", both ways, "],
+  [/-+>|=+>|[→⇒⟶⟹➔➜➝➞➡]/gu, " to "],
+  [/<-+|<=+|[←⇐⟵⟸⬅]/gu, ", arrow left, "],
+  [/[↑⇑⬆]/gu, ", arrow up, "],
+  [/[↓⇓⬇]/gu, ", arrow down, "],
+];
 const CLOSERS = /[)\]»”]/gu;
 
 function tidy(text) {
@@ -62,29 +73,35 @@ function tidy(text) {
 }
 
 /** Une forme parlée par mot affiché ; « , » = symbole qui ne donne qu'une pause. */
-export function spokenWords(words) {
+export function spokenWords(words, lang = "fr") {
+  const openers = OPENERS[lang] ?? OPENERS.fr;
+  const arrows = lang === "en" ? ARROWS_EN : ARROWS;
   let quoted = false;
   return words.map((raw, k) => {
     let word = raw, prefix = "";
     while (word) {
       const first = word[0];
-      if (OPENERS.has(first)) { prefix += `, ${OPENERS.get(first)}, `; word = word.slice(1); }
-      else if (first === '"' && !quoted) { quoted = true; prefix += ", entre guillemets, "; word = word.slice(1); }
-      else break;
+      if (first === '"' && quoted) break;
+      if (!openers.has(first)) break;
+      if (first === '"') quoted = true;
+      prefix += `, ${openers.get(first)}, `;
+      word = word.slice(1);
     }
     if (word.includes('"')) { quoted = false; word = word.replaceAll('"', ","); }
     // « mot(s) » : une parenthèse collée au mot reste telle quelle.
     if (!/\p{L}[(\[]/u.test(word)) word = word.replace(CLOSERS, ",");
-    for (const [pattern, spoken] of ARROWS) word = word.replace(pattern, spoken);
-    word = word.replace(/\p{L}+(?:-\p{L}+)*/gu, (token) => pronounce(token, words[k - 1], words[k + 1]))
-      .replace(/&/g, " et ")
-      .replace(/^(\d{4})\/(\d{4})/u, "$1, $2")
-      .replace(/^1(?:er)(?=$|\P{L})/iu, "premier")
-      .replace(/^1(?:re|ère|ere)(?=$|\P{L})/iu, "première");
+    for (const [pattern, spoken] of arrows) word = word.replace(pattern, spoken);
+    word = word.replace(/\p{L}+(?:-\p{L}+)*/gu, (token) => pronounce(token, words[k - 1], words[k + 1], lang))
+      .replace(/&/g, lang === "en" ? " and " : " et ")
+      .replace(/^(\d{4})\/(\d{4})/u, "$1, $2");
+    if (lang === "fr") {
+      word = word.replace(/^1(?:er)(?=$|\P{L})/iu, "premier")
+        .replace(/^1(?:re|ère|ere)(?=$|\P{L})/iu, "première");
+    }
     return (prefix + word).trim();
   });
 }
 
-export function spokenText(text) {
-  return tidy(spokenWords(text.split(/\s+/).filter(Boolean)).join(" "));
+export function spokenText(text, lang = "fr") {
+  return tidy(spokenWords(text.split(/\s+/).filter(Boolean), lang).join(" "));
 }

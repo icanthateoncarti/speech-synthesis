@@ -254,6 +254,7 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
   .knoblabels { width: 112px; margin-top: 8px; }
 }
 @media (max-width: 360px) {
+  #key-pdf { font-size: 12px; padding-inline: 4px; }
   .room { padding-inline: 10px; }
   .machine .body { padding-inline: 12px; }
   .deck { column-gap: 8px; }

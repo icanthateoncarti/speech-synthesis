@@ -1,4 +1,4 @@
-import { hasSpeakableContent, clampSpeed } from "./text.js";
+import { hasSpeakableContent, clampSpeed, detectLanguage } from "./text.js";
 
 export function initialState() {
   return { text: "", voice: "jessica", speed: 1.0, phase: "idle", downloadPct: null, error: null, notice: null, audio: null };
@@ -30,9 +30,9 @@ export function reduce(state, event) {
     case "ERROR":
       return { ...state, phase: "idle", downloadPct: null, notice: null, error: event.kind === "network" ? "network" : "other" };
     case "PDF_EMPTY":
-      return { ...state, error: null, notice: "pdf-empty" };
+      return { ...state, error: null, notice: `${event.format ?? "pdf"}-empty` };
     case "PDF_ERROR":
-      return { ...state, phase: "idle", error: null, notice: event.password ? "pdf-password" : "pdf-invalid" };
+      return { ...state, phase: "idle", error: null, notice: `${event.format ?? "pdf"}-${event.password ? "password" : "invalid"}` };
   }
 
   // Événements d'action : effacent notice et error avant leur propre effet.
@@ -66,17 +66,26 @@ const PHASE_LABELS = {
   playing: "▶ LECTURE",
 };
 
+const formatName = (notice) => notice.split("-")[0].toUpperCase();
+
+let lastText = null, lastLanguage = "fr";
+function languageOf(text) {
+  if (text !== lastText) { lastText = text; lastLanguage = detectLanguage(text); }
+  return lastLanguage;
+}
+
 export function statusLine(state) {
   let left;
   if (state.error === "network") left = "ERREUR RÉSEAU · RÉESSAIE";
   else if (state.error) left = "ERREUR · RÉESSAIE";
   else if (state.notice === "empty") left = "ÉCRAN VIDE";
-  else if (state.notice === "pdf-empty") left = "PDF SANS TEXTE";
-  else if (state.notice === "pdf-password") left = "PDF PROTÉGÉ · DÉVERROUILLE-LE";
-  else if (state.notice === "pdf-invalid") left = "PDF ILLISIBLE · RÉESSAIE";
+  else if (/-empty$/.test(state.notice)) left = `${formatName(state.notice)} SANS TEXTE`;
+  else if (/-password$/.test(state.notice)) left = `${formatName(state.notice)} PROTÉGÉ · DÉVERROUILLE-LE`;
+  else if (/-invalid$/.test(state.notice)) left = `${formatName(state.notice)} ILLISIBLE · RÉESSAIE`;
   else if (state.phase === "downloading") left = `CHARGEMENT VOIX ${Math.round(state.downloadPct ?? 0)} %`;
   else if (PHASE_LABELS[state.phase]) left = PHASE_LABELS[state.phase];
   else left = state.audio?.mp3 ? "✓ MP3 PRÊT" : "PRÊT";
-  const right = `VOIX : ${state.voice.toUpperCase()} · VITESSE ${state.speed.toFixed(1)}×`;
+  const english = languageOf(state.text) === "en";
+  const right = `VOIX : ${state.voice.toUpperCase()}${english ? " · EN" : ""} · VITESSE ${state.speed.toFixed(1)}×`;
   return { left, right };
 }

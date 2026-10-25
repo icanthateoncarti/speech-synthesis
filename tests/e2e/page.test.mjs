@@ -11,7 +11,7 @@ const VIEWPORT = { width: 1340, height: 900 };
 const { left, right } = statusLine(initialState());
 const ALLOWED = new Set([
   "speechsynthe.si", "speech", "synthe.si", "Synthèse vocale",
-  "▶ PARLE", "⬇ MP3", "↑ PDF", "EFFACE", "JESSICA", "TOM", "VITESSE",
+  "▶ PARLE", "⬇ MP3", "↑ PDF/PPTX", "EFFACE", "JESSICA", "TOM", "VITESSE",
   "1 · TEXTE", "2 · RÉGLAGES", "3 · ÉCOUTE", "4 · EXPORT",
   left, right,
 ]);
@@ -79,7 +79,7 @@ test("premier écran : seulement la machine", async () => {
   const intrus = texts.filter((t) => !ALLOWED.has(t));
   assert.deepEqual(intrus, [], `textes non autorisés au premier écran : ${JSON.stringify(intrus)}`);
   assert.deepEqual(pseudo, [], "pas de texte en pseudo-élément");
-  for (const must of ["speechsynthe.si", "▶ PARLE", "⬇ MP3", "↑ PDF", "EFFACE", "JESSICA", "TOM", "VITESSE", left, right]) {
+  for (const must of ["speechsynthe.si", "▶ PARLE", "⬇ MP3", "↑ PDF/PPTX", "EFFACE", "JESSICA", "TOM", "VITESSE", left, right]) {
     assert.ok(texts.includes(must), `« ${must} » est visible`);
   }
 
@@ -109,7 +109,7 @@ test("sélecteurs figés de la machine", async () => {
     };
   });
   assert.deepEqual(r.keys, ["BUTTON", "BUTTON", "BUTTON", "BUTTON"]);
-  assert.deepEqual(r.pdf, { type: "file", accept: "application/pdf", hidden: true });
+  assert.deepEqual(r.pdf, { type: "file", accept: "application/pdf,.pdf,.pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation", hidden: true });
   assert.equal(r.voice, "radiogroup");
   assert.deepEqual(r.radios, [["radio", "true", true], ["radio", "false", true]]);
   assert.deepEqual(r.speed, ["range", "0.7", "1.5", "0.1", "1"]);

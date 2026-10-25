@@ -1,10 +1,13 @@
 // API de synthèse côté page. Découpe le texte, envoie un morceau à la fois au worker
 // (src/tts-worker.js), recolle les WAV. Le texte ne quitte jamais le navigateur.
-import { splitIntoParts, titlePauses, speedToLengthScale } from "./text.js";
+import { splitIntoParts, titlePauses, speedToLengthScale, detectLanguage } from "./text.js";
 import { spokenText } from "./spoken.js";
 import { concatWavsAsync, padWav, wavDuration } from "./audio.js";
 
 export const VOICES = { jessica: "fr_FR-upmc-medium", tom: "fr_FR-tom-medium" };
+// Texte anglais : mêmes positions du bouton, voix anglaises libres de droits
+// (Kristin : LibriVox, domaine public ; Joe : CC0).
+export const ENGLISH_VOICES = { jessica: "en_US-kristin-medium", tom: "en_US-joe-medium" };
 
 function ttsError(kind, message) {
   const err = new Error(message);
@@ -12,8 +15,9 @@ function ttsError(kind, message) {
   return err;
 }
 
-const voiceIdOf = (voice) => {
-  const id = Object.hasOwn(VOICES, voice) ? VOICES[voice] : null;
+const voiceIdOf = (voice, lang = "fr") => {
+  const voices = lang === "en" ? ENGLISH_VOICES : VOICES;
+  const id = Object.hasOwn(voices, voice) ? voices[voice] : null;
   if (!id) throw ttsError("other", `voix inconnue : ${voice}`);
   return id;
 };
@@ -81,9 +85,10 @@ export function createTts() {
     });
   }
 
-  async function synthesize({ text, voice, speed }, { onProgress, onChunk } = {}) {
-    const voiceId = voiceIdOf(voice);
-    const parts = splitIntoParts(text);
+  async function synthesize({ text, voice, speed, titles = [] }, { onProgress, onChunk } = {}) {
+    const lang = detectLanguage(text);
+    const voiceId = voiceIdOf(voice, lang);
+    const parts = splitIntoParts(text, undefined, titles);
     const chunks = parts.map((part) => part.text);
     const pauses = titlePauses(parts);
     if (!chunks.length) throw ttsError("other", "aucun texte à lire");
@@ -98,7 +103,7 @@ export function createTts() {
       const durations = [];
       for (let i = 0; i < chunks.length; i++) {
         if (gen !== generation) throw cancelled();
-        const message = { type: "synthesize", text: spokenText(chunks[i]), voiceId, lengthScale };
+        const message = { type: "synthesize", text: spokenText(chunks[i], lang), voiceId, lengthScale };
         let wav;
         try {
           wav = await request(message, onProgress);
@@ -119,15 +124,15 @@ export function createTts() {
       if (gen !== generation) throw cancelled();
       const wav = wavs.length === 1 ? wavs[0] : await concatWavsAsync(wavs, { signal: controller.signal });
       if (gen !== generation) throw cancelled();
-      return { wav, chunks, durations, pauses };
+      return { wav, chunks, durations, pauses, lang };
     } finally {
       controllers.delete(controller);
       activeSynths--;
     }
   }
 
-  async function preload(voice, { onProgress } = {}) {
-    const voiceId = voiceIdOf(voice);
+  async function preload(voice, { onProgress, lang = "fr" } = {}) {
+    const voiceId = voiceIdOf(voice, lang);
     await request({ type: "download", voiceId }, onProgress);
   }
 

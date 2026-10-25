@@ -60,7 +60,7 @@
       "name": "Comment lire un PDF à voix haute ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Appuie sur la touche PDF et choisis ton fichier : son texte s'affiche sur l'écran. Il ne te reste plus qu'à appuyer sur PARLE, ou sur MP3 pour en garder l'audio. Un PDF scanné, sans texte sélectionnable, ne peut pas être lu."
+        "text": "Appuie sur la touche PDF/PPTX ou glisse ton fichier sur la machine : son texte s'affiche sur l'écran. Il ne te reste plus qu'à appuyer sur PARLE, ou sur MP3 pour en garder l'audio. Ça marche aussi avec une présentation PowerPoint (.pptx), diapo par diapo. Un PDF scanné, sans texte sélectionnable, ne peut pas être lu."
       }
     },
     {
@@ -68,7 +68,7 @@
       "name": "Quelles voix françaises sont disponibles ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Il y en a deux : Jessica, une voix de femme, et Tom, une voix d'homme. Tu changes de voix avec le bouton rotatif dans la zone RÉGLAGES. Jessica est la voix choisie par défaut."
+        "text": "Il y en a deux : Jessica, une voix de femme, et Tom, une voix d'homme. Tu changes de voix avec le bouton rotatif, Jessica étant choisie par défaut. Si ton texte est en anglais, la machine le reconnaît et le lit avec deux voix anglaises."
       }
     },
     {
@@ -139,7 +139,7 @@
             <textarea id="screen" aria-label="Texte à lire" placeholder=" " spellcheck="false" autocomplete="off"></textarea>
             <span class="cursor" aria-hidden="true"></span>
             <div id="reader" class="reader" aria-live="off" hidden></div>
-            <div id="drop-overlay" class="drop-overlay" hidden>Dépose ton PDF</div>
+            <div id="drop-overlay" class="drop-overlay" hidden>Dépose ton PDF ou ton PPTX</div>
           </div>
           <div class="status" role="status">
             <span id="status-left">PRÊT</span>
@@ -174,9 +174,9 @@
         <div class="deck">
           <div class="control-group source-controls" role="group" aria-label="Texte">
             <div class="source-keys">
-              <button type="button" class="key y" id="key-pdf" aria-label="Importer un PDF">↑ PDF</button>
+              <button type="button" class="key y" id="key-pdf" aria-label="Importer un PDF ou une présentation PowerPoint">↑&nbsp;PDF/PPTX</button>
               <button type="button" class="key recessed" id="key-clear" aria-label="Effacer l'écran">EFFACE</button>
-              <input type="file" id="pdf-input" accept="application/pdf" hidden>
+              <input type="file" id="pdf-input" accept="application/pdf,.pdf,.pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation" hidden>
             </div>
           </div>
           <div class="control-group settings-controls" role="group" aria-label="Voix et vitesse">
@@ -224,11 +224,11 @@
     </details>
     <details>
       <summary>Comment lire un PDF à voix haute ?</summary>
-      <p class="answer">Appuie sur la touche PDF et choisis ton fichier : son texte s'affiche sur l'écran. Il ne te reste plus qu'à appuyer sur PARLE, ou sur MP3 pour en garder l'audio. Un PDF scanné, sans texte sélectionnable, ne peut pas être lu.</p>
+      <p class="answer">Appuie sur la touche PDF/PPTX ou glisse ton fichier sur la machine : son texte s'affiche sur l'écran. Il ne te reste plus qu'à appuyer sur PARLE, ou sur MP3 pour en garder l'audio. Ça marche aussi avec une présentation PowerPoint (.pptx), diapo par diapo. Un PDF scanné, sans texte sélectionnable, ne peut pas être lu.</p>
     </details>
     <details>
       <summary>Quelles voix françaises sont disponibles ?</summary>
-      <p class="answer">Il y en a deux : Jessica, une voix de femme, et Tom, une voix d'homme. Tu changes de voix avec le bouton rotatif dans la zone RÉGLAGES. Jessica est la voix choisie par défaut.</p>
+      <p class="answer">Il y en a deux : Jessica, une voix de femme, et Tom, une voix d'homme. Tu changes de voix avec le bouton rotatif, Jessica étant choisie par défaut. Si ton texte est en anglais, la machine le reconnaît et le lit avec deux voix anglaises.</p>
     </details>
     <details>
       <summary>Comment changer la vitesse de lecture ?</summary>
@@ -245,7 +245,7 @@
   </section>
 
   <footer class="credits">
-    <p>Voix : <a href="https://github.com/rhasspy/piper">Piper</a>. Jessica : jeu de données UPMC, licence CC BY-SA 4.0. Tom : modèle sous licence AGPLv3.</p>
+    <p>Voix : <a href="https://github.com/rhasspy/piper">Piper</a>. Jessica : jeu de données UPMC, licence CC BY-SA 4.0. Tom : modèle sous licence AGPLv3. Textes en anglais : Kristin (LibriVox, domaine public) et Joe (CC0).</p>
     <p>Tout tourne dans ton navigateur, rien n'est envoyé. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
   </footer>
 

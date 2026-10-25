@@ -20,7 +20,7 @@ function pageText(items) {
 // Les lignes nettement plus grandes que le texte courant de la page sont des
 // titres : elles reçoivent leur propre ligne (et donc les pauses de lecture),
 // au lieu d'être collées au paragraphe comme les retours de mise en page.
-function pageTextWithHeadings(items) {
+function pageTextWithHeadings(items, headings = []) {
   const lines = [];
   let current = [];
   for (const item of items) {
@@ -42,6 +42,7 @@ function pageTextWithHeadings(items) {
     if (!value) continue;
     const height = Math.max(0, ...line.filter((item) => item.str?.trim()).map((item) => item.height || 0));
     const heading = height >= body * 1.2 && value.length <= 120 && /\p{L}/u.test(value);
+    if (heading) headings.push(value);
     if (text) text += heading || previousHeading ? "\n" : " ";
     text += value;
     previousHeading = heading;
@@ -164,14 +165,14 @@ export async function extractPdfDocument(file) {
   const task = pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()), isEvalSupported: false });
   try {
     const document = await task.promise;
-    const pages = [];
+    const pages = [], headings = [];
     for (let n = 1; n <= document.numPages; n++) {
       const page = await document.getPage(n);
       const content = await page.getTextContent();
       // hasEOL indique une ligne de mise en page, souvent au milieu d'une phrase.
       // Les phrases restent continues ; seuls les titres et le changement de page ajoutent un saut.
       // Des morceaux contigus peuvent être les glyphes d'un même mot (ex. ligature fi).
-      pages.push({ text: normalizeText(pageTextWithHeadings(content.items)), lines: pageLines(content.items) });
+      pages.push({ text: normalizeText(pageTextWithHeadings(content.items, headings)), lines: pageLines(content.items) });
       page.cleanup();
     }
     const joined = pages.map((page) => page.text).join("\n");
@@ -185,7 +186,7 @@ export async function extractPdfDocument(file) {
     });
     const outline = await outlineChapters(document, pages, pageOffsets);
     const chapters = uniqueChapters(outline.length ? outline : detectedChapters(pages, pageOffsets), text.length);
-    return { text, chapters, pageOffsets };
+    return { text, chapters, pageOffsets, titles: headings.map((heading) => normalizeText(heading)) };
   } finally {
     await task.destroy();
   }

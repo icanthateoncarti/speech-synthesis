@@ -72,3 +72,16 @@ test("padWav ajoute le silence autour du son", () => {
   assert.ok(Math.abs(wavDuration(padded) - 3) < 1e-6);
   assert.equal(padWav(wav, 0, 0), wav);
 });
+
+test("langue : un cours en anglais est lu en anglais, un cours français truffé d'anglais reste en français", async () => {
+  const { detectLanguage } = await import("../../src/text.js");
+  assert.equal(detectLanguage("Replenishment is the process of moving inventory along the supply chain to ensure products are available at the right place."), "en");
+  assert.equal(detectLanguage("Le dashboard du cours de Data Mining présente les KPI et le storytelling des données."), "fr");
+  assert.equal(detectLanguage("Bonjour"), "fr");
+  assert.equal(detectLanguage(""), "fr");
+});
+
+test("règles de lecture en anglais : parenthèses, guillemets, flèche, &, sans dictionnaire français", () => {
+  assert.equal(spokenText('Demand (forecast) is "key" → stock & orders, the KPI dashboard.', "en"),
+    "Demand, in parentheses, forecast, is, in quotes, key, to stock and orders, the K P I dashboard.");
+});

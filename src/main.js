@@ -1,7 +1,7 @@
 import { initialState, reduce, audioKey, statusLine } from "./machine.js";
 import { createTts } from "./tts.js";
 import { createPlayer } from "./player.js";
-import { hasSpeakableContent, splitIntoChunks, wordTimeline } from "./text.js";
+import { hasSpeakableContent, splitIntoChunks, wordTimeline, detectLanguage } from "./text.js";
 import { wavDuration, wavToMp3 } from "./audio.js";
 import { buildReadingIndex, generatedDuration, navigationTarget, timeAtTextOffset, textOffsetAtTime } from "./navigation.js";
 import { createVoiceCommands, parseVoiceCommand } from "./voice-commands.js";
@@ -52,7 +52,7 @@ function paintPosition(force = false) {
 }
 function paint() {
   const { left, right } = statusLine(state);
-  $("status-left").textContent = state.error ? left : pdfBusy ? "LECTURE PDF…" : note ?? (pendingNavigation ? "PRÉPARATION DU PASSAGE…" : paused && playbackActive ? "⏸ PAUSE" : left);
+  $("status-left").textContent = state.error ? left : pdfBusy ? "LECTURE DU FICHIER…" : note ?? (pendingNavigation ? "PRÉPARATION DU PASSAGE…" : paused && playbackActive ? "⏸ PAUSE" : left);
   $("status-right").textContent = right;
   const reading = playbackActive && !paused && !pendingNavigation && (synthesis?.durations.length ?? 0) > 0;
   reader.hidden = !reading;
@@ -137,10 +137,13 @@ function cancelWork({ cancelPreload = false } = {}) {
   dispatch({ type: "STOP" });
 }
 function preload() {
-  if (!hasSpeakableContent(state.text) || preloadJob || synthesis) return;
-  const job = { voice: state.voice }; preloadJob = job;
-  const relevant = () => preloadJob === job && state.voice === job.voice;
-  tts.preload(job.voice, { onProgress(pct) {
+  const lang = detectLanguage(state.text);
+  if (!hasSpeakableContent(state.text) || synthesis) return;
+  // Un texte qui passe du français à l'anglais précharge l'autre voix.
+  if (preloadJob && preloadJob.voice === state.voice && preloadJob.lang === lang) return;
+  const job = { voice: state.voice, lang }; preloadJob = job;
+  const relevant = () => preloadJob === job && state.voice === job.voice && detectLanguage(state.text) === job.lang;
+  tts.preload(job.voice, { lang, onProgress(pct) {
     if (relevant() && hasSpeakableContent(state.text) && !playbackActive) dispatch({ type: "DOWNLOAD_PROGRESS", pct });
   } }).then(() => { if (relevant() && !synthesis) dispatch({ type: "STOP" }); })
     .catch((error) => {
@@ -166,7 +169,7 @@ function ensureSynthesis() {
     return job;
   }
   dispatch({ type: "SYNTH_STARTED" });
-  const input = { text: state.text, voice: state.voice, speed: state.speed };
+  const input = { text: state.text, voice: state.voice, speed: state.speed, titles: documentInfo.titles ?? [] };
   job.promise = tts.synthesize(input, {
     onProgress(pct) { if (valid(job) && !player.isPlaying()) dispatch({ type: "DOWNLOAD_PROGRESS", pct }); },
     onChunk(wav, i, _total, pause) {
@@ -286,25 +289,31 @@ async function exportMp3() {
   } finally { if (exportJob === task) { exportJob = null; paint(); } }
 }
 
-async function importPdf(file) {
+const PPTX_TYPE = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+const formatOf = (file) => /\.pptx$/i.test(file.name) || file.type === PPTX_TYPE ? "pptx"
+  : /\.pdf$/i.test(file.name) || file.type === "application/pdf" ? "pdf" : null;
+
+async function importDocument(file) {
   if (!file) return;
-  if (!/\.pdf$/i.test(file.name) && file.type !== "application/pdf") { message("CHOISIS UN FICHIER PDF"); return; }
+  const format = formatOf(file);
+  if (!format) { message(/\.ppt$/i.test(file.name) ? "ENREGISTRE-LE EN .PPTX" : "CHOISIS UN PDF OU UN PPTX"); return; }
   cancelWork({ cancelPreload: true });
   const version = revision; pdfBusy = true; paint();
   try {
-    const { extractPdfDocument } = await import("./pdf.js");
-    const document = await extractPdfDocument(file);
+    const document = format === "pptx"
+      ? await (await import("./pptx.js")).extractPptxDocument(file)
+      : await (await import("./pdf.js")).extractPdfDocument(file);
     if (version !== revision) return;
     pdfBusy = false;
-    if (!hasSpeakableContent(document.text)) { dispatch({ type: "PDF_EMPTY" }); return; }
-    documentInfo = { name: file.name, chapters: document.chapters };
+    if (!hasSpeakableContent(document.text)) { dispatch({ type: "PDF_EMPTY", format }); return; }
+    documentInfo = { name: file.name, chapters: document.chapters, titles: document.titles ?? [] };
     screen.value = document.text; screen.setSelectionRange(0, 0); screen.scrollTop = 0;
     dispatch({ type: "TEXT_CHANGED", text: document.text }); rebuildIndex();
     screen.focus({ preventScroll: true }); preload();
   } catch (error) {
     if (version !== revision) return;
     pdfBusy = false;
-    dispatch({ type: "PDF_ERROR", password: error.name === "PasswordException" });
+    dispatch({ type: "PDF_ERROR", format, password: error.name === "PasswordException" });
   }
 }
 screen.addEventListener("input", () => {
@@ -334,7 +343,7 @@ $("voice").addEventListener("keydown", (event) => {
 $("voice").querySelector(".knob").addEventListener("click", () => chooseVoice(state.voice === "jessica" ? "tom" : "jessica"));
 $("speed").addEventListener("input", () => { cancelWork(); dispatch({ type: "SPEED_CHANGED", speed: Number($("speed").value) }); });
 $("key-pdf").addEventListener("click", () => $("pdf-input").click());
-$("pdf-input").addEventListener("change", () => { const file = $("pdf-input").files[0]; $("pdf-input").value = ""; void importPdf(file); });
+$("pdf-input").addEventListener("change", () => { const file = $("pdf-input").files[0]; $("pdf-input").value = ""; void importDocument(file); });
 
 const isFileDrag = (event) => [...(event.dataTransfer?.types ?? [])].includes("Files");
 function showDrop(show) { $("drop-overlay").hidden = !show; document.querySelector(".machine").classList.toggle("drag-over", show); }
@@ -345,8 +354,8 @@ window.addEventListener("drop", (event) => {
   if (!isFileDrag(event)) return;
   event.preventDefault(); dragDepth = 0; showDrop(false);
   const files = [...event.dataTransfer.files];
-  if (files.length !== 1) { message("UN PDF À LA FOIS"); return; }
-  void importPdf(files[0]);
+  if (files.length !== 1) { message("UN FICHIER À LA FOIS"); return; }
+  void importDocument(files[0]);
 });
 $("rewind").addEventListener("click", () => { void navigate({ unit: "seconds", amount: -30 }); });
 $("forward").addEventListener("click", () => { void navigate({ unit: "seconds", amount: 30 }); });

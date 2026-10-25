@@ -114,6 +114,6 @@ test("glisser-déposer un PDF : zone signalée, texte importé, navigateur ne l'
     data.items.add(new File(["b"], "b.pdf", { type: "application/pdf" }));
     document.body.dispatchEvent(new DragEvent("drop", { bubbles: true, cancelable: true, dataTransfer: data }));
   });
-  assert.equal(await status(), "UN PDF À LA FOIS");
+  assert.equal(await status(), "UN FICHIER À LA FOIS");
   assert.match(await page.$eval("#screen", (el) => el.value), /texte déposé/);
 });
