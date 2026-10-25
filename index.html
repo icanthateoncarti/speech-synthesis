@@ -241,5 +241,15 @@
     mountPlastic(document.getElementById("plastic"), { reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches });
   </script>
   <script type="module" src="./src/main.js"></script>
+  <script>
+    // Cloudflare Web Analytics : pages vues sans cookie, jamais le texte tapé. Uniquement en production.
+    if (location.hostname === "speechsynthe.si") {
+      const beacon = document.createElement("script");
+      beacon.defer = true;
+      beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
+      beacon.dataset.cfBeacon = '{"token": "510ca793cd2d4401b410e4ede7f66bac"}';
+      document.body.append(beacon);
+    }
+  </script>
 </body>
 </html>
