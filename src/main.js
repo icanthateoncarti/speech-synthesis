@@ -84,16 +84,19 @@ function resetReader() {
   reader.replaceChildren(); reader.scrollTop = 0;
   timeline = []; spans = []; highlighted = -1; elapsed = 0;
 }
-function appendWords(text, duration, i) {
+function appendWords(text, duration, i, pause = { before: 0, after: 0 }) {
   if (timeline.length) elapsed += 0.15;
   // Les morceaux suivent les lignes : un titre de chapitre garde sa propre ligne.
   if (spans.length && index.text[index.chunks[i]?.start - 1] === "\n") reader.append("\n");
-  for (const item of wordTimeline([text], [duration])) {
+  // Le silence d'un titre fait partie du morceau ; les mots ne s'y étalent pas.
+  const speech = Math.max(0, duration - pause.before - pause.after);
+  elapsed += pause.before;
+  for (const item of wordTimeline([text], [speech])) {
     timeline.push({ ...item, start: item.start + elapsed, end: item.end + elapsed });
     const span = document.createElement("span"); span.className = "w"; span.textContent = item.word;
     reader.append(span, " "); spans.push(span);
   }
-  elapsed += duration;
+  elapsed += speech + pause.after;
 }
 player.onTime((time) => {
   let lo = 0, hi = timeline.length - 1, found = -1;
@@ -154,10 +157,10 @@ function ensureSynthesis() {
   synthesis = job;
   resetReader(); player.stop(); player.pause();
   if (state.audio?.key === key && state.audio.wav) {
-    const details = audioDetails?.key === key ? audioDetails : { chunks: [state.text], durations: [wavDuration(state.audio.wav)] };
+    const details = audioDetails?.key === key ? audioDetails : { chunks: [state.text], durations: [wavDuration(state.audio.wav)], pauses: [] };
     job.chunks = details.chunks; job.durations = details.durations.slice(); job.complete = true;
     index = buildReadingIndex(state.text, job.chunks, documentInfo.chapters);
-    job.chunks.forEach((chunk, i) => appendWords(chunk, job.durations[i], i));
+    job.chunks.forEach((chunk, i) => appendWords(chunk, job.durations[i], i, details.pauses?.[i]));
     player.load([state.audio.wav]);
     job.promise = Promise.resolve({ wav: state.audio.wav, chunks: job.chunks, durations: job.durations });
     return job;
@@ -166,10 +169,10 @@ function ensureSynthesis() {
   const input = { text: state.text, voice: state.voice, speed: state.speed };
   job.promise = tts.synthesize(input, {
     onProgress(pct) { if (valid(job) && !player.isPlaying()) dispatch({ type: "DOWNLOAD_PROGRESS", pct }); },
-    onChunk(wav, i) {
+    onChunk(wav, i, _total, pause) {
       if (!valid(job)) return;
       job.durations[i] = wavDuration(wav);
-      appendWords(chunks[i], job.durations[i], i); player.enqueue(wav);
+      appendWords(chunks[i], job.durations[i], i, pause); player.enqueue(wav);
       applyPending();
       if (playbackActive && !paused && !pendingNavigation) dispatch({ type: "PLAYBACK_STARTED" });
       else if (paused) dispatch({ type: "PLAYBACK_PAUSED" });
@@ -178,7 +181,7 @@ function ensureSynthesis() {
   }).then((result) => {
     if (!valid(job)) return result;
     job.complete = true;
-    audioDetails = { key, chunks: result.chunks, durations: result.durations };
+    audioDetails = { key, chunks: result.chunks, durations: result.durations, pauses: result.pauses };
     dispatch({ type: "AUDIO_READY", key, wav: result.wav });
     applyPending(); player.finish();
     if (!playbackActive) dispatch({ type: "STOP" });

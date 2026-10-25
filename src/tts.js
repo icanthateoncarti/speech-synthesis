@@ -1,8 +1,8 @@
 // API de synthèse côté page. Découpe le texte, envoie un morceau à la fois au worker
 // (src/tts-worker.js), recolle les WAV. Le texte ne quitte jamais le navigateur.
-import { splitIntoChunks, speedToLengthScale } from "./text.js";
+import { splitIntoParts, titlePauses, speedToLengthScale } from "./text.js";
 import { spokenText } from "./spoken.js";
-import { concatWavsAsync, wavDuration } from "./audio.js";
+import { concatWavsAsync, padWav, wavDuration } from "./audio.js";
 
 export const VOICES = { jessica: "fr_FR-upmc-medium", tom: "fr_FR-tom-medium" };
 
@@ -83,7 +83,9 @@ export function createTts() {
 
   async function synthesize({ text, voice, speed }, { onProgress, onChunk } = {}) {
     const voiceId = voiceIdOf(voice);
-    const chunks = splitIntoChunks(text);
+    const parts = splitIntoParts(text);
+    const chunks = parts.map((part) => part.text);
+    const pauses = titlePauses(parts);
     if (!chunks.length) throw ttsError("other", "aucun texte à lire");
     const lengthScale = speedToLengthScale(speed);
     const gen = generation;
@@ -108,15 +110,16 @@ export function createTts() {
           wav = await request(message, onProgress);
         }
         if (gen !== generation) throw cancelled();
+        wav = padWav(wav, pauses[i].before, pauses[i].after);
         wavs.push(wav);
         durations.push(wavDuration(wav));
         // Copie : le lecteur peut détacher le tampon (decodeAudioData), on garde l'original pour recoller.
-        onChunk?.(wav.slice(0), i, chunks.length);
+        onChunk?.(wav.slice(0), i, chunks.length, pauses[i]);
       }
       if (gen !== generation) throw cancelled();
       const wav = wavs.length === 1 ? wavs[0] : await concatWavsAsync(wavs, { signal: controller.signal });
       if (gen !== generation) throw cancelled();
-      return { wav, chunks, durations };
+      return { wav, chunks, durations, pauses };
     } finally {
       controllers.delete(controller);
       activeSynths--;

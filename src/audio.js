@@ -57,6 +57,16 @@ function writeWavHeader(buf, sampleRate, dataLen) {
   str(36, "data"); v.setUint32(40, dataLen, true);
 }
 
+// Silence autour d'un morceau (pauses des titres), dans le WAV lui-même : le MP3 le garde.
+export function padWav(buf, before, after) {
+  if (!before && !after) return buf;
+  const { samples, sampleRate } = parseWav(buf);
+  const head = Math.round(before * sampleRate);
+  const out = new Int16Array(head + samples.length + Math.round(after * sampleRate));
+  out.set(samples, head);
+  return encodeWav(out, sampleRate);
+}
+
 export function concatWavs(bufs) {
   const parsed = bufs.map(parseWav);
   const sampleRate = parsed[0].sampleRate;

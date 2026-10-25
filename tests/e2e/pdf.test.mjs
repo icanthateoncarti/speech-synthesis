@@ -18,6 +18,8 @@ before(async () => {
   await generator.pdf({ path: path.join(fixtures, "wrapped.pdf") });
   await generator.setContent("<canvas width='300' height='300'></canvas><script>const c=document.querySelector('canvas');c.getContext('2d').fillRect(0,0,300,300)</script>");
   await generator.pdf({ path: path.join(fixtures, "scan.pdf") });
+  await generator.setContent("<h1 style='font-size:28px'>Le fil rouge du cours</h1><p style='font-size:12px'>Tout le cours répond à une seule logique : transformer la donnée brute en décision.</p><h2 style='font-size:20px'>Les trois piliers</h2><p style='font-size:12px'>Chaque séance revient sur les mêmes piliers.</p>");
+  await generator.pdf({ path: path.join(fixtures, "titres.pdf") });
   await writeFile(path.join(fixtures, "invalid.pdf"), "Ce fichier n'est pas un PDF.");
   await generator.close();
 });
@@ -83,4 +85,17 @@ test("EFFACE pendant l'import PDF ne laisse pas réapparaître le texte", async 
     assert.equal(await page.$eval("#screen", (el) => el.value), "");
     assert.equal(await page.$eval("#status-left", (el) => el.textContent), "PRÊT");
   } finally { page.off("request", intercept); await page.setRequestInterception(false); }
+});
+
+test("titres d'un PDF repérés à la taille de police : chacun sur sa ligne", { timeout: 90_000 }, async () => {
+  await open();
+  await upload("titres.pdf");
+  await page.waitForFunction(() => document.querySelector("#screen").value.includes("piliers."), { timeout: 60_000 });
+  const lines = (await page.$eval("#screen", (el) => el.value)).split("\n");
+  assert.deepEqual(lines, [
+    "Le fil rouge du cours",
+    "Tout le cours répond à une seule logique : transformer la donnée brute en décision.",
+    "Les trois piliers",
+    "Chaque séance revient sur les mêmes piliers.",
+  ]);
 });

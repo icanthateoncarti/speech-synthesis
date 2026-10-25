@@ -60,7 +60,8 @@ test("Jessica et Tom synthétisent, la vitesse change vraiment la durée", { tim
     assert.equal(x.durations.length, 1);
     assert.ok(Math.abs(x.durations[0] - x.seconds) < 0.01);
   }
-  assert.ok(ratio >= 0.55 && ratio <= 0.8, `ratio hors plage : ${ratio}`);
+  // Théorie : 1 / 1,5 = 0,67. Les durées de VITS varient d'un tirage à l'autre (0,68 à 0,83 mesurés).
+  assert.ok(ratio >= 0.55 && ratio <= 0.88, `ratio hors plage : ${ratio}`);
 });
 
 test("onChunk arrive avant la fin pour un texte de 30 phrases", { timeout: 300_000 }, async (t) => {
@@ -234,16 +235,28 @@ test("réseau coupé au premier téléchargement → err.kind === 'network', pui
   }
 });
 
-test("symboles dits à voix haute : la flèche et les parenthèses allongent vraiment l'audio", { timeout: 120_000 }, async (t) => {
+test("symboles et titres : le moteur reçoit le texte à dire, et un vrai silence encadre le titre", { timeout: 120_000 }, async () => {
   const r = await page.evaluate(async () => {
-    const seconds = async (text) => window.wavDuration((await window.tts.synthesize({ text, voice: "jessica", speed: 1 })).wav);
-    return {
-      plain: await seconds("Donnée brute. Information."),
-      arrow: await seconds("Donnée brute → Information."),
-      paren: await seconds("Donnée brute (Information)."),
+    const sent = [];
+    const post = Worker.prototype.postMessage;
+    Worker.prototype.postMessage = function (message, ...rest) {
+      if (message?.type === "synthesize") sent.push(message.text);
+      return post.call(this, message, ...rest);
     };
+    try {
+      const { parseWav } = await import("/src/audio.js");
+      const result = await window.tts.synthesize({ text: "Donnée brute → Information (KPI) du dashboard.\nLe fil rouge du cours\nFin.", voice: "jessica", speed: 1 });
+      const { samples, sampleRate } = parseWav(result.wav);
+      // Morceau 0, 150 ms de liaison, puis le titre encadré d'une seconde de silence.
+      const start = Math.round((result.durations[0] + 0.15) * sampleRate);
+      const end = start + Math.round(result.durations[1] * sampleRate);
+      const peak = (from, to) => samples.subarray(from, to).reduce((m, v) => Math.max(m, Math.abs(v)), 0);
+      return { sent, pauses: result.pauses, before: peak(start + 50, start + sampleRate - 50), after: peak(end - sampleRate + 50, end - 50), speech: peak(start + sampleRate, end - sampleRate) };
+    } finally { Worker.prototype.postMessage = post; }
   });
-  t.diagnostic(`sans symbole ${r.plain.toFixed(2)} s, flèche ${r.arrow.toFixed(2)} s, parenthèses ${r.paren.toFixed(2)} s`);
-  assert.ok(r.arrow > r.plain + 0.8, "« flèche vers la droite » doit être prononcé");
-  assert.ok(r.paren > r.plain + 0.6, "« entre parenthèses » doit être prononcé");
+  assert.deepEqual(r.sent, ["Donnée brute vers Information, entre parenthèses, K P I, du dache-borde.", "Le fil rouge du cours", "Fin."]);
+  assert.deepEqual(r.pauses, [{ before: 0, after: 0 }, { before: 1, after: 1 }, { before: 0, after: 0 }]);
+  assert.equal(r.before, 0, "une seconde de silence avant le titre");
+  assert.equal(r.after, 0, "une seconde de silence après le titre");
+  assert.ok(r.speech > 1000, "le titre lui-même est bien prononcé");
 });

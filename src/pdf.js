@@ -17,6 +17,38 @@ function pageText(items) {
   return text;
 }
 
+// Les lignes nettement plus grandes que le texte courant de la page sont des
+// titres : elles reçoivent leur propre ligne (et donc les pauses de lecture),
+// au lieu d'être collées au paragraphe comme les retours de mise en page.
+function pageTextWithHeadings(items) {
+  const lines = [];
+  let current = [];
+  for (const item of items) {
+    if (typeof item.str !== "string") continue;
+    current.push(item);
+    if (item.hasEOL) { lines.push(current); current = []; }
+  }
+  if (current.length) lines.push(current);
+  const sized = items.filter((item) => item.str?.trim() && item.height > 0);
+  if (!sized.length) return pageText(items);
+  // Taille du texte courant : médiane pondérée par le nombre de caractères.
+  const sorted = sized.map((item) => [item.height, item.str.length]).sort((a, b) => a[0] - b[0]);
+  const half = sorted.reduce((n, [, count]) => n + count, 0) / 2;
+  let seen = 0, body = sorted[0][0];
+  for (const [height, count] of sorted) { seen += count; body = height; if (seen >= half) break; }
+  let text = "", previousHeading = false;
+  for (const line of lines) {
+    const value = pageText(line).trim();
+    if (!value) continue;
+    const height = Math.max(0, ...line.filter((item) => item.str?.trim()).map((item) => item.height || 0));
+    const heading = height >= body * 1.2 && value.length <= 120 && /\p{L}/u.test(value);
+    if (text) text += heading || previousHeading ? "\n" : " ";
+    text += value;
+    previousHeading = heading;
+  }
+  return text;
+}
+
 function pageLines(items) {
   const lines = [];
   let current = [];
@@ -137,9 +169,9 @@ export async function extractPdfDocument(file) {
       const page = await document.getPage(n);
       const content = await page.getTextContent();
       // hasEOL indique une ligne de mise en page, souvent au milieu d'une phrase.
-      // Les phrases restent continues ; seul le changement de page ajoute un saut.
+      // Les phrases restent continues ; seuls les titres et le changement de page ajoutent un saut.
       // Des morceaux contigus peuvent être les glyphes d'un même mot (ex. ligature fi).
-      pages.push({ text: normalizeText(pageText(content.items)), lines: pageLines(content.items) });
+      pages.push({ text: normalizeText(pageTextWithHeadings(content.items)), lines: pageLines(content.items) });
       page.cleanup();
     }
     const joined = pages.map((page) => page.text).join("\n");

@@ -58,15 +58,42 @@ function splitLong(sentence, maxChars) {
   return out;
 }
 
-export function splitIntoChunks(text, maxChars = 400) {
-  const chunks = [];
-  for (const sentence of splitSentences(normalizeText(text))) {
-    for (const c of splitLong(sentence, maxChars)) {
-      const t = c.trim();
-      if (t && hasSpeakableContent(t)) chunks.push(t);
+const TITLE_END = /[.!?…;:,]$/u;
+const BULLET = /^(?:[-–—•*·▪◦]|\d+[.)])\s/u;
+
+// Une ligne courte, seule, sans ponctuation finale : un titre
+// (« Cours 6 — Du besoin métier au graphique », « Le fil rouge du cours »).
+export function isTitleLine(line) {
+  const t = line.trim();
+  return t.length >= 3 && t.length <= 120 && SPEAKABLE.test(t) && !TITLE_END.test(t)
+    && !BULLET.test(t) && t.split(/\s+/).length <= 15;
+}
+
+export function splitIntoParts(text, maxChars = 400) {
+  const parts = [];
+  for (const line of normalizeText(text).split("\n")) {
+    const title = isTitleLine(line);
+    for (const sentence of splitSentences(line)) {
+      for (const c of splitLong(sentence, maxChars)) {
+        const t = c.trim();
+        if (t && hasSpeakableContent(t)) parts.push({ text: t, title });
+      }
     }
   }
-  return chunks;
+  return parts;
+}
+
+export function splitIntoChunks(text, maxChars = 400) {
+  return splitIntoParts(text, maxChars).map((part) => part.text);
+}
+
+// Silence avant et après chaque titre ; deux titres qui se suivent ne cumulent
+// pas leurs pauses, et ni le début ni la fin du texte n'en reçoivent.
+export function titlePauses(parts, seconds = 1) {
+  return parts.map((part, i) => ({
+    before: part.title && i > 0 && !parts[i - 1].title ? seconds : 0,
+    after: part.title && i < parts.length - 1 && !parts[i + 1].title ? seconds : 0,
+  }));
 }
 
 export function clampSpeed(x) {
