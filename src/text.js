@@ -1,3 +1,5 @@
+import { spokenWords } from "./spoken.js";
+
 const SPEAKABLE = /[\p{L}\p{N}]/u;
 
 export function normalizeText(raw) {
@@ -80,11 +82,13 @@ export function wordTimeline(chunks, durations) {
   let t = 0;
   chunks.forEach((chunk, i) => {
     const words = chunk.split(/\s+/).filter(Boolean);
-    const total = words.reduce((n, w) => n + w.length, 0) || 1;
+    // Chaque mot affiché dure le temps de sa forme parlée (« → » = « flèche vers la droite »).
+    const weights = spokenWords(words).map((w) => w.match(/[\p{L}\p{N}]/gu)?.length || 0.1);
+    const total = weights.reduce((n, w) => n + w, 0) || 1;
     const dur = durations[i] ?? 0;
     let cursor = t;
-    for (const word of words) {
-      const end = cursor + (dur * word.length) / total;
+    for (const [k, word] of words.entries()) {
+      const end = cursor + (dur * weights[k]) / total;
       out.push({ word, start: cursor, end });
       cursor = end;
     }

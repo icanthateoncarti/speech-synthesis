@@ -233,3 +233,17 @@ test("réseau coupé au premier téléchargement → err.kind === 'network', pui
     // Profil temporaire conservé : aucune suppression automatique de fichiers.
   }
 });
+
+test("symboles dits à voix haute : la flèche et les parenthèses allongent vraiment l'audio", { timeout: 120_000 }, async (t) => {
+  const r = await page.evaluate(async () => {
+    const seconds = async (text) => window.wavDuration((await window.tts.synthesize({ text, voice: "jessica", speed: 1 })).wav);
+    return {
+      plain: await seconds("Donnée brute. Information."),
+      arrow: await seconds("Donnée brute → Information."),
+      paren: await seconds("Donnée brute (Information)."),
+    };
+  });
+  t.diagnostic(`sans symbole ${r.plain.toFixed(2)} s, flèche ${r.arrow.toFixed(2)} s, parenthèses ${r.paren.toFixed(2)} s`);
+  assert.ok(r.arrow > r.plain + 0.8, "« flèche vers la droite » doit être prononcé");
+  assert.ok(r.paren > r.plain + 0.6, "« entre parenthèses » doit être prononcé");
+});

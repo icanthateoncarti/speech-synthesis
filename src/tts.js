@@ -1,6 +1,7 @@
 // API de synthèse côté page. Découpe le texte, envoie un morceau à la fois au worker
 // (src/tts-worker.js), recolle les WAV. Le texte ne quitte jamais le navigateur.
 import { splitIntoChunks, speedToLengthScale } from "./text.js";
+import { spokenText } from "./spoken.js";
 import { concatWavsAsync, wavDuration } from "./audio.js";
 
 export const VOICES = { jessica: "fr_FR-upmc-medium", tom: "fr_FR-tom-medium" };
@@ -95,7 +96,7 @@ export function createTts() {
       const durations = [];
       for (let i = 0; i < chunks.length; i++) {
         if (gen !== generation) throw cancelled();
-        const message = { type: "synthesize", text: chunks[i], voiceId, lengthScale };
+        const message = { type: "synthesize", text: spokenText(chunks[i]), voiceId, lengthScale };
         let wav;
         try {
           wav = await request(message, onProgress);
