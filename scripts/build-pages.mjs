@@ -52,6 +52,17 @@ ${items}
   `;
 }
 
+function guideSection(guide) {
+  return `<section class="guide" aria-labelledby="guide-title">
+    <h2 id="guide-title">${escapeHtml(guide.title)}</h2>
+    <ol class="steps">
+${guide.steps.map((step) => `      <li>${escapeHtml(step)}</li>`).join("\n")}
+    </ol>
+    <h3>${escapeHtml(guide.whyTitle)}</h3>
+    <p>${escapeHtml(guide.why)}</p>
+  </section>`;
+}
+
 export function renderPage(home, page) {
   const url = `${SITE}/${page.slug}/`;
   let html = home;
@@ -63,7 +74,8 @@ export function renderPage(home, page) {
   html = replaceOnce(html, /<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${url}">`);
   html = replaceOnce(html, /<h1 class="model" id="model">[^<]*<\/h1>/, `<h1 class="model" id="model">${escapeHtml(page.h1)}</h1>`);
   html = replaceOnce(html, /<script type="application\/ld\+json">\s*\{\s*"@context": "https:\/\/schema\.org",\s*"@type": "FAQPage"[\s\S]*?<\/script>/, faqJsonLd(page.faq));
-  html = replaceOnce(html, /<section class="faq"[\s\S]*?<\/section>/, (page.examples ? examplesSection(page.examples) : "") + faqSection(page.faq));
+  html = replaceOnce(html, /<section class="guide"[\s\S]*?<\/section>/, (page.examples ? examplesSection(page.examples) : "") + guideSection(page.guide));
+  html = replaceOnce(html, /<section class="faq"[\s\S]*?<\/section>/, faqSection(page.faq));
   html = html.replace(/ aria-current="page"/g, "");
   html = replaceOnce(html, new RegExp(`<a href="/${page.slug}/">`), `<a href="/${page.slug}/" aria-current="page">`);
   return html;

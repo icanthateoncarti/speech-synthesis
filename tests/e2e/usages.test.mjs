@@ -34,6 +34,7 @@ for (const usage of PAGES) {
         ld: ld.mainEntity.map((q) => [q.name, q.acceptedAnswer.text]),
         html: [...document.querySelectorAll("#faq details")].map((d) => [d.querySelector("summary").textContent, d.querySelector(".answer").textContent]),
         examplesTop: document.querySelector(".examples")?.getBoundingClientRect().top ?? null,
+        guide: { top: document.querySelector(".guide").getBoundingClientRect().top, steps: document.querySelectorAll(".guide .steps li").length, title: document.querySelector("#guide-title").textContent },
         visibleTexts,
       };
     });
@@ -43,7 +44,10 @@ for (const usage of PAGES) {
     assert.deepEqual(r.ld, usage.faq);
     assert.deepEqual(r.html, usage.faq);
     if (r.examplesTop !== null) assert.ok(r.examplesTop >= 900, "les exemples restent sous la machine");
-    for (const text of r.visibleTexts) assert.ok(!/Questions fréquentes|Exemples/.test(text), `texte au premier écran : ${text}`);
+    assert.ok(r.guide.top >= 900, "le guide reste sous la machine");
+    assert.equal(r.guide.steps, 3);
+    assert.equal(r.guide.title, usage.guide.title);
+    for (const text of r.visibleTexts) assert.ok(!/Questions fréquentes|Exemples|Comment |Pourquoi /.test(text), `texte au premier écran : ${text}`);
   });
 }
 

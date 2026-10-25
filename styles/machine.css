@@ -326,6 +326,14 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
 .usages { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0 0 18px; padding-bottom: 18px; border-bottom: 1px solid #c9c6bd; }
 .usages a { min-height: 32px; display: inline-flex; align-items: center; }
 .usages a[aria-current="page"] { color: var(--orange); text-decoration: none; }
+/* Guide « comment ça marche », sous la machine. */
+.guide { width: min(720px, calc(100% - 64px)); margin: 0 auto; padding: 72px 0 0; }
+.guide h2 { margin: 0 0 22px; font: 600 12px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: #6b6a64; }
+.guide .steps { margin: 0; padding: 0; list-style: none; counter-reset: step; border-top: 2px solid #1b1b1b; }
+.guide .steps li { counter-increment: step; display: grid; grid-template-columns: 44px 1fr; gap: 12px; padding: 16px 0; border-bottom: 1px solid #c9c6bd; font: 400 16px/1.6 Archivo, system-ui, sans-serif; color: #33322e; }
+.guide .steps li::before { content: counter(step); display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--orange); color: #fff3e6; font: 700 14px var(--mono); }
+.guide h3 { margin: 28px 0 8px; font: 800 18px/1.35 Archivo, system-ui, sans-serif; color: #1b1b1b; }
+.guide p { margin: 0; font: 400 16px/1.65 Archivo, system-ui, sans-serif; color: #33322e; }
 /* Pages par usage : exemples de textes à charger dans la machine. */
 .examples { width: min(720px, calc(100% - 64px)); margin: 0 auto; padding: 72px 0 0; }
 .examples h2 { margin: 0 0 22px; font: 600 12px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: #6b6a64; }
@@ -342,7 +350,7 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
 .example button:focus-visible { outline: 3px solid #1d4fd8; outline-offset: 2px; }
 .credits a { color: #1b1b1b; text-underline-offset: 3px; }
 @media (max-width: 600px) {
-  .faq, .credits, .examples { width: calc(100% - 32px); }
-  .faq, .examples { padding-top: 48px; }
+  .faq, .credits, .examples, .guide { width: calc(100% - 32px); }
+  .faq, .examples, .guide { padding-top: 48px; }
   .faq summary { font-size: 16px; min-height: 44px; }
 }

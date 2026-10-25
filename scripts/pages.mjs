@@ -8,7 +8,17 @@
 export const PAGES = [
   {
     slug: "pdf-en-audio",
-    title: "PDF en audio gratuit : écouter ou convertir un PDF en MP3",
+    title: "PDF en audio gratuit et sans limite : écouter ou convertir en MP3",
+    guide: {
+      title: "Comment lire un PDF à voix haute",
+      steps: [
+        "Appuie sur la touche PDF/PPTX ou glisse ton fichier sur la machine : le texte s'affiche à l'écran.",
+        "Choisis la voix et la vitesse. Les titres du document deviennent des chapitres que tu peux choisir pendant l'écoute.",
+        "Appuie sur PARLE pour écouter, ou sur MP3 pour garder ton PDF en audio.",
+      ],
+      whyTitle: "Pourquoi ton PDF ne part nulle part",
+      why: "Le texte est extrait et lu dans ton navigateur : aucun envoi, aucun serveur. C'est aussi pour ça que l'outil est gratuit sans limite de pages, là où beaucoup de convertisseurs s'arrêtent après quelques pages ou demandent un compte.",
+    },
     description: "Transforme un PDF ou un PowerPoint en audio : la machine le lit à voix haute, chapitre par chapitre, et le convertit en MP3. Gratuit, sans compte, ton fichier reste sur ton ordinateur.",
     h1: "PDF en audio",
     faq: [
@@ -23,7 +33,17 @@ export const PAGES = [
   },
   {
     slug: "text-to-speech",
-    title: "Text to speech gratuit en français et en anglais — MP3",
+    title: "Text to speech gratuit et sans limite — français, anglais, MP3",
+    guide: {
+      title: "Comment utiliser le text to speech",
+      steps: [
+        "Colle ton texte sur l'écran de la machine, en français ou en anglais.",
+        "Choisis une voix de femme ou d'homme avec le bouton rotatif, puis la vitesse.",
+        "Appuie sur PARLE pour écouter, ou sur MP3 pour télécharger l'audio.",
+      ],
+      whyTitle: "Pourquoi c'est gratuit et sans limite",
+      why: "Les voix tournent directement dans ton navigateur, sans serveur à payer : pas de crédits, pas de quota de caractères, pas de compte. Ton texte n'est envoyé nulle part.",
+    },
     description: "Text to speech gratuit : colle ton texte, choisis une voix, écoute-le ou télécharge le MP3. Français et anglais, sans compte, sans limite, directement dans ton navigateur.",
     h1: "Text to speech",
     faq: [
@@ -36,7 +56,17 @@ export const PAGES = [
   },
   {
     slug: "voix-off",
-    title: "Voix off IA gratuite pour TikTok et YouTube — MP3",
+    title: "Voix off IA gratuite et sans limite pour TikTok et YouTube",
+    guide: {
+      title: "Comment créer une voix off",
+      steps: [
+        "Écris ton texte sur l'écran, ou mets un des exemples dans la machine.",
+        "Choisis une voix de femme ou d'homme, en français ou en anglais selon ton texte, et règle la vitesse.",
+        "Appuie sur MP3, puis importe le fichier dans CapCut, TikTok ou ton logiciel de montage.",
+      ],
+      whyTitle: "Pourquoi tu peux recommencer autant que tu veux",
+      why: "Les voix sont calculées dans ton navigateur : chaque nouvel essai est gratuit, sans crédits ni filigrane. Tu peux retoucher ton texte et régénérer ta voix off jusqu'à ce que le rythme colle à ta vidéo.",
+    },
     description: "Crée une voix off gratuite pour tes vidéos TikTok, Reels ou YouTube : écris ton texte, choisis une voix française ou anglaise, télécharge le MP3. Sans compte.",
     h1: "Voix off",
     examples: [
@@ -54,6 +84,16 @@ export const PAGES = [
   {
     slug: "message-repondeur",
     title: "Message de répondeur gratuit : crée ton MP3 sans t'enregistrer",
+    guide: {
+      title: "Comment créer ton message de répondeur",
+      steps: [
+        "Mets un des exemples dans la machine ou écris ton message, en remplaçant les passages entre crochets.",
+        "Choisis la voix et garde une vitesse proche de 1,0× pour que les numéros restent clairs.",
+        "Appuie sur MP3 et installe le fichier sur ta messagerie.",
+      ],
+      whyTitle: "Pourquoi tu n'as pas besoin de t'enregistrer",
+      why: "La machine lit ton message d'une voix posée, sans bruit de fond ni hésitation. Tu peux le modifier et le régénérer en quelques secondes, gratuitement et sans compte.",
+    },
     description: "Écris ton message de répondeur, choisis une voix et télécharge-le en MP3, sans t'enregistrer. Exemples de messages pro et perso prêts à l'emploi. Gratuit, sans compte.",
     h1: "Message de répondeur",
     examples: [

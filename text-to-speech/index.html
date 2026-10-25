@@ -2,21 +2,35 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-LqiBFlOAKfKkbpm1WeHHy3VT+B0prcb+Q6SDjOMeczY=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2yzuhCi9POYH3MMvoUDj+tLcJTy38pI4KFLrOoC4FuQ=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Text to speech gratuit en français et en anglais — MP3</title>
+  <title>Text to speech gratuit et sans limite — français, anglais, MP3</title>
   <meta name="description" content="Text to speech gratuit : colle ton texte, choisis une voix, écoute-le ou télécharge le MP3. Français et anglais, sans compte, sans limite, directement dans ton navigateur.">
   <link rel="canonical" href="https://speechsynthe.si/text-to-speech/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="speechsynthe.si">
-  <meta property="og:title" content="Text to speech gratuit en français et en anglais — MP3">
+  <meta property="og:title" content="Text to speech gratuit et sans limite — français, anglais, MP3">
   <meta property="og:description" content="Text to speech gratuit : colle ton texte, choisis une voix, écoute-le ou télécharge le MP3. Français et anglais, sans compte, sans limite, directement dans ton navigateur.">
   <meta property="og:url" content="https://speechsynthe.si/text-to-speech/">
   <meta property="og:image" content="https://speechsynthe.si/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "speechsynthe.si",
+  "url": "https://speechsynthe.si/",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Navigateur web",
+  "inLanguage": ["fr", "en"],
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+  "featureList": ["Synthèse vocale française et anglaise", "Téléchargement MP3", "Import PDF et PowerPoint", "Traitement dans le navigateur, sans envoi du texte"]
+}
+  </script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -82,29 +96,29 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=b6ae515a62">
+  <link rel="stylesheet" href="/styles/machine.css?v=6bf86118ca">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=b6ae515a62",
-      "/src/boot.js": "/src/boot.js?v=b6ae515a62",
-      "/src/limits.js": "/src/limits.js?v=b6ae515a62",
-      "/src/machine.js": "/src/machine.js?v=b6ae515a62",
-      "/src/main.js": "/src/main.js?v=b6ae515a62",
-      "/src/navigation.js": "/src/navigation.js?v=b6ae515a62",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=b6ae515a62",
-      "/src/pdf.js": "/src/pdf.js?v=b6ae515a62",
-      "/src/player.js": "/src/player.js?v=b6ae515a62",
-      "/src/pptx.js": "/src/pptx.js?v=b6ae515a62",
-      "/src/shader.js": "/src/shader.js?v=b6ae515a62",
-      "/src/spoken.js": "/src/spoken.js?v=b6ae515a62",
-      "/src/text.js": "/src/text.js?v=b6ae515a62",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=b6ae515a62",
-      "/src/tts.js": "/src/tts.js?v=b6ae515a62",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=b6ae515a62"
+      "/src/audio.js": "/src/audio.js?v=6bf86118ca",
+      "/src/boot.js": "/src/boot.js?v=6bf86118ca",
+      "/src/limits.js": "/src/limits.js?v=6bf86118ca",
+      "/src/machine.js": "/src/machine.js?v=6bf86118ca",
+      "/src/main.js": "/src/main.js?v=6bf86118ca",
+      "/src/navigation.js": "/src/navigation.js?v=6bf86118ca",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=6bf86118ca",
+      "/src/pdf.js": "/src/pdf.js?v=6bf86118ca",
+      "/src/player.js": "/src/player.js?v=6bf86118ca",
+      "/src/pptx.js": "/src/pptx.js?v=6bf86118ca",
+      "/src/shader.js": "/src/shader.js?v=6bf86118ca",
+      "/src/spoken.js": "/src/spoken.js?v=6bf86118ca",
+      "/src/text.js": "/src/text.js?v=6bf86118ca",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=6bf86118ca",
+      "/src/tts.js": "/src/tts.js?v=6bf86118ca",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=6bf86118ca"
     }
   }
   </script>
@@ -201,6 +215,17 @@
     </section>
   </main>
 
+  <section class="guide" aria-labelledby="guide-title">
+    <h2 id="guide-title">Comment utiliser le text to speech</h2>
+    <ol class="steps">
+      <li>Colle ton texte sur l'écran de la machine, en français ou en anglais.</li>
+      <li>Choisis une voix de femme ou d'homme avec le bouton rotatif, puis la vitesse.</li>
+      <li>Appuie sur PARLE pour écouter, ou sur MP3 pour télécharger l'audio.</li>
+    </ol>
+    <h3>Pourquoi c'est gratuit et sans limite</h3>
+    <p>Les voix tournent directement dans ton navigateur, sans serveur à payer : pas de crédits, pas de quota de caractères, pas de compte. Ton texte n'est envoyé nulle part.</p>
+  </section>
+
   <section class="faq" id="faq" aria-labelledby="faq-title">
     <h2 id="faq-title">Questions fréquentes</h2>
     <details>
@@ -237,7 +262,7 @@
     <p>Tout tourne dans ton navigateur, rien n'est envoyé. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
   </footer>
 
-  <script type="module" src="/src/boot.js?v=b6ae515a62"></script>
-  <script type="module" src="/src/main.js?v=b6ae515a62"></script>
+  <script type="module" src="/src/boot.js?v=6bf86118ca"></script>
+  <script type="module" src="/src/main.js?v=6bf86118ca"></script>
 </body>
 </html>

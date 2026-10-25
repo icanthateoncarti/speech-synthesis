@@ -28,5 +28,8 @@ test("contenu des pages : titres courts, réponses de 2 à 4 phrases, exemples s
       assert.ok(sentences >= 2 && sentences <= 4, `${page.slug} « ${question} » : ${sentences} phrases`);
     }
     for (const [, text] of page.examples ?? []) assert.ok(!/[<>"]/.test(text));
+    assert.equal(page.guide.steps.length, 3, `${page.slug} : guide en 3 étapes`);
+    const sentences = page.guide.why.split(/(?<=[.!?])\s+/).length;
+    assert.ok(sentences >= 2 && sentences <= 4, `${page.slug} : « ${page.guide.whyTitle} » en ${sentences} phrases`);
   }
 });
