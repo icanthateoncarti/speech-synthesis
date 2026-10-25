@@ -1,5 +1,5 @@
 import http from "node:http";
-import { readFile, stat } from "node:fs/promises";
+import { readFile, realpath, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer-core";
@@ -29,11 +29,28 @@ const TYPES = {
   ".woff2": "font/woff2",
 };
 
+// Le serveur de test ne sert que ce que le site publie : ni fichiers cachés
+// (.git, jetons d'outils), ni dépendances, ni profil Chrome, ni rapport d'audit.
+// Il refuse aussi tout autre Host que lui-même (DNS rebinding, audit S09).
+const PRIVATE = /(^|\/)(\.[^/]*|node_modules|\.chrome-profile)(\/|$)|^\/docs\/security(\/|$)/;
+
 async function handle(req, res) {
   try {
+    const { port } = req.socket.address();
+    if (![`127.0.0.1:${port}`, `localhost:${port}`].includes(req.headers.host)) {
+      res.writeHead(421).end();
+      return;
+    }
     const { pathname } = new URL(req.url, "http://x");
-    let file = path.join(ROOT, decodeURIComponent(pathname));
-    if (file !== ROOT && !file.startsWith(ROOT + path.sep)) {
+    const decoded = decodeURIComponent(pathname);
+    let file = path.join(ROOT, decoded);
+    if ((file !== ROOT && !file.startsWith(ROOT + path.sep)) || PRIVATE.test(decoded)) {
+      res.writeHead(403).end();
+      return;
+    }
+    // Un lien symbolique ne doit pas faire sortir du dépôt.
+    const real = await realpath(file).catch(() => file);
+    if (real !== ROOT && !real.startsWith(ROOT + path.sep)) {
       res.writeHead(403).end();
       return;
     }

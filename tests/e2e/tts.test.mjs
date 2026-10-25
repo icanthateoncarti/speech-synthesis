@@ -281,3 +281,49 @@ test("texte anglais : voix anglaises libres de droits et règles de lecture angl
   assert.deepEqual(r.sent, [["en_US-kristin-medium", spoken], ["en_US-joe-medium", spoken]]);
   for (const s of r.seconds) assert.ok(s > 3, `audio anglais trop court : ${s}`);
 });
+
+test("intégrité des voix : un fichier falsifié est refusé, un cache abîmé est remplacé", { timeout: 300_000 }, async () => {
+  const profile = await mkdtemp(path.join(os.tmpdir(), "speechsynthesi-integrity-"));
+  let local, fresh;
+  try {
+    local = await startServer();
+    fresh = await launch({ profile });
+    let tamper = true;
+    const requested = [];
+    await fresh.page.setRequestInterception(true);
+    fresh.page.on("request", (req) => {
+      const u = req.url();
+      if (u.includes("huggingface.co")) requested.push(u);
+      if (tamper && u.endsWith("fr_FR-tom-medium.onnx.json")) {
+        req.respond({ status: 200, contentType: "application/json", headers: { "Access-Control-Allow-Origin": "*" }, body: JSON.stringify({ audio: { sample_rate: 22050 }, espeak: { voice: "fr" }, falsifie: true }) });
+      } else req.continue();
+    });
+    await openFixture(fresh.page, local.url);
+    const r = await fresh.page.evaluate(async (text) => {
+      const root = await navigator.storage.getDirectory();
+      const dir = await root.getDirectoryHandle("piper", { create: true });
+      // Cache abîmé posé à l'avance pour Jessica.
+      const bad = await (await dir.getFileHandle("fr_FR-upmc-medium.onnx.json", { create: true })).createWritable();
+      await bad.write("{}"); await bad.close();
+      const outcome = (p) => p.then((res) => ({ ok: window.wavDuration(res.wav) }), (err) => ({ error: err.message }));
+      const tom = await outcome(window.tts.synthesize({ text, voice: "tom", speed: 1 }));
+      const cachedTom = await dir.getFileHandle("fr_FR-tom-medium.onnx.json").then((h) => h.getFile()).then((f) => f.text(), () => null);
+      const jessica = await outcome(window.tts.synthesize({ text, voice: "jessica", speed: 1 }));
+      const cachedJessica = await (await (await dir.getFileHandle("fr_FR-upmc-medium.onnx.json")).getFile()).text();
+      return { tom, cachedTom, jessica, cachedJessicaOk: cachedJessica.length > 1000 };
+    }, PHRASE);
+    assert.match(r.tom.error ?? "", /Empreinte invalide/, JSON.stringify(r.tom));
+    assert.ok(!r.cachedTom?.includes("falsifie"), "le fichier falsifié ne doit pas être mis en cache");
+    assert.ok(r.jessica.ok > 1, `le cache abîmé doit être remplacé : ${JSON.stringify(r.jessica)}`);
+    assert.ok(r.cachedJessicaOk, "le vrai fichier remplace le cache abîmé");
+    // Redirections internes de HuggingFace comprises, chaque requête porte la révision figée.
+    const pinned = (u) => u.includes("840e38a7e26d813bd6221b78cfbaefa3585b3f71");
+    assert.ok(requested.length && requested.every(pinned), requested.filter((u) => !pinned(u)).join("\n"));
+    tamper = false;
+    const retry = await fresh.page.evaluate((text) => window.tts.synthesize({ text, voice: "tom", speed: 1 }).then((res) => window.wavDuration(res.wav), (err) => err.message), PHRASE);
+    assert.ok(retry > 1, `Tom doit fonctionner une fois le fichier authentique : ${retry}`);
+  } finally {
+    await fresh?.browser.close();
+    await local?.close();
+  }
+});

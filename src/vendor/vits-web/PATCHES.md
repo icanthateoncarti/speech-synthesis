@@ -23,10 +23,11 @@ Licence : MIT (champ `license` du `package.json` ; le dépôt amont n'a pas de f
 
    ```diff
    - import("onnxruntime-web")
-   + import("https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/+esm")
+   + import("https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/wasm/+esm")
    ```
 
    Le moteur tourne dans un worker module (`src/tts-worker.js`), et les workers ne lisent pas les import maps. La version 1.18.0 est celle déclarée en dépendance par vits-web 1.0.3, et `wasmPaths` pointe déjà vers cdnjs 1.18.0.
+   Depuis le 2026-10-26, le bundle **WASM seul** (`/wasm/+esm`, 164 Ko au lieu de 564 Ko) : le moteur n'utilise que le backend WASM, et le bundle complet embarquait protobufjs 7.2.5, visé par deux avis de sécurité (audit S06).
 
 3. **Une session ONNX pour la voix active, libérée au changement de voix.**
 
@@ -58,3 +59,9 @@ Licence : MIT (champ `license` du `package.json` ; le dépôt amont n'a pas de f
 - L'amont initialisait piper dans `new Promise(async …)` : la copie adaptée utilise désormais un appel async direct et le collecteur décrit ci-dessus. Le worker conserve ses gardes `unhandledrejection` et `error` pour une erreur issue du runtime WASM.
 - `download` retélécharge le modèle même s'il est déjà dans OPFS (et HF répond `no-store`). Le worker saute `download` quand les deux fichiers sont déjà en cache et non vides.
 - `import(onnxruntime-web)` raté (hors ligne) reste en échec dans la table des modules du worker. `src/tts.js` remplace le worker après toute erreur, réseau ou runtime ; une erreur runtime autorise une seule reprise du morceau courant dans un worker neuf.
+
+4. **Voix figées et vérifiées (audit S07, 2026-10-26).**
+
+   - `u` pointe sur la révision `840e38a7e26d813bd6221b78cfbaefa3585b3f71` du dépôt `diffusionstudio/piper-voices` au lieu de la branche mutable `resolve/main`.
+   - `VOICE_SHA256` contient l'empreinte SHA-256 des 8 fichiers des 4 voix du site (modèles : empreintes LFS publiées par HuggingFace ; configurations : calculées, empreinte git recoupée avec l'API). `S` refuse un téléchargement dont l'empreinte diffère, avant toute mise en cache ; `f` vérifie aussi un fichier déjà en cache et le remplace s'il est abîmé. Une voix absente de la liste est refusée.
+   - Pour ajouter ou mettre à jour une voix : nouvelle révision, nouvelles empreintes, puis `tests/e2e/tts.test.mjs` (« intégrité des voix »).

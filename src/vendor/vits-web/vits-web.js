@@ -1,4 +1,23 @@
-const u = "https://huggingface.co/diffusionstudio/piper-voices/resolve/main", B = "https://cdnjs.cloudflare.com/ajax/libs/onnxruntime-web/1.18.0/", x = "https://cdn.jsdelivr.net/npm/@diffusionstudio/piper-wasm@1.0.0/build/piper_phonemize", c = {
+// Révision figée du dépôt de voix (et non la branche mutable « main ») ; chaque
+// fichier des voix du site est vérifié par son empreinte avant usage (audit S07).
+const VOICE_REVISION = "840e38a7e26d813bd6221b78cfbaefa3585b3f71";
+const VOICE_SHA256 = {
+  "fr_FR-upmc-medium.onnx": "9abb3800c199148897a9ed64e100d224f3de83579f100044174ad19418f1786f",
+  "fr_FR-upmc-medium.onnx.json": "e8636ec15dfd5d72db37a02cb5320a20f2b8d339f2a0e4337da64c58a33a5868",
+  "fr_FR-tom-medium.onnx": "bf65074ccdeeeeaa832e75edb1c0a513c01c9a972bdf085ff8a6e71ea234fd41",
+  "fr_FR-tom-medium.onnx.json": "2f7f885ad5a0aad802e3cc24e4f57239febdcb142b4876de5d238094674361cc",
+  "en_US-kristin-medium.onnx": "5849957f929cbf720c258f8458692d6103fff2f0e3d3b19c8259474bb06a18d4",
+  "en_US-kristin-medium.onnx.json": "5681426d4aead22195de70531eeeeddb46493cfaffc5764b2ea3db73428b651c",
+  "en_US-joe-medium.onnx": "58afce0321b8d9c46d7cdf9c16500cc55a793b4220212dba6b70fb788b3baf06",
+  "en_US-joe-medium.onnx.json": "3d6d5410b3795cb1950595247ef8f06190719e6fdbfa3a2356d8ec368e1aad33",
+};
+async function integrityOk(url, blob) {
+  const expected = VOICE_SHA256[url.split("/").at(-1)];
+  if (!expected) return false;
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", await blob.arrayBuffer()));
+  return [...digest].map((byte) => byte.toString(16).padStart(2, "0")).join("") === expected;
+}
+const u = `https://huggingface.co/diffusionstudio/piper-voices/resolve/${VOICE_REVISION}`, B = "https://cdnjs.cloudflare.com/ajax/libs/onnxruntime-web/1.18.0/", x = "https://cdn.jsdelivr.net/npm/@diffusionstudio/piper-wasm@1.0.0/build/piper_phonemize", c = {
   "ar_JO-kareem-low": "ar/ar_JO/kareem/low/ar_JO-kareem-low.onnx",
   "ar_JO-kareem-medium": "ar/ar_JO/kareem/medium/ar_JO-kareem-medium.onnx",
   "ca_ES-upc_ona-medium": "ca/ca_ES/upc_ona/medium/ca_ES-upc_ona-medium.onnx",
@@ -163,7 +182,10 @@ async function S(e, m) {
       loaded: i
     });
   }
-  return new Blob(t, { type: n.headers.get("Content-Type") ?? void 0 });
+  const blob = new Blob(t, { type: n.headers.get("Content-Type") ?? void 0 });
+  // Un fichier modifié ou incomplet n'est ni utilisé ni mis en cache.
+  if (!await integrityOk(e, blob)) throw new Error(`Empreinte invalide pour ${e.split("/").at(-1)}`);
+  return blob;
 }
 function b(e, m, n) {
   const o = e.length, a = 44, i = new DataView(new ArrayBuffer(o * m * 2 + a));
@@ -240,7 +262,7 @@ async function voiceSession(voiceId, onProgress) {
 }
 
 async function N(e, m) {
-  h = h ?? await import("./piper-DeOu3H9E.js"), _ = _ ?? await import("https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/+esm");
+  h = h ?? await import("./piper-DeOu3H9E.js"), _ = _ ?? await import("https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/wasm/+esm");
   _.env.allowLocalModels = !1, _.env.wasm.numThreads = navigator.hardwareConcurrency, _.env.wasm.wasmPaths = B;
   const { config: i, session: y } = await voiceSession(e.voiceId, m);
   const t = await phonemeIds(e.text, i.espeak.voice), r = 0, s = i.audio.sample_rate, d = i.inference.noise_scale, g = e.lengthScale ?? i.inference.length_scale, U = i.inference.noise_w, w = {
@@ -264,6 +286,8 @@ async function N(e, m) {
 }
 async function f(e, m) {
   let n = await D(e);
+  // Un fichier en cache abîmé ou modifié est remplacé par un téléchargement vérifié.
+  if (n && !await integrityOk(e, n)) { await R(e); n = void 0; }
   return n || (n = await S(e, m), await p(e, n)), n;
 }
 async function I(e, m) {

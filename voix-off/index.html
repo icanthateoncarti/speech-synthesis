@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-LqiBFlOAKfKkbpm1WeHHy3VT+B0prcb+Q6SDjOMeczY=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Voix off IA gratuite pour TikTok et YouTube — MP3</title>
   <meta name="description" content="Crée une voix off gratuite pour tes vidéos TikTok, Reels ou YouTube : écris ton texte, choisis une voix française ou anglaise, télécharge le MP3. Sans compte.">
@@ -73,28 +74,29 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=aff79255f9">
+  <link rel="stylesheet" href="/styles/machine.css?v=b6ae515a62">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=aff79255f9",
-      "/src/limits.js": "/src/limits.js?v=aff79255f9",
-      "/src/machine.js": "/src/machine.js?v=aff79255f9",
-      "/src/main.js": "/src/main.js?v=aff79255f9",
-      "/src/navigation.js": "/src/navigation.js?v=aff79255f9",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=aff79255f9",
-      "/src/pdf.js": "/src/pdf.js?v=aff79255f9",
-      "/src/player.js": "/src/player.js?v=aff79255f9",
-      "/src/pptx.js": "/src/pptx.js?v=aff79255f9",
-      "/src/shader.js": "/src/shader.js?v=aff79255f9",
-      "/src/spoken.js": "/src/spoken.js?v=aff79255f9",
-      "/src/text.js": "/src/text.js?v=aff79255f9",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=aff79255f9",
-      "/src/tts.js": "/src/tts.js?v=aff79255f9",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=aff79255f9"
+      "/src/audio.js": "/src/audio.js?v=b6ae515a62",
+      "/src/boot.js": "/src/boot.js?v=b6ae515a62",
+      "/src/limits.js": "/src/limits.js?v=b6ae515a62",
+      "/src/machine.js": "/src/machine.js?v=b6ae515a62",
+      "/src/main.js": "/src/main.js?v=b6ae515a62",
+      "/src/navigation.js": "/src/navigation.js?v=b6ae515a62",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=b6ae515a62",
+      "/src/pdf.js": "/src/pdf.js?v=b6ae515a62",
+      "/src/player.js": "/src/player.js?v=b6ae515a62",
+      "/src/pptx.js": "/src/pptx.js?v=b6ae515a62",
+      "/src/shader.js": "/src/shader.js?v=b6ae515a62",
+      "/src/spoken.js": "/src/spoken.js?v=b6ae515a62",
+      "/src/text.js": "/src/text.js?v=b6ae515a62",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=b6ae515a62",
+      "/src/tts.js": "/src/tts.js?v=b6ae515a62",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=b6ae515a62"
     }
   }
   </script>
@@ -242,20 +244,7 @@
     <p>Tout tourne dans ton navigateur, rien n'est envoyé. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
   </footer>
 
-  <script type="module">
-    import { mountPlastic } from "/src/shader.js";
-    mountPlastic(document.getElementById("plastic"), { reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches });
-  </script>
-  <script type="module" src="/src/main.js?v=aff79255f9"></script>
-  <script>
-    // Cloudflare Web Analytics : pages vues sans cookie, jamais le texte tapé. Uniquement en production.
-    if (location.hostname === "speechsynthe.si") {
-      const beacon = document.createElement("script");
-      beacon.defer = true;
-      beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
-      beacon.dataset.cfBeacon = '{"token": "510ca793cd2d4401b410e4ede7f66bac"}';
-      document.body.append(beacon);
-    }
-  </script>
+  <script type="module" src="/src/boot.js?v=b6ae515a62"></script>
+  <script type="module" src="/src/main.js?v=b6ae515a62"></script>
 </body>
 </html>

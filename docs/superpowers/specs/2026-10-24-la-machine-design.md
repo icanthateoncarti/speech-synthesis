@@ -171,6 +171,10 @@ lecteur du site ; elle ne modifie pas un MP3 déjà téléchargé.
 - Réutiliser l'extraction locale et les messages existants pour les PDF sans texte, illisibles ou protégés.
 - Signaler visuellement la zone de dépôt pendant le survol et empêcher le navigateur d'ouvrir le PDF à la place du site.
 
+### Partage de session par lien — demande de Jonas du 2026-10-26
+
+- [ ] Permettre de partager une session de l'application radio via un lien.
+
 ### Autres pistes
 - Pages par usage, une par recherche (PDF, TikTok, répondeur, révisions), avec la machine intégrée.
 - (Search Console et compteur sans cookies : voir §7, à brancher dès la v1.)
