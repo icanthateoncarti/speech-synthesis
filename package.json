@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test \"tests/unit/*.test.js\"",
+    "stamp": "node scripts/stamp-version.mjs",
     "test:e2e": "node --test --test-concurrency=1 \"tests/e2e/*.test.mjs\""
   },
   "devDependencies": {

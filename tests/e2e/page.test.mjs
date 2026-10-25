@@ -114,7 +114,7 @@ test("sélecteurs figés de la machine", async () => {
   assert.deepEqual(r.radios, [["radio", "true", true], ["radio", "false", true]]);
   assert.deepEqual(r.speed, ["range", "0.7", "1.5", "0.1", "1"]);
   assert.deepEqual(r.reader, { tag: "DIV", shown: false });
-  assert.deepEqual(r.importmap, {
+  assert.deepEqual(Object.fromEntries(Object.entries(r.importmap).filter(([key]) => !key.startsWith("./src/"))), {
     "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
     "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
     "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
@@ -155,4 +155,21 @@ test("sans WebGL : repli orange", async () => {
   } finally {
     await p.close();
   }
+});
+
+test("empreinte de version : chaque script et style local est demandé avec la version du code actuel", { timeout: 120_000 }, async () => {
+  const { computeVersion } = await import("../../scripts/stamp-version.mjs");
+  const version = await computeVersion();
+  const local = [];
+  const watch = (req) => { const url = new URL(req.url()); if (/^\/(src|styles)\/.*\.(js|css)$/.test(url.pathname)) local.push(url.pathname + url.search); };
+  page.on("request", watch);
+  try {
+    await open();
+    // Le préchargement de la voix démarre le worker : lui aussi doit être versionné.
+    await page.$eval("#screen", (el) => { el.value = "Bonjour."; el.dispatchEvent(new Event("input")); });
+    await page.waitForFunction(() => performance.getEntriesByType("resource").some((e) => e.name.includes("tts-worker.js")), { timeout: 30_000 });
+  } finally { page.off("request", watch); }
+  assert.ok(local.some((u) => u.startsWith("/src/main.js")) && local.some((u) => u.startsWith("/src/tts-worker.js")), local.join(", "));
+  const stale = local.filter((u) => !u.endsWith(`?v=${version}`) && !u.startsWith("/src/vendor/"));
+  assert.deepEqual(stale, [], "lance node scripts/stamp-version.mjs avant de publier");
 });

@@ -75,7 +75,7 @@ test("effacer pendant le préchargement ne fige pas l'état ; une erreur n'empê
   const p = await browser.newPage();
   await p.setRequestInterception(true);
   p.on("request", (req) => {
-    if (req.url().endsWith("/src/tts.js")) {
+    if (new URL(req.url()).pathname === "/src/tts.js") {
       req.respond({ status: 200, contentType: "text/javascript", body: `
         window.preloadCalls = 0;
         export function createTts() { return {

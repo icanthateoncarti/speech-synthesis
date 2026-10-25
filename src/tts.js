@@ -40,7 +40,10 @@ export function createTts() {
   }
 
   function spawn() {
-    const w = new Worker(new URL("./tts-worker.js", import.meta.url), { type: "module" });
+    // Même empreinte de version que ce module (voir scripts/stamp-version.mjs).
+    const url = new URL("./tts-worker.js", import.meta.url);
+    url.search = new URL(import.meta.url).search;
+    const w = new Worker(url, { type: "module" });
     w.onmessage = ({ data }) => {
       const p = pending.get(data.id);
       if (!p) return;
