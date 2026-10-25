@@ -1,7 +1,7 @@
 // API de synthèse côté page. Découpe le texte, envoie un morceau à la fois au worker
 // (src/tts-worker.js), recolle les WAV. Le texte ne quitte jamais le navigateur.
 import { splitIntoChunks, speedToLengthScale } from "./text.js";
-import { concatWavs, wavDuration } from "./audio.js";
+import { concatWavsAsync, wavDuration } from "./audio.js";
 
 export const VOICES = { jessica: "fr_FR-upmc-medium", tom: "fr_FR-tom-medium" };
 
@@ -22,6 +22,7 @@ export function createTts() {
   let nextId = 1;
   let generation = 0; // change à chaque cancel() : les synthèses lancées avant s'arrêtent
   let activeSynths = 0;
+  const controllers = new Set();
   const pending = new Map(); // id → { w, resolve, reject, onProgress }
 
   const busy = (w) => [...pending.values()].some((p) => p.w === w);
@@ -86,6 +87,8 @@ export function createTts() {
     if (!chunks.length) throw ttsError("other", "aucun texte à lire");
     const lengthScale = speedToLengthScale(speed);
     const gen = generation;
+    const controller = new AbortController();
+    controllers.add(controller);
     const cancelled = () => ttsError("cancelled", "synthèse annulée");
     activeSynths++;
     try {
@@ -101,8 +104,11 @@ export function createTts() {
         onChunk?.(wav.slice(0), i, chunks.length);
       }
       if (gen !== generation) throw cancelled();
-      return { wav: wavs.length === 1 ? wavs[0] : concatWavs(wavs), chunks, durations };
+      const wav = wavs.length === 1 ? wavs[0] : await concatWavsAsync(wavs, { signal: controller.signal });
+      if (gen !== generation) throw cancelled();
+      return { wav, chunks, durations };
     } finally {
+      controllers.delete(controller);
       activeSynths--;
     }
   }
@@ -116,8 +122,9 @@ export function createTts() {
   // ne s'interrompt pas autrement) ; tout ce qu'il avait en cours, préchargement compris,
   // est rejeté avec kind "cancelled". Le prochain appel recrée un worker.
   function cancel() {
-    if (activeSynths === 0) return;
+    if (activeSynths === 0 && pending.size === 0) return;
     generation++;
+    for (const controller of controllers) controller.abort();
     worker?.terminate();
     worker = null;
     rejectAll(ttsError("cancelled", "synthèse annulée"));

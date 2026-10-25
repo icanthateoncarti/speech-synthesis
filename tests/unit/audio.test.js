@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseWav, encodeWav, concatWavs, wavDuration, wavToMp3 } from "../../src/audio.js";
+import { parseWav, encodeWav, concatWavs, concatWavsAsync, wavDuration, wavToMp3 } from "../../src/audio.js";
 
 const RATE = 22050;
 function sine(seconds = 1, freq = 440) {
@@ -26,6 +26,19 @@ test("concatWavs ajoute 150 ms de silence entre morceaux", () => {
   const a = encodeWav(sine(1, 440), RATE);
   const b = encodeWav(sine(1, 660), RATE);
   assert.ok(Math.abs(wavDuration(concatWavs([a, b])) - 2.15) < 0.001);
+});
+
+test("concatWavsAsync rend la main et produit les mêmes octets", async () => {
+  const wav = encodeWav(sine(), RATE);
+  const parts = Array.from({ length: 40 }, () => wav);
+  let yielded = false;
+  const resultPromise = concatWavsAsync(parts, { yieldEvery: 4 }).then((result) => ({ result, yielded }));
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  yielded = true;
+  const { result, yielded: observed } = await resultPromise;
+  assert.equal(observed, true);
+  assert.ok(Math.abs(wavDuration(result) - 40 - 0.15 * 39) < 0.001);
+  assert.deepEqual(new Uint8Array(result), new Uint8Array(concatWavs(parts)));
 });
 
 test("wavToMp3 produit un MP3 non vide", async () => {

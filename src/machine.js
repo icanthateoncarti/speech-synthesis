@@ -31,6 +31,8 @@ export function reduce(state, event) {
       return { ...state, phase: "idle", downloadPct: null, notice: null, error: event.kind === "network" ? "network" : "other" };
     case "PDF_EMPTY":
       return { ...state, error: null, notice: "pdf-empty" };
+    case "PDF_ERROR":
+      return { ...state, phase: "idle", error: null, notice: event.password ? "pdf-password" : "pdf-invalid" };
   }
 
   // Événements d'action : effacent notice et error avant leur propre effet.
@@ -70,6 +72,8 @@ export function statusLine(state) {
   else if (state.error) left = "ERREUR · RÉESSAIE";
   else if (state.notice === "empty") left = "ÉCRAN VIDE";
   else if (state.notice === "pdf-empty") left = "PDF SANS TEXTE";
+  else if (state.notice === "pdf-password") left = "PDF PROTÉGÉ · DÉVERROUILLE-LE";
+  else if (state.notice === "pdf-invalid") left = "PDF ILLISIBLE · RÉESSAIE";
   else if (state.phase === "downloading") left = `CHARGEMENT VOIX ${Math.round(state.downloadPct ?? 0)} %`;
   else if (PHASE_LABELS[state.phase]) left = PHASE_LABELS[state.phase];
   else left = state.audio?.mp3 ? "✓ MP3 PRÊT" : "PRÊT";

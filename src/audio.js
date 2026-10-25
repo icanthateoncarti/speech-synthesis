@@ -16,6 +16,10 @@ export function parseWav(buf) {
     else if (id === "data") {
       if (!sampleRate) throw new Error("WAV invalide : bloc fmt absent");
       const len = Math.min(size, buf.byteLength - (pos + 8)) >> 1;
+      const littleEndian = new Uint8Array(new Uint16Array([1]).buffer)[0] === 1;
+      if (littleEndian && (pos + 8) % 2 === 0) {
+        return { sampleRate, samples: new Int16Array(buf, pos + 8, len) };
+      }
       const samples = new Int16Array(len);
       for (let i = 0; i < len; i++) samples[i] = v.getInt16(pos + 8 + i * 2, true);
       return { sampleRate, samples };
@@ -28,6 +32,22 @@ export function parseWav(buf) {
 export function encodeWav(samples, sampleRate) {
   const dataLen = samples.length * 2;
   const buf = new ArrayBuffer(44 + dataLen);
+  return encodeWavInto(samples, sampleRate, buf);
+}
+
+function encodeWavInto(samples, sampleRate, buf) {
+  const dataLen = samples.length * 2;
+  writeWavHeader(buf, sampleRate, dataLen);
+  const littleEndian = new Uint8Array(new Uint16Array([1]).buffer)[0] === 1;
+  if (littleEndian) new Uint8Array(buf, 44).set(new Uint8Array(samples.buffer, samples.byteOffset, dataLen));
+  else {
+    const v = new DataView(buf);
+    for (let i = 0; i < samples.length; i++) v.setInt16(44 + i * 2, samples[i], true);
+  }
+  return buf;
+}
+
+function writeWavHeader(buf, sampleRate, dataLen) {
   const v = new DataView(buf);
   const str = (o, s) => { for (let i = 0; i < 4; i++) v.setUint8(o + i, s.charCodeAt(i)); };
   str(0, "RIFF"); v.setUint32(4, 36 + dataLen, true); str(8, "WAVE");
@@ -35,8 +55,6 @@ export function encodeWav(samples, sampleRate) {
   v.setUint32(24, sampleRate, true); v.setUint32(28, sampleRate * 2, true);
   v.setUint16(32, 2, true); v.setUint16(34, 16, true);
   str(36, "data"); v.setUint32(40, dataLen, true);
-  for (let i = 0; i < samples.length; i++) v.setInt16(44 + i * 2, samples[i], true);
-  return buf;
 }
 
 export function concatWavs(bufs) {
@@ -54,12 +72,35 @@ export function concatWavs(bufs) {
   return encodeWav(out, sampleRate);
 }
 
+export async function concatWavsAsync(bufs, { signal, yieldEvery = 16 } = {}) {
+  const parsed = bufs.map(parseWav);
+  if (!parsed.length) throw new Error("Aucun WAV à concaténer");
+  const sampleRate = parsed[0].sampleRate;
+  if (parsed.some((p) => p.sampleRate !== sampleRate)) throw new Error("Fréquences WAV incompatibles");
+  const gap = Math.round((sampleRate * SILENCE_MS) / 1000);
+  const count = parsed.reduce((n, p) => n + p.samples.length, 0) + gap * (parsed.length - 1);
+  const out = new ArrayBuffer(44 + count * 2);
+  writeWavHeader(out, sampleRate, count * 2);
+  const target = new Uint8Array(out, 44);
+  let offset = 0;
+  for (let i = 0; i < parsed.length; i++) {
+    signal?.throwIfAborted();
+    if (i) offset += gap * 2;
+    const pcm = parsed[i].samples;
+    target.set(new Uint8Array(pcm.buffer, pcm.byteOffset, pcm.byteLength), offset);
+    offset += pcm.byteLength;
+    if ((i + 1) % yieldEvery === 0) await new Promise((resolve) => setTimeout(resolve, 0));
+  }
+  signal?.throwIfAborted();
+  return out;
+}
+
 export function wavDuration(buf) {
   const { sampleRate, samples } = parseWav(buf);
   return samples.length / sampleRate;
 }
 
-export async function wavToMp3(buf, kbps = 96) {
+export async function wavToMp3(buf, kbps = 96, { signal } = {}) {
   const { sampleRate, samples } = parseWav(buf);
   const enc = new Mp3Encoder(1, sampleRate, kbps);
   const chunks = [];
@@ -67,6 +108,7 @@ export async function wavToMp3(buf, kbps = 96) {
   const push = (c) => { if (c.length) { chunks.push(c); total += c.length; } };
   let frames = 0;
   for (let i = 0; i < samples.length; i += 1152) {
+    signal?.throwIfAborted();
     push(enc.encodeBuffer(samples.subarray(i, i + 1152)));
     if (++frames % 50 === 0) await new Promise((r) => setTimeout(r));
   }

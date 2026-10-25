@@ -1,6 +1,6 @@
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { startServer, launch } from "./harness.mjs";
@@ -209,6 +209,6 @@ test("réseau coupé au premier téléchargement → err.kind === 'network', pui
   } finally {
     await fresh?.browser.close();
     await local?.close();
-    await rm(profile, { recursive: true, force: true });
+    // Profil temporaire conservé : aucune suppression automatique de fichiers.
   }
 });
