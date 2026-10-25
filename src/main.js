@@ -3,48 +3,95 @@ import { createTts } from "./tts.js";
 import { createPlayer } from "./player.js";
 import { hasSpeakableContent, splitIntoChunks, wordTimeline } from "./text.js";
 import { wavDuration, wavToMp3 } from "./audio.js";
+import { buildReadingIndex, generatedDuration, navigationTarget, timeAtTextOffset, textOffsetAtTime } from "./navigation.js";
+import { createVoiceCommands, parseVoiceCommand } from "./voice-commands.js";
 
 const $ = (id) => document.getElementById(id);
 const screen = $("screen"), reader = $("reader"), speak = $("key-speak");
-const tts = createTts(), player = createPlayer();
-let state = initialState(), operation = null, audioDetails = null;
-let preloadJob = null, pdfRevision = 0, pdfBusy = false;
-let timeline = [], spans = [], highlighted = -1, elapsed = 0;
+const player = createPlayer(), tts = createTts();
+let state = initialState(), synthesis = null, exportJob = null, audioDetails = null;
+let documentInfo = { name: "", chapters: [] }, index = buildReadingIndex("");
+let playbackActive = false, paused = false, pendingNavigation = null;
+let preloadJob = null, pdfBusy = false, revision = 0, note = null, noteTimer;
+let timeline = [], spans = [], highlighted = -1, elapsed = 0, scrubbing = false, lastPositionPaint = 0;
+let micResume = false, voiceListening = false, dragDepth = 0;
 
+function dispatch(event) { state = reduce(state, event); paint(); }
+function valid(job) { return synthesis === job && job.key === audioKey(state); }
+function formatTime(value) {
+  const n = Math.max(0, Math.floor(Number(value) || 0));
+  return n >= 3600 ? `${Math.floor(n / 3600)}:${String(Math.floor(n / 60) % 60).padStart(2, "0")}:${String(n % 60).padStart(2, "0")}`
+    : `${Math.floor(n / 60)}:${String(n % 60).padStart(2, "0")}`;
+}
+function message(text, milliseconds = 3500) {
+  clearTimeout(noteTimer);
+  note = text;
+  if (milliseconds) noteTimer = setTimeout(() => { note = null; paint(); }, milliseconds);
+  paint();
+}
+function paintPosition(force = false) {
+  if (!force && performance.now() - lastPositionPaint < 80) return;
+  lastPositionPaint = performance.now();
+  const job = synthesis, durations = job?.durations ?? [];
+  const available = generatedDuration(durations);
+  const spokenChars = job?.chunks.slice(0, durations.length).reduce((n, chunk) => n + chunk.length, 0) ?? 0;
+  const estimated = job?.complete ? available : Math.max(available, spokenChars ? available * index.text.length / spokenChars : index.text.length / 14);
+  const time = player.getTime();
+  $("time-current").textContent = formatTime(time);
+  $("time-total").textContent = `${job?.complete ? "" : "~"}${formatTime(estimated)}`;
+  $("seek").max = String(Math.max(1, estimated));
+  if (!scrubbing) $("seek").value = String(time);
+  $("seek").style.setProperty("--buffered", `${estimated ? Math.min(100, available / estimated * 100) : 0}%`);
+  $("seek").setAttribute("aria-valuetext", `${formatTime(time)} sur ${job?.complete ? "" : "environ "}${formatTime(estimated)}`);
+  if (document.activeElement !== $("chapter")) {
+    const offset = textOffsetAtTime(index, time, durations);
+    let selected = 0;
+    index.chapters.forEach((chapter, i) => { if (chapter.start <= offset) selected = i; });
+    $("chapter").value = String(selected);
+  }
+}
 function paint() {
   const { left, right } = statusLine(state);
-  $("status-left").textContent = pdfBusy ? "LECTURE PDF…" : left;
+  $("status-left").textContent = state.error ? left : pdfBusy ? "LECTURE PDF…" : note ?? (pendingNavigation ? "PRÉPARATION DU PASSAGE…" : paused && playbackActive ? "⏸ PAUSE" : left);
   $("status-right").textContent = right;
-  const playing = state.phase === "playing";
-  reader.hidden = !playing;
-  screen.style.visibility = playing ? "hidden" : "";
-  screen.disabled = playing;
-  const stoppable = operation?.mode === "speak";
-  speak.textContent = stoppable ? "■ STOP" : "▶ PARLE";
-  speak.setAttribute("aria-label", stoppable ? "Arrêter la lecture" : "Parle");
-  speak.setAttribute("aria-pressed", String(Boolean(stoppable)));
-  $("key-mp3").disabled = operation?.mode === "mp3";
+  const reading = playbackActive && !paused && !pendingNavigation && (synthesis?.durations.length ?? 0) > 0;
+  reader.hidden = !reading;
+  screen.style.visibility = reading ? "hidden" : "";
+  screen.disabled = reading;
+  speak.textContent = playbackActive ? paused ? "▶ REPRENDRE" : "⏸ PAUSE" : "▶ PARLE";
+  speak.setAttribute("aria-label", playbackActive ? paused ? "Reprendre la lecture" : "Mettre en pause" : "Parle");
+  speak.setAttribute("aria-pressed", String(playbackActive && !paused));
+  $("key-mp3").disabled = Boolean(exportJob);
+  $("key-mp3").textContent = exportJob ? "… MP3" : "⬇ MP3";
   $("key-pdf").disabled = pdfBusy;
-  $("voice-jessica").setAttribute("aria-checked", String(state.voice === "jessica"));
-  $("voice-tom").setAttribute("aria-checked", String(state.voice === "tom"));
-  for (const name of ["jessica", "tom"]) $("voice-" + name).tabIndex = state.voice === name ? 0 : -1;
+  $("transport").hidden = !hasSpeakableContent(state.text);
+  for (const name of ["jessica", "tom"]) {
+    $("voice-" + name).setAttribute("aria-checked", String(state.voice === name));
+    $("voice-" + name).tabIndex = state.voice === name ? 0 : -1;
+  }
   $("speed").setAttribute("aria-valuetext", `${state.speed.toFixed(1).replace(".", ",")} fois`);
+  paintPosition(true);
 }
-function dispatch(event) { state = reduce(state, event); paint(); }
-
+function rebuildIndex() {
+  index = buildReadingIndex(state.text, splitIntoChunks(state.text), documentInfo.chapters);
+  $("chapter").replaceChildren(...index.chapters.map((chapter, i) => {
+    const option = document.createElement("option");
+    option.value = String(i); option.textContent = chapter.title; return option;
+  }));
+  $("chapter").title = documentInfo.name || "Chapitres du texte";
+}
 function resetReader() {
-  reader.replaceChildren();
+  reader.replaceChildren(); reader.scrollTop = 0;
   timeline = []; spans = []; highlighted = -1; elapsed = 0;
 }
-function appendWords(text, duration) {
+function appendWords(text, duration, i) {
   if (timeline.length) elapsed += 0.15;
+  // Les morceaux suivent les lignes : un titre de chapitre garde sa propre ligne.
+  if (spans.length && index.text[index.chunks[i]?.start - 1] === "\n") reader.append("\n");
   for (const item of wordTimeline([text], [duration])) {
     timeline.push({ ...item, start: item.start + elapsed, end: item.end + elapsed });
-    const span = document.createElement("span");
-    span.className = "w";
-    span.textContent = item.word;
-    reader.append(span, " ");
-    spans.push(span);
+    const span = document.createElement("span"); span.className = "w"; span.textContent = item.word;
+    reader.append(span, " "); spans.push(span);
   }
   elapsed += duration;
 }
@@ -52,208 +99,304 @@ player.onTime((time) => {
   let lo = 0, hi = timeline.length - 1, found = -1;
   while (lo <= hi) {
     const mid = (lo + hi) >> 1;
-    if (timeline[mid].start <= time) { found = mid; lo = mid + 1; }
-    else hi = mid - 1;
+    if (timeline[mid].start <= time) { found = mid; lo = mid + 1; } else hi = mid - 1;
   }
-  if (found === highlighted) return;
-  spans[highlighted]?.classList.remove("now");
-  highlighted = found;
-  const span = spans[found];
-  if (span) {
-    span.classList.add("now");
-    // Défiler uniquement l'écran, jamais la page entière.
-    if (span.offsetTop < reader.scrollTop || span.offsetTop + span.offsetHeight > reader.scrollTop + reader.clientHeight) {
-      reader.scrollTop = Math.max(0, span.offsetTop - reader.clientHeight / 2);
+  if (found !== highlighted) {
+    spans[highlighted]?.classList.remove("now"); highlighted = found;
+    const span = spans[found];
+    if (span) {
+      span.classList.add("now");
+      if (span.offsetTop < reader.scrollTop || span.offsetTop + span.offsetHeight > reader.scrollTop + reader.clientHeight) reader.scrollTop = Math.max(0, span.offsetTop - reader.clientHeight / 2);
     }
   }
+  paintPosition();
 });
-player.onLevel((level) => {
-  [...$("meter").children].forEach((bar, i) => {
-    const active = level > i / 12;
-    bar.classList.toggle("hot", active);
-    bar.style.height = `${20 + (active ? level * (60 + (i % 3) * 10) : 0)}%`;
-  });
-});
+player.onLevel((level) => [...$("meter").children].forEach((bar, i) => {
+  const hot = level > i / 12;
+  bar.classList.toggle("hot", hot);
+  bar.style.height = `${20 + (hot ? level * (60 + (i % 3) * 10) : 0)}%`;
+}));
 player.onEnded(() => {
-  if (operation?.mode !== "speak") return;
-  operation = null;
+  if (!playbackActive || pendingNavigation) return;
+  playbackActive = false; paused = false;
   dispatch({ type: "PLAYBACK_ENDED" });
 });
 
-function stop({ cancelPreload = false } = {}) {
-  const wasRunning = Boolean(operation);
-  operation?.controller.abort();
-  operation = null;
-  if (wasRunning || cancelPreload) {
-    preloadJob = null;
-    tts.cancel();
-  }
-  player.stop();
-  pdfRevision++;
-  pdfBusy = false;
+function cancelWork({ cancelPreload = false } = {}) {
+  const wasGenerating = synthesis && !synthesis.complete;
+  synthesis?.controller.abort(); exportJob?.controller.abort();
+  synthesis = null; exportJob = null; pendingNavigation = null;
+  playbackActive = false; paused = false; pdfBusy = false;
+  micResume = false; voiceCommands.stop(); voiceListening = false;
+  if (wasGenerating || cancelPreload) { preloadJob = null; tts.cancel(); }
+  player.stop(); resetReader(); revision++;
+  clearTimeout(noteTimer); note = null;
   dispatch({ type: "STOP" });
 }
-
 function preload() {
-  if (!hasSpeakableContent(state.text) || preloadJob || operation) return;
-  const job = { voice: state.voice };
-  preloadJob = job;
+  if (!hasSpeakableContent(state.text) || preloadJob || synthesis) return;
+  const job = { voice: state.voice }; preloadJob = job;
   const relevant = () => preloadJob === job && state.voice === job.voice;
   tts.preload(job.voice, { onProgress(pct) {
-    if (relevant() && hasSpeakableContent(state.text) && (!operation || state.phase === "downloading" || state.phase === "synthesizing")) {
-      dispatch({ type: "DOWNLOAD_PROGRESS", pct });
-    }
-  } }).then(() => {
-    if (relevant() && !operation) dispatch({ type: "STOP" });
-  }).catch((err) => {
-    if (relevant()) {
+    if (relevant() && hasSpeakableContent(state.text) && !playbackActive) dispatch({ type: "DOWNLOAD_PROGRESS", pct });
+  } }).then(() => { if (relevant() && !synthesis) dispatch({ type: "STOP" }); })
+    .catch((error) => {
+      if (!relevant()) return;
       preloadJob = null;
-      if (!operation) {
-        if (hasSpeakableContent(state.text) && err.kind !== "cancelled") dispatch({ type: "ERROR", kind: err.kind });
-        else dispatch({ type: "STOP" });
-      }
+      if (!synthesis) dispatch(hasSpeakableContent(state.text) && error.kind !== "cancelled" ? { type: "ERROR", kind: error.kind } : { type: "STOP" });
+    });
+}
+function ensureSynthesis() {
+  const key = audioKey(state);
+  if (synthesis?.key === key) return synthesis;
+  const chunks = splitIntoChunks(state.text);
+  const job = { key, chunks, durations: [], complete: false, controller: new AbortController(), promise: null };
+  synthesis = job;
+  resetReader(); player.stop(); player.pause();
+  if (state.audio?.key === key && state.audio.wav) {
+    const details = audioDetails?.key === key ? audioDetails : { chunks: [state.text], durations: [wavDuration(state.audio.wav)] };
+    job.chunks = details.chunks; job.durations = details.durations.slice(); job.complete = true;
+    index = buildReadingIndex(state.text, job.chunks, documentInfo.chapters);
+    job.chunks.forEach((chunk, i) => appendWords(chunk, job.durations[i], i));
+    player.load([state.audio.wav]);
+    job.promise = Promise.resolve({ wav: state.audio.wav, chunks: job.chunks, durations: job.durations });
+    return job;
+  }
+  dispatch({ type: "SYNTH_STARTED" });
+  const input = { text: state.text, voice: state.voice, speed: state.speed };
+  job.promise = tts.synthesize(input, {
+    onProgress(pct) { if (valid(job) && !player.isPlaying()) dispatch({ type: "DOWNLOAD_PROGRESS", pct }); },
+    onChunk(wav, i) {
+      if (!valid(job)) return;
+      job.durations[i] = wavDuration(wav);
+      appendWords(chunks[i], job.durations[i], i); player.enqueue(wav);
+      applyPending();
+      if (playbackActive && !paused && !pendingNavigation) dispatch({ type: "PLAYBACK_STARTED" });
+      else if (paused) dispatch({ type: "PLAYBACK_PAUSED" });
+      paintPosition(true);
+    },
+  }).then((result) => {
+    if (!valid(job)) return result;
+    job.complete = true;
+    audioDetails = { key, chunks: result.chunks, durations: result.durations };
+    dispatch({ type: "AUDIO_READY", key, wav: result.wav });
+    applyPending(); player.finish();
+    if (!playbackActive) dispatch({ type: "STOP" });
+    paintPosition(true);
+    return result;
+  }).catch((error) => {
+    if (valid(job)) {
+      synthesis = null; pendingNavigation = null; playbackActive = false; paused = false;
+      player.stop();
+      if (error.kind !== "cancelled" && error.name !== "AbortError") dispatch({ type: "ERROR", kind: error.kind });
+      else dispatch({ type: "STOP" });
     }
+    throw error;
   });
+  // Toutes les actions attachent leur propre résultat ; cette garde couvre une
+  // synthèse continuant en arrière-plan après pause ou navigation.
+  job.promise.catch(() => {});
+  return job;
 }
-
-function download(mp3, voice) {
-  const url = URL.createObjectURL(new Blob([mp3], { type: "audio/mpeg" }));
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `speechsynthe-si-${voice}.mp3`;
-  document.body.append(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+function pausePlayback() {
+  if (!playbackActive) return;
+  paused = true; player.pause();
+  if (pendingNavigation) pendingNavigation.resume = false;
+  dispatch({ type: "PLAYBACK_PAUSED" });
 }
-
-async function run(mode) {
-  if (mode === "speak" && operation?.mode === "speak") { stop(); return; }
-  if (operation || pdfBusy) stop();
+async function togglePlayback() {
+  if (playbackActive && !paused) { pausePlayback(); return; }
   dispatch({ type: "SPEAK_PRESSED" });
   if (!hasSpeakableContent(state.text)) return;
-  const task = { mode, key: audioKey(state), controller: new AbortController() };
-  operation = task;
-  const current = () => operation === task && audioKey(state) === task.key;
-  const input = { text: state.text, voice: state.voice, speed: state.speed };
-  dispatch({ type: "SYNTH_STARTED" });
-  try {
-    if (mode === "speak") {
-      player.stop();
-      // Crée/reprend l'AudioContext pendant le geste utilisateur.
-      const ready = player.unlock();
-      resetReader();
-      await ready;
-      if (!current()) return;
-    }
-    let wav = state.audio?.wav;
-    if (wav && mode === "speak") {
-      if (audioDetails?.key === task.key) {
-        audioDetails.chunks.forEach((chunk, i) => appendWords(chunk, audioDetails.durations[i]));
-      } else appendWords(input.text, wavDuration(wav));
-      player.enqueue(wav);
-      dispatch({ type: "PLAYBACK_STARTED" });
-    } else if (!wav) {
-      const chunks = splitIntoChunks(input.text);
-      const result = await tts.synthesize(input, {
-        onProgress(pct) { if (current() && state.phase !== "playing") dispatch({ type: "DOWNLOAD_PROGRESS", pct }); },
-        onChunk(chunk, i) {
-          if (!current()) return;
-          if (mode === "speak") {
-            appendWords(chunks[i], wavDuration(chunk));
-            player.enqueue(chunk);
-            dispatch({ type: "PLAYBACK_STARTED" });
-          } else dispatch({ type: "SYNTH_STARTED" });
-        },
-      });
-      if (!current()) return;
-      wav = result.wav;
-      audioDetails = { key: task.key, chunks: result.chunks, durations: result.durations };
-      dispatch({ type: "AUDIO_READY", key: task.key, wav });
-    }
-    if (!current()) return;
-    if (mode === "speak") player.finish();
-    else {
-      dispatch({ type: "SYNTH_STARTED" });
-      const mp3 = state.audio?.mp3 ?? await wavToMp3(wav, 96, { signal: task.controller.signal });
-      if (!current()) return;
-      dispatch({ type: "MP3_READY", key: task.key, mp3 });
-      operation = null;
-      dispatch({ type: "STOP" });
-      download(mp3, input.voice);
-    }
-  } catch (err) {
-    if (!current()) return;
-    operation = null;
-    player.stop();
-    if (err.kind !== "cancelled" && err.name !== "AbortError") dispatch({ type: "ERROR", kind: err.kind });
-    else dispatch({ type: "STOP" });
+  const ready = player.unlock();
+  if (pdfBusy) return;
+  const job = ensureSynthesis();
+  playbackActive = true; paused = false; note = null;
+  if (pendingNavigation) pendingNavigation.resume = true;
+  await ready;
+  if (!valid(job)) return;
+  if (pendingNavigation) applyPending();
+  else {
+    if (job.complete && player.getTime() >= player.getDuration() - 0.01) player.seek(0);
+    player.resume();
   }
+  dispatch({ type: job.durations.length ? "PLAYBACK_STARTED" : "SYNTH_STARTED" });
+}
+function applyPending() {
+  const target = pendingNavigation, job = synthesis;
+  if (!target || !job) return;
+  let result;
+  if (target.offset !== null) result = timeAtTextOffset(index, target.offset, job.durations);
+  else result = navigationTarget(index, { unit: "seconds", amount: target.time }, 0, job.durations, job.complete);
+  if (result.pending) { paint(); return; }
+  pendingNavigation = null;
+  player.seek(result.time);
+  paused = !target.resume; playbackActive = true;
+  if (target.resume) player.resume();
+  // Un saut jusqu'à la fin de l'audio complet déclenche onEnded pendant resume().
+  if (playbackActive) dispatch({ type: target.resume ? "PLAYBACK_STARTED" : "PLAYBACK_PAUSED" });
+}
+async function navigate(command, { resume } = {}) {
+  if (!hasSpeakableContent(state.text)) { dispatch({ type: "SPEAK_PRESSED" }); return; }
+  const ready = player.unlock();
+  const shouldResume = resume ?? (playbackActive ? !paused : true);
+  const job = ensureSynthesis();
+  const result = navigationTarget(index, command, player.getTime(), job.durations, job.complete);
+  playbackActive = true; player.pause(); paused = !shouldResume;
+  pendingNavigation = { time: result.time, offset: result.offset, resume: shouldResume };
+  note = null;
+  await ready;
+  if (valid(job)) applyPending();
+}
+function commandAction(command, resume) {
+  if (command.type === "pause") { pausePlayback(); return; }
+  if (command.type === "resume") { if (!playbackActive || paused) void togglePlayback(); return; }
+  const spec = command.type === "relative-time" ? { unit: "seconds", amount: command.seconds }
+    : command.type === "relative-sentence" ? { unit: "sentences", amount: command.count }
+    : command.type === "relative-chapter" ? { unit: "chapters", amount: command.count }
+    : { unit: "chapters", amount: 0, restart: true };
+  void navigate(spec, { resume });
+}
+function download(mp3, voice) {
+  const url = URL.createObjectURL(new Blob([mp3], { type: "audio/mpeg" }));
+  const link = document.createElement("a"); link.href = url; link.download = `speechsynthe-si-${voice}.mp3`;
+  document.body.append(link); link.click(); link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+}
+async function exportMp3() {
+  dispatch({ type: "SPEAK_PRESSED" });
+  if (!hasSpeakableContent(state.text) || exportJob || pdfBusy) return;
+  const ready = player.unlock();
+  const job = ensureSynthesis();
+  const task = { key: audioKey(state), voice: state.voice, controller: new AbortController() };
+  exportJob = task; paint();
+  try {
+    await ready;
+    const result = await job.promise;
+    if (exportJob !== task || task.key !== audioKey(state)) return;
+    const mp3 = state.audio?.mp3 ?? await wavToMp3(result.wav, 96, { signal: task.controller.signal });
+    if (exportJob !== task || task.key !== audioKey(state)) return;
+    dispatch({ type: "MP3_READY", key: task.key, mp3 });
+    download(mp3, task.voice);
+  } catch (error) {
+    if (exportJob === task && error.kind !== "cancelled" && error.name !== "AbortError") dispatch({ type: "ERROR", kind: error.kind });
+  } finally { if (exportJob === task) { exportJob = null; paint(); } }
 }
 
+async function importPdf(file) {
+  if (!file) return;
+  if (!/\.pdf$/i.test(file.name) && file.type !== "application/pdf") { message("CHOISIS UN FICHIER PDF"); return; }
+  cancelWork({ cancelPreload: true });
+  const version = revision; pdfBusy = true; paint();
+  try {
+    const { extractPdfDocument } = await import("./pdf.js");
+    const document = await extractPdfDocument(file);
+    if (version !== revision) return;
+    pdfBusy = false;
+    if (!hasSpeakableContent(document.text)) { dispatch({ type: "PDF_EMPTY" }); return; }
+    documentInfo = { name: file.name, chapters: document.chapters };
+    screen.value = document.text; screen.setSelectionRange(0, 0); screen.scrollTop = 0;
+    dispatch({ type: "TEXT_CHANGED", text: document.text }); rebuildIndex();
+    screen.focus({ preventScroll: true }); preload();
+  } catch (error) {
+    if (version !== revision) return;
+    pdfBusy = false;
+    dispatch({ type: "PDF_ERROR", password: error.name === "PasswordException" });
+  }
+}
 screen.addEventListener("input", () => {
-  if (operation || pdfBusy) stop();
-  dispatch({ type: "TEXT_CHANGED", text: screen.value });
+  if (synthesis || exportJob || pdfBusy || playbackActive) cancelWork();
+  documentInfo = { name: "", chapters: [] };
+  dispatch({ type: "TEXT_CHANGED", text: screen.value }); rebuildIndex();
   if (!hasSpeakableContent(state.text)) dispatch({ type: "STOP" });
   preload();
 });
-speak.addEventListener("click", () => run("speak"));
-$("key-mp3").addEventListener("click", () => run("mp3"));
+speak.addEventListener("click", () => { void togglePlayback(); });
+$("key-mp3").addEventListener("click", () => { void exportMp3(); });
 $("key-clear").addEventListener("click", () => {
-  stop({ cancelPreload: true });
-  screen.value = "";
-  audioDetails = null;
-  resetReader();
-  dispatch({ type: "CLEAR" });
-  screen.focus();
+  cancelWork({ cancelPreload: true }); screen.value = ""; documentInfo = { name: "", chapters: [] }; audioDetails = null;
+  dispatch({ type: "CLEAR" }); rebuildIndex();
+  $("commands-panel").hidden = true; $("commands-toggle").setAttribute("aria-expanded", "false"); screen.focus();
 });
 function chooseVoice(voice, focus = false) {
-  if (voice !== state.voice) {
-    stop({ cancelPreload: true });
-    dispatch({ type: "VOICE_CHANGED", voice });
-  }
+  if (voice !== state.voice) { cancelWork({ cancelPreload: true }); dispatch({ type: "VOICE_CHANGED", voice }); preload(); }
   if (focus) $("voice-" + voice).focus();
 }
-for (const voice of ["jessica", "tom"]) $("voice-" + voice).addEventListener("click", () => chooseVoice(voice));
+for (const name of ["jessica", "tom"]) $("voice-" + name).addEventListener("click", () => chooseVoice(name));
 $("voice").addEventListener("keydown", (event) => {
   if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
   event.preventDefault();
   chooseVoice(event.key === "Home" ? "jessica" : event.key === "End" ? "tom" : state.voice === "jessica" ? "tom" : "jessica", true);
 });
 $("voice").querySelector(".knob").addEventListener("click", () => chooseVoice(state.voice === "jessica" ? "tom" : "jessica"));
-$("speed").addEventListener("input", () => {
-  if (operation || pdfBusy) stop();
-  dispatch({ type: "SPEED_CHANGED", speed: Number($("speed").value) });
+$("speed").addEventListener("input", () => { cancelWork(); dispatch({ type: "SPEED_CHANGED", speed: Number($("speed").value) }); });
+$("key-pdf").addEventListener("click", () => $("pdf-input").click());
+$("pdf-input").addEventListener("change", () => { const file = $("pdf-input").files[0]; $("pdf-input").value = ""; void importPdf(file); });
+
+const isFileDrag = (event) => [...(event.dataTransfer?.types ?? [])].includes("Files");
+function showDrop(show) { $("drop-overlay").hidden = !show; document.querySelector(".machine").classList.toggle("drag-over", show); }
+window.addEventListener("dragenter", (event) => { if (isFileDrag(event)) { event.preventDefault(); dragDepth++; showDrop(true); } });
+window.addEventListener("dragover", (event) => { if (isFileDrag(event)) { event.preventDefault(); event.dataTransfer.dropEffect = "copy"; } });
+window.addEventListener("dragleave", (event) => { if (isFileDrag(event) && --dragDepth <= 0) { dragDepth = 0; showDrop(false); } });
+window.addEventListener("drop", (event) => {
+  if (!isFileDrag(event)) return;
+  event.preventDefault(); dragDepth = 0; showDrop(false);
+  const files = [...event.dataTransfer.files];
+  if (files.length !== 1) { message("UN PDF À LA FOIS"); return; }
+  void importPdf(files[0]);
+});
+$("rewind").addEventListener("click", () => { void navigate({ unit: "seconds", amount: -30 }); });
+$("forward").addEventListener("click", () => { void navigate({ unit: "seconds", amount: 30 }); });
+$("chapter-restart").addEventListener("click", () => { void navigate({ unit: "chapters", restart: true }); });
+$("chapter").addEventListener("change", () => { void navigate({ unit: "chapters", index: Number($("chapter").value) }); });
+$("seek").addEventListener("input", () => { scrubbing = true; $("time-current").textContent = formatTime($("seek").value); });
+$("seek").addEventListener("change", () => { const target = Number($("seek").value); scrubbing = false; void navigate({ unit: "seconds", amount: target - player.getTime() }); });
+$("commands-toggle").addEventListener("click", () => {
+  const open = $("commands-panel").hidden;
+  $("commands-panel").hidden = !open; $("commands-toggle").setAttribute("aria-expanded", String(open));
+});
+for (const [id, direction] of [["jump-back", -1], ["jump-forward", 1]]) $(id).addEventListener("click", () => {
+  const count = Number($("jump-count").value);
+  if (!Number.isInteger(count) || count < 1 || count > 10000) { $("command-feedback").textContent = "Choisis un nombre entre 1 et 10 000."; return; }
+  void navigate({ unit: $("jump-unit").value, amount: count * direction });
+});
+$("command-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const command = parseVoiceCommand($("command").value);
+  $("command-feedback").textContent = command ? `Commande : ${$("command").value}` : "Essaie « reviens 3 phrases en arrière » ou « avance de 5 minutes ».";
+  if (command) commandAction(command);
 });
 
-$("key-pdf").addEventListener("click", () => $("pdf-input").click());
-$("pdf-input").addEventListener("change", async () => {
-  const file = $("pdf-input").files[0];
-  $("pdf-input").value = ""; // Permet de sélectionner à nouveau le même fichier.
-  if (!file) return;
-  stop({ cancelPreload: true });
-  const revision = pdfRevision;
-  pdfBusy = true;
-  paint();
-  try {
-    const { extractPdfText } = await import("./pdf.js");
-    const text = await extractPdfText(file);
-    if (revision !== pdfRevision) return;
-    pdfBusy = false;
-    if (!hasSpeakableContent(text)) dispatch({ type: "PDF_EMPTY" });
-    else {
-      screen.value = text;
-      screen.setSelectionRange(0, 0);
-      screen.scrollTop = 0;
-      dispatch({ type: "TEXT_CHANGED", text });
-      screen.focus({ preventScroll: true });
-      preload();
-    }
-  } catch (err) {
-    if (revision !== pdfRevision) return;
-    pdfBusy = false;
-    dispatch({ type: "PDF_ERROR", password: err.name === "PasswordException" });
-  }
+function restoreVoiceAudio() {
+  if (!micResume) return;
+  micResume = false;
+  if (playbackActive && paused) void togglePlayback();
+}
+const voiceCommands = createVoiceCommands({
+  onState(next) {
+    voiceListening = ["starting", "listening"].includes(next);
+    $("voice-command").setAttribute("aria-pressed", String(voiceListening));
+    $("voice-command").textContent = next === "downloading" ? "… FR" : voiceListening ? "ARRÊTER" : "MICRO";
+    if (next === "listening") $("command-feedback").textContent = "Je t'écoute. Une commande, puis la lecture reprend.";
+    else if (next === "downloading") $("command-feedback").textContent = "Installation du français sur cet appareil. Le microphone reste fermé.";
+    else if (next === "ready") $("command-feedback").textContent = "Le français est prêt. Appuie sur MICRO pour dicter une commande.";
+    else if (next === "idle") restoreVoiceAudio();
+  },
+  onCommand(command, transcript) {
+    const resume = micResume;
+    micResume = false;
+    $("command-feedback").textContent = `Commande : ${transcript}`;
+    commandAction(command, resume);
+  },
+  onError(error) { $("command-feedback").textContent = error.message; },
 });
-window.addEventListener("pagehide", () => stop({ cancelPreload: true }));
-paint();
+$("voice-command").title = voiceCommands.supported() ? "Dicter une commande sur cet appareil" : "Reconnaissance locale indisponible ici ; utilise les boutons ou une commande écrite";
+$("voice-command").addEventListener("click", async () => {
+  if (voiceListening) { voiceCommands.stop(); restoreVoiceAudio(); return; }
+  micResume = playbackActive && !paused;
+  if (micResume) pausePlayback();
+  const started = await voiceCommands.start();
+  if (!started) restoreVoiceAudio();
+});
+window.addEventListener("pagehide", () => { cancelWork({ cancelPreload: true }); });
+rebuildIndex(); paint();

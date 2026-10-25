@@ -37,13 +37,18 @@ test("taper, PARLE : lecture, mots et vumètre, fin puis relecture du cache", { 
   await waitStatus("PRÊT", 15_000);
 });
 
-test("PARLE pendant la lecture arrête immédiatement ; EFFACE vide l'écran", { timeout: 120_000 }, async () => {
+test("PARLE pendant la lecture met en pause, puis reprend ; EFFACE vide l'écran", { timeout: 120_000 }, async () => {
   await open();
   await page.click("#key-speak");
   await waitStatus("▶ LECTURE");
   await page.click("#key-speak");
-  await waitStatus("PRÊT", 1000);
+  await waitStatus("⏸ PAUSE", 1000);
   assert.equal(await page.$eval("#reader", (el) => el.hidden), true);
+  assert.equal(await page.$eval("#key-speak", (el) => el.textContent), "▶ REPRENDRE");
+  await page.click("#key-speak");
+  await waitStatus("▶ LECTURE", 2000);
+  await page.click("#key-speak");
+  await waitStatus("⏸ PAUSE", 1000);
   await page.click("#key-clear");
   assert.equal(await page.$eval("#screen", (el) => el.value), "");
   assert.equal(await status(), "PRÊT");

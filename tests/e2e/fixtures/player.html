@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<script type="importmap">{"imports":{"@breezystack/lamejs":"https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm"}}</script>
+<button id="start">Lire</button>
+<script type="module">
+  import { createPlayer } from "/src/player.js";
+  import { encodeWav } from "/src/audio.js";
+  const pcm = Int16Array.from({ length: 22050 }, (_, i) => Math.round(Math.sin(2 * Math.PI * 440 * i / 22050) * 8000));
+  window.wav = encodeWav(pcm, 22050);
+  window.player = createPlayer();
+  window.level = 0;
+  window.player.onLevel((level) => { window.level = Math.max(window.level, level); });
+  document.getElementById("start").onclick = async () => {
+    await window.player.unlock();
+    window.player.load([window.wav, window.wav, window.wav]);
+    window.player.play();
+  };
+  window.playerReady = true;
+</script>
+</html>

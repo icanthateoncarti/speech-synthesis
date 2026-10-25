@@ -47,7 +47,7 @@ test("tout au clavier : ordre, flèches voix, vitesse et lecture par Entrée", {
   await page.keyboard.press("Enter");
   await page.waitForFunction(() => document.querySelector("#status-left").textContent === "▶ LECTURE", { timeout: 120_000 });
   await page.keyboard.press("Enter");
-  assert.equal(await page.$eval("#status-left", (el) => el.textContent), "PRÊT");
+  assert.equal(await page.$eval("#status-left", (el) => el.textContent), "⏸ PAUSE");
 });
 
 test("prefers-reduced-motion : grain et curseur fixes", async () => {
