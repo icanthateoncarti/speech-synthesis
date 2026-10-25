@@ -68,7 +68,7 @@ test("meta, canonical, og:image accessible", async () => {
     };
   });
   assert.ok(m.desc && m.desc.length >= 120 && m.desc.length <= 175, `description ${m.desc?.length}`);
-  for (const w of ["synthèse vocale gratuite", "français", "MP3"]) assert.ok(m.desc.toLowerCase().includes(w.toLowerCase()), w);
+  for (const w of ["texte en audio", "synthèse vocale gratuite", "français", "MP3"]) assert.ok(m.desc.toLowerCase().includes(w.toLowerCase()), w);
   assert.equal(m.canonical, "https://speechsynthe.si/");
   assert.ok(m.ogTitle && m.ogDesc && m.ogUrl);
   assert.equal(m.ogImage, "https://speechsynthe.si/assets/og.png");
@@ -80,7 +80,7 @@ test("meta, canonical, og:image accessible", async () => {
   assert.match(robots, /Allow: \//);
   assert.match(robots, /Sitemap: https:\/\/speechsynthe\.si\/sitemap\.xml/);
   const sm = await (await fetch(`${server.url}/sitemap.xml`)).text();
-  assert.equal((sm.match(/<loc>/g) || []).length, 1);
+  assert.equal((sm.match(/<loc>/g) || []).length, 5, "accueil + 4 pages par usage");
   assert.match(sm, /<loc>https:\/\/speechsynthe\.si\/<\/loc>/);
 });
 

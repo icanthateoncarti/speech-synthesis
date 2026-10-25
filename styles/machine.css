@@ -323,9 +323,26 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
 .faq .answer { margin: 0; padding: 0 36px 20px 0; font: 400 16px/1.65 Archivo, system-ui, sans-serif; color: #33322e; }
 .credits { width: min(720px, calc(100% - 64px)); margin: 0 auto; padding: 28px 0 48px; font: 500 12px/1.7 var(--mono); color: #6b6a64; }
 .credits p { margin: 0 0 6px; }
+.usages { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0 0 18px; padding-bottom: 18px; border-bottom: 1px solid #c9c6bd; }
+.usages a { min-height: 32px; display: inline-flex; align-items: center; }
+.usages a[aria-current="page"] { color: var(--orange); text-decoration: none; }
+/* Pages par usage : exemples de textes à charger dans la machine. */
+.examples { width: min(720px, calc(100% - 64px)); margin: 0 auto; padding: 72px 0 0; }
+.examples h2 { margin: 0 0 22px; font: 600 12px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: #6b6a64; }
+.example { border-top: 2px solid #1b1b1b; padding: 16px 0 20px; }
+.example:last-child { border-bottom: 2px solid #1b1b1b; }
+.example h3 { margin: 0 0 8px; font: 800 18px/1.35 Archivo, system-ui, sans-serif; color: #1b1b1b; }
+.example blockquote { margin: 0 0 14px; font: 400 16px/1.65 Archivo, system-ui, sans-serif; color: #33322e; }
+.example button {
+  appearance: none; min-height: 44px; padding: 10px 16px; border: 0; border-radius: 10px; cursor: pointer;
+  background: linear-gradient(180deg, #ffdc52, #f0bc10); color: #3a2a00; font: 700 13px var(--mono); letter-spacing: .04em;
+  box-shadow: 0 3px 0 #a87d00, inset 0 1px 0 rgba(255,255,255,.65);
+}
+.example button:active { transform: translateY(2px); box-shadow: 0 1px 0 #a87d00; }
+.example button:focus-visible { outline: 3px solid #1d4fd8; outline-offset: 2px; }
 .credits a { color: #1b1b1b; text-underline-offset: 3px; }
 @media (max-width: 600px) {
-  .faq, .credits { width: calc(100% - 32px); }
-  .faq { padding-top: 48px; }
+  .faq, .credits, .examples { width: calc(100% - 32px); }
+  .faq, .examples { padding-top: 48px; }
   .faq summary { font-size: 16px; min-height: 44px; }
 }

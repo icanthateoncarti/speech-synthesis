@@ -410,5 +410,14 @@ $("voice-command").addEventListener("click", async () => {
   const started = await voiceCommands.start();
   if (!started) restoreVoiceAudio();
 });
+// Pages par usage : un exemple de texte se charge dans la machine.
+document.addEventListener("click", (event) => {
+  const sample = event.target.closest("[data-sample]");
+  if (!sample) return;
+  screen.value = sample.dataset.sample; screen.dispatchEvent(new Event("input"));
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelector(".machine").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+  screen.focus({ preventScroll: true }); screen.setSelectionRange(0, 0);
+});
 window.addEventListener("pagehide", () => { cancelWork({ cancelPreload: true }); });
 rebuildIndex(); paint();

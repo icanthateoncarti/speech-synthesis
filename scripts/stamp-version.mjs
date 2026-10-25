@@ -36,12 +36,12 @@ export function stamp(html, version, modules) {
   const mapStart = html.indexOf('<script type="importmap">');
   const jsonStart = html.indexOf("{", mapStart), jsonEnd = html.indexOf("</script>", mapStart);
   const map = JSON.parse(html.slice(jsonStart, jsonEnd));
-  const imports = Object.fromEntries(Object.entries(map.imports).filter(([key]) => !key.startsWith("./src/")));
-  for (const name of modules) imports[`./src/${name}`] = `./src/${name}?v=${version}`;
+  const imports = Object.fromEntries(Object.entries(map.imports).filter(([key]) => !key.startsWith("/src/")));
+  for (const name of modules) imports[`/src/${name}`] = `/src/${name}?v=${version}`;
   const json = JSON.stringify({ imports }, null, 2).replace(/\n/g, "\n  ");
   return (html.slice(0, jsonStart) + json + "\n  " + html.slice(jsonEnd))
-    .replace(/(<script type="module" src="\.\/src\/main\.js)(?:\?v=[0-9a-f]+)?(">)/, `$1?v=${version}$2`)
-    .replace(/(<link rel="stylesheet" href="styles\/machine\.css)(?:\?v=[0-9a-f]+)?(">)/, `$1?v=${version}$2`);
+    .replace(/(<script type="module" src="\/src\/main\.js)(?:\?v=[0-9a-f]+)?(">)/, `$1?v=${version}$2`)
+    .replace(/(<link rel="stylesheet" href="\/styles\/machine\.css)(?:\?v=[0-9a-f]+)?(">)/, `$1?v=${version}$2`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

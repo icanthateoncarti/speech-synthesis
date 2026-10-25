@@ -3,14 +3,14 @@ import assert from "node:assert/strict";
 import { startServer, launch } from "./harness.mjs";
 import { initialState, statusLine } from "../../src/machine.js";
 
-const TITLE = "Synthèse vocale gratuite en français — texte et PDF en MP3";
+const TITLE = "Texte en audio gratuit — synthèse vocale, PDF et MP3";
 const VIEWPORT = { width: 1340, height: 900 };
 
 // Textes autorisés au premier écran (Global Constraints) : logotype, sérigraphie,
 // libellés des commandes et ligne d'état initiale.
 const { left, right } = statusLine(initialState());
 const ALLOWED = new Set([
-  "speechsynthe.si", "speech", "synthe.si", "Synthèse vocale",
+  "speechsynthe.si", "speech", "synthe.si", "Texte en audio",
   "▶ PARLE", "⬇ MP3", "↑ PDF/PPTX", "EFFACE", "JESSICA", "TOM", "VITESSE",
   "1 · TEXTE", "2 · RÉGLAGES", "3 · ÉCOUTE", "4 · EXPORT",
   left, right,
@@ -42,7 +42,7 @@ test("premier écran : seulement la machine", async () => {
     visible: e.getBoundingClientRect().width > 0 && getComputedStyle(e).visibility !== "hidden",
   })));
   assert.equal(h1.length, 1, "un seul <h1>");
-  assert.equal(h1[0].text, "Synthèse vocale");
+  assert.equal(h1[0].text, "Texte en audio");
   assert.ok(h1[0].visible, "le <h1> est visible");
 
   const { texts, pseudo } = await page.evaluate(({ w, h }) => {
@@ -114,7 +114,7 @@ test("sélecteurs figés de la machine", async () => {
   assert.deepEqual(r.radios, [["radio", "true", true], ["radio", "false", true]]);
   assert.deepEqual(r.speed, ["range", "0.7", "1.5", "0.1", "1"]);
   assert.deepEqual(r.reader, { tag: "DIV", shown: false });
-  assert.deepEqual(Object.fromEntries(Object.entries(r.importmap).filter(([key]) => !key.startsWith("./src/"))), {
+  assert.deepEqual(Object.fromEntries(Object.entries(r.importmap).filter(([key]) => !key.startsWith("/src/"))), {
     "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
     "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
     "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",

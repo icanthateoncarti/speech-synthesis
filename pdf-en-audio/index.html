@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF en audio gratuit : écouter ou convertir un PDF en MP3</title>
+  <meta name="description" content="Transforme un PDF ou un PowerPoint en audio : la machine le lit à voix haute, chapitre par chapitre, et le convertit en MP3. Gratuit, sans compte, ton fichier reste sur ton ordinateur.">
+  <link rel="canonical" href="https://speechsynthe.si/pdf-en-audio/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="speechsynthe.si">
+  <meta property="og:title" content="PDF en audio gratuit : écouter ou convertir un PDF en MP3">
+  <meta property="og:description" content="Transforme un PDF ou un PowerPoint en audio : la machine le lit à voix haute, chapitre par chapitre, et le convertit en MP3. Gratuit, sans compte, ton fichier reste sur ton ordinateur.">
+  <meta property="og:url" content="https://speechsynthe.si/pdf-en-audio/">
+  <meta property="og:image" content="https://speechsynthe.si/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "speechsynthe.si",
+  "alternateName": "Speech Synthesis",
+  "url": "https://speechsynthe.si/",
+  "inLanguage": "fr"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Comment transformer un PDF en audio ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Appuie sur la touche PDF/PPTX ou glisse ton fichier sur la machine : son texte s'affiche sur l'écran. Appuie sur PARLE pour l'écouter, ou sur MP3 pour télécharger l'audio. Tout se passe dans ton navigateur."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment convertir un PDF en MP3 gratuitement ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Importe ton PDF, choisis une voix et une vitesse, puis appuie sur la touche MP3. Le fichier audio est créé sur ton ordinateur et se télécharge tout seul. Il n'y a ni compte ni limite de pages."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment lire un PDF à voix haute et s'y retrouver ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pendant la lecture, le mot prononcé est surligné sur l'écran. Tu peux reculer ou avancer de 30 secondes, choisir un chapitre, ou écrire « reviens 3 phrases en arrière » dans les COMMANDES. Les titres sont lus avec une pause d'une seconde avant et après."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mon PDF est-il envoyé sur un serveur ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non. Le texte est extrait et lu dans ton navigateur : ton fichier ne quitte jamais ton ordinateur. C'est utile pour un cours, un contrat ou un document personnel."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Est-ce que ça marche avec un PowerPoint ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, avec les présentations .pptx : chaque diapo devient un chapitre et son titre est lu avec une courte pause. Un ancien fichier .ppt doit d'abord être enregistré en .pptx depuis PowerPoint."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mon PDF est en anglais, est-ce qu'il sera bien lu ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. La machine reconnaît un texte anglais et le lit avec une voix anglaise, sans réglage à faire. Le bouton rotatif choisit toujours entre une voix de femme et une voix d'homme."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Pourquoi mon PDF scanné ne se lit pas ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Un PDF scanné est une image : il ne contient pas de texte que la machine peut lire. Si tu arrives à sélectionner le texte du PDF dans ton lecteur habituel, il fonctionnera ici."
+      }
+    }
+  ]
+}
+  </script>
+  <meta name="theme-color" content="#e7e5df">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles/machine.css?v=b86435732c">
+  <script type="importmap">
+  {
+    "imports": {
+      "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
+      "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
+      "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
+      "/src/audio.js": "/src/audio.js?v=b86435732c",
+      "/src/machine.js": "/src/machine.js?v=b86435732c",
+      "/src/main.js": "/src/main.js?v=b86435732c",
+      "/src/navigation.js": "/src/navigation.js?v=b86435732c",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=b86435732c",
+      "/src/pdf.js": "/src/pdf.js?v=b86435732c",
+      "/src/player.js": "/src/player.js?v=b86435732c",
+      "/src/pptx.js": "/src/pptx.js?v=b86435732c",
+      "/src/shader.js": "/src/shader.js?v=b86435732c",
+      "/src/spoken.js": "/src/spoken.js?v=b86435732c",
+      "/src/text.js": "/src/text.js?v=b86435732c",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=b86435732c",
+      "/src/tts.js": "/src/tts.js?v=b86435732c",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=b86435732c"
+    }
+  }
+  </script>
+</head>
+<body>
+  <main class="room">
+    <header class="top"><a href="/" class="site">speechsynthe.si</a></header>
+
+    <section class="machine" aria-labelledby="model">
+      <div class="plastic" id="plastic" aria-hidden="true"></div>
+      <div class="body">
+        <div class="silk">
+          <div class="brand">
+            <span class="name">speech<span>synthe.si</span></span>
+            <h1 class="model" id="model">PDF en audio</h1>
+          </div>
+          <div class="grille" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+
+        <div class="screen">
+          <div class="display">
+            <textarea id="screen" aria-label="Texte à lire" placeholder=" " spellcheck="false" autocomplete="off"></textarea>
+            <span class="cursor" aria-hidden="true"></span>
+            <div id="reader" class="reader" aria-live="off" hidden></div>
+            <div id="drop-overlay" class="drop-overlay" hidden>Dépose ton PDF ou ton PPTX</div>
+          </div>
+          <div class="status" role="status">
+            <span id="status-left">PRÊT</span>
+            <span id="status-right">VOIX : JESSICA · VITESSE 1.0×</span>
+          </div>
+          <div class="transport" id="transport" hidden>
+            <div class="position-row"><span id="time-current">0:00</span><input id="seek" type="range" min="0" max="1" step="0.1" value="0" aria-label="Position de lecture"><span id="time-total">—</span></div>
+            <div class="transport-actions">
+              <button type="button" id="rewind" aria-label="Reculer de 30 secondes">↶ 30 s</button>
+              <button type="button" id="forward" aria-label="Avancer de 30 secondes">30 s ↷</button>
+              <select id="chapter" aria-label="Chapitre"></select>
+              <button type="button" id="chapter-restart" aria-label="Recommencer le chapitre">↤</button>
+              <button type="button" id="commands-toggle" aria-expanded="false" aria-controls="commands-panel">COMMANDES</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="commands-panel" class="commands-panel" hidden>
+          <div class="jump-controls" role="group" aria-label="Saut de lecture">
+            <input type="number" id="jump-count" min="1" max="10000" value="3" aria-label="Nombre à parcourir">
+            <select id="jump-unit" aria-label="Unité de navigation"><option value="sentences">phrases</option><option value="seconds">secondes</option><option value="chapters">chapitres</option></select>
+            <button type="button" id="jump-back" aria-label="Reculer du nombre choisi">←</button><button type="button" id="jump-forward" aria-label="Avancer du nombre choisi">→</button>
+          </div>
+          <form id="command-form" class="command-form">
+            <input id="command" type="text" aria-label="Commande de lecture" placeholder="Reviens 3 phrases en arrière" autocomplete="off">
+            <button type="submit" aria-label="Exécuter la commande">↵</button>
+            <button type="button" id="voice-command" aria-label="Dicter une commande" aria-pressed="false">MICRO</button>
+          </form>
+          <p id="command-feedback" role="status">Par exemple : « avance de 5 minutes » ou « recommence le chapitre ».</p>
+        </div>
+
+        <div class="deck">
+          <div class="control-group source-controls" role="group" aria-label="Texte">
+            <div class="source-keys">
+              <button type="button" class="key y" id="key-pdf" aria-label="Importer un PDF ou une présentation PowerPoint">↑&nbsp;PDF/PPTX</button>
+              <button type="button" class="key recessed" id="key-clear" aria-label="Effacer l'écran">EFFACE</button>
+              <input type="file" id="pdf-input" accept="application/pdf,.pdf,.pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation" hidden>
+            </div>
+          </div>
+          <div class="control-group settings-controls" role="group" aria-label="Voix et vitesse">
+            <div class="settings-row">
+              <div class="knobwrap" id="voice" role="radiogroup" aria-label="Voix">
+                <div class="knob" aria-hidden="true"><i></i></div>
+                <div class="knoblabels">
+                  <button type="button" role="radio" id="voice-jessica" aria-checked="true" tabindex="0">JESSICA</button>
+                  <button type="button" role="radio" id="voice-tom" aria-checked="false" tabindex="-1">TOM</button>
+                </div>
+              </div>
+              <div class="fader">
+                <div class="fader-slot">
+                  <input type="range" id="speed" min="0.7" max="1.5" step="0.1" value="1" aria-valuetext="1,0×">
+                </div>
+                <label for="speed" class="silk-label">VITESSE</label>
+              </div>
+            </div>
+          </div>
+          <div class="control-group playback-controls" role="group" aria-label="Lecture et téléchargement">
+            <div class="playback-row">
+              <button type="button" class="key b" id="key-speak" aria-label="Parle">▶ PARLE</button>
+              <button type="button" class="key y" id="key-mp3" aria-label="Télécharger le MP3">⬇ MP3</button>
+            </div>
+          </div>
+          <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="faq" id="faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">Questions fréquentes</h2>
+    <details>
+      <summary>Comment transformer un PDF en audio ?</summary>
+      <p class="answer">Appuie sur la touche PDF/PPTX ou glisse ton fichier sur la machine : son texte s'affiche sur l'écran. Appuie sur PARLE pour l'écouter, ou sur MP3 pour télécharger l'audio. Tout se passe dans ton navigateur.</p>
+    </details>
+    <details>
+      <summary>Comment convertir un PDF en MP3 gratuitement ?</summary>
+      <p class="answer">Importe ton PDF, choisis une voix et une vitesse, puis appuie sur la touche MP3. Le fichier audio est créé sur ton ordinateur et se télécharge tout seul. Il n'y a ni compte ni limite de pages.</p>
+    </details>
+    <details>
+      <summary>Comment lire un PDF à voix haute et s'y retrouver ?</summary>
+      <p class="answer">Pendant la lecture, le mot prononcé est surligné sur l'écran. Tu peux reculer ou avancer de 30 secondes, choisir un chapitre, ou écrire « reviens 3 phrases en arrière » dans les COMMANDES. Les titres sont lus avec une pause d'une seconde avant et après.</p>
+    </details>
+    <details>
+      <summary>Mon PDF est-il envoyé sur un serveur ?</summary>
+      <p class="answer">Non. Le texte est extrait et lu dans ton navigateur : ton fichier ne quitte jamais ton ordinateur. C'est utile pour un cours, un contrat ou un document personnel.</p>
+    </details>
+    <details>
+      <summary>Est-ce que ça marche avec un PowerPoint ?</summary>
+      <p class="answer">Oui, avec les présentations .pptx : chaque diapo devient un chapitre et son titre est lu avec une courte pause. Un ancien fichier .ppt doit d'abord être enregistré en .pptx depuis PowerPoint.</p>
+    </details>
+    <details>
+      <summary>Mon PDF est en anglais, est-ce qu'il sera bien lu ?</summary>
+      <p class="answer">Oui. La machine reconnaît un texte anglais et le lit avec une voix anglaise, sans réglage à faire. Le bouton rotatif choisit toujours entre une voix de femme et une voix d'homme.</p>
+    </details>
+    <details>
+      <summary>Pourquoi mon PDF scanné ne se lit pas ?</summary>
+      <p class="answer">Un PDF scanné est une image : il ne contient pas de texte que la machine peut lire. Si tu arrives à sélectionner le texte du PDF dans ton lecteur habituel, il fonctionnera ici.</p>
+    </details>
+  </section>
+
+  <footer class="credits">
+    <nav class="usages" aria-label="Autres usages">
+      <a href="/">Texte en audio</a>
+      <a href="/pdf-en-audio/" aria-current="page">PDF en audio</a>
+      <a href="/text-to-speech/">Text to speech</a>
+      <a href="/voix-off/">Voix off</a>
+      <a href="/message-repondeur/">Message de répondeur</a>
+    </nav>
+    <p>Voix : <a href="https://github.com/rhasspy/piper">Piper</a>. Jessica : jeu de données UPMC, licence CC BY-SA 4.0. Tom : modèle sous licence AGPLv3. Textes en anglais : Kristin (LibriVox, domaine public) et Joe (CC0).</p>
+    <p>Tout tourne dans ton navigateur, rien n'est envoyé. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
+  </footer>
+
+  <script type="module">
+    import { mountPlastic } from "/src/shader.js";
+    mountPlastic(document.getElementById("plastic"), { reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches });
+  </script>
+  <script type="module" src="/src/main.js?v=b86435732c"></script>
+  <script>
+    // Cloudflare Web Analytics : pages vues sans cookie, jamais le texte tapé. Uniquement en production.
+    if (location.hostname === "speechsynthe.si") {
+      const beacon = document.createElement("script");
+      beacon.defer = true;
+      beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
+      beacon.dataset.cfBeacon = '{"token": "510ca793cd2d4401b410e4ede7f66bac"}';
+      document.body.append(beacon);
+    }
+  </script>
+</body>
+</html>

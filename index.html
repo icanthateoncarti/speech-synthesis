@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Synthèse vocale gratuite en français — texte et PDF en MP3</title>
-  <meta name="description" content="Synthèse vocale gratuite en français : colle ton texte ou un PDF, choisis Jessica ou Tom, écoute ou télécharge en MP3. Sans compte, dans ton navigateur.">
+  <title>Texte en audio gratuit — synthèse vocale, PDF et MP3</title>
+  <meta name="description" content="Texte en audio et synthèse vocale gratuite : écoute un texte, un PDF ou un PowerPoint, ou télécharge le MP3. Voix en français et en anglais, sans compte.">
   <link rel="canonical" href="https://speechsynthe.si/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="speechsynthe.si">
-  <meta property="og:title" content="Synthèse vocale gratuite en français — texte et PDF en MP3">
-  <meta property="og:description" content="Synthèse vocale gratuite en français : colle ton texte ou un PDF, choisis Jessica ou Tom, écoute ou télécharge en MP3. Sans compte, dans ton navigateur.">
+  <meta property="og:title" content="Texte en audio gratuit — synthèse vocale, PDF et MP3">
+  <meta property="og:description" content="Texte en audio et synthèse vocale gratuite : écoute un texte, un PDF ou un PowerPoint, ou télécharge le MP3. Voix en français et en anglais, sans compte.">
   <meta property="og:url" content="https://speechsynthe.si/">
   <meta property="og:image" content="https://speechsynthe.si/assets/og.png">
   <meta property="og:image:width" content="1200">
@@ -103,29 +103,29 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preload" href="assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles/machine.css?v=42678d16f9">
+  <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles/machine.css?v=b86435732c">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "./src/audio.js": "./src/audio.js?v=42678d16f9",
-      "./src/machine.js": "./src/machine.js?v=42678d16f9",
-      "./src/main.js": "./src/main.js?v=42678d16f9",
-      "./src/navigation.js": "./src/navigation.js?v=42678d16f9",
-      "./src/pdf-worker.js": "./src/pdf-worker.js?v=42678d16f9",
-      "./src/pdf.js": "./src/pdf.js?v=42678d16f9",
-      "./src/player.js": "./src/player.js?v=42678d16f9",
-      "./src/pptx.js": "./src/pptx.js?v=42678d16f9",
-      "./src/shader.js": "./src/shader.js?v=42678d16f9",
-      "./src/spoken.js": "./src/spoken.js?v=42678d16f9",
-      "./src/text.js": "./src/text.js?v=42678d16f9",
-      "./src/tts-worker.js": "./src/tts-worker.js?v=42678d16f9",
-      "./src/tts.js": "./src/tts.js?v=42678d16f9",
-      "./src/voice-commands.js": "./src/voice-commands.js?v=42678d16f9"
+      "/src/audio.js": "/src/audio.js?v=b86435732c",
+      "/src/machine.js": "/src/machine.js?v=b86435732c",
+      "/src/main.js": "/src/main.js?v=b86435732c",
+      "/src/navigation.js": "/src/navigation.js?v=b86435732c",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=b86435732c",
+      "/src/pdf.js": "/src/pdf.js?v=b86435732c",
+      "/src/player.js": "/src/player.js?v=b86435732c",
+      "/src/pptx.js": "/src/pptx.js?v=b86435732c",
+      "/src/shader.js": "/src/shader.js?v=b86435732c",
+      "/src/spoken.js": "/src/spoken.js?v=b86435732c",
+      "/src/text.js": "/src/text.js?v=b86435732c",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=b86435732c",
+      "/src/tts.js": "/src/tts.js?v=b86435732c",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=b86435732c"
     }
   }
   </script>
@@ -140,7 +140,7 @@
         <div class="silk">
           <div class="brand">
             <span class="name">speech<span>synthe.si</span></span>
-            <h1 class="model" id="model">Synthèse vocale</h1>
+            <h1 class="model" id="model">Texte en audio</h1>
           </div>
           <div class="grille" aria-hidden="true">
             <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
@@ -259,15 +259,22 @@
   </section>
 
   <footer class="credits">
+    <nav class="usages" aria-label="Autres usages">
+      <a href="/" aria-current="page">Texte en audio</a>
+      <a href="/pdf-en-audio/">PDF en audio</a>
+      <a href="/text-to-speech/">Text to speech</a>
+      <a href="/voix-off/">Voix off</a>
+      <a href="/message-repondeur/">Message de répondeur</a>
+    </nav>
     <p>Voix : <a href="https://github.com/rhasspy/piper">Piper</a>. Jessica : jeu de données UPMC, licence CC BY-SA 4.0. Tom : modèle sous licence AGPLv3. Textes en anglais : Kristin (LibriVox, domaine public) et Joe (CC0).</p>
     <p>Tout tourne dans ton navigateur, rien n'est envoyé. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
   </footer>
 
   <script type="module">
-    import { mountPlastic } from "./src/shader.js";
+    import { mountPlastic } from "/src/shader.js";
     mountPlastic(document.getElementById("plastic"), { reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches });
   </script>
-  <script type="module" src="./src/main.js?v=42678d16f9"></script>
+  <script type="module" src="/src/main.js?v=b86435732c"></script>
   <script>
     // Cloudflare Web Analytics : pages vues sans cookie, jamais le texte tapé. Uniquement en production.
     if (location.hostname === "speechsynthe.si") {
