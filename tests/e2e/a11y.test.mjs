@@ -31,7 +31,7 @@ test("tout au clavier : ordre, flèches voix, vitesse et lecture par Entrée", {
   await page.setViewport({ width: 1340, height: 900 });
   await open();
   await page.focus("#screen");
-  for (const id of ["key-speak", "key-mp3", "key-pdf", "key-clear", "voice-jessica", "speed"]) {
+  for (const id of ["key-pdf", "key-clear", "voice-jessica", "speed", "key-speak", "key-mp3"]) {
     await page.keyboard.press("Tab");
     assert.equal(await page.evaluate(() => document.activeElement.id), id);
   }

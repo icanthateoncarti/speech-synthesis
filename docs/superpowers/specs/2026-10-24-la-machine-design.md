@@ -58,7 +58,8 @@ Inspirée du **Speak & Spell** (Texas Instruments, 1978, premier objet parlant g
 - **Ligne d'état** au bas de l'écran (même police, couleur plus sombre) : état (`PRÊT`, `CHARGEMENT VOIX 42 %`, `▶ LECTURE`, `✓ MP3 PRÊT`) et voix active.
 - **Touches** :
   - **▶ PARLE** : grande, bleue. Lance ou arrête la lecture.
-  - **⬇ MP3**, **PDF**, **EFFACE** : jaunes, avec un effet d'enfoncement au clic.
+  - **⬇ MP3**, **PDF** : jaunes, avec un effet d'enfoncement au clic. **EFFACE** : touche secondaire encastrée.
+- **Ordre des commandes (ajusté à la demande de Jonas le 2026-10-25)** : quatre zones numérotées suivent l'utilisation : **1 · TEXTE** (import PDF, puis effacement secondaire), **2 · RÉGLAGES** (voix et vitesse), **3 · ÉCOUTE** (PARLE/STOP et vumètre), **4 · EXPORT** (MP3). EFFACE est une touche encastrée discrète. Le même ordre s'applique au clavier.
 - **Vumètre** : barres qui réagissent au **vrai niveau audio** pendant la lecture.
 - **Bouton rotatif** argenté : deux positions, **JESSICA** / **TOM**, rotation animée.
 - **Curseur de vitesse** façon matériel (fader) sur le boîtier, de 0,7× à 1,5×, cran central à 1,0×. La valeur s'affiche sur la ligne d'état (`VITESSE 1.2×`).
@@ -105,10 +106,10 @@ Inspirée du **Speak & Spell** (Texas Instruments, 1978, premier objet parlant g
 - Le texte reste local. Aucun appel réseau sauf le téléchargement des modèles de voix et des bibliothèques.
 
 ### 4.5 Téléphone
-La machine se réorganise en format portrait :
-- écran en haut ;
-- touches en grille 2×2 ;
-- vumètre et bouton rotatif sur une ligne en dessous.
+La machine se réorganise en format portrait : écran en haut, puis les quatre zones
+dans l'ordre **texte → réglages → écoute → export**. PDF et EFFACE partagent une
+ligne, puis viennent le bouton de voix avec la vitesse, PARLE avec le vumètre, et
+le téléchargement MP3.
 
 Le grain et les ombres restent. Les touches font au moins 44 px.
 
@@ -163,6 +164,12 @@ lecteur du site ; elle ne modifie pas un MP3 déjà téléchargé.
   partie dont l'audio n'a pas encore été généré. Préserver le traitement local.
 
 À réaliser après la mise en ligne et la validation de la V1.
+
+### Import PDF par glisser-déposer — demande de Jonas du 2026-10-25
+
+- [ ] Permettre de glisser-déposer un PDF sur la machine ou son écran pour importer son texte, en complément de la touche PDF.
+- Réutiliser l'extraction locale et les messages existants pour les PDF sans texte, illisibles ou protégés.
+- Signaler visuellement la zone de dépôt pendant le survol et empêcher le navigateur d'ouvrir le PDF à la place du site.
 
 ### Autres pistes
 - Pages par usage, une par recherche (PDF, TikTok, répondeur, révisions), avec la machine intégrée.

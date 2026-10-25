@@ -25,6 +25,7 @@
   - la sérigraphie de la machine ;
   - les libellés des commandes ;
   - la ligne d'état de l'écran.
+  - les repères d'usage validés le 2026-10-25 : `1 · TEXTE`, `2 · RÉGLAGES`, `3 · ÉCOUTE`, `4 · EXPORT`.
 - Voix : **Jessica** = `fr_FR-upmc-medium` (locuteur 0, **voix par défaut**) ; **Tom** = `fr_FR-tom-medium`. Aucune autre voix.
 - Vitesse : de **0,7× à 1,5×**, par pas de 0,1, cran central à **1,0×**. Elle est appliquée à la synthèse : `length_scale = 1 / vitesse`.
 - Libellés de la ligne d'état (copie exacte) : `PRÊT`, `CHARGEMENT VOIX 42 %`, `SYNTHÈSE…`, `▶ LECTURE`, `✓ MP3 PRÊT`, `ÉCRAN VIDE`, `PDF SANS TEXTE`, `ERREUR RÉSEAU · RÉESSAIE`. À droite : `VOIX : JESSICA · VITESSE 1.0×`.
@@ -488,7 +489,7 @@ test("390×844 : pas de défilement horizontal, commandes ≥ 44 px", ...);
   // document.documentElement.scrollWidth <= 390 ; chaque bouton, radio et le fader mesurent au moins 44×44
   // disposition : écran, puis touches en grille 2×2, puis vumètre + bouton rotatif + fader
 test("tout au clavier", ...);
-  // Tab dans l'ordre : #screen → #key-speak → #key-mp3 → #key-pdf → #key-clear → radiogroup → #speed
+  // Tab dans l'ordre (ajusté le 2026-10-25) : #screen → #key-pdf → #key-clear → radiogroup → #speed → #key-speak → #key-mp3
   // Flèche droite sur le radiogroup → Tom sélectionné, ligne d'état "TOM"
   // Entrée sur #key-speak lance la lecture
 test("prefers-reduced-motion : grain figé, curseur fixe", ...);

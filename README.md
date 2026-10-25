@@ -1,8 +1,8 @@
 # speech-synthesis
 
-- **Statut** : V1 implémentée localement, prête pour relecture et mise en ligne
+- **Statut** : actif — V1 de l'outil « La Machine »
 - **But** : outil de synthèse vocale française dans le navigateur — voix Jessica ou Tom, vitesse réglable, écoute en direct, téléchargement MP3 et extraction de PDF.
-- **Site** : https://speechsynthe.si (GitHub Pages ; publication de la V1 en attente)
+- **Site** : https://speechsynthe.si (GitHub Pages, branche `main`)
 - **Dépendances** : ES modules JavaScript, Web Audio, vits-web, onnxruntime-web, Paper shaders, lamejs, PDF.js, tests Node et Puppeteer.
 - **Données** : texte, PDF et audio sont traités dans le navigateur ; seuls les modèles et bibliothèques sont téléchargés.
 - **Code vocal** : [`src/vendor/vits-web/PATCHES.md`](src/vendor/vits-web/PATCHES.md). Jessica (UPMC) est sous CC BY-SA 4.0 ; Tom est sous AGPLv3. Le dépôt reste public.

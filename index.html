@@ -58,7 +58,7 @@
       "name": "Quelles voix françaises sont disponibles ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Il y en a deux : Jessica, une voix de femme, et Tom, une voix d'homme. Tu changes de voix avec le bouton rotatif à droite de la machine. Jessica est la voix choisie par défaut."
+        "text": "Il y en a deux : Jessica, une voix de femme, et Tom, une voix d'homme. Tu changes de voix avec le bouton rotatif dans la zone RÉGLAGES. Jessica est la voix choisie par défaut."
       }
     },
     {
@@ -134,28 +134,42 @@
         </div>
 
         <div class="deck">
-          <div class="keys">
-            <button type="button" class="key b" id="key-speak" aria-label="Parle">▶ PARLE</button>
+          <div class="control-group source-controls" role="group" aria-labelledby="source-label">
+            <span class="control-title" id="source-label">1 · TEXTE</span>
+            <div class="source-keys">
+              <button type="button" class="key y" id="key-pdf" aria-label="Importer un PDF">↑ PDF</button>
+              <button type="button" class="key recessed" id="key-clear" aria-label="Effacer l'écran">EFFACE</button>
+              <input type="file" id="pdf-input" accept="application/pdf" hidden>
+            </div>
+          </div>
+          <div class="control-group settings-controls" role="group" aria-labelledby="settings-label">
+            <span class="control-title" id="settings-label">2 · RÉGLAGES</span>
+            <div class="settings-row">
+              <div class="knobwrap" id="voice" role="radiogroup" aria-label="Voix">
+                <div class="knob" aria-hidden="true"><i></i></div>
+                <div class="knoblabels">
+                  <button type="button" role="radio" id="voice-jessica" aria-checked="true" tabindex="0">JESSICA</button>
+                  <button type="button" role="radio" id="voice-tom" aria-checked="false" tabindex="-1">TOM</button>
+                </div>
+              </div>
+              <div class="fader">
+                <div class="fader-slot">
+                  <input type="range" id="speed" min="0.7" max="1.5" step="0.1" value="1" aria-valuetext="1,0×">
+                </div>
+                <label for="speed" class="silk-label">VITESSE</label>
+              </div>
+            </div>
+          </div>
+          <div class="control-group playback-controls" role="group" aria-labelledby="playback-label">
+            <span class="control-title" id="playback-label">3 · ÉCOUTE</span>
+            <div class="playback-row">
+              <button type="button" class="key b" id="key-speak" aria-label="Parle">▶ PARLE</button>
+              <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <div class="control-group export-controls" role="group" aria-labelledby="export-label">
+            <span class="control-title" id="export-label">4 · EXPORT</span>
             <button type="button" class="key y" id="key-mp3" aria-label="Télécharger le MP3">⬇ MP3</button>
-            <button type="button" class="key y" id="key-pdf" aria-label="Importer un PDF">PDF</button>
-            <button type="button" class="key y" id="key-clear" aria-label="Effacer l'écran">EFFACE</button>
-            <input type="file" id="pdf-input" accept="application/pdf" hidden>
-          </div>
-
-          <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-
-          <div class="knobwrap" id="voice" role="radiogroup" aria-label="Voix">
-            <div class="knob" aria-hidden="true"><i></i></div>
-            <div class="knoblabels">
-              <button type="button" role="radio" id="voice-jessica" aria-checked="true" tabindex="0">JESSICA</button>
-              <button type="button" role="radio" id="voice-tom" aria-checked="false" tabindex="-1">TOM</button>
-            </div>
-          </div>
-          <div class="fader">
-            <div class="fader-slot">
-              <input type="range" id="speed" min="0.7" max="1.5" step="0.1" value="1" aria-valuetext="1,0×">
-            </div>
-            <label for="speed" class="silk-label">VITESSE</label>
           </div>
         </div>
       </div>
@@ -182,7 +196,7 @@
     </details>
     <details>
       <summary>Quelles voix françaises sont disponibles ?</summary>
-      <p class="answer">Il y en a deux : Jessica, une voix de femme, et Tom, une voix d'homme. Tu changes de voix avec le bouton rotatif à droite de la machine. Jessica est la voix choisie par défaut.</p>
+      <p class="answer">Il y en a deux : Jessica, une voix de femme, et Tom, une voix d'homme. Tu changes de voix avec le bouton rotatif dans la zone RÉGLAGES. Jessica est la voix choisie par défaut.</p>
     </details>
     <details>
       <summary>Comment changer la vitesse de lecture ?</summary>
