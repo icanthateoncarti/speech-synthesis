@@ -555,8 +555,8 @@ Run : `node --test --test-concurrency=1 --test-name-pattern="FAQ|JSON-LD|meta|cr
 **Files :**
 - Modify : `index.html` (compteur, une ligne)
 
-- [ ] **Step 1 : publier.** `git push origin main`. Puis vérifier `curl -s https://speechsynthe.si/ | grep -c "Synthèse vocale gratuite en français"`. Expected : `1` après le déploiement de GitHub Pages, environ 1 à 2 minutes.
-- [ ] **Step 2 : test de bout en bout en production.** `BASE_URL=https://speechsynthe.si node --test --test-concurrency=1 --test-name-pattern="premier écran|taper, PARLE" tests/e2e/`. Le harnais doit utiliser `BASE_URL` s'il est défini, à la place du serveur local. Expected : PASS.
+- [x] **Step 1 : publier.** Publication le 2026-10-25 avec `git push origin feat/la-machine:main`. GitHub Pages a construit `a489f22` ; le contrôle `curl -fsS https://speechsynthe.si/ | rg -q '1 · TEXTE'` a confirmé la nouvelle page.
+- [x] **Step 2 : test de bout en bout en production.** `BASE_URL=https://speechsynthe.si node --test --test-concurrency=1 --test-name-pattern="premier écran|taper, PARLE" tests/e2e/page.test.mjs tests/e2e/machine.test.mjs` : les deux tests passent. Les modules PDF et voix renvoient HTTP 200. En local, le PDF complet de 363 morceaux a également été synthétisé avec Tom sans interruption.
 - [ ] **Step 3 : Jonas écoute** la vraie page sur ordinateur et sur téléphone, et valide.
 - [ ] **Step 4 : demander à Jonas** :
   - quel compteur il choisit : GoatCounter (vérifier ses conditions d'usage commercial) ou Cloudflare Web Analytics ;
