@@ -10,6 +10,6 @@
   },
   "devDependencies": {
     "@breezystack/lamejs": "1.2.7",
-    "puppeteer-core": "^23.0.0"
+    "puppeteer-core": "^25.16.0"
   }
 }

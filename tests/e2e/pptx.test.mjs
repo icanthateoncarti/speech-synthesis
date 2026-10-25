@@ -43,6 +43,19 @@ before(async () => {
     "ppt/slides/slide1.xml": slide(shape("title", ["Ergonomie ou design ?"]) + table(["Critère", "Ergonomie"], ["Objectif", "Efficacité"])),
     "ppt/slides/slide3.xml": slide(shape("title", ["Diapo cachée"]), ' show="0"'),
   }));
+  const deck = (slides) => zip({
+    "ppt/presentation.xml": `<p:presentation ${NS}><p:sldIdLst>${slides.map((_, i) => `<p:sldId id="${256 + i}" r:id="rId${i + 1}"/>`).join("")}</p:sldIdLst></p:presentation>`,
+    "ppt/_rels/presentation.xml.rels": `<Relationships>${slides.map((_, i) => `<Relationship Id="rId${i + 1}" Target="slides/slide${i + 1}.xml"/>`).join("")}</Relationships>`,
+    ...Object.fromEntries(slides.map((body, i) => [`ppt/slides/slide${i + 1}.xml`, body])),
+  });
+  // Bombe : 40 Mo de texte compressés en quelques dizaines de Ko.
+  await writeFile(path.join(fixtures, "bombe.pptx"), deck([slide(shape("body", ["a".repeat(40 * 1024 * 1024)]))]));
+  // Géant légitime : 3 diapos de 900 000 caractères = 2,7 millions, au-delà du plafond.
+  const big = "Une phrase du cours. ".repeat(43_000);
+  await writeFile(path.join(fixtures, "geant.pptx"), deck([1, 2, 3].map((n) => slide(shape("title", [`Partie ${n}`]) + shape("body", [big])))));
+  const broken = zip({ "ppt/presentation.xml": "<x/>" });
+  broken.writeUInt32LE(0x7fffffff, broken.length - 22 + 16); // répertoire central hors du fichier
+  await writeFile(path.join(fixtures, "truque.pptx"), broken);
   await writeFile(path.join(fixtures, "protege.pptx"), Buffer.from([0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1, 0, 0, 0, 0]));
   await writeFile(path.join(fixtures, "ancien.ppt"), "binaire");
 });
@@ -90,4 +103,27 @@ test("les titres de diapo reçoivent la pause, même avec un « ? »", { timeout
     return result.pauses;
   });
   assert.deepEqual(pauses, [{ before: 0, after: 0 }, { before: 1, after: 1 }, { before: 0, after: 0 }]);
+});
+
+test("S02 : bombe de décompression refusée, texte précédent conservé ; ZIP truqué illisible", { timeout: 90_000 }, async () => {
+  await open();
+  await page.$eval("#screen", (el) => { el.value = "Gardé."; el.dispatchEvent(new Event("input")); });
+  const size = (await import("node:fs")).statSync(path.join(fixtures, "bombe.pptx")).size;
+  assert.ok(size < 200_000, `la bombe pèse ${size} octets`);
+  await (await page.$("#pdf-input")).uploadFile(path.join(fixtures, "bombe.pptx"));
+  await page.waitForFunction(() => document.querySelector("#status-left").textContent === "FICHIER TROP VOLUMINEUX", { timeout: 30_000 });
+  assert.equal(await page.$eval("#screen", (el) => el.value), "Gardé.");
+  await (await page.$("#pdf-input")).uploadFile(path.join(fixtures, "truque.pptx"));
+  await page.waitForFunction(() => document.querySelector("#status-left").textContent === "PPTX ILLISIBLE · RÉESSAIE", { timeout: 30_000 });
+  assert.equal(await page.$eval("#screen", (el) => el.value), "Gardé.");
+});
+
+test("S02 : un PPTX géant est coupé à 2 millions de caractères, avec un message", { timeout: 120_000 }, async () => {
+  await open();
+  await (await page.$("#pdf-input")).uploadFile(path.join(fixtures, "geant.pptx"));
+  await page.waitForFunction(() => document.querySelector("#screen").value.length > 1000, { timeout: 60_000 });
+  assert.equal(await status(), "TEXTE COUPÉ À 2 MILLIONS DE CARACTÈRES");
+  const r = await page.$eval("#screen", (el) => ({ length: el.value.length, start: el.value.slice(0, 8) }));
+  assert.ok(r.length <= 2_000_000 && r.length > 1_900_000, `${r.length} caractères`);
+  assert.equal(r.start, "Partie 1");
 });

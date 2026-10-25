@@ -81,27 +81,28 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=b86435732c">
+  <link rel="stylesheet" href="/styles/machine.css?v=aff79255f9">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=b86435732c",
-      "/src/machine.js": "/src/machine.js?v=b86435732c",
-      "/src/main.js": "/src/main.js?v=b86435732c",
-      "/src/navigation.js": "/src/navigation.js?v=b86435732c",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=b86435732c",
-      "/src/pdf.js": "/src/pdf.js?v=b86435732c",
-      "/src/player.js": "/src/player.js?v=b86435732c",
-      "/src/pptx.js": "/src/pptx.js?v=b86435732c",
-      "/src/shader.js": "/src/shader.js?v=b86435732c",
-      "/src/spoken.js": "/src/spoken.js?v=b86435732c",
-      "/src/text.js": "/src/text.js?v=b86435732c",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=b86435732c",
-      "/src/tts.js": "/src/tts.js?v=b86435732c",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=b86435732c"
+      "/src/audio.js": "/src/audio.js?v=aff79255f9",
+      "/src/limits.js": "/src/limits.js?v=aff79255f9",
+      "/src/machine.js": "/src/machine.js?v=aff79255f9",
+      "/src/main.js": "/src/main.js?v=aff79255f9",
+      "/src/navigation.js": "/src/navigation.js?v=aff79255f9",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=aff79255f9",
+      "/src/pdf.js": "/src/pdf.js?v=aff79255f9",
+      "/src/player.js": "/src/player.js?v=aff79255f9",
+      "/src/pptx.js": "/src/pptx.js?v=aff79255f9",
+      "/src/shader.js": "/src/shader.js?v=aff79255f9",
+      "/src/spoken.js": "/src/spoken.js?v=aff79255f9",
+      "/src/text.js": "/src/text.js?v=aff79255f9",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=aff79255f9",
+      "/src/tts.js": "/src/tts.js?v=aff79255f9",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=aff79255f9"
     }
   }
   </script>
@@ -154,7 +155,7 @@
             <button type="button" id="jump-back" aria-label="Reculer du nombre choisi">←</button><button type="button" id="jump-forward" aria-label="Avancer du nombre choisi">→</button>
           </div>
           <form id="command-form" class="command-form">
-            <input id="command" type="text" aria-label="Commande de lecture" placeholder="Reviens 3 phrases en arrière" autocomplete="off">
+            <input id="command" type="text" maxlength="200" aria-label="Commande de lecture" placeholder="Reviens 3 phrases en arrière" autocomplete="off">
             <button type="submit" aria-label="Exécuter la commande">↵</button>
             <button type="button" id="voice-command" aria-label="Dicter une commande" aria-pressed="false">MICRO</button>
           </form>
@@ -238,7 +239,7 @@
     import { mountPlastic } from "/src/shader.js";
     mountPlastic(document.getElementById("plastic"), { reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches });
   </script>
-  <script type="module" src="/src/main.js?v=b86435732c"></script>
+  <script type="module" src="/src/main.js?v=aff79255f9"></script>
   <script>
     // Cloudflare Web Analytics : pages vues sans cookie, jamais le texte tapé. Uniquement en production.
     if (location.hostname === "speechsynthe.si") {

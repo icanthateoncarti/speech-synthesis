@@ -5,6 +5,7 @@ import { hasSpeakableContent, splitIntoChunks, wordTimeline, detectLanguage } fr
 import { wavDuration, wavToMp3 } from "./audio.js";
 import { buildReadingIndex, generatedDuration, navigationTarget, timeAtTextOffset, textOffsetAtTime } from "./navigation.js";
 import { createVoiceCommands, parseVoiceCommand } from "./voice-commands.js";
+import { MAX_FILE_BYTES } from "./limits.js";
 
 const $ = (id) => document.getElementById(id);
 const screen = $("screen"), reader = $("reader"), speak = $("key-speak");
@@ -12,7 +13,7 @@ const player = createPlayer(), tts = createTts();
 let state = initialState(), synthesis = null, exportJob = null, audioDetails = null;
 let documentInfo = { name: "", chapters: [] }, index = buildReadingIndex("");
 let playbackActive = false, paused = false, pendingNavigation = null;
-let preloadJob = null, pdfBusy = false, revision = 0, note = null, noteTimer;
+let preloadJob = null, pdfBusy = false, revision = 0, note = null, noteTimer, importJob = null;
 let timeline = [], spans = [], highlighted = -1, elapsed = 0, scrubbing = false, lastPositionPaint = 0;
 let micResume = false, voiceListening = false, dragDepth = 0;
 
@@ -129,6 +130,7 @@ function cancelWork({ cancelPreload = false } = {}) {
   const wasGenerating = synthesis && !synthesis.complete;
   synthesis?.controller.abort(); exportJob?.controller.abort();
   synthesis = null; exportJob = null; pendingNavigation = null;
+  importJob?.abort(); importJob = null;
   playbackActive = false; paused = false; pdfBusy = false;
   micResume = false; voiceCommands.stop(); voiceListening = false;
   if (wasGenerating || cancelPreload) { preloadJob = null; tts.cancel(); }
@@ -297,12 +299,14 @@ async function importDocument(file) {
   if (!file) return;
   const format = formatOf(file);
   if (!format) { message(/\.ppt$/i.test(file.name) ? "ENREGISTRE-LE EN .PPTX" : "CHOISIS UN PDF OU UN PPTX"); return; }
+  if (file.size > MAX_FILE_BYTES) { message("FICHIER TROP LOURD · 100 MO MAX"); return; }
   cancelWork({ cancelPreload: true });
-  const version = revision; pdfBusy = true; paint();
+  const version = revision, job = new AbortController(); importJob = job; pdfBusy = true; paint();
   try {
+    const options = { signal: job.signal };
     const document = format === "pptx"
-      ? await (await import("./pptx.js")).extractPptxDocument(file)
-      : await (await import("./pdf.js")).extractPdfDocument(file);
+      ? await (await import("./pptx.js")).extractPptxDocument(file, options)
+      : await (await import("./pdf.js")).extractPdfDocument(file, options);
     if (version !== revision) return;
     pdfBusy = false;
     if (!hasSpeakableContent(document.text)) { dispatch({ type: "PDF_EMPTY", format }); return; }
@@ -310,10 +314,14 @@ async function importDocument(file) {
     screen.value = document.text; screen.setSelectionRange(0, 0); screen.scrollTop = 0;
     dispatch({ type: "TEXT_CHANGED", text: document.text }); rebuildIndex();
     screen.focus({ preventScroll: true }); preload();
+    if (document.truncated) message("TEXTE COUPÉ À 2 MILLIONS DE CARACTÈRES", 8000);
   } catch (error) {
-    if (version !== revision) return;
+    if (version !== revision || error.name === "AbortError") return;
     pdfBusy = false;
+    if (error.name === "TooLargeError") { message("FICHIER TROP VOLUMINEUX", 6000); return; }
     dispatch({ type: "PDF_ERROR", format, password: error.name === "PasswordException" });
+  } finally {
+    if (importJob === job) importJob = null;
   }
 }
 screen.addEventListener("input", () => {

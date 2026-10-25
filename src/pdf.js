@@ -1,4 +1,5 @@
 import { normalizeText } from "./text.js";
+import { MAX_FILE_BYTES, MAX_PAGES, MAX_TEXT_CHARS, throwIfAborted, tooLarge } from "./limits.js";
 
 let library;
 
@@ -159,21 +160,32 @@ async function loadPdfJs() {
   return pdfjs;
 }
 
-export async function extractPdfDocument(file) {
+export async function extractPdfDocument(file, { signal } = {}) {
+  if (file.size > MAX_FILE_BYTES) throw tooLarge("fichier trop lourd");
   library ??= loadPdfJs().catch((err) => { library = null; throw err; });
   const pdfjs = await library;
+  throwIfAborted(signal);
   const task = pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()), isEvalSupported: false });
+  // Un nouvel import ou EFFACE arrête vraiment l'extraction en cours.
+  const abort = () => { task.destroy(); };
+  signal?.addEventListener("abort", abort, { once: true });
   try {
     const document = await task.promise;
     const pages = [], headings = [];
-    for (let n = 1; n <= document.numPages; n++) {
+    let total = 0, truncated = document.numPages > MAX_PAGES;
+    for (let n = 1; n <= Math.min(document.numPages, MAX_PAGES); n++) {
+      throwIfAborted(signal);
       const page = await document.getPage(n);
       const content = await page.getTextContent();
       // hasEOL indique une ligne de mise en page, souvent au milieu d'une phrase.
       // Les phrases restent continues ; seuls les titres et le changement de page ajoutent un saut.
       // Des morceaux contigus peuvent être les glyphes d'un même mot (ex. ligature fi).
-      pages.push({ text: normalizeText(pageTextWithHeadings(content.items, headings)), lines: pageLines(content.items) });
+      let text = normalizeText(pageTextWithHeadings(content.items, headings));
       page.cleanup();
+      if (total + text.length > MAX_TEXT_CHARS) { text = text.slice(0, MAX_TEXT_CHARS - total); truncated = true; }
+      pages.push({ text, lines: pageLines(content.items) });
+      total += text.length + 1;
+      if (truncated && total >= MAX_TEXT_CHARS) break;
     }
     const joined = pages.map((page) => page.text).join("\n");
     const text = joined.trim();
@@ -186,8 +198,12 @@ export async function extractPdfDocument(file) {
     });
     const outline = await outlineChapters(document, pages, pageOffsets);
     const chapters = uniqueChapters(outline.length ? outline : detectedChapters(pages, pageOffsets), text.length);
-    return { text, chapters, pageOffsets, titles: headings.map((heading) => normalizeText(heading)) };
+    return { text, chapters, pageOffsets, titles: headings.map((heading) => normalizeText(heading)), truncated };
+  } catch (error) {
+    throwIfAborted(signal);
+    throw error;
   } finally {
+    signal?.removeEventListener("abort", abort);
     await task.destroy();
   }
 }

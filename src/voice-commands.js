@@ -1,3 +1,5 @@
+export const MAX_COMMAND_LENGTH = 200;
+
 // Commandes courtes, reconnues sur l'appareil uniquement. Ce module n'utilise
 // jamais le service distant de SpeechRecognition ni une écoute permanente.
 
@@ -60,6 +62,9 @@ function normalizeCommand(raw) {
 
 /** Une commande reconnue, sans exécuter d'action ni analyser du texte arbitraire. */
 export function parseVoiceCommand(raw) {
+  // Une commande tient en une phrase : au-delà, rien à analyser (audit S02 :
+  // « avance mille mille mille… » coûtait 0,5 s avant d'être rejeté).
+  if (String(raw ?? "").length > MAX_COMMAND_LENGTH) return null;
   // Un signe négatif explicite ne doit jamais se transformer en nombre positif.
   if (/[-−]\s*\d/.test(String(raw))) return null;
   let text = normalizeCommand(raw)

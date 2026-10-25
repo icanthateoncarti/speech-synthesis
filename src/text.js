@@ -15,12 +15,34 @@ export function hasSpeakableContent(text) {
   return SPEAKABLE.test(text);
 }
 
+const END_MARKS = new Set([".", "!", "?", "…"]);
+const AFTER_END = new Set(['"', "'", "»", ")", "]"]);
+const SPACE = /\s/u;
+
+// Bornes [début, fin[ des phrases d'une ligne : une suite de ponctuations finales,
+// ses guillemets ou parenthèses fermants, puis un espace ou la fin de ligne.
+// Parcours en un seul passage : une regex équivalente devenait quadratique sur
+// « ........x » (audit de sécurité du 2026-10-25, S01).
+export function sentenceSpans(line) {
+  const spans = [];
+  let start = 0, i = 0;
+  while (i < line.length) {
+    if (!END_MARKS.has(line[i])) { i++; continue; }
+    let j = i;
+    while (j < line.length && END_MARKS.has(line[j])) j++;
+    while (j < line.length && AFTER_END.has(line[j])) j++;
+    if (j === line.length || SPACE.test(line[j])) { spans.push([start, j]); start = j; }
+    i = j;
+  }
+  if (start < line.length) spans.push([start, line.length]);
+  return spans;
+}
+
 function splitSentences(text) {
   const out = [];
   for (const line of text.split("\n")) {
-    const parts = line.match(/.*?(?:[.!?…]+["'»)\]]*(?=\s|$)|$)/gu) ?? [];
-    for (const p of parts) {
-      const s = p.trim();
+    for (const [start, end] of sentenceSpans(line)) {
+      const s = line.slice(start, end).trim();
       if (s) out.push(s);
     }
   }

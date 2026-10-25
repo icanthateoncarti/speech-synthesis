@@ -1,4 +1,4 @@
-import { normalizeText, hasSpeakableContent, splitIntoChunks } from "./text.js";
+import { normalizeText, hasSpeakableContent, splitIntoChunks, sentenceSpans } from "./text.js";
 
 const GAP_SECONDS = 0.15;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -36,13 +36,15 @@ function sentenceRanges(text) {
       }));
   }
   const ranges = [];
-  for (const line of text.matchAll(/[^\n]+/gu)) {
-    for (const match of line[0].matchAll(/.*?(?:[.!?…]+["'»)\]]*(?=\s|$)|$)/gu)) {
-      if (!hasSpeakableContent(match[0])) continue;
-      const value = match[0];
-      const start = line.index + match.index;
+  let lineStart = 0;
+  for (const line of text.split("\n")) {
+    for (const [from, to] of sentenceSpans(line)) {
+      const value = line.slice(from, to);
+      if (!hasSpeakableContent(value)) continue;
+      const start = lineStart + from;
       ranges.push({ text: value.trim(), start: start + value.length - value.trimStart().length, end: start + value.trimEnd().length });
     }
+    lineStart += line.length + 1;
   }
   return ranges;
 }
