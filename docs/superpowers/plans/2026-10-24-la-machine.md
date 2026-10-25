@@ -93,7 +93,7 @@ tests/fixtures/             PDF de test
   - `speedToLengthScale(speed: number): number` : `Math.round(100 / clampSpeed(speed)) / 100`.
   - `wordTimeline(chunks: string[], durations: number[]): {word: string, start: number, end: number}[]` : pour chaque morceau, répartit sa durée entre ses mots au prorata de leur nombre de caractères. Les morceaux s'enchaînent bout à bout.
 
-- [ ] **Step 1 : `package.json`**
+- [x] **Step 1 : `package.json`**
 
 ```json
 {
@@ -113,7 +113,7 @@ tests/fixtures/             PDF de test
 
 Run : `npm install`. Expected : `node_modules/` créé, aucune erreur.
 
-- [ ] **Step 2 : écrire les tests qui échouent** dans `tests/unit/text.test.js`
+- [x] **Step 2 : écrire les tests qui échouent** dans `tests/unit/text.test.js`
 
 ```js
 import { test } from "node:test";
@@ -157,10 +157,10 @@ test("wordTimeline enchaîne les morceaux", () => {
 });
 ```
 
-- [ ] **Step 3 : vérifier l'échec.** Run : `npm test`. Expected : FAIL, `Cannot find module '../../src/text.js'`.
-- [ ] **Step 4 : implémenter `src/text.js`** avec les signatures ci-dessus.
-- [ ] **Step 5 : vérifier le succès.** Run : `npm test`. Expected : tous les tests `text` passent.
-- [ ] **Step 6 : commit.** `git add package.json package-lock.json .gitignore src/text.js tests/unit/text.test.js && git commit -m "Logique texte : découpage, vitesse, minutage des mots"`
+- [x] **Step 3 : vérifier l'échec.** Run : `npm test`. Expected : FAIL, `Cannot find module '../../src/text.js'`.
+- [x] **Step 4 : implémenter `src/text.js`** avec les signatures ci-dessus.
+- [x] **Step 5 : vérifier le succès.** Run : `npm test`. Expected : tous les tests `text` passent.
+- [x] **Step 6 : commit.** `git add package.json package-lock.json .gitignore src/text.js tests/unit/text.test.js && git commit -m "Logique texte : découpage, vitesse, minutage des mots"`
 
 ---
 
@@ -177,7 +177,7 @@ test("wordTimeline enchaîne les morceaux", () => {
   - `wavDuration(buf: ArrayBuffer): number` : en secondes.
   - `wavToMp3(buf: ArrayBuffer, kbps = 96): Promise<Uint8Array>` : utilise `Mp3Encoder` de `@breezystack/lamejs` par blocs de 1152 échantillons, et rend la main toutes les 50 trames (`await new Promise(r => setTimeout(r))`) pour ne pas figer la page.
 
-- [ ] **Step 1 : tests qui échouent** dans `tests/unit/audio.test.js`. Les fixtures sont fabriquées en mémoire : une sinusoïde de 1 s à 22 050 Hz, passée dans `encodeWav`.
+- [x] **Step 1 : tests qui échouent** dans `tests/unit/audio.test.js`. Les fixtures sont fabriquées en mémoire : une sinusoïde de 1 s à 22 050 Hz, passée dans `encodeWav`.
 
 ```js
 test("encodeWav puis parseWav est un aller-retour", ...);            // même sampleRate, mêmes échantillons
@@ -192,10 +192,10 @@ test("wavToMp3 produit un MP3 non vide", async () => {
 });
 ```
 
-- [ ] **Step 2 : vérifier l'échec.** Run : `npm test`. Expected : FAIL sur l'import de `src/audio.js`.
-- [ ] **Step 3 : implémenter `src/audio.js`.** Importer `Mp3Encoder` depuis `"@breezystack/lamejs"`. Dans Node, il vient de `node_modules`. Dans le navigateur, l'import map de la tâche 5 le fait pointer vers jsDelivr.
-- [ ] **Step 4 : vérifier le succès.** Run : `npm test`. Expected : PASS.
-- [ ] **Step 5 : commit.** `git commit -m "Audio : WAV, concaténation, encodage MP3"`
+- [x] **Step 2 : vérifier l'échec.** Run : `npm test`. Expected : FAIL sur l'import de `src/audio.js`.
+- [x] **Step 3 : implémenter `src/audio.js`.** Importer `Mp3Encoder` depuis `"@breezystack/lamejs"`. Dans Node, il vient de `node_modules`. Dans le navigateur, l'import map de la tâche 5 le fait pointer vers jsDelivr.
+- [x] **Step 4 : vérifier le succès.** Run : `npm test`. Expected : PASS.
+- [x] **Step 5 : commit.** `git commit -m "Audio : WAV, concaténation, encodage MP3"`
 
 ---
 
@@ -228,7 +228,7 @@ test("wavToMp3 produit un MP3 non vide", async () => {
     - Priorité de `left` : `error` > `notice` > `phase`. Puis `✓ MP3 PRÊT` si `audio?.mp3`, sinon `PRÊT`.
     - `right` vaut `VOIX : JESSICA · VITESSE 1.0×`, ou `TOM`, avec la vitesse à une décimale.
 
-- [ ] **Step 1 : tests qui échouent** dans `tests/unit/machine.test.js` :
+- [x] **Step 1 : tests qui échouent** dans `tests/unit/machine.test.js` :
 
 ```js
 test("état initial : Jessica, 1.0×, PRÊT", () => {
@@ -279,10 +279,10 @@ test("MP3 prêt", () => {
 });
 ```
 
-- [ ] **Step 2 : vérifier l'échec.** Run : `npm test`. Expected : FAIL.
-- [ ] **Step 3 : implémenter `src/machine.js`.**
-- [ ] **Step 4 : vérifier le succès.** Run : `npm test`. Expected : PASS (text, audio, machine).
-- [ ] **Step 5 : commit.** `git commit -m "Machine : états, invalidation de l'audio, ligne d'état"`
+- [x] **Step 2 : vérifier l'échec.** Run : `npm test`. Expected : FAIL.
+- [x] **Step 3 : implémenter `src/machine.js`.**
+- [x] **Step 4 : vérifier le succès.** Run : `npm test`. Expected : PASS (text, audio, machine).
+- [x] **Step 5 : commit.** `git commit -m "Machine : états, invalidation de l'audio, ligne d'état"`
 
 ---
 
@@ -309,10 +309,10 @@ test("MP3 prêt", () => {
     - `startServer(): Promise<{ url: string, close(): Promise<void> }>` : serveur statique `node:http` à la racine du dépôt, sur un port libre ;
     - `launch({ profile = "tests/e2e/.chrome-profile", viewport = {width: 1340, height: 900}, reducedMotion = false } = {}): Promise<{ browser, page }>` : puppeteer-core, `executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"`, headless, args `--use-angle=swiftshader --enable-unsafe-swiftshader --ignore-gpu-blocklist`. Le profil persistant garde les modèles de voix en cache (OPFS) d'un test à l'autre.
 
-- [ ] **Step 1 : copier et adapter vits-web.** Dans `vits-web.js`, seulement deux modifications, décrites dans `PATCHES.md` :
+- [x] **Step 1 : copier et adapter vits-web.** Dans `vits-web.js`, seulement deux modifications, décrites dans `PATCHES.md` :
   1. `g = i.inference.length_scale` devient `g = e.lengthScale ?? i.inference.length_scale`. `e` est la config passée à `predict`.
   2. `import("onnxruntime-web")` devient `import("https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/+esm")`. Les workers ne lisent pas les import maps.
-- [ ] **Step 2 : test navigateur qui échoue** dans `tests/e2e/tts.test.mjs`. La page `fixtures/tts.html` importe `/src/tts.js` et expose `window.tts = createTts()`.
+- [x] **Step 2 : test navigateur qui échoue** dans `tests/e2e/tts.test.mjs`. La page `fixtures/tts.html` importe `/src/tts.js` et expose `window.tts = createTts()`.
 
 ```js
 test("Jessica et Tom synthétisent, la vitesse change vraiment la durée", { timeout: 300_000 }, async () => {
@@ -328,13 +328,13 @@ test("réseau coupé au premier téléchargement → err.kind === 'network'", { 
 ```
 
 Run : `npm run test:e2e`. Expected : FAIL, `createTts` n'existe pas.
-- [ ] **Step 3 : implémenter `src/tts-worker.js` et `src/tts.js`.**
+- [x] **Step 3 : implémenter `src/tts-worker.js` et `src/tts.js`.**
   - Messages vers le worker : `{ id, type: "synthesize", text, voiceId, lengthScale }`.
   - Messages en retour : `{ id, type: "progress", pct }`, `{ id, type: "done", wav }` (le `wav` est transféré, pas copié) et `{ id, type: "error", kind, message }`.
   - Le worker appelle `predict({ text, voiceId, lengthScale }, p => post progress)`.
   - Une erreur de `fetch` vers Hugging Face donne `kind: "network"`.
-- [ ] **Step 4 : vérifier le succès.** Run : `npm run test:e2e`. Expected : PASS. Le premier passage télécharge environ 120 Mo de modèles dans `.chrome-profile`.
-- [ ] **Step 5 : commit.** `git commit -m "Moteur de voix en worker, vitesse via length_scale"`
+- [x] **Step 4 : vérifier le succès.** Run : `npm run test:e2e`. Expected : PASS. Le premier passage télécharge environ 120 Mo de modèles dans `.chrome-profile`.
+- [x] **Step 5 : commit.** `git commit -m "Moteur de voix en worker, vitesse via length_scale"`
 
 ---
 
@@ -361,7 +361,7 @@ Run : `npm run test:e2e`. Expected : FAIL, `createTts` n'existe pas.
   - Il attend `noise.decode()` avant le montage.
   - Sans WebGL, il ajoute la classe `no-webgl` à `el`, et le CSS affiche alors un dégradé orange fixe.
 
-- [ ] **Step 1 : test navigateur qui échoue** dans `tests/e2e/page.test.mjs` :
+- [x] **Step 1 : test navigateur qui échoue** dans `tests/e2e/page.test.mjs` :
 
 ```js
 test("premier écran : seulement la machine", async () => {
@@ -378,12 +378,12 @@ test("sans WebGL : repli orange", async () => {
 ```
 
 Run : `node --test --test-concurrency=1 --test-name-pattern="premier écran|grain|WebGL" tests/e2e/`. Expected : FAIL.
-- [ ] **Step 2 : écrire `index.html`, `styles/machine.css` et `src/shader.js`.** On reprend la maquette, avec ces différences :
+- [x] **Step 2 : écrire `index.html`, `styles/machine.css` et `src/shader.js`.** On reprend la maquette, avec ces différences :
   - plus de texte en haut à droite ;
   - le `<h1>` « Synthèse vocale » est gravé sur la sérigraphie, à côté du logotype ;
   - le fader de vitesse est placé entre le vumètre et le bouton rotatif.
-- [ ] **Step 3 : vérifier le succès** avec la même commande. Expected : PASS. Faire aussi une capture plein écran pour comparer à l'œil avec la maquette : `node tests/e2e/screenshot.mjs`, petit script inclus dans cette tâche, qui écrit `/tmp/machine.png`.
-- [ ] **Step 4 : commit.** `git commit -m "La Machine : structure, style, grain du plastique"`
+- [x] **Step 3 : vérifier le succès** avec la même commande. Expected : PASS. Faire aussi une capture plein écran pour comparer à l'œil avec la maquette : `node tests/e2e/screenshot.mjs`, petit script inclus dans cette tâche, qui écrit `/tmp/machine.png`.
+- [x] **Step 4 : commit.** `git commit -m "La Machine : structure, style, grain du plastique"`
 
 ---
 
@@ -417,7 +417,7 @@ Run : `node --test --test-concurrency=1 --test-name-pattern="premier écran|grai
   - **Première frappe dans `#screen` :** on appelle `tts.preload(voice)` pour gagner du temps. La progression dispatche `DOWNLOAD_PROGRESS`.
   - **Vumètre :** 12 barres pilotées par `onLevel`.
 
-- [ ] **Step 1 : tests navigateur qui échouent** dans `tests/e2e/machine.test.mjs`. Ils tournent avec le profil en cache de la tâche 4.
+- [x] **Step 1 : tests navigateur qui échouent** dans `tests/e2e/machine.test.mjs`. Ils tournent avec le profil en cache de la tâche 4.
 
 ```js
 test("taper, PARLE : lecture puis retour à PRÊT", { timeout: 120_000 }, async () => {
@@ -437,9 +437,9 @@ test("réseau coupé au premier usage → ERREUR RÉSEAU · RÉESSAIE, puis rée
 ```
 
 Run : `node --test --test-concurrency=1 --test-name-pattern="PARLE|MP3|voix|fader|EFFACE|30 pages|réseau" tests/e2e/`. Expected : FAIL.
-- [ ] **Step 2 : implémenter `src/player.js` et `src/main.js`.**
-- [ ] **Step 3 : vérifier le succès.** Run : `npm run test:e2e`. Expected : tout passe, les tâches 4 et 5 comprises.
-- [ ] **Step 4 : commit.** `git commit -m "Machine câblée : lecture, surlignage, vumètre, MP3, effacement"`
+- [x] **Step 2 : implémenter `src/player.js` et `src/main.js`.**
+- [x] **Step 3 : vérifier le succès.** Run : `npm run test:e2e`. Expected : tout passe, les tâches 4 et 5 comprises.
+- [x] **Step 4 : commit.** `git commit -m "Machine câblée : lecture, surlignage, vumètre, MP3, effacement"`
 
 ---
 
@@ -456,12 +456,12 @@ Run : `node --test --test-concurrency=1 --test-name-pattern="PARLE|MP3|voix|fade
   - Il concatène le texte des pages, avec un saut de ligne entre deux pages, et renvoie le résultat de `normalizeText`.
 - `src/main.js` : clic sur `#key-pdf` → `#pdf-input.click()`. Si le texte extrait n'est pas prononçable, dispatch `PDF_EMPTY` et l'écran ne change pas. Sinon, `TEXT_CHANGED`.
 
-- [ ] **Step 1 : fixtures.** `make-fixtures.mjs` utilise puppeteer-core et `page.pdf()` :
+- [x] **Step 1 : fixtures.** `make-fixtures.mjs` utilise puppeteer-core et `page.pdf()` :
   - `texte.pdf` à partir de `<p>Bonjour le monde. Ceci est un PDF.</p>` ;
   - `scan.pdf` à partir d'une page qui ne contient qu'un `<canvas>` rempli de gris, donc sans couche texte.
 
   Run : `node tests/fixtures/make-fixtures.mjs`. Expected : les deux fichiers existent.
-- [ ] **Step 2 : tests qui échouent** dans `tests/e2e/pdf.test.mjs` :
+- [x] **Step 2 : tests qui échouent** dans `tests/e2e/pdf.test.mjs` :
 
 ```js
 test("PDF texte → écran rempli", ...);           // uploadFile(texte.pdf) sur #pdf-input ; #screen contient "Bonjour le monde. Ceci est un PDF."
@@ -469,9 +469,9 @@ test("PDF scanné → PDF SANS TEXTE, écran inchangé", ...);  // #screen valai
 ```
 
 Run : `node --test --test-concurrency=1 --test-name-pattern=PDF tests/e2e/`. Expected : FAIL.
-- [ ] **Step 3 : implémenter `src/pdf.js` et câbler la touche.**
-- [ ] **Step 4 : vérifier le succès** avec la même commande. Expected : PASS.
-- [ ] **Step 5 : commit.** `git commit -m "Import PDF"`
+- [x] **Step 3 : implémenter `src/pdf.js` et câbler la touche.**
+- [x] **Step 4 : vérifier le succès** avec la même commande. Expected : PASS.
+- [x] **Step 5 : commit.** `git commit -m "Import PDF"`
 
 ---
 
@@ -481,7 +481,7 @@ Run : `node --test --test-concurrency=1 --test-name-pattern=PDF tests/e2e/`. Exp
 - Modify : `styles/machine.css`, `index.html` si nécessaire
 - Create : `tests/e2e/a11y.test.mjs`
 
-- [ ] **Step 1 : tests qui échouent** :
+- [x] **Step 1 : tests qui échouent** :
 
 ```js
 test("390×844 : pas de défilement horizontal, commandes ≥ 44 px", ...);
@@ -497,9 +497,9 @@ test("prefers-reduced-motion : grain figé, curseur fixe", ...);
 ```
 
 Run : `node --test --test-concurrency=1 --test-name-pattern="390|clavier|reduced" tests/e2e/`. Expected : FAIL.
-- [ ] **Step 2 : implémenter.** Media queries pour la mise en page portrait, focus visible sur chaque commande, gestion des flèches dans le radiogroup, `reducedMotion` transmis à `mountPlastic`.
-- [ ] **Step 3 : vérifier le succès** avec la même commande. Expected : PASS.
-- [ ] **Step 4 : commit.** `git commit -m "Téléphone, clavier, mouvement réduit"`
+- [x] **Step 2 : implémenter.** Media queries pour la mise en page portrait, focus visible sur chaque commande, gestion des flèches dans le radiogroup, `reducedMotion` transmis à `mountPlastic`.
+- [x] **Step 3 : vérifier le succès** avec la même commande. Expected : PASS.
+- [x] **Step 4 : commit.** `git commit -m "Téléphone, clavier, mouvement réduit"`
 
 ---
 
@@ -533,7 +533,7 @@ Run : `node --test --test-concurrency=1 --test-name-pattern="390|clavier|reduced
 - `robots.txt` autorise tout et pointe vers le sitemap. `sitemap.xml` ne contient qu'une seule URL.
 - `assets/og.png` : capture 1200×630 de la machine avec un texte d'exemple, faite par un script puppeteer inclus dans la tâche (`tests/e2e/og-image.mjs`).
 
-- [ ] **Step 1 : tests qui échouent** dans `tests/e2e/seo.test.mjs` :
+- [x] **Step 1 : tests qui échouent** dans `tests/e2e/seo.test.mjs` :
 
 ```js
 test("FAQ hors du premier écran", ...);           // le haut de la section FAQ est sous 900 px dans une fenêtre 1340×900
@@ -543,9 +543,9 @@ test("crédits présents", ...);                    // le footer contient "CC BY
 ```
 
 Run : `node --test --test-concurrency=1 --test-name-pattern="FAQ|JSON-LD|meta|crédits" tests/e2e/`. Expected : FAIL.
-- [ ] **Step 2 : implémenter**, et mettre à jour `README.md` : statut, but, dépendances, dernière touche, commandes de test.
-- [ ] **Step 3 : vérifier le succès.** Run : `npm test && npm run test:e2e`. Expected : tout passe.
-- [ ] **Step 4 : commit.** `git commit -m "SEO : FAQ, données structurées, crédits, image de partage"`
+- [x] **Step 2 : implémenter**, et mettre à jour `README.md` : statut, but, dépendances, dernière touche, commandes de test.
+- [x] **Step 3 : vérifier le succès.** Run : `npm test && npm run test:e2e`. Expected : tout passe.
+- [x] **Step 4 : commit.** `git commit -m "SEO : FAQ, données structurées, crédits, image de partage"`
 
 ---
 

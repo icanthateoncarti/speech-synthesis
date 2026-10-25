@@ -61,6 +61,7 @@ function listen(server, port) {
 }
 
 export async function startServer() {
+  if (process.env.BASE_URL) return { url: process.env.BASE_URL.replace(/\/$/, ""), close: async () => {} };
   const server = http.createServer(handle);
   try {
     await listen(server, PREFERRED_PORT);

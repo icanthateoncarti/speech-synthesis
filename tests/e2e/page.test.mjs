@@ -65,7 +65,7 @@ test("premier écran : seulement la machine", async () => {
     }
     // Aucun texte caché dans un ::before / ::after.
     const pseudo = [];
-    for (const el of document.body.querySelectorAll("*")) {
+    for (const el of document.querySelector(".room").querySelectorAll("*")) {
       for (const which of ["::before", "::after"]) {
         const c = getComputedStyle(el, which).content;
         if (c && c !== "none" && c !== "normal" && c !== '""') pseudo.push(`${el.tagName}${which} ${c}`);

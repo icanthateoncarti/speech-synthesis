@@ -145,6 +145,26 @@ Le grain et les ombres restent. Les touches font au moins 44 px.
 - **Vitesse réglable dès la v1** (demandé par Jonas), de 0,7× à 1,5×.
 
 ## 8. Après la v1 (pour mémoire, non engagé)
+
+### Navigation dans la lecture web — demande de Jonas du 2026-10-25 (V2)
+
+Pendant que la machine lit le texte, permettre de se déplacer dans l'audio depuis
+l'interface web, notamment par commande vocale. Cette fonctionnalité concerne le
+lecteur du site ; elle ne modifie pas un MP3 déjà téléchargé.
+
+- Par durée : « Reviens 30 secondes en arrière », « Avance de 5 minutes ».
+- Par phrase : « Reviens 3 phrases en arrière », « Avance de 6 phrases ».
+- Par chapitre : « Reviens au précédent chapitre », « Recommence le chapitre »,
+  « Skip jusqu'aux 3 prochains chapitres » (avancer de trois chapitres).
+- Garder la position de lecture, le texte surligné et le chapitre synchronisés.
+- Prévoir des commandes visuelles/clavier équivalentes ; la reconnaissance vocale
+  reste facultative et nécessite l'activation explicite du microphone.
+- Définir comment repérer les chapitres du texte/PDF et comment avancer vers une
+  partie dont l'audio n'a pas encore été généré. Préserver le traitement local.
+
+À réaliser après la mise en ligne et la validation de la V1.
+
+### Autres pistes
 - Pages par usage, une par recherche (PDF, TikTok, répondeur, révisions), avec la machine intégrée.
 - (Search Console et compteur sans cookies : voir §7, à brancher dès la v1.)
 - Publicité discrète et lien ElevenLabs « voix plus réaliste / usage commercial ».

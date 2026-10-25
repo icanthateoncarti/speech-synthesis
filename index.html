@@ -4,6 +4,90 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Synthèse vocale gratuite en français — texte en audio MP3 | speechsynthe.si</title>
+  <meta name="description" content="Synthèse vocale gratuite en français : colle ton texte ou un PDF, choisis Jessica ou Tom, écoute ou télécharge en MP3. Sans compte, dans ton navigateur.">
+  <link rel="canonical" href="https://speechsynthe.si/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="speechsynthe.si">
+  <meta property="og:title" content="Synthèse vocale gratuite en français — texte en audio MP3">
+  <meta property="og:description" content="Synthèse vocale gratuite en français : colle ton texte ou un PDF, choisis Jessica ou Tom, écoute ou télécharge en MP3. Sans compte, dans ton navigateur.">
+  <meta property="og:url" content="https://speechsynthe.si/">
+  <meta property="og:image" content="https://speechsynthe.si/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "La synthèse vocale est-elle vraiment gratuite ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, c'est gratuit, sans compte et sans limite de texte. Tu écris ou tu colles ton texte, tu appuies sur PARLE, et c'est tout. Aucune inscription, aucun cookie."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mon texte est-il envoyé sur Internet ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non. Tout est calculé dans ton navigateur : ton texte ne quitte jamais ton ordinateur. Seul le modèle de la voix est téléchargé une fois, et il n'emporte rien de toi."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment transformer un texte en audio MP3 ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Écris ou colle ton texte sur l'écran de la machine, choisis une voix et une vitesse, puis appuie sur la touche MP3. Le fichier se génère sur ton ordinateur et se télécharge tout seul."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment lire un PDF à voix haute ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Appuie sur la touche PDF et choisis ton fichier : son texte s'affiche sur l'écran. Il ne te reste plus qu'à appuyer sur PARLE, ou sur MP3 pour en garder l'audio. Un PDF scanné, sans texte sélectionnable, ne peut pas être lu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quelles voix françaises sont disponibles ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Il y en a deux : Jessica, une voix de femme, et Tom, une voix d'homme. Tu changes de voix avec le bouton rotatif à droite de la machine. Jessica est la voix choisie par défaut."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment changer la vitesse de lecture ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Déplace le curseur VITESSE : il va de 0,7× pour une lecture lente à 1,5× pour une lecture rapide, avec un cran central à 1,0×. La vitesse est appliquée à la synthèse, donc elle compte aussi pour le fichier MP3."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Pourquoi le premier chargement prend-il du temps ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Chaque voix pèse environ 60 Mo et se télécharge la première fois que tu l'utilises. Ensuite elle reste dans le cache de ton navigateur, et les lectures suivantes démarrent presque tout de suite."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Puis-je utiliser l'audio dans une vidéo TikTok ou YouTube ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tu peux utiliser ces voix dans une vidéo. Crédite la source avec « Voix : Piper ». Vérifie les licences CC BY-SA 4.0 de Jessica (jeu de données UPMC) et AGPLv3 de Tom pour confirmer qu'elles couvrent ton usage."
+      }
+    }
+  ]
+}
+  </script>
   <meta name="theme-color" content="#e7e5df">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -60,13 +144,6 @@
 
           <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
-          <div class="fader">
-            <div class="fader-slot">
-              <input type="range" id="speed" min="0.7" max="1.5" step="0.1" value="1" aria-valuetext="1,0×">
-            </div>
-            <label for="speed" class="silk-label">VITESSE</label>
-          </div>
-
           <div class="knobwrap" id="voice" role="radiogroup" aria-label="Voix">
             <div class="knob" aria-hidden="true"><i></i></div>
             <div class="knoblabels">
@@ -74,14 +151,62 @@
               <button type="button" role="radio" id="voice-tom" aria-checked="false" tabindex="-1">TOM</button>
             </div>
           </div>
+          <div class="fader">
+            <div class="fader-slot">
+              <input type="range" id="speed" min="0.7" max="1.5" step="0.1" value="1" aria-valuetext="1,0×">
+            </div>
+            <label for="speed" class="silk-label">VITESSE</label>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
+  <section class="faq" id="faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">Questions fréquentes</h2>
+    <details>
+      <summary>La synthèse vocale est-elle vraiment gratuite ?</summary>
+      <p class="answer">Oui, c'est gratuit, sans compte et sans limite de texte. Tu écris ou tu colles ton texte, tu appuies sur PARLE, et c'est tout. Aucune inscription, aucun cookie.</p>
+    </details>
+    <details>
+      <summary>Mon texte est-il envoyé sur Internet ?</summary>
+      <p class="answer">Non. Tout est calculé dans ton navigateur : ton texte ne quitte jamais ton ordinateur. Seul le modèle de la voix est téléchargé une fois, et il n'emporte rien de toi.</p>
+    </details>
+    <details>
+      <summary>Comment transformer un texte en audio MP3 ?</summary>
+      <p class="answer">Écris ou colle ton texte sur l'écran de la machine, choisis une voix et une vitesse, puis appuie sur la touche MP3. Le fichier se génère sur ton ordinateur et se télécharge tout seul.</p>
+    </details>
+    <details>
+      <summary>Comment lire un PDF à voix haute ?</summary>
+      <p class="answer">Appuie sur la touche PDF et choisis ton fichier : son texte s'affiche sur l'écran. Il ne te reste plus qu'à appuyer sur PARLE, ou sur MP3 pour en garder l'audio. Un PDF scanné, sans texte sélectionnable, ne peut pas être lu.</p>
+    </details>
+    <details>
+      <summary>Quelles voix françaises sont disponibles ?</summary>
+      <p class="answer">Il y en a deux : Jessica, une voix de femme, et Tom, une voix d'homme. Tu changes de voix avec le bouton rotatif à droite de la machine. Jessica est la voix choisie par défaut.</p>
+    </details>
+    <details>
+      <summary>Comment changer la vitesse de lecture ?</summary>
+      <p class="answer">Déplace le curseur VITESSE : il va de 0,7× pour une lecture lente à 1,5× pour une lecture rapide, avec un cran central à 1,0×. La vitesse est appliquée à la synthèse, donc elle compte aussi pour le fichier MP3.</p>
+    </details>
+    <details>
+      <summary>Pourquoi le premier chargement prend-il du temps ?</summary>
+      <p class="answer">Chaque voix pèse environ 60 Mo et se télécharge la première fois que tu l'utilises. Ensuite elle reste dans le cache de ton navigateur, et les lectures suivantes démarrent presque tout de suite.</p>
+    </details>
+    <details>
+      <summary>Puis-je utiliser l'audio dans une vidéo TikTok ou YouTube ?</summary>
+      <p class="answer">Tu peux utiliser ces voix dans une vidéo. Crédite la source avec « Voix : Piper ». Vérifie les licences CC BY-SA 4.0 de Jessica (jeu de données UPMC) et AGPLv3 de Tom pour confirmer qu'elles couvrent ton usage.</p>
+    </details>
+  </section>
+
+  <footer class="credits">
+    <p>Voix : <a href="https://github.com/rhasspy/piper">Piper</a>. Jessica : jeu de données UPMC, licence CC BY-SA 4.0. Tom : modèle sous licence AGPLv3.</p>
+    <p>Tout tourne dans ton navigateur, rien n'est envoyé. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
+  </footer>
+
   <script type="module">
     import { mountPlastic } from "./src/shader.js";
     mountPlastic(document.getElementById("plastic"), { reducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches });
   </script>
+  <script type="module" src="./src/main.js"></script>
 </body>
 </html>
