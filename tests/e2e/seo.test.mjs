@@ -93,3 +93,14 @@ test("crédits présents", async () => {
   for (const w of ["CC BY-SA 4.0", "AGPLv3", "Piper"]) assert.ok(f.text.includes(w), w);
   assert.ok(f.links.includes("https://github.com/icanthateoncarti/speech-synthesis"));
 });
+
+test("icônes pour Google et les téléphones, nom du site en données structurées", async () => {
+  const icons = await page.$$eval('link[rel="icon"], link[rel="apple-touch-icon"]', (els) => els.map((e) => e.getAttribute("href")));
+  assert.deepEqual(icons, ["/favicon.ico", "/favicon.svg", "/icon-192.png", "/apple-touch-icon.png"]);
+  for (const href of icons) {
+    const status = await page.evaluate(async (url) => (await fetch(url)).status, href);
+    assert.equal(status, 200, href);
+  }
+  const ld = await page.$$eval('script[type="application/ld+json"]', (els) => els.map((e) => JSON.parse(e.textContent)));
+  assert.equal(ld.find((d) => d["@type"] === "WebSite")?.name, "speechsynthe.si");
+});

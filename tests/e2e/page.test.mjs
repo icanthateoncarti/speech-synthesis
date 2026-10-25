@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { startServer, launch } from "./harness.mjs";
 import { initialState, statusLine } from "../../src/machine.js";
 
-const TITLE = "Synthèse vocale gratuite en français — texte en audio MP3 | speechsynthe.si";
+const TITLE = "Synthèse vocale gratuite en français — texte et PDF en MP3";
 const VIEWPORT = { width: 1340, height: 900 };
 
 // Textes autorisés au premier écran (Global Constraints) : logotype, sérigraphie,
