@@ -48,10 +48,9 @@ export function createTts() {
         p.resolve(data.wav);
       } else {
         const kind = data.kind === "network" ? "network" : "other";
-        // Un import() raté (onnxruntime-web hors ligne) reste en échec dans la table des
-        // modules de ce worker : après une erreur réseau, les nouvelles demandes partent vers
-        // un worker neuf ; l'ancien s'arrête dès qu'il n'a plus de tâche en cours.
-        if (kind === "network" && worker === w) worker = null;
+        // Après une erreur, le runtime WASM ou un import peut être inutilisable.
+        // Les demandes suivantes repartent d'un worker neuf, avec le modèle en cache.
+        if (worker === w) worker = null;
         p.reject(ttsError(kind, data.message));
       }
       if (w !== worker && !busy(w)) w.terminate(); // worker mis à la retraite, désormais libre
@@ -96,7 +95,17 @@ export function createTts() {
       const durations = [];
       for (let i = 0; i < chunks.length; i++) {
         if (gen !== generation) throw cancelled();
-        const wav = await request({ type: "synthesize", text: chunks[i], voiceId, lengthScale }, onProgress);
+        const message = { type: "synthesize", text: chunks[i], voiceId, lengthScale };
+        let wav;
+        try {
+          wav = await request(message, onProgress);
+        } catch (error) {
+          if (gen !== generation) throw cancelled();
+          if (error.kind !== "other") throw error;
+          // Une seule reprise du morceau courant après un arrêt du moteur.
+          // Aucun morceau déjà lu n'est rejoué et une erreur réseau reste explicite.
+          wav = await request(message, onProgress);
+        }
         if (gen !== generation) throw cancelled();
         wavs.push(wav);
         durations.push(wavDuration(wav));

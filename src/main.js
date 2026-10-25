@@ -243,8 +243,10 @@ $("pdf-input").addEventListener("change", async () => {
     if (!hasSpeakableContent(text)) dispatch({ type: "PDF_EMPTY" });
     else {
       screen.value = text;
+      screen.setSelectionRange(0, 0);
+      screen.scrollTop = 0;
       dispatch({ type: "TEXT_CHANGED", text });
-      screen.focus();
+      screen.focus({ preventScroll: true });
       preload();
     }
   } catch (err) {

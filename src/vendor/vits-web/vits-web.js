@@ -175,38 +175,92 @@ function b(e, m, n) {
   }
   return i.buffer;
 }
-let h, _;
+let h, _, activeVoice;
+let phonemizer, phonemizerUses = 0, phonemeResult;
+
+// Le worker sérialise les demandes : les callbacks du module WASM peuvent écrire
+// dans le résultat courant. Rotation bornée pour les allocations internes du CLI.
+async function phonemeIds(text, voice) {
+  if (!phonemizer || phonemizerUses >= 128) {
+    phonemizer = null;
+    phonemizerUses = 0;
+    phonemizer = await h.createPiperPhonemize({
+      print(line) {
+        if (!phonemeResult) return;
+        try { phonemeResult.ids = JSON.parse(line).phoneme_ids; }
+        catch (error) { phonemeResult.error = error; }
+      },
+      printErr(line) {
+        const error = new Error(line);
+        if (phonemeResult) phonemeResult.error = error;
+        else throw error;
+      },
+      locateFile(file) {
+        return file.endsWith(".wasm") ? `${x}.wasm` : file.endsWith(".data") ? `${x}.data` : file;
+      }
+    });
+  }
+  const result = { ids: null, error: null };
+  phonemeResult = result;
+  try {
+    phonemizerUses++;
+    const code = phonemizer.callMain([
+      "-l", voice, "--input", JSON.stringify([{ text: text.trim() }]),
+      "--espeak_data", "/espeak-ng-data"
+    ]);
+    if (result.error) throw result.error;
+    if (code !== 0 || !Array.isArray(result.ids) || !result.ids.length) {
+      throw new Error("Le phonémiseur n'a pas produit de résultat.");
+    }
+    return result.ids;
+  } catch (error) {
+    phonemizer = null;
+    throw error instanceof Error ? error : new Error(`Erreur du phonémiseur : ${error}`);
+  } finally {
+    phonemeResult = null;
+  }
+}
+
+// Une seule session ONNX pour toute la lecture. Créer un modèle par phrase sans
+// release() accumule les allocations WASM et finit par faire avorter le moteur.
+async function voiceSession(voiceId, onProgress) {
+  if (activeVoice?.id === voiceId) return activeVoice;
+  if (activeVoice) {
+    const previous = activeVoice;
+    activeVoice = null;
+    await previous.session.release();
+  }
+  const modelPath = c[voiceId];
+  const configBlob = await f(`${u}/${modelPath}.json`);
+  const config = JSON.parse(await configBlob.text());
+  const model = await f(`${u}/${modelPath}`, onProgress);
+  const session = await _.InferenceSession.create(await model.arrayBuffer());
+  activeVoice = { id: voiceId, config, session };
+  return activeVoice;
+}
+
 async function N(e, m) {
   h = h ?? await import("./piper-DeOu3H9E.js"), _ = _ ?? await import("https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/+esm");
-  const n = c[e.voiceId], o = JSON.stringify([{ text: e.text.trim() }]);
   _.env.allowLocalModels = !1, _.env.wasm.numThreads = navigator.hardwareConcurrency, _.env.wasm.wasmPaths = B;
-  const a = await f(`${u}/${n}.json`), i = JSON.parse(await a.text()), t = await new Promise(async (v) => {
-    (await h.createPiperPhonemize({
-      print: (l) => {
-        v(JSON.parse(l).phoneme_ids);
-      },
-      printErr: (l) => {
-        throw new Error(l);
-      },
-      locateFile: (l) => l.endsWith(".wasm") ? `${x}.wasm` : l.endsWith(".data") ? `${x}.data` : l
-    })).callMain([
-      "-l",
-      i.espeak.voice,
-      "--input",
-      o,
-      "--espeak_data",
-      "/espeak-ng-data"
-    ]);
-  }), r = 0, s = i.audio.sample_rate, d = i.inference.noise_scale, g = e.lengthScale ?? i.inference.length_scale, U = i.inference.noise_w, k = await f(`${u}/${n}`, m), y = await _.InferenceSession.create(await k.arrayBuffer()), w = {
+  const { config: i, session: y } = await voiceSession(e.voiceId, m);
+  const t = await phonemeIds(e.text, i.espeak.voice), r = 0, s = i.audio.sample_rate, d = i.inference.noise_scale, g = e.lengthScale ?? i.inference.length_scale, U = i.inference.noise_w, w = {
     input: new _.Tensor("int64", t, [1, t.length]),
     input_lengths: new _.Tensor("int64", [t.length]),
     scales: new _.Tensor("float32", [d, g, U])
   };
   Object.keys(i.speaker_id_map).length && Object.assign(w, { sid: new _.Tensor("int64", [r]) });
-  const {
-    output: { data: E }
-  } = await y.run(w);
-  return new Blob([b(E, 1, s)], { type: "audio/x-wav" });
+  let outputs;
+  try {
+    outputs = await y.run(w);
+    return new Blob([b(outputs.output.data, 1, s)], { type: "audio/x-wav" });
+  } catch (error) {
+    if (activeVoice?.session === y) activeVoice = null;
+    await y.release().catch(() => {});
+    throw error;
+  } finally {
+    for (const tensor of Object.values(w)) tensor.dispose?.();
+    for (const tensor of Object.values(outputs ?? {})) tensor.dispose?.();
+  }
 }
 async function f(e, m) {
   let n = await D(e);

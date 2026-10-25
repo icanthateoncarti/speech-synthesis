@@ -106,6 +106,27 @@ test("onChunk arrive avant la fin pour un texte de 30 phrases", { timeout: 300_0
   assert.ok(Math.abs(r.total - expected) < 0.05, `durée totale ${r.total} ≠ ${expected}`);
 });
 
+test("lecture longue : plus de 128 morceaux sans arrêt du moteur", { timeout: 240_000 }, async () => {
+  const errors = [];
+  const watch = (message) => {
+    if (/Aborted\(|out of memory|memory access out of bounds/i.test(message.text())) errors.push(message.text());
+  };
+  page.on("console", watch);
+  try {
+    const result = await page.evaluate(async () => {
+      let calls = 0;
+      const result = await window.tts.synthesize({ text: "Le jour est clair. ".repeat(140), voice: "jessica", speed: 1 }, {
+        onChunk: () => calls++,
+      });
+      return { calls, chunks: result.chunks.length, seconds: window.wavDuration(result.wav) };
+    });
+    assert.equal(result.calls, 140);
+    assert.equal(result.chunks, 140);
+    assert.ok(result.seconds > 100);
+    assert.deepEqual(errors, [], "aucun redémarrage du moteur ne doit masquer une fuite mémoire");
+  } finally { page.off("console", watch); }
+});
+
 test("cancel() rejette avec kind 'cancelled', et la synthèse suivante marche", { timeout: 300_000 }, async () => {
   const r = await page.evaluate(async (phrase) => {
     const text = Array.from({ length: 20 }, () => phrase).join(" ");

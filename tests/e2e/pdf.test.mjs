@@ -4,6 +4,8 @@ import { mkdtemp, writeFile } from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
 import { startServer, launch } from "./harness.mjs";
+import { splitIntoChunks } from "../../src/text.js";
+const WRAPPED = "La lecture doit regrouper les lignes de chaque paragraphe pour conserver le sens de la phrase et éviter les coupures artificielles.";
 let server, browser, page, fixtures;
 before(async () => {
   server = await startServer();
@@ -12,6 +14,8 @@ before(async () => {
   const generator = await browser.newPage();
   await generator.setContent("<p>Bonjour le monde. Ceci est un PDF.</p><p style='break-before:page'>La deuxième page est là.</p>");
   await generator.pdf({ path: path.join(fixtures, "texte.pdf") });
+  await generator.setContent(`<p style="width:120px;font-size:16px">${WRAPPED}</p>`);
+  await generator.pdf({ path: path.join(fixtures, "wrapped.pdf") });
   await generator.setContent("<canvas width='300' height='300'></canvas><script>const c=document.querySelector('canvas');c.getContext('2d').fillRect(0,0,300,300)</script>");
   await generator.pdf({ path: path.join(fixtures, "scan.pdf") });
   await writeFile(path.join(fixtures, "invalid.pdf"), "Ce fichier n'est pas un PDF.");
@@ -48,6 +52,16 @@ test("PDF scanné et invalide : message explicite, texte précédent conservé",
     await page.waitForFunction((value) => document.querySelector("#status-left").textContent === value, { timeout: 60_000 }, expected);
     assert.equal(await page.$eval("#screen", (el) => el.value), "Gardé.");
   }
+});
+
+test("une phrase répartie sur plusieurs lignes PDF reste un seul morceau vocal", { timeout: 60_000 }, async () => {
+  await open();
+  await upload("wrapped.pdf");
+  await page.waitForFunction(() => document.querySelector("#screen").value.includes("coupures artificielles"));
+  const text = await page.$eval("#screen", (el) => el.value);
+  assert.equal(text, WRAPPED);
+  assert.deepEqual(splitIntoChunks(text), [WRAPPED]);
+  assert.equal(await page.$eval("#screen", (el) => el.selectionStart), 0);
 });
 
 test("EFFACE pendant l'import PDF ne laisse pas réapparaître le texte", async () => {
