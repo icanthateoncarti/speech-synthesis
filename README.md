@@ -8,5 +8,5 @@
 - **Données** : texte, PDF et audio sont traités dans le navigateur ; seuls les modèles et bibliothèques sont téléchargés.
 - **Code vocal** : [`src/vendor/vits-web/PATCHES.md`](src/vendor/vits-web/PATCHES.md). Jessica (UPMC) est sous CC BY-SA 4.0 ; Tom est sous AGPLv3. Le dépôt reste public.
 - **Tests** : `npm test` ; `npm run test:e2e` (Google Chrome installé et connexion Internet pour les bibliothèques et modèles).
-- **V2 consignée** : navigation dans la lecture web par durée, phrase et chapitre, commandes vocales facultatives et import PDF par glisser-déposer. Voir `docs/superpowers/specs/2026-10-24-la-machine-design.md`.
+- **V2 (navigation + glisser-déposer)** : codée sur `feat/la-machine`, tests verts, pas encore publiée — barre de lecture (±30 s, position, chapitres), panneau COMMANDES (sauts par phrases/secondes/chapitres, commande écrite, micro local facultatif), PARLE = pause/reprise, import PDF par glisser-déposer. Commandes : `docs/voice-commands.md`. Spec : `docs/superpowers/specs/2026-10-24-la-machine-design.md`.
 - **Dernière touche** : 2026-10-25
