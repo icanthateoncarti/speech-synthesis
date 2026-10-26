@@ -33,7 +33,7 @@ function faqSection(faq) {
       <p class="answer">${escapeHtml(answer)}</p>
     </details>`).join("\n");
   return `<section class="faq" id="faq" aria-labelledby="faq-title">
-    <h2 id="faq-title">Questions fréquentes</h2>
+    <h2 id="faq-title">Avant d’appuyer sur lecture</h2>
 ${items}
   </section>`;
 }
@@ -42,7 +42,7 @@ function examplesSection(examples) {
   const items = examples.map(([label, text]) => `    <article class="example">
       <h3>${escapeHtml(label)}</h3>
       <blockquote>${escapeHtml(text)}</blockquote>
-      <button type="button" data-sample="${escapeHtml(text)}">Mettre dans la machine</button>
+      <button type="button" data-sample="${escapeHtml(text)}">Essayer ce texte</button>
     </article>`).join("\n");
   return `<section class="examples" aria-labelledby="examples-title">
     <h2 id="examples-title">Exemples de textes</h2>

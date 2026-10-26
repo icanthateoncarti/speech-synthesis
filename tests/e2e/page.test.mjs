@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { startServer, launch } from "./harness.mjs";
 import { initialState, statusLine } from "../../src/machine.js";
 
-const TITLE = "Texte en audio gratuit et sans limite — PDF et MP3";
+const TITLE = "Texte en audio gratuit — écoute tes textes, PDF et PowerPoint";
 const VIEWPORT = { width: 1340, height: 900 };
 
 // Textes autorisés au premier écran (Global Constraints) : logotype, sérigraphie,

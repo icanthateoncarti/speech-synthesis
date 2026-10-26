@@ -2,16 +2,16 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-zlpYZNY+HUVVKOHUODMSwZFFrhj2t6lGhSETo4/4LJY=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-v21qcWXCe74ZJC4QDrVFZFN8vL1Czs/BDF4t9Etji1Y=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Message de répondeur gratuit : crée ton MP3 sans t'enregistrer</title>
-  <meta name="description" content="Écris ton message de répondeur, choisis une voix et télécharge-le en MP3, sans t'enregistrer. Exemples de messages pro et perso prêts à l'emploi. Gratuit, sans compte.">
+  <title>Message de répondeur — crée ton MP3 sans t’enregistrer</title>
+  <meta name="description" content="Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.">
   <link rel="canonical" href="https://speechsynthe.si/message-repondeur/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="speechsynthe.si">
-  <meta property="og:title" content="Message de répondeur gratuit : crée ton MP3 sans t'enregistrer">
-  <meta property="og:description" content="Écris ton message de répondeur, choisis une voix et télécharge-le en MP3, sans t'enregistrer. Exemples de messages pro et perso prêts à l'emploi. Gratuit, sans compte.">
+  <meta property="og:title" content="Message de répondeur — crée ton MP3 sans t’enregistrer">
+  <meta property="og:description" content="Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.">
   <meta property="og:url" content="https://speechsynthe.si/message-repondeur/">
   <meta property="og:image" content="https://speechsynthe.si/assets/og.png">
   <meta property="og:image:width" content="1200">
@@ -48,34 +48,42 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Comment créer un message de répondeur en MP3 ?",
+      "name": "Comment préparer mon message ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Choisis un exemple ou écris ton message sur l'écran, règle la voix et la vitesse, puis appuie sur MP3. Remplace d'abord les passages entre crochets par ton nom, tes horaires ou ton numéro."
+        "text": "Charge un exemple ou écris ton annonce dans l’écran. Remplace les passages entre crochets, écoute le résultat, puis télécharge le MP3."
       }
     },
     {
       "@type": "Question",
-      "name": "Comment mettre le MP3 sur ma messagerie ?",
+      "name": "Ma messagerie accepte-t-elle les MP3 ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Sur un standard téléphonique ou une ligne VoIP, tu peux en général importer un fichier audio dans les réglages de la messagerie. Sur un portable, la messagerie de l'opérateur s'enregistre au micro : fais jouer le MP3 près du téléphone pendant l'enregistrement."
+        "text": "Cela dépend de ton opérateur ou de ton standard : vérifie si ses réglages proposent l’import d’un fichier audio. Si elle impose un enregistrement au micro, le MP3 ne pourra pas être ajouté directement."
       }
     },
     {
       "@type": "Question",
-      "name": "Quelle voix choisir pour un répondeur professionnel ?",
+      "name": "Quelles voix sont disponibles ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Jessica et Tom ont toutes les deux une voix posée et claire. Garde une vitesse entre 0,9× et 1,0× : les numéros et les horaires restent faciles à noter."
+        "text": "Deux voix par langue, en français et en anglais."
       }
     },
     {
       "@type": "Question",
-      "name": "Est-ce gratuit pour une entreprise ?",
+      "name": "Comment faire comprendre un numéro ou des horaires ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Oui, l'outil est gratuit et sans compte, quel que soit l'usage. Les voix sont sous licences libres, CC BY-SA 4.0 pour Jessica et AGPLv3 pour Tom, qui autorisent un usage commercial."
+        "text": "Sépare les groupes de chiffres par des espaces et ajoute de la ponctuation pour les pauses. Écoute ton annonce avant de la télécharger et ralentis la voix si nécessaire."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Est-ce gratuit aussi pour une entreprise ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "L’outil est gratuit et sans inscription. Les crédits et les licences des voix sont indiqués en bas de page."
       }
     }
   ]
@@ -88,32 +96,32 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=2e21d5c673">
+  <link rel="stylesheet" href="/styles/machine.css?v=86b2bee901">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=2e21d5c673",
-      "/src/boot.js": "/src/boot.js?v=2e21d5c673",
-      "/src/limits.js": "/src/limits.js?v=2e21d5c673",
-      "/src/machine.js": "/src/machine.js?v=2e21d5c673",
-      "/src/main.js": "/src/main.js?v=2e21d5c673",
-      "/src/navigation.js": "/src/navigation.js?v=2e21d5c673",
-      "/src/pages.js": "/src/pages.js?v=2e21d5c673",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=2e21d5c673",
-      "/src/pdf.js": "/src/pdf.js?v=2e21d5c673",
-      "/src/player.js": "/src/player.js?v=2e21d5c673",
-      "/src/pptx.js": "/src/pptx.js?v=2e21d5c673",
-      "/src/selection.js": "/src/selection.js?v=2e21d5c673",
-      "/src/shader.js": "/src/shader.js?v=2e21d5c673",
-      "/src/spoken.js": "/src/spoken.js?v=2e21d5c673",
-      "/src/text-map.js": "/src/text-map.js?v=2e21d5c673",
-      "/src/text.js": "/src/text.js?v=2e21d5c673",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=2e21d5c673",
-      "/src/tts.js": "/src/tts.js?v=2e21d5c673",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=2e21d5c673"
+      "/src/audio.js": "/src/audio.js?v=86b2bee901",
+      "/src/boot.js": "/src/boot.js?v=86b2bee901",
+      "/src/limits.js": "/src/limits.js?v=86b2bee901",
+      "/src/machine.js": "/src/machine.js?v=86b2bee901",
+      "/src/main.js": "/src/main.js?v=86b2bee901",
+      "/src/navigation.js": "/src/navigation.js?v=86b2bee901",
+      "/src/pages.js": "/src/pages.js?v=86b2bee901",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=86b2bee901",
+      "/src/pdf.js": "/src/pdf.js?v=86b2bee901",
+      "/src/player.js": "/src/player.js?v=86b2bee901",
+      "/src/pptx.js": "/src/pptx.js?v=86b2bee901",
+      "/src/selection.js": "/src/selection.js?v=86b2bee901",
+      "/src/shader.js": "/src/shader.js?v=86b2bee901",
+      "/src/spoken.js": "/src/spoken.js?v=86b2bee901",
+      "/src/text-map.js": "/src/text-map.js?v=86b2bee901",
+      "/src/text.js": "/src/text.js?v=86b2bee901",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=86b2bee901",
+      "/src/tts.js": "/src/tts.js?v=86b2bee901",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=86b2bee901"
     }
   }
   </script>
@@ -218,58 +226,62 @@
     <article class="example">
       <h3>Pro, simple</h3>
       <blockquote>Bonjour, vous êtes bien sur la messagerie de [ton nom]. Je ne peux pas vous répondre pour le moment. Laissez-moi votre nom, votre numéro et l'objet de votre appel, je vous rappelle dès que possible. Merci et bonne journée.</blockquote>
-      <button type="button" data-sample="Bonjour, vous êtes bien sur la messagerie de [ton nom]. Je ne peux pas vous répondre pour le moment. Laissez-moi votre nom, votre numéro et l'objet de votre appel, je vous rappelle dès que possible. Merci et bonne journée.">Mettre dans la machine</button>
+      <button type="button" data-sample="Bonjour, vous êtes bien sur la messagerie de [ton nom]. Je ne peux pas vous répondre pour le moment. Laissez-moi votre nom, votre numéro et l'objet de votre appel, je vous rappelle dès que possible. Merci et bonne journée.">Essayer ce texte</button>
     </article>
     <article class="example">
       <h3>Entreprise, avec horaires</h3>
       <blockquote>Bonjour et merci de votre appel. Nos bureaux sont ouverts du lundi au vendredi, de 9 heures à 18 heures. Laissez-nous un message avec vos coordonnées, nous vous rappellerons rapidement.</blockquote>
-      <button type="button" data-sample="Bonjour et merci de votre appel. Nos bureaux sont ouverts du lundi au vendredi, de 9 heures à 18 heures. Laissez-nous un message avec vos coordonnées, nous vous rappellerons rapidement.">Mettre dans la machine</button>
+      <button type="button" data-sample="Bonjour et merci de votre appel. Nos bureaux sont ouverts du lundi au vendredi, de 9 heures à 18 heures. Laissez-nous un message avec vos coordonnées, nous vous rappellerons rapidement.">Essayer ce texte</button>
     </article>
     <article class="example">
       <h3>Absence ou vacances</h3>
       <blockquote>Bonjour, je suis absent jusqu'au [date]. Pour toute urgence, contactez [nom] au [numéro]. Sinon, laissez-moi un message, je vous rappelle à mon retour.</blockquote>
-      <button type="button" data-sample="Bonjour, je suis absent jusqu'au [date]. Pour toute urgence, contactez [nom] au [numéro]. Sinon, laissez-moi un message, je vous rappelle à mon retour.">Mettre dans la machine</button>
+      <button type="button" data-sample="Bonjour, je suis absent jusqu'au [date]. Pour toute urgence, contactez [nom] au [numéro]. Sinon, laissez-moi un message, je vous rappelle à mon retour.">Essayer ce texte</button>
     </article>
     <article class="example">
       <h3>Perso</h3>
       <blockquote>Salut, c'est [ton prénom] ! Je ne suis pas dispo pour l'instant. Laisse-moi un message et je te rappelle vite.</blockquote>
-      <button type="button" data-sample="Salut, c'est [ton prénom] ! Je ne suis pas dispo pour l'instant. Laisse-moi un message et je te rappelle vite.">Mettre dans la machine</button>
+      <button type="button" data-sample="Salut, c'est [ton prénom] ! Je ne suis pas dispo pour l'instant. Laisse-moi un message et je te rappelle vite.">Essayer ce texte</button>
     </article>
     <article class="example">
       <h3>Avec une pointe d'humour</h3>
       <blockquote>Bonjour, vous êtes bien chez [ton prénom]. Je suis en train de chercher mon téléphone, qui sonne quelque part sous un coussin. Laissez un message, je le retrouverai avant ce soir.</blockquote>
-      <button type="button" data-sample="Bonjour, vous êtes bien chez [ton prénom]. Je suis en train de chercher mon téléphone, qui sonne quelque part sous un coussin. Laissez un message, je le retrouverai avant ce soir.">Mettre dans la machine</button>
+      <button type="button" data-sample="Bonjour, vous êtes bien chez [ton prénom]. Je suis en train de chercher mon téléphone, qui sonne quelque part sous un coussin. Laissez un message, je le retrouverai avant ce soir.">Essayer ce texte</button>
     </article>
   </section>
 
   <section class="guide" aria-labelledby="guide-title">
-    <h2 id="guide-title">Comment créer ton message de répondeur</h2>
+    <h2 id="guide-title">Un message clair, sans passer au micro</h2>
     <ol class="steps">
-      <li>Mets un des exemples dans la machine ou écris ton message, en remplaçant les passages entre crochets.</li>
-      <li>Choisis la voix et garde une vitesse proche de 1,0× pour que les numéros restent clairs.</li>
-      <li>Appuie sur MP3 et installe le fichier sur ta messagerie.</li>
+      <li>Choisis un exemple ci-dessous et remplace les noms, dates et horaires par les tiens.</li>
+      <li>Écoute avec PARLE. Ajuste la vitesse pour que chaque numéro soit facile à comprendre.</li>
+      <li>Télécharge le MP3, puis ajoute-le à ta messagerie si elle accepte les fichiers audio.</li>
     </ol>
-    <h3>Pourquoi tu n'as pas besoin de t'enregistrer</h3>
-    <p>La machine lit ton message d'une voix posée, sans bruit de fond ni hésitation. Tu peux le modifier et le régénérer en quelques secondes, gratuitement et sans compte.</p>
+    <h3>Change ton annonce quand tes horaires changent</h3>
+    <p>Congés, nouveaux horaires ou indisponibilité : adapte simplement ton texte. Tu peux réécouter le message et télécharger une nouvelle version gratuitement.</p>
   </section>
 
   <section class="faq" id="faq" aria-labelledby="faq-title">
-    <h2 id="faq-title">Questions fréquentes</h2>
+    <h2 id="faq-title">Avant d’appuyer sur lecture</h2>
     <details>
-      <summary>Comment créer un message de répondeur en MP3 ?</summary>
-      <p class="answer">Choisis un exemple ou écris ton message sur l'écran, règle la voix et la vitesse, puis appuie sur MP3. Remplace d'abord les passages entre crochets par ton nom, tes horaires ou ton numéro.</p>
+      <summary>Comment préparer mon message ?</summary>
+      <p class="answer">Charge un exemple ou écris ton annonce dans l’écran. Remplace les passages entre crochets, écoute le résultat, puis télécharge le MP3.</p>
     </details>
     <details>
-      <summary>Comment mettre le MP3 sur ma messagerie ?</summary>
-      <p class="answer">Sur un standard téléphonique ou une ligne VoIP, tu peux en général importer un fichier audio dans les réglages de la messagerie. Sur un portable, la messagerie de l'opérateur s'enregistre au micro : fais jouer le MP3 près du téléphone pendant l'enregistrement.</p>
+      <summary>Ma messagerie accepte-t-elle les MP3 ?</summary>
+      <p class="answer">Cela dépend de ton opérateur ou de ton standard : vérifie si ses réglages proposent l’import d’un fichier audio. Si elle impose un enregistrement au micro, le MP3 ne pourra pas être ajouté directement.</p>
     </details>
     <details>
-      <summary>Quelle voix choisir pour un répondeur professionnel ?</summary>
-      <p class="answer">Jessica et Tom ont toutes les deux une voix posée et claire. Garde une vitesse entre 0,9× et 1,0× : les numéros et les horaires restent faciles à noter.</p>
+      <summary>Quelles voix sont disponibles ?</summary>
+      <p class="answer">Deux voix par langue, en français et en anglais.</p>
     </details>
     <details>
-      <summary>Est-ce gratuit pour une entreprise ?</summary>
-      <p class="answer">Oui, l'outil est gratuit et sans compte, quel que soit l'usage. Les voix sont sous licences libres, CC BY-SA 4.0 pour Jessica et AGPLv3 pour Tom, qui autorisent un usage commercial.</p>
+      <summary>Comment faire comprendre un numéro ou des horaires ?</summary>
+      <p class="answer">Sépare les groupes de chiffres par des espaces et ajoute de la ponctuation pour les pauses. Écoute ton annonce avant de la télécharger et ralentis la voix si nécessaire.</p>
+    </details>
+    <details>
+      <summary>Est-ce gratuit aussi pour une entreprise ?</summary>
+      <p class="answer">L’outil est gratuit et sans inscription. Les crédits et les licences des voix sont indiqués en bas de page.</p>
     </details>
   </section>
 
@@ -282,13 +294,13 @@
       <a href="/message-repondeur/" aria-current="page">Message de répondeur</a>
     </nav>
     <p>Voix : <a href="https://github.com/rhasspy/piper">Piper</a>. Jessica : jeu de données UPMC, licence CC BY-SA 4.0. Tom : modèle sous licence AGPLv3. Textes en anglais : Kristin (LibriVox, domaine public) et Joe (CC0).</p>
-    <p>Tout tourne dans ton navigateur, rien n'est envoyé. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
+    <p>Ton texte et tes documents restent sur ton appareil. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
   </footer>
 
   <dialog id="pages-dialog" class="pages-dialog" aria-labelledby="pages-title">
     <div class="pages-bar">
       <div class="pages-heading">
-        <h2 id="pages-title">Pages</h2>
+        <h2 id="pages-title">Passages à lire</h2>
         <span id="pages-file" class="pages-file"></span>
       </div>
       <div class="pages-tools" role="group" aria-label="Surligneur">
@@ -299,14 +311,14 @@
       <p id="pages-hint" class="pages-hint" role="status"></p>
       <div class="pages-actions">
         <span id="pages-summary" class="pages-summary"></span>
-        <button type="button" id="pages-clear">Tout effacer</button>
-        <button type="button" id="pages-done" class="pages-done">Terminé</button>
+        <button type="button" id="pages-clear" aria-label="Effacer tous les surlignages">Effacer les marques</button>
+        <button type="button" id="pages-done" class="pages-done">Revenir à la radio</button>
       </div>
     </div>
     <div id="pages-list" class="pages-list"></div>
   </dialog>
 
-  <script type="module" src="/src/boot.js?v=2e21d5c673"></script>
-  <script type="module" src="/src/main.js?v=2e21d5c673"></script>
+  <script type="module" src="/src/boot.js?v=86b2bee901"></script>
+  <script type="module" src="/src/main.js?v=86b2bee901"></script>
 </body>
 </html>

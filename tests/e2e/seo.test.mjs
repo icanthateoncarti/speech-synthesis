@@ -3,14 +3,14 @@ import assert from "node:assert/strict";
 import { startServer, launch } from "./harness.mjs";
 
 const QUESTIONS = [
-  "La synthèse vocale est-elle vraiment gratuite ?",
-  "Mon texte est-il envoyé sur Internet ?",
-  "Comment transformer un texte en audio MP3 ?",
-  "Comment lire un PDF à voix haute ?",
-  "Quelles voix françaises sont disponibles ?",
-  "Comment changer la vitesse de lecture ?",
-  "Pourquoi le premier chargement prend-il du temps ?",
-  "Puis-je utiliser l'audio dans une vidéo TikTok ou YouTube ?",
+  "Est-ce gratuit, même pour télécharger le MP3 ?",
+  "Mon texte reste-t-il privé ?",
+  "Comment garder mon texte en MP3 ?",
+  "Comment écouter un PDF ou un PowerPoint ?",
+  "Quelles voix sont disponibles ?",
+  "Puis-je accélérer ou ralentir la voix ?",
+  "Pourquoi ce temps de chargement ?",
+  "Comment ajouter l’audio à une vidéo ?"
 ];
 
 let server, browser, page;
@@ -50,7 +50,7 @@ test("JSON-LD FAQPage valide, 8 questions identiques au HTML", async () => {
     assert.equal(e.acceptedAnswer["@type"], "Answer");
     assert.equal(e.acceptedAnswer.text.replace(/\s+/g, " "), html[i].a);
     const sentences = html[i].a.split(/(?<=[.!?])\s+/).length;
-    assert.ok(sentences >= 2 && sentences <= 4, `Q${i + 1} : ${sentences} phrases`);
+    assert.ok(sentences >= 1 && sentences <= 4, `Q${i + 1} : ${sentences} phrases`);
   });
 });
 

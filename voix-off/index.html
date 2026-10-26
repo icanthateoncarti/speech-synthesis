@@ -2,16 +2,16 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-zlpYZNY+HUVVKOHUODMSwZFFrhj2t6lGhSETo4/4LJY=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-v21qcWXCe74ZJC4QDrVFZFN8vL1Czs/BDF4t9Etji1Y=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Voix off IA gratuite et sans limite pour TikTok et YouTube</title>
-  <meta name="description" content="Crée une voix off gratuite pour tes vidéos TikTok, Reels ou YouTube : écris ton texte, choisis une voix française ou anglaise, télécharge le MP3. Sans compte.">
+  <title>Voix off gratuite — crée le MP3 de ta vidéo</title>
+  <meta name="description" content="Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.">
   <link rel="canonical" href="https://speechsynthe.si/voix-off/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="speechsynthe.si">
-  <meta property="og:title" content="Voix off IA gratuite et sans limite pour TikTok et YouTube">
-  <meta property="og:description" content="Crée une voix off gratuite pour tes vidéos TikTok, Reels ou YouTube : écris ton texte, choisis une voix française ou anglaise, télécharge le MP3. Sans compte.">
+  <meta property="og:title" content="Voix off gratuite — crée le MP3 de ta vidéo">
+  <meta property="og:description" content="Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.">
   <meta property="og:url" content="https://speechsynthe.si/voix-off/">
   <meta property="og:image" content="https://speechsynthe.si/assets/og.png">
   <meta property="og:image:width" content="1200">
@@ -48,34 +48,34 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Comment faire une voix off pour TikTok ?",
+      "name": "Comment créer la voix off de ma vidéo ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Écris ton texte sur l'écran, choisis Jessica ou Tom et la vitesse, puis appuie sur MP3. Importe ensuite le fichier dans CapCut ou dans l'éditeur de TikTok, sous ta vidéo."
+        "text": "Colle ton script dans l’écran, choisis la voix et la vitesse, puis écoute avec PARLE. Quand le résultat te convient, télécharge le MP3."
       }
     },
     {
       "@type": "Question",
-      "name": "Puis-je monétiser une vidéo avec cette voix off ?",
+      "name": "Comment ajouter la voix à mon montage ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Oui, même dans une vidéo monétisée. Avec Jessica, écris « Voix : Piper, jeu de données UPMC (CC BY-SA 4.0) » dans la description. Avec Tom, « Voix : Piper » suffit : sa licence AGPLv3 porte sur le modèle, pas sur l'audio que tu crées."
+        "text": "Importe le MP3 comme une piste audio dans ton logiciel de montage. Ajuste ensuite sa position et son volume pour l’accorder aux images."
       }
     },
     {
       "@type": "Question",
-      "name": "Comment rendre la voix off plus naturelle ?",
+      "name": "Comment rendre mon script agréable à écouter ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Écris des phrases courtes et mets un point là où tu veux une respiration. Une ligne seule, sans ponctuation finale, est lue comme un titre, avec une pause d'une seconde avant et après."
+        "text": "Écris comme tu parles, avec des phrases courtes et une idée à la fois. Écoute un premier essai pour repérer les passages à raccourcir ou à ponctuer."
       }
     },
     {
       "@type": "Question",
-      "name": "Je peux faire une voix off en anglais ?",
+      "name": "Quelles voix sont disponibles ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Oui : écris ton texte en anglais, la machine le reconnaît et choisit une voix anglaise. Le bouton rotatif choisit toujours entre une voix de femme et une voix d'homme."
+        "text": "Deux voix par langue, en français et en anglais."
       }
     }
   ]
@@ -88,32 +88,32 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=2e21d5c673">
+  <link rel="stylesheet" href="/styles/machine.css?v=86b2bee901">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=2e21d5c673",
-      "/src/boot.js": "/src/boot.js?v=2e21d5c673",
-      "/src/limits.js": "/src/limits.js?v=2e21d5c673",
-      "/src/machine.js": "/src/machine.js?v=2e21d5c673",
-      "/src/main.js": "/src/main.js?v=2e21d5c673",
-      "/src/navigation.js": "/src/navigation.js?v=2e21d5c673",
-      "/src/pages.js": "/src/pages.js?v=2e21d5c673",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=2e21d5c673",
-      "/src/pdf.js": "/src/pdf.js?v=2e21d5c673",
-      "/src/player.js": "/src/player.js?v=2e21d5c673",
-      "/src/pptx.js": "/src/pptx.js?v=2e21d5c673",
-      "/src/selection.js": "/src/selection.js?v=2e21d5c673",
-      "/src/shader.js": "/src/shader.js?v=2e21d5c673",
-      "/src/spoken.js": "/src/spoken.js?v=2e21d5c673",
-      "/src/text-map.js": "/src/text-map.js?v=2e21d5c673",
-      "/src/text.js": "/src/text.js?v=2e21d5c673",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=2e21d5c673",
-      "/src/tts.js": "/src/tts.js?v=2e21d5c673",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=2e21d5c673"
+      "/src/audio.js": "/src/audio.js?v=86b2bee901",
+      "/src/boot.js": "/src/boot.js?v=86b2bee901",
+      "/src/limits.js": "/src/limits.js?v=86b2bee901",
+      "/src/machine.js": "/src/machine.js?v=86b2bee901",
+      "/src/main.js": "/src/main.js?v=86b2bee901",
+      "/src/navigation.js": "/src/navigation.js?v=86b2bee901",
+      "/src/pages.js": "/src/pages.js?v=86b2bee901",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=86b2bee901",
+      "/src/pdf.js": "/src/pdf.js?v=86b2bee901",
+      "/src/player.js": "/src/player.js?v=86b2bee901",
+      "/src/pptx.js": "/src/pptx.js?v=86b2bee901",
+      "/src/selection.js": "/src/selection.js?v=86b2bee901",
+      "/src/shader.js": "/src/shader.js?v=86b2bee901",
+      "/src/spoken.js": "/src/spoken.js?v=86b2bee901",
+      "/src/text-map.js": "/src/text-map.js?v=86b2bee901",
+      "/src/text.js": "/src/text.js?v=86b2bee901",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=86b2bee901",
+      "/src/tts.js": "/src/tts.js?v=86b2bee901",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=86b2bee901"
     }
   }
   </script>
@@ -216,50 +216,50 @@
   <section class="examples" aria-labelledby="examples-title">
     <h2 id="examples-title">Exemples de textes</h2>
     <article class="example">
-      <h3>Accroche TikTok</h3>
-      <blockquote>Tu fais sûrement cette erreur tous les matins. Et elle te coûte une heure par jour. Voici comment l'éviter, en trois étapes.</blockquote>
-      <button type="button" data-sample="Tu fais sûrement cette erreur tous les matins. Et elle te coûte une heure par jour. Voici comment l'éviter, en trois étapes.">Mettre dans la machine</button>
+      <h3>Introduction de tuto</h3>
+      <blockquote>Aujourd’hui, on transforme un document en audio. Je te montre comment choisir les passages à écouter, puis télécharger le résultat.</blockquote>
+      <button type="button" data-sample="Aujourd’hui, on transforme un document en audio. Je te montre comment choisir les passages à écouter, puis télécharger le résultat.">Essayer ce texte</button>
     </article>
     <article class="example">
-      <h3>Intro de tuto YouTube</h3>
-      <blockquote>Dans cette vidéo, je te montre comment transformer n'importe quel PDF en audio, gratuitement. Ça prend moins d'une minute. On commence.</blockquote>
-      <button type="button" data-sample="Dans cette vidéo, je te montre comment transformer n'importe quel PDF en audio, gratuitement. Ça prend moins d'une minute. On commence.">Mettre dans la machine</button>
+      <h3>Présentation de recette</h3>
+      <blockquote>Une poêle, quelques légumes et vingt minutes devant toi. Voici une recette simple pour ce soir.</blockquote>
+      <button type="button" data-sample="Une poêle, quelques légumes et vingt minutes devant toi. Voici une recette simple pour ce soir.">Essayer ce texte</button>
     </article>
     <article class="example">
       <h3>Présentation de produit</h3>
-      <blockquote>Découvrez notre nouvelle collection, pensée pour durer. Des matières naturelles, des coupes simples, et un prix juste.</blockquote>
-      <button type="button" data-sample="Découvrez notre nouvelle collection, pensée pour durer. Des matières naturelles, des coupes simples, et un prix juste.">Mettre dans la machine</button>
+      <blockquote>Voici notre nouvelle collection. On te présente les coupes, les couleurs et les détails pour t’aider à choisir.</blockquote>
+      <button type="button" data-sample="Voici notre nouvelle collection. On te présente les coupes, les couleurs et les détails pour t’aider à choisir.">Essayer ce texte</button>
     </article>
   </section>
 
   <section class="guide" aria-labelledby="guide-title">
-    <h2 id="guide-title">Comment créer une voix off</h2>
+    <h2 id="guide-title">Ton script devient une voix off</h2>
     <ol class="steps">
-      <li>Écris ton texte sur l'écran, ou mets un des exemples dans la machine.</li>
-      <li>Choisis une voix de femme ou d'homme, en français ou en anglais selon ton texte, et règle la vitesse.</li>
-      <li>Appuie sur MP3, puis importe le fichier dans CapCut, TikTok ou ton logiciel de montage.</li>
+      <li>Écris ton script dans l’écran ou charge un exemple ci-dessous.</li>
+      <li>Choisis une voix et une vitesse, puis appuie sur PARLE pour écouter le résultat.</li>
+      <li>Ajuste ton texte si besoin, télécharge le MP3 et ajoute-le à ton montage.</li>
     </ol>
-    <h3>Pourquoi tu peux recommencer autant que tu veux</h3>
-    <p>Les voix sont calculées dans ton navigateur : chaque nouvel essai est gratuit, sans crédits ni filigrane. Tu peux retoucher ton texte et régénérer ta voix off jusqu'à ce que le rythme colle à ta vidéo.</p>
+    <h3>Trouve le rythme de ta vidéo</h3>
+    <p>Une phrase sonne trop longue ? Raccourcis-la et écoute à nouveau. Chaque essai est gratuit, et ton script reste sur ton appareil.</p>
   </section>
 
   <section class="faq" id="faq" aria-labelledby="faq-title">
-    <h2 id="faq-title">Questions fréquentes</h2>
+    <h2 id="faq-title">Avant d’appuyer sur lecture</h2>
     <details>
-      <summary>Comment faire une voix off pour TikTok ?</summary>
-      <p class="answer">Écris ton texte sur l'écran, choisis Jessica ou Tom et la vitesse, puis appuie sur MP3. Importe ensuite le fichier dans CapCut ou dans l'éditeur de TikTok, sous ta vidéo.</p>
+      <summary>Comment créer la voix off de ma vidéo ?</summary>
+      <p class="answer">Colle ton script dans l’écran, choisis la voix et la vitesse, puis écoute avec PARLE. Quand le résultat te convient, télécharge le MP3.</p>
     </details>
     <details>
-      <summary>Puis-je monétiser une vidéo avec cette voix off ?</summary>
-      <p class="answer">Oui, même dans une vidéo monétisée. Avec Jessica, écris « Voix : Piper, jeu de données UPMC (CC BY-SA 4.0) » dans la description. Avec Tom, « Voix : Piper » suffit : sa licence AGPLv3 porte sur le modèle, pas sur l'audio que tu crées.</p>
+      <summary>Comment ajouter la voix à mon montage ?</summary>
+      <p class="answer">Importe le MP3 comme une piste audio dans ton logiciel de montage. Ajuste ensuite sa position et son volume pour l’accorder aux images.</p>
     </details>
     <details>
-      <summary>Comment rendre la voix off plus naturelle ?</summary>
-      <p class="answer">Écris des phrases courtes et mets un point là où tu veux une respiration. Une ligne seule, sans ponctuation finale, est lue comme un titre, avec une pause d'une seconde avant et après.</p>
+      <summary>Comment rendre mon script agréable à écouter ?</summary>
+      <p class="answer">Écris comme tu parles, avec des phrases courtes et une idée à la fois. Écoute un premier essai pour repérer les passages à raccourcir ou à ponctuer.</p>
     </details>
     <details>
-      <summary>Je peux faire une voix off en anglais ?</summary>
-      <p class="answer">Oui : écris ton texte en anglais, la machine le reconnaît et choisit une voix anglaise. Le bouton rotatif choisit toujours entre une voix de femme et une voix d'homme.</p>
+      <summary>Quelles voix sont disponibles ?</summary>
+      <p class="answer">Deux voix par langue, en français et en anglais.</p>
     </details>
   </section>
 
@@ -272,13 +272,13 @@
       <a href="/message-repondeur/">Message de répondeur</a>
     </nav>
     <p>Voix : <a href="https://github.com/rhasspy/piper">Piper</a>. Jessica : jeu de données UPMC, licence CC BY-SA 4.0. Tom : modèle sous licence AGPLv3. Textes en anglais : Kristin (LibriVox, domaine public) et Joe (CC0).</p>
-    <p>Tout tourne dans ton navigateur, rien n'est envoyé. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
+    <p>Ton texte et tes documents restent sur ton appareil. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
   </footer>
 
   <dialog id="pages-dialog" class="pages-dialog" aria-labelledby="pages-title">
     <div class="pages-bar">
       <div class="pages-heading">
-        <h2 id="pages-title">Pages</h2>
+        <h2 id="pages-title">Passages à lire</h2>
         <span id="pages-file" class="pages-file"></span>
       </div>
       <div class="pages-tools" role="group" aria-label="Surligneur">
@@ -289,14 +289,14 @@
       <p id="pages-hint" class="pages-hint" role="status"></p>
       <div class="pages-actions">
         <span id="pages-summary" class="pages-summary"></span>
-        <button type="button" id="pages-clear">Tout effacer</button>
-        <button type="button" id="pages-done" class="pages-done">Terminé</button>
+        <button type="button" id="pages-clear" aria-label="Effacer tous les surlignages">Effacer les marques</button>
+        <button type="button" id="pages-done" class="pages-done">Revenir à la radio</button>
       </div>
     </div>
     <div id="pages-list" class="pages-list"></div>
   </dialog>
 
-  <script type="module" src="/src/boot.js?v=2e21d5c673"></script>
-  <script type="module" src="/src/main.js?v=2e21d5c673"></script>
+  <script type="module" src="/src/boot.js?v=86b2bee901"></script>
+  <script type="module" src="/src/main.js?v=86b2bee901"></script>
 </body>
 </html>

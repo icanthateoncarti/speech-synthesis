@@ -9,11 +9,11 @@ const CHARS_PER_SECOND = 14;
 const MAX_WIDTH = 900;
 const DRAG_PIXELS = 8;
 const HINTS = {
-  include: "Clique sur le premier mot à lire, puis sur le dernier. Tu peux aussi glisser de l'un à l'autre.",
-  exclude: "Clique sur le premier mot à sauter, puis sur le dernier. Tu peux aussi glisser de l'un à l'autre.",
-  erase: "Clique sur le premier et le dernier mot du surlignage à retirer.",
-  second: "Clique maintenant sur le dernier mot du passage.",
-  miss: "Clique sur un mot du texte.",
+  include: "Sélectionne le premier mot à lire, puis le dernier. Tu peux aussi glisser entre les deux.",
+  exclude: "Sélectionne le premier mot à sauter, puis le dernier. Tu peux aussi glisser entre les deux.",
+  erase: "Sélectionne le premier et le dernier mot du surlignage à retirer.",
+  second: "Sélectionne maintenant le dernier mot du passage.",
+  miss: "Sélectionne un mot du texte.",
 };
 
 const $ = (id) => document.getElementById(id);
@@ -25,7 +25,7 @@ function formatDuration(chars) {
 
 /**
  * Ouvre la vue et résout les nouveaux surlignages quand on la ferme
- * (« Terminé », Échap ou fermeture : rien n'est perdu).
+ * (« Revenir à la radio », Échap ou fermeture : rien n'est perdu).
  */
 export async function openPages({ file, pageMaps, text, marks: initial }) {
   const dialog = $("pages-dialog"), list = $("pages-list");
