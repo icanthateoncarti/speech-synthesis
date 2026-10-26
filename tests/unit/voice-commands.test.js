@@ -31,7 +31,7 @@ test("les demandes de navigation de Jonas sont reconnues avec chiffres ou mots",
   for (const [raw, expected] of cases) assert.deepEqual(parseVoiceCommand(raw), expected, raw);
 });
 
-test("cinquante formulations françaises réalistes sont reconnues telles qu'aujourd'hui", () => {
+test("cinquante-cinq formulations françaises réalistes sont reconnues telles qu'aujourd'hui", () => {
   const cases = [
     ["recule de deux minutes", { type: "relative-time", seconds: -120 }],
     ["va au chapitre suivant", { type: "relative-chapter", count: 1 }],
