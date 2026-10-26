@@ -220,3 +220,10 @@ test("symboles décoratifs : puces privées, formulaires et lignes de tirets", (
   assert.equal(spokenText("Il hésite... puis reprend."), "Il hésite... puis reprend.");
   assert.equal(spokenText("A -> B, C => D, E <- F, G <=> H"), "A vers B, C vers D, E, flèche vers la gauche, F, G, flèche dans les deux sens, H");
 });
+
+test("mots anglais lus à la française, session 2, lot 1", () => {
+  assert.equal(spokenText("Le supply chain project suit le customer journey du user."),
+    "Le seu-plaï tchène pro-djèkt suit le keusse-teu-meur djeur-ni du youzeur.");
+  assert.equal(spokenText("Le supplier, le procurement et la logistics couvrent la transportation, la demand, la revenue, la margin, les operations et la value avant le deployment."),
+    "Le seu-plaï-eur, le pro-kiou-meurt et la lo-djisse-tik couvrent la trasse-por-té-cheune, la di-mad, la re-ve-niou, la mar-djine, les o-pé-ré-cheune et la va-lou avant le di-ploï-meurte.");
+});

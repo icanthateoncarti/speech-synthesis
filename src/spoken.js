@@ -55,6 +55,12 @@ const LEXICON = new Map(Object.entries({
   merchandising: "meur-tchan-dai-zinng", packaging: "pa-ké-djinng", "e-learning": "i-leur-ninng",
   "e-book": "i-bouk", webinar: "ouèbe-i-nar", streaming: "stri-minng", community: "keu-myou-ni-ti",
   copy: "kopi", reel: "rile", blogging: "blo-guinng",
+  // Mots anglais lus à la française, session 2 (2026-10-26), lot 1.
+  supply: "seu-plaï", chain: "tchène", project: "pro-djèkt", user: "youzeur",
+  customer: "keusse-teu-meur", journey: "djeur-ni", supplier: "seu-plaï-eur",
+  procurement: "pro-kiou-meurt", logistics: "lo-djisse-tik", transportation: "trasse-por-té-cheune",
+  demand: "di-mad", revenue: "re-ve-niou", margin: "mar-djine", operations: "o-pé-ré-cheune",
+  value: "va-lou", deployment: "di-ploï-meurte",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
