@@ -68,7 +68,7 @@ export function parseVoiceCommand(raw) {
   // Un signe négatif explicite ne doit jamais se transformer en nombre positif.
   if (/[-−]\s*\d/.test(String(raw))) return null;
   let text = normalizeCommand(raw)
-    .replace(/^(?:s il te plait|peux tu|tu peux) /, "")
+    .replace(/^(?:s il te plait|je voudrais|peux tu|tu peux|merci) /, "")
     .replace(/ (?:s il te plait|merci)$/, "");
   if (/^(?:pause|stop|arrete|attends|attend|mets en pause|mets la lecture en pause|arrete la lecture)$/.test(text)
       || /^(?:(?:attends|attend|stop)(?: |$))+$/.test(text)) return { type: "pause" };

@@ -92,6 +92,13 @@ test("cinquante-cinq formulations françaises réalistes sont reconnues telles q
   for (const [raw, expected] of cases) assert.deepEqual(parseVoiceCommand(raw), expected, raw);
 });
 
+test("les tournures naturelles comprises au fil de la session 2", () => {
+  const cases = [
+    ["merci, recule de dix secondes", { type: "relative-time", seconds: -10 }],
+  ];
+  for (const [raw, expected] of cases) assert.deepEqual(parseVoiceCommand(raw), expected, raw);
+});
+
 test("formulations naturelles encore non comprises : comportement actuel verrouillé", () => {
   // À vérifier : ces tournures naturelles ne sont pas reconnues aujourd'hui.
   // Le test fige le comportement actuel ; le journal les liste pour Jonas.
@@ -101,7 +108,6 @@ test("formulations naturelles encore non comprises : comportement actuel verroui
     "tu peux avancer de cinq minutes",
     "reculer de deux minutes",
     "avancer de deux minutes",
-    "merci, recule de dix secondes",
     "recule de 2 min",
     "avance de 30 s",
     "reviens 30s en arrière",
@@ -117,7 +123,8 @@ test("formulations naturelles encore non comprises : comportement actuel verroui
 test("le texte ordinaire et les demandes ambiguës ne déclenchent pas de navigation", () => {
   for (const text of [
     "", "Le chapitre précédent explique les cinq minutes de pause.",
-    "Je voudrais avancer dans ma lecture.", "Avance de deux trois secondes",
+    "Je voudrais avancer dans ma lecture.", "Je voudrais un café.",
+    "Avance de deux trois secondes",
     "Avance de -30 secondes", "Reviens de moins trente secondes", "Avance de zéro phrase",
     "Avance de trois phrases en arrière", "Reviens de trois minutes en avant",
     "Avance de 99999999999999999999 secondes", "Avance de cent heures", "Reviens au chapitre trois",
