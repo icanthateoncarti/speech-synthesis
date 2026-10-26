@@ -92,6 +92,7 @@ function rebuildIndex() {
     option.value = String(i); option.textContent = chapter.title; return option;
   }));
   $("chapter").title = documentInfo.name || "Chapitres du texte";
+  paintPosition(true);
 }
 function resetReader() {
   reader.replaceChildren(); reader.scrollTop = 0;
@@ -393,7 +394,38 @@ $("voice").addEventListener("keydown", (event) => {
   event.preventDefault();
   chooseVoice(event.key === "Home" ? "jessica" : event.key === "End" ? "tom" : state.voice === "jessica" ? "tom" : "jessica", true);
 });
-$("voice").querySelector(".knob").addEventListener("click", () => chooseVoice(state.voice === "jessica" ? "tom" : "jessica"));
+// Deux crans : le repère suit le geste, la voix ne change qu'au relâchement.
+// Un clic garde le raccourci de bascule ; les radios restent accessibles au clavier.
+const knob = $("voice").querySelector(".knob");
+let turn = null;
+knob.addEventListener("pointerdown", (event) => {
+  if (!event.isPrimary || event.button !== 0 || turn) return;
+  event.preventDefault();
+  const angle = state.voice === "tom" ? 42 : -42;
+  turn = { id: event.pointerId, x: event.clientX, y: event.clientY, start: angle, angle, moved: false };
+  knob.setPointerCapture(event.pointerId);
+  knob.classList.add("turning");
+});
+knob.addEventListener("pointermove", (event) => {
+  if (!turn || event.pointerId !== turn.id) return;
+  const dx = event.clientX - turn.x, dy = event.clientY - turn.y;
+  if (Math.hypot(dx, dy) < 6 && !turn.moved) return;
+  turn.moved = true;
+  turn.angle = Math.max(-42, Math.min(42, turn.start + (dx - dy) * 1.2));
+  knob.style.setProperty("--knob-angle", `${turn.angle}deg`);
+});
+function finishTurn(event, commit) {
+  if (!turn || event.pointerId !== turn.id) return;
+  const gesture = turn;
+  turn = null;
+  knob.classList.remove("turning");
+  knob.style.removeProperty("--knob-angle");
+  if (knob.hasPointerCapture(gesture.id)) knob.releasePointerCapture(gesture.id);
+  if (commit) chooseVoice(gesture.moved ? gesture.angle >= 0 ? "tom" : "jessica" : state.voice === "jessica" ? "tom" : "jessica");
+}
+knob.addEventListener("pointerup", (event) => finishTurn(event, true));
+knob.addEventListener("pointercancel", (event) => finishTurn(event, false));
+knob.addEventListener("lostpointercapture", (event) => finishTurn(event, false));
 $("speed").addEventListener("input", () => { cancelWork(); dispatch({ type: "SPEED_CHANGED", speed: Number($("speed").value) }); });
 $("key-pdf").addEventListener("click", () => $("pdf-input").click());
 $("pdf-input").addEventListener("change", () => { const file = $("pdf-input").files[0]; $("pdf-input").value = ""; void importDocument(file); });

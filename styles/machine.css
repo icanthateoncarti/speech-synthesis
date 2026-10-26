@@ -206,7 +206,7 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
 }
 
 /* Bouton rotatif JESSICA / TOM */
-.knobwrap { text-align: center; }
+.knobwrap { text-align: center; user-select: none; -webkit-user-select: none; --knob-angle: -42deg; }
 .knob {
   width: 106px; height: 106px; margin: 0 auto; border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #fbfbfb, #cfcfcf 58%, #9b9b9b);
@@ -214,16 +214,21 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
   position: relative;
 }
 /* Seul le repère tourne : l'ombre et le reflet restent fixes, comme sur un vrai bouton. */
-.knob i { position: absolute; inset: 0; transform: rotate(-42deg); transition: transform .5s cubic-bezier(.2,.9,.3,1.2); }
+.knob i { position: absolute; inset: 0; transform: rotate(var(--knob-angle)); transition: transform .35s cubic-bezier(.2,.9,.3,1.2); }
 .knob i::after { content: ""; position: absolute; top: 10px; left: 50%; width: 6px; height: 24px; margin-left: -3px; background: var(--orange); border-radius: 3px; }
-#voice:has(#voice-tom[aria-checked="true"]) .knob i { transform: rotate(42deg); }
+#voice:has(#voice-tom[aria-checked="true"]) { --knob-angle: 42deg; }
+.knob.turning i { transition: none; }
 .knoblabels { display: flex; justify-content: space-between; width: 132px; margin: 12px auto 0; }
 .knoblabels button {
   appearance: none; border: 0; background: none; padding: 0; margin: 0; cursor: pointer;
   font: 800 12px Archivo, sans-serif; color: var(--silk); letter-spacing: .04em;
 }
 .knoblabels button[aria-checked="true"] { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,.6); }
-.knob { cursor: pointer; }
+.knob { cursor: grab; touch-action: none; }
+.knob.turning { cursor: grabbing; }
+.knoblabels button { position: relative; }
+.knoblabels button::after { content: ""; position: absolute; height: 2px; width: 14px; bottom: 4px; left: calc(50% - 7px); border-radius: 2px; background: currentColor; opacity: 0; }
+.knoblabels button[aria-checked="true"]::after { opacity: 1; }
 .knoblabels button { min-width: 44px; min-height: 44px; }
 .key:disabled { opacity: .65; cursor: wait; }
 #screen:focus-visible { outline: 2px solid var(--phosphor-dim); outline-offset: 5px; border-radius: 2px; }
@@ -325,6 +330,7 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
 .commands-panel input::placeholder { color: #ffdabdbb; }
 .commands-panel input[type=number] { width: 72px; }
 .commands-panel input[type=text] { min-width: 0; flex: 1; }
+.command-form input[type=text] { font-size: 16px; }
 .commands-panel button { cursor: pointer; background: #ffe2cc1c; }
 .commands-panel select option { color: #222; }
 .commands-panel :focus-visible { outline: 2px solid #fff3e6; outline-offset: 2px; }
@@ -334,7 +340,10 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
   .transport-actions { flex-wrap: wrap; gap: 0 4px; }
   .transport-actions select { flex-basis: 100%; order: 1; }
   #commands-toggle { margin-left: auto; }
-  .command-form { gap: 6px; }
+  .command-form { gap: 8px; flex-wrap: wrap; }
+  .command-form input[type=text] { flex-basis: 100%; }
+  .command-form button[type=submit] { margin-left: auto; }
+  .command-form #voice-command { min-width: 88px; }
   .commands-panel { padding: 12px; }
   .commands-panel input, .commands-panel select, .commands-panel button { padding: 8px; font-size: 11px; }
 }
@@ -440,13 +449,14 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
 .pdf-page .textLayer mark.hl-anchor { background: rgb(47 98 255 / .35); outline: 2px solid #2f62ff; }
 @media (max-width: 760px) {
   /* Téléphone : la barre reste compacte pour laisser la place aux pages. */
-  .pages-bar { grid-template-columns: 1fr auto; grid-template-areas: "head done" "tools clear" "summary summary" "hint hint"; gap: 6px 8px; padding-block: 10px 8px; }
+  .pages-bar { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "head done" "tools tools" "summary clear" "hint hint"; gap: 10px 8px; padding-block: 12px; }
+  .pages-heading { flex-direction: column; align-items: flex-start; gap: 4px; }
   .pages-actions { display: contents; }
   .pages-done { grid-area: done; }
   #pages-clear { grid-area: clear; }
   .pages-summary { grid-area: summary; font-size: 11px; }
-  .pages-tools { justify-content: flex-start; gap: 6px; flex-wrap: nowrap; }
-  .pages-tools button, .pages-actions button { min-height: 40px; padding: 0 10px; font-size: 11px; }
+  .pages-tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .pages-tools button, .pages-actions button { min-height: 44px; padding: 0 8px; font-size: 11px; }
   .pages-hint { font-size: 11px; line-height: 1.4; }
   .pages-file { max-width: 16ch; }
 }

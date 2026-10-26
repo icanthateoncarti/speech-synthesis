@@ -57,11 +57,11 @@ Inspirée du **Speak & Spell** (Texas Instruments, 1978, premier objet parlant g
 - **Pendant la lecture**, le mot prononcé est **surligné** sur l'écran.
 - **Ligne d'état** au bas de l'écran (même police, couleur plus sombre) : état (`PRÊT`, `CHARGEMENT VOIX 42 %`, `▶ LECTURE`, `✓ MP3 PRÊT`) et voix active.
 - **Touches** :
-  - **▶ PARLE** : grande, bleue. Lance ou arrête la lecture.
+  - **▶ PARLE** : grande, bleue. Lance la lecture, puis devient PAUSE / REPRENDRE.
   - **⬇ MP3**, **PDF** : jaunes, avec un effet d'enfoncement au clic. **EFFACE** : touche secondaire encastrée.
-- **Ordre des commandes (ajusté à la demande de Jonas le 2026-10-25)** : quatre zones numérotées suivent l'utilisation : **1 · TEXTE** (import PDF, puis effacement secondaire), **2 · RÉGLAGES** (voix et vitesse), **3 · ÉCOUTE** (PARLE/STOP et vumètre), **4 · EXPORT** (MP3). EFFACE est une touche encastrée discrète. Le même ordre s'applique au clavier.
+- **Ordre des commandes (repris le 2026-10-26)** : import PDF/PPTX et effacement secondaire à gauche, bouton de voix et vitesse au centre avec le vumètre, PARLE et MP3 à droite. Les touches principales sont alignées, sans zones numérotées. EFFACE reste encastré. Le même ordre s’applique au clavier.
 - **Vumètre** : barres qui réagissent au **vrai niveau audio** pendant la lecture.
-- **Bouton rotatif** argenté : deux positions, **JESSICA** / **TOM**, rotation animée.
+- **Bouton rotatif** argenté : deux positions, **JESSICA** / **TOM**, rotation animée. Clic ou glisser à la souris/au doigt, avec validation de la voix au relâchement ; les libellés restent utilisables au clavier.
 - **Curseur de vitesse** façon matériel (fader) sur le boîtier, de 0,7× à 1,5×, cran central à 1,0×. La valeur s'affiche sur la ligne d'état (`VITESSE 1.2×`).
 
 ### 4.2 Le texte pour Google sans casser le design
@@ -97,7 +97,7 @@ Inspirée du **Speak & Spell** (Texas Instruments, 1978, premier objet parlant g
 - **PARLE** :
   - si la voix n'est pas encore téléchargée, la ligne d'état affiche la progression en pourcentage ;
   - sinon, la synthèse démarre ;
-  - un deuxième appui arrête la lecture.
+  - un deuxième appui met en pause ; le suivant reprend à la même position.
 - **Bouton rotatif** : change de voix. Si un audio était déjà généré, il faut le regénérer avec la nouvelle voix.
 - **Vitesse** : appliquée **à la synthèse** via le paramètre `length_scale` de Piper (vitesse = 1 / length_scale). La voix garde donc un débit naturel, et le MP3 téléchargé est à la même vitesse que l'écoute. `@diffusionstudio/vits-web` lit ce paramètre dans la config du modèle sans l'exposer : on intègre et adapte sa source (MIT) pour le rendre réglable.
 - **⬇ MP3** : télécharge l'audio du texte actuel en **MP3**. Il est généré s'il ne l'est pas déjà.
@@ -106,10 +106,11 @@ Inspirée du **Speak & Spell** (Texas Instruments, 1978, premier objet parlant g
 - Le texte reste local. Aucun appel réseau sauf le téléchargement des modèles de voix et des bibliothèques.
 
 ### 4.5 Téléphone
-La machine se réorganise en format portrait : écran en haut, puis les quatre zones
-dans l'ordre **texte → réglages → écoute → export**. PDF et EFFACE partagent une
-ligne, puis viennent le bouton de voix avec la vitesse, PARLE avec le vumètre, et
-le téléchargement MP3.
+La machine se réorganise en format portrait : écran en haut, puis trois rangées.
+IMPORTER et EFFACE partagent la première ; le bouton de voix, la vitesse et le vumètre
+occupent la deuxième ; PARLE et MP3 sont côte à côte sur la dernière. Le nom du document
+importé apparaît dans l'écran. Les commandes avancées se déplient sous le pupitre,
+avec focus dans le champ de commande et retour au bouton par Échap.
 
 Le grain et les ombres restent. Les touches font au moins 44 px.
 
@@ -167,7 +168,7 @@ lecteur du site ; elle ne modifie pas un MP3 déjà téléchargé.
 
 ### Import PDF par glisser-déposer — demande de Jonas du 2026-10-25
 
-- [ ] Permettre de glisser-déposer un PDF sur la machine ou son écran pour importer son texte, en complément de la touche PDF.
+- [x] Permettre de glisser-déposer un PDF sur la machine ou son écran pour importer son texte, en complément de la touche PDF.
 - Réutiliser l'extraction locale et les messages existants pour les PDF sans texte, illisibles ou protégés.
 - Signaler visuellement la zone de dépôt pendant le survol et empêcher le navigateur d'ouvrir le PDF à la place du site.
 
@@ -177,8 +178,8 @@ lecteur du site ; elle ne modifie pas un MP3 déjà téléchargé.
 
 ### Retravailler l'UI des commandes — demande de Jonas du 2026-10-26
 
-- [ ] Les boutons ne sont pas encore parfaitement optimisés ni esthétiques : reprendre leur rendu et leur sensation de pression.
-- [ ] Bouton rotatif (JESSICA / TOM) : il faut cliquer dessus ; un clic-glissé sélectionne le texte au lieu de tourner le bouton. Le faire tourner au glisser (pointer events) et empêcher la sélection de texte pendant le geste.
+- [x] Reprendre les proportions, l’alignement et la sensation de pression des touches ; adapter le pupitre à trois rangées sur téléphone.
+- [x] Bouton rotatif (JESSICA / TOM) au glisser avec pointer events, sans sélection de texte ; geste annulé = voix conservée, choix au relâchement. Clic et clavier conservés.
 
 ### Autres pistes
 - Pages par usage, une par recherche (PDF, TikTok, répondeur, révisions), avec la machine intégrée.

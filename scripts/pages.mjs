@@ -12,7 +12,7 @@ export const PAGES = [
     guide: {
       title: "Comment lire un PDF à voix haute",
       steps: [
-        "Appuie sur la touche PDF/PPTX ou glisse ton fichier sur la machine : le texte s'affiche à l'écran.",
+        "Appuie sur la touche IMPORTER ou glisse ton fichier sur la machine : le texte s'affiche à l'écran.",
         "Choisis la voix et la vitesse. Les titres du document deviennent des chapitres que tu peux choisir pendant l'écoute.",
         "Appuie sur PARLE pour écouter, ou sur MP3 pour garder ton PDF en audio.",
       ],
@@ -22,7 +22,7 @@ export const PAGES = [
     description: "Transforme un PDF ou un PowerPoint en audio : la machine le lit à voix haute, chapitre par chapitre, et le convertit en MP3. Gratuit, sans compte, ton fichier reste sur ton ordinateur.",
     h1: "PDF en audio",
     faq: [
-      ["Comment transformer un PDF en audio ?", "Appuie sur la touche PDF/PPTX ou glisse ton fichier sur la machine : son texte s'affiche sur l'écran. Appuie sur PARLE pour l'écouter, ou sur MP3 pour télécharger l'audio. Tout se passe dans ton navigateur."],
+      ["Comment transformer un PDF en audio ?", "Appuie sur la touche IMPORTER ou glisse ton fichier sur la machine : son texte s'affiche sur l'écran. Appuie sur PARLE pour l'écouter, ou sur MP3 pour télécharger l'audio. Tout se passe dans ton navigateur."],
       ["Comment convertir un PDF en MP3 gratuitement ?", "Importe ton PDF, choisis une voix et une vitesse, puis appuie sur la touche MP3. Le fichier audio est créé sur ton ordinateur et se télécharge tout seul. Il n'y a ni compte ni limite de pages."],
       ["Comment lire un PDF à voix haute et s'y retrouver ?", "Pendant la lecture, le mot prononcé est surligné sur l'écran. Tu peux reculer ou avancer de 30 secondes, choisir un chapitre, ou écrire « reviens 3 phrases en arrière » dans les COMMANDES. Les titres sont lus avec une pause d'une seconde avant et après."],
       ["Mon PDF est-il envoyé sur un serveur ?", "Non. Le texte est extrait et lu dans ton navigateur : ton fichier ne quitte jamais ton ordinateur. C'est utile pour un cours, un contrat ou un document personnel."],

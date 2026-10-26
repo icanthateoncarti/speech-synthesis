@@ -162,3 +162,21 @@ test("glisser d'un mot à l'autre surligne ; Échap annule un premier clic sans 
   assert.equal(await screenText(), "Quatrième phrase importante. Cinquième phrase finale.", "fermer par Échap garde le surlignage");
   assert.deepEqual(issues, []);
 });
+
+test("pages PDF à 320 et 390 px : outils tactiles visibles et fermeture accessible", { timeout: 90_000 }, async () => {
+  for (const width of [320, 390]) {
+    await page.setViewport({ width, height: 844, isMobile: true, hasTouch: true });
+    await importPdf();
+    await openPages();
+    const layout = await page.evaluate(() => ({
+      dialogWidth: document.querySelector('#pages-dialog').scrollWidth,
+      controls: [...document.querySelectorAll('.pages-bar button')].map(el => { const r = el.getBoundingClientRect(); return { id: el.id || el.dataset.tool, left: r.left, right: r.right, width: r.width, height: r.height }; }),
+    }));
+    assert.ok(layout.dialogWidth <= width, `${width} px : ${layout.dialogWidth}`);
+    for (const c of layout.controls) assert.ok(c.left >= 0 && c.right <= width && c.width >= 44 && c.height >= 44, `${width} px : ${JSON.stringify(c)}`);
+    if (width === 390) await page.screenshot({ path: '/tmp/radio-ui-pdf-mobile.png' });
+    await done();
+    assert.equal(await screenText(), FULL);
+  }
+  assert.deepEqual(issues, []);
+});
