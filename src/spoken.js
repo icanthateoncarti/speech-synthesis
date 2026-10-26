@@ -37,6 +37,12 @@ const LEXICON = new Map(Object.entries({
   cashflow: "cache-flo", wholesale: "hol-séle", strategy: "stra-té-dji", process: "pro-sèss",
   quality: "koua-li-ti", lean: "linne", backlog: "bak-log", milestone: "maïle-stonn",
   planning: "plan-ninng", network: "nète-oueurque",
+  // Informatique, data et finance (2026-10-26).
+  server: "sèr-veur", software: "soft-ouère", query: "koui-ri", feature: "fi-tcheur",
+  release: "ri-lisse", repository: "ri-po-zi-tori", branch: "brantche", library: "laï-bre-ri",
+  training: "tré-ninng", accuracy: "a-kiou-ra-si", churn: "tcheurne", advertising: "ad-veur-taï-zinng",
+  copywriting: "ko-pi-raï-tinng", funding: "feun-dinng", founder: "fone-deur", equity: "ékoui-ti",
+  deal: "dile", board: "borde",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).

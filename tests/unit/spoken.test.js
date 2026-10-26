@@ -41,6 +41,13 @@ test("mots de gestion et de supply chain réécrits pour la voix française", ()
     "Le ouère-haouz, le sor-sinng et le for-kas-tinng suivent le cache-flo.");
 });
 
+test("mots d'informatique, de data et de finance réécrits pour la voix française", () => {
+  assert.equal(spokenText("Une query sur le repository, une feature et une release."),
+    "Une koui-ri sur le ri-po-zi-tori, une fi-tcheur et une ri-lisse.");
+  assert.equal(spokenText("Le training améliore l'accuracy et réduit le churn."),
+    "Le tré-ninng améliore l'a-kiou-ra-si et réduit le tcheurne.");
+});
+
 test("guillemets droits : ouverture puis fermeture, même séparés du mot", () => {
   assert.equal(spokenText('Le mot " test " puis "fin".'), "Le mot, entre guillemets, test, puis, entre guillemets, fin.");
 });
