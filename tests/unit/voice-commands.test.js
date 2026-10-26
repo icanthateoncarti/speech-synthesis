@@ -100,6 +100,9 @@ test("les tournures naturelles comprises au fil de la session 2", () => {
     ["tu peux avancer de cinq minutes", { type: "relative-time", seconds: 300 }],
     ["reculer de deux minutes", { type: "relative-time", seconds: -120 }],
     ["avancer de deux minutes", { type: "relative-time", seconds: 120 }],
+    ["recule de 2 min", { type: "relative-time", seconds: -120 }],
+    ["avance de 30 s", { type: "relative-time", seconds: 30 }],
+    ["reviens 30s en arrière", { type: "relative-time", seconds: -30 }],
   ];
   for (const [raw, expected] of cases) assert.deepEqual(parseVoiceCommand(raw), expected, raw);
 });
@@ -108,9 +111,6 @@ test("formulations naturelles encore non comprises : comportement actuel verroui
   // À vérifier : ces tournures naturelles ne sont pas reconnues aujourd'hui.
   // Le test fige le comportement actuel ; le journal les liste pour Jonas.
   for (const text of [
-    "recule de 2 min",
-    "avance de 30 s",
-    "reviens 30s en arrière",
     "avance de 0,5 minute",
     "recule d'un quart d'heure",
     "avance d'une minute et demie",

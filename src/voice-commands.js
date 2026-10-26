@@ -98,14 +98,17 @@ export function parseVoiceCommand(raw) {
     .replace(/ (?:en arriere|en avant)$/, "")
     .replace(/ (?:prochains?|prochaines?|suivants?|suivantes?|precedents?|precedentes?) (?=chapitres?$|phrases?$)/, " ");
 
-  const quantity = /^(.+?) (secondes?|minutes?|heures?|phrases?|chapitres?)$/.exec(text);
+  // « 30s », « 2min » : l'unité collée au nombre est séparée avant l'analyse.
+  text = text.replace(/^(\d+)(minutes?|min|mn|secondes?|sec|s|heures?|h)$/, "$1 $2");
+
+  const quantity = /^(.+?) (secondes?|sec|s|minutes?|min|mn|heures?|h|phrases?|chapitres?)$/.exec(text);
   if (!quantity) return null;
   const number = numberValue(quantity[1]);
   if (number === null || number <= 0) return null;
   const unit = quantity[2];
   if (unit.startsWith("phrase")) return { type: "relative-sentence", count: direction * number };
   if (unit.startsWith("chapitre")) return { type: "relative-chapter", count: direction * number };
-  const factor = unit.startsWith("heure") ? 3600 : unit.startsWith("minute") ? 60 : 1;
+  const factor = /^(?:heures?|h)$/.test(unit) ? 3600 : /^(?:minutes?|min|mn)$/.test(unit) ? 60 : 1;
   const seconds = number * factor;
   return seconds <= 86_400 ? { type: "relative-time", seconds: direction * seconds } : null;
 }
