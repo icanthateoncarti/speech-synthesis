@@ -88,11 +88,11 @@ export function parseVoiceCommand(raw) {
   }
 
   let direction;
-  if (/^(?:reviens|recule|reculez|retourne|remonte)\b/.test(text)) direction = -1;
-  else if (/^(?:avance|avancez|passe|saute|skip)\b/.test(text)) direction = 1;
+  if (/^(?:reviens|recule|reculez|reculer|retourne|remonte)\b/.test(text)) direction = -1;
+  else if (/^(?:avance|avancez|avancer|passe|saute|skip)\b/.test(text)) direction = 1;
   else return null;
   if ((direction > 0 && / en arriere$/.test(text)) || (direction < 0 && / en avant$/.test(text))) return null;
-  text = text.replace(/^(?:reviens|recule|reculez|retourne|remonte|avance|avancez|passe|saute|skip)\b/, "").trim()
+  text = text.replace(/^(?:reviens|recule|reculez|reculer|retourne|remonte|avance|avancez|avancer|passe|saute|skip)\b/, "").trim()
     .replace(/^(?:en arriere|en avant) /, "")
     .replace(/^(?:jusqu aux|jusqu au|de|d) /, "")
     .replace(/ (?:en arriere|en avant)$/, "")

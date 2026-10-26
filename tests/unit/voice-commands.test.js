@@ -95,6 +95,11 @@ test("cinquante-cinq formulations françaises réalistes sont reconnues telles q
 test("les tournures naturelles comprises au fil de la session 2", () => {
   const cases = [
     ["merci, recule de dix secondes", { type: "relative-time", seconds: -10 }],
+    ["je voudrais reculer de deux minutes", { type: "relative-time", seconds: -120 }],
+    ["peux-tu reculer de deux minutes", { type: "relative-time", seconds: -120 }],
+    ["tu peux avancer de cinq minutes", { type: "relative-time", seconds: 300 }],
+    ["reculer de deux minutes", { type: "relative-time", seconds: -120 }],
+    ["avancer de deux minutes", { type: "relative-time", seconds: 120 }],
   ];
   for (const [raw, expected] of cases) assert.deepEqual(parseVoiceCommand(raw), expected, raw);
 });
@@ -103,11 +108,6 @@ test("formulations naturelles encore non comprises : comportement actuel verroui
   // À vérifier : ces tournures naturelles ne sont pas reconnues aujourd'hui.
   // Le test fige le comportement actuel ; le journal les liste pour Jonas.
   for (const text of [
-    "je voudrais reculer de deux minutes",
-    "peux-tu reculer de deux minutes",
-    "tu peux avancer de cinq minutes",
-    "reculer de deux minutes",
-    "avancer de deux minutes",
     "recule de 2 min",
     "avance de 30 s",
     "reviens 30s en arrière",
