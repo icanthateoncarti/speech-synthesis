@@ -36,7 +36,7 @@ const LEXICON = new Map(Object.entries({
   delivery: "di-liv-ri", sourcing: "sor-sinng", forecasting: "for-kas-tinng", flow: "flo",
   cashflow: "cache-flo", wholesale: "hol-séle", strategy: "stra-té-dji", process: "pro-sèss",
   quality: "koua-li-ti", lean: "linne", backlog: "bak-log", milestone: "maïle-stonn",
-  planning: "plan-ninng", network: "nète-oueurque",
+  planning: "pla-ninng", network: "nète-oueurque",
   // Informatique, data et finance (2026-10-26).
   server: "sèr-veur", software: "soft-ouère", query: "koui-ri", feature: "fi-tcheur",
   release: "ri-lisse", repository: "ri-po-zi-tori", branch: "brantche", library: "laï-bre-ri",
@@ -50,7 +50,7 @@ const LEXICON = new Map(Object.entries({
   login: "loguine", account: "a-kaoune", password: "passe-oueurde", phishing: "fi-sinng",
   ransomware: "ran-some-ouère", fork: "forque",
   // Marketing, RH et formation (2026-10-26).
-  pull: "poule", push: "pouche", onboarding: "onne-bordinng", offboarding: "ofe-bordinng",
+  push: "pouche", onboarding: "onne-bordinng", offboarding: "ofe-bordinng",
   recruiting: "ri-krou-tinng", hiring: "haïeurinng", positioning: "po-zi-sio-ninng",
   merchandising: "meur-tchan-dai-zinng", packaging: "pa-ké-djinng", "e-learning": "i-leur-ninng",
   "e-book": "i-bouk", webinar: "ouèbe-i-nar", streaming: "stri-minng", community: "keu-myou-ni-ti",

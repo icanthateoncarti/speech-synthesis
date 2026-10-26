@@ -36,7 +36,7 @@ test("mots anglais réécrits pour la voix française, pluriels et majuscules co
 
 test("mots de gestion et de supply chain réécrits pour la voix française", () => {
   assert.equal(spokenText("Le team vérifie l'inventory, le process et la quality du planning."),
-    "Le tim vérifie l'inn-veun-tori, le pro-sèss et la koua-li-ti du plan-ninng.");
+    "Le tim vérifie l'inn-veun-tori, le pro-sèss et la koua-li-ti du pla-ninng.");
   assert.equal(spokenText("Le warehouse, le sourcing et le forecasting suivent le cashflow."),
     "Le ouère-haouz, le sor-sinng et le for-kas-tinng suivent le cache-flo.");
 });
@@ -202,4 +202,9 @@ test("langue : un cours en anglais est lu en anglais, un cours français truffé
 test("règles de lecture en anglais : parenthèses, guillemets, flèche, &, sans dictionnaire français", () => {
   assert.equal(spokenText('Demand (forecast) is "key" → stock & orders, the KPI dashboard.', "en"),
     "Demand, in parentheses, forecast, is, in quotes, key, to stock and orders, the K P I dashboard.");
+});
+
+test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
+  assert.equal(spokenText("J'ai mis mon pull."), "J'ai mis mon pull.");
+  assert.equal(spokenText("Le planning de la semaine."), "Le pla-ninng de la semaine.");
 });
