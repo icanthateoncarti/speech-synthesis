@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Texte en audio gratuit — écoute tes textes, PDF et PowerPoint",
+    "canonical": "https://speechsynthe.si/",
+    "markdown": "https://speechsynthe.si/index.md"
+  },
+  {
+    "title": "PDF en audio gratuit — écoute tes documents ou garde le MP3",
+    "canonical": "https://speechsynthe.si/pdf-en-audio/",
+    "markdown": "https://speechsynthe.si/pdf-en-audio.md"
+  },
+  {
+    "title": "Text to speech gratuit — texte en voix, français et anglais",
+    "canonical": "https://speechsynthe.si/text-to-speech/",
+    "markdown": "https://speechsynthe.si/text-to-speech.md"
+  },
+  {
+    "title": "Voix off gratuite — crée le MP3 de ta vidéo",
+    "canonical": "https://speechsynthe.si/voix-off/",
+    "markdown": "https://speechsynthe.si/voix-off.md"
+  },
+  {
+    "title": "Message de répondeur — crée ton MP3 sans t’enregistrer",
+    "canonical": "https://speechsynthe.si/message-repondeur/",
+    "markdown": "https://speechsynthe.si/message-repondeur.md"
+  }
+]

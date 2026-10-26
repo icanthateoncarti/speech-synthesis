@@ -1,0 +1,317 @@
+# speechsynthe.si — contenu complet
+
+> Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
+
+Generated: 2026-10-26
+
+---
+<!-- source: https://speechsynthe.si/ -->
+# Texte en audio gratuit — écoute tes textes, PDF et PowerPoint
+
+> Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
+
+Canonical: https://speechsynthe.si/
+Last updated: 2026-10-26
+
+## Révise tes cours en les écoutant
+
+1. Glisse ton PDF ou ton PowerPoint de cours sur la radio, ou choisis-le avec IMPORTER.
+2. Choisis la voix et la vitesse. Un cours en anglais est lu avec une voix anglaise.
+3. Appuie sur PARLE pour écouter, ou télécharge le MP3 pour réviser en marchant, dans les transports ou quand tu sors.
+
+### Ton cours, sans résumé automatique
+
+La radio lit le texte de ton cours sans le résumer : les explications et les exemples restent dans la lecture. Un long cours peut donc donner un long audio ; pour cibler tes révisions, sélectionne des passages dans PAGES avant de télécharger le MP3. C’est gratuit et sans compte, et tes documents restent sur ton appareil.
+
+## Avant d’appuyer sur lecture
+
+### Est-ce gratuit, même pour télécharger le MP3 ?
+
+Oui : l’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement. Colle ton texte ou importe un document pour commencer.
+
+### Mon texte reste-t-il privé ?
+
+Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus.
+
+### Comment emporter mon cours en MP3 ?
+
+Choisis la voix et la vitesse, puis appuie sur MP3 et garde l’onglet ouvert pendant la préparation. Une fois téléchargé, le fichier peut être écouté sans connexion, en marchant ou dans les transports.
+
+### Comment écouter un PDF ou un PowerPoint ?
+
+Glisse ton PDF ou ton PowerPoint sur la radio, ou utilise IMPORTER, puis appuie sur PARLE. Pour un PDF, PAGES permet de choisir les passages à lire. Le fichier doit contenir du texte sélectionnable et une présentation PowerPoint doit être au format PPTX.
+
+### Quelles voix sont disponibles ?
+
+Deux voix par langue, en français et en anglais.
+
+### Puis-je accélérer ou ralentir la voix ?
+
+Oui : déplace le curseur VITESSE entre 0,7× et 1,5×. Ce réglage s’applique aussi au MP3.
+
+### Pourquoi ce temps de chargement ?
+
+La radio doit d’abord télécharger la voix choisie. Elle reste ensuite en cache si ton navigateur dispose d’assez d’espace ; le temps de préparation dépend aussi de ton appareil et de la longueur du texte.
+
+### Est-ce que mon cours est résumé ?
+
+Non : la radio lit le texte extrait de ton document, sans le résumer ni le reformuler. Si tu sélectionnes des passages dans PAGES, seuls ces passages sont lus.
+
+### Pourquoi l’audio est-il si long ?
+
+La radio prend le temps de lire le texte du cours, y compris ses explications et ses exemples. Tu peux accélérer la voix ou sélectionner seulement les passages à réviser dans un PDF.
+
+### Et si mon cours est en anglais ?
+
+La langue du texte est détectée automatiquement : un cours en anglais est lu avec une voix anglaise. Le texte n’est pas traduit.
+
+## Related
+
+- [PDF en audio](https://speechsynthe.si/pdf-en-audio/)
+- [Text to speech](https://speechsynthe.si/text-to-speech/)
+- [Voix off](https://speechsynthe.si/voix-off/)
+- [Message de répondeur](https://speechsynthe.si/message-repondeur/)
+
+---
+<!-- source: https://speechsynthe.si/pdf-en-audio/ -->
+# PDF en audio gratuit — écoute tes documents ou garde le MP3
+
+> Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
+
+Canonical: https://speechsynthe.si/pdf-en-audio/
+Last updated: 2026-10-26
+
+## Glisse ton cours. Écoute-le en sortant.
+
+1. Appuie sur IMPORTER pour ouvrir ton PDF ou ton PowerPoint. Tu peux aussi le déposer sur la radio.
+2. Pour un PDF, ouvre PAGES et sélectionne les passages à lire ou à sauter. Choisis ensuite la voix et la vitesse.
+3. Appuie sur PARLE pour écouter, ou sur MP3 pour emporter ton cours et l’écouter sans connexion.
+
+### Le texte de ton cours, sans résumé
+
+La radio lit le texte extrait de ton cours sans le résumer : elle garde ses explications et ses exemples. Un cours long peut donc donner plusieurs heures d’écoute. Pour cibler tes révisions, choisis les passages dans PAGES, puis garde le MP3 pour les écouter en marchant ou dans les transports.
+
+## Avant d’appuyer sur lecture
+
+### Est-ce que mon cours est résumé ?
+
+Non : la radio lit le texte extrait du PDF ou du PowerPoint, sans le résumer ni le reformuler. Pour un PDF, tu peux choisir toi-même les passages à lire dans PAGES.
+
+### Et si le cours est en anglais ?
+
+La radio détecte la langue du texte et utilise une voix anglaise. Elle lit le cours dans sa langue d’origine, sans le traduire.
+
+### Comment écouter mon PDF ?
+
+Appuie sur IMPORTER, choisis ton PDF, puis appuie sur PARLE. Tu peux aussi déposer le fichier sur la radio.
+
+### Comment garder mon PDF en MP3 ?
+
+Importe ton PDF, règle la voix et la vitesse, puis appuie sur MP3. Le fichier audio reprend les passages sélectionnés dans PAGES et peut s’écouter sans connexion une fois téléchargé.
+
+### Comment retrouver un passage pendant la lecture ?
+
+Utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. Dans COMMANDES, tu peux aussi écrire « reviens 3 phrases en arrière ».
+
+### Mon PDF reste-t-il privé ?
+
+Oui : son texte est extrait et lu sur ton appareil. Le fichier et son contenu ne sont pas envoyés à un serveur.
+
+### Et pour un PowerPoint ?
+
+Importe une présentation au format .pptx : chaque diapositive devient un chapitre. Pour un ancien fichier .ppt, enregistre-le d’abord en .pptx.
+
+### Quelles voix sont disponibles ?
+
+Deux voix par langue, en français et en anglais.
+
+### Pourquoi mon PDF ne se lit-il pas ?
+
+La radio a besoin de texte sélectionnable : un PDF composé uniquement de scans ou de photos ne suffit pas. Les tableaux et les mises en page complexes peuvent aussi perturber l’ordre de lecture.
+
+### Quelle taille de fichier puis-je importer ?
+
+Jusqu’à 100 Mo par fichier, avec un maximum de 5 000 pages et de 2 millions de caractères extraits. Sur téléphone, commence par un document court : le temps de préparation dépend de ton appareil.
+
+## Related
+
+- [Texte en audio](https://speechsynthe.si/)
+- [Text to speech](https://speechsynthe.si/text-to-speech/)
+- [Voix off](https://speechsynthe.si/voix-off/)
+- [Message de répondeur](https://speechsynthe.si/message-repondeur/)
+
+---
+<!-- source: https://speechsynthe.si/text-to-speech/ -->
+# Text to speech gratuit — texte en voix, français et anglais
+
+> Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.
+
+Canonical: https://speechsynthe.si/text-to-speech/
+Last updated: 2026-10-26
+
+## Colle ton texte. Écoute la suite.
+
+1. Colle ou écris ton texte dans l’écran de la radio.
+2. Choisis une voix avec le bouton rotatif et règle la vitesse.
+3. Appuie sur PARLE pour écouter, ou sur MP3 pour garder l’audio.
+
+### Écouter, corriger, recommencer
+
+Un cours à réviser ou un article à écouter : la radio lit ton texte sans le résumer. Tu peux ajuster le rythme, puis garder le MP3 pour l’écouter quand tu sors.
+
+## Avant d’appuyer sur lecture
+
+### Le text to speech, c’est quoi ?
+
+C’est un outil qui lit un texte à voix haute, sans le résumer ni le reformuler. Colle le tien dans l’écran, puis appuie sur PARLE.
+
+### Faut-il payer ou créer un compte ?
+
+Non : l’écoute et le téléchargement MP3 sont gratuits, sans inscription. Ton appareil prépare la voix directement dans le navigateur.
+
+### Quelles voix sont disponibles ?
+
+Deux voix par langue, en français et en anglais.
+
+### Comment télécharger le MP3 ?
+
+Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation du fichier.
+
+### Pourquoi ce temps de chargement ?
+
+La radio télécharge la voix choisie avant de pouvoir lire ton texte. Le navigateur la conserve ensuite en cache, si l’espace disponible le permet, pour éviter de la télécharger à nouveau.
+
+## Related
+
+- [Texte en audio](https://speechsynthe.si/)
+- [PDF en audio](https://speechsynthe.si/pdf-en-audio/)
+- [Voix off](https://speechsynthe.si/voix-off/)
+- [Message de répondeur](https://speechsynthe.si/message-repondeur/)
+
+---
+<!-- source: https://speechsynthe.si/voix-off/ -->
+# Voix off gratuite — crée le MP3 de ta vidéo
+
+> Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
+
+Canonical: https://speechsynthe.si/voix-off/
+Last updated: 2026-10-26
+
+## Exemples de textes
+
+### Introduction de tuto
+
+> Aujourd’hui, on transforme un document en audio. Je te montre comment choisir les passages à écouter, puis télécharger le résultat.
+
+### Présentation de recette
+
+> Une poêle, quelques légumes et vingt minutes devant toi. Voici une recette simple pour ce soir.
+
+### Présentation de produit
+
+> Voici notre nouvelle collection. On te présente les coupes, les couleurs et les détails pour t’aider à choisir.
+
+## Ton script devient une voix off
+
+1. Écris ton script dans l’écran ou charge un exemple ci-dessous.
+2. Choisis une voix et une vitesse, puis appuie sur PARLE pour écouter le résultat.
+3. Ajuste ton texte si besoin, télécharge le MP3 et ajoute-le à ton montage.
+
+### Trouve le rythme de ta vidéo
+
+Une phrase sonne trop longue ? Raccourcis-la et écoute à nouveau. Chaque essai est gratuit, et ton script reste sur ton appareil.
+
+## Avant d’appuyer sur lecture
+
+### Comment créer la voix off de ma vidéo ?
+
+Colle ton script dans l’écran, choisis la voix et la vitesse, puis écoute avec PARLE. Quand le résultat te convient, télécharge le MP3.
+
+### Comment ajouter la voix à mon montage ?
+
+Importe le MP3 comme une piste audio dans ton logiciel de montage. Ajuste ensuite sa position et son volume pour l’accorder aux images.
+
+### Comment rendre mon script agréable à écouter ?
+
+Écris comme tu parles, avec des phrases courtes et une idée à la fois. Écoute un premier essai pour repérer les passages à raccourcir ou à ponctuer.
+
+### Quelles voix sont disponibles ?
+
+Deux voix par langue, en français et en anglais.
+
+## Related
+
+- [Texte en audio](https://speechsynthe.si/)
+- [PDF en audio](https://speechsynthe.si/pdf-en-audio/)
+- [Text to speech](https://speechsynthe.si/text-to-speech/)
+- [Message de répondeur](https://speechsynthe.si/message-repondeur/)
+
+---
+<!-- source: https://speechsynthe.si/message-repondeur/ -->
+# Message de répondeur — crée ton MP3 sans t’enregistrer
+
+> Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.
+
+Canonical: https://speechsynthe.si/message-repondeur/
+Last updated: 2026-10-26
+
+## Exemples de textes
+
+### Pro, simple
+
+> Bonjour, vous êtes bien sur la messagerie de \[ton nom\]. Je ne peux pas vous répondre pour le moment. Laissez-moi votre nom, votre numéro et l'objet de votre appel, je vous rappelle dès que possible. Merci et bonne journée.
+
+### Entreprise, avec horaires
+
+> Bonjour et merci de votre appel. Nos bureaux sont ouverts du lundi au vendredi, de 9 heures à 18 heures. Laissez-nous un message avec vos coordonnées, nous vous rappellerons rapidement.
+
+### Absence ou vacances
+
+> Bonjour, je suis absent jusqu'au \[date\]. Pour toute urgence, contactez \[nom\] au \[numéro\]. Sinon, laissez-moi un message, je vous rappelle à mon retour.
+
+### Perso
+
+> Salut, c'est \[ton prénom\] ! Je ne suis pas dispo pour l'instant. Laisse-moi un message et je te rappelle vite.
+
+### Avec une pointe d'humour
+
+> Bonjour, vous êtes bien chez \[ton prénom\]. Je suis en train de chercher mon téléphone, qui sonne quelque part sous un coussin. Laissez un message, je le retrouverai avant ce soir.
+
+## Un message clair, sans passer au micro
+
+1. Choisis un exemple ci-dessous et remplace les noms, dates et horaires par les tiens.
+2. Écoute avec PARLE. Ajuste la vitesse pour que chaque numéro soit facile à comprendre.
+3. Télécharge le MP3, puis ajoute-le à ta messagerie si elle accepte les fichiers audio.
+
+### Change ton annonce quand tes horaires changent
+
+Congés, nouveaux horaires ou indisponibilité : adapte simplement ton texte. Tu peux réécouter le message et télécharger une nouvelle version gratuitement.
+
+## Avant d’appuyer sur lecture
+
+### Comment préparer mon message ?
+
+Charge un exemple ou écris ton annonce dans l’écran. Remplace les passages entre crochets, écoute le résultat, puis télécharge le MP3.
+
+### Ma messagerie accepte-t-elle les MP3 ?
+
+Cela dépend de ton opérateur ou de ton standard : vérifie si ses réglages proposent l’import d’un fichier audio. Si elle impose un enregistrement au micro, le MP3 ne pourra pas être ajouté directement.
+
+### Quelles voix sont disponibles ?
+
+Deux voix par langue, en français et en anglais.
+
+### Comment faire comprendre un numéro ou des horaires ?
+
+Sépare les groupes de chiffres par des espaces et ajoute de la ponctuation pour les pauses. Écoute ton annonce avant de la télécharger et ralentis la voix si nécessaire.
+
+### Est-ce gratuit aussi pour une entreprise ?
+
+L’outil est gratuit et sans inscription. Les crédits et les licences des voix sont indiqués en bas de page.
+
+## Related
+
+- [Texte en audio](https://speechsynthe.si/)
+- [PDF en audio](https://speechsynthe.si/pdf-en-audio/)
+- [Text to speech](https://speechsynthe.si/text-to-speech/)
+- [Voix off](https://speechsynthe.si/voix-off/)

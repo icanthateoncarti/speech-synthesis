@@ -6,10 +6,11 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { PAGES } from "./pages.mjs";
+import { HOME, PAGES, PUBLIC_PAGES } from "./pages.mjs";
+import { SITE, absolute, pagePath, markdownPath } from "./site.mjs";
+import { generatedAiFiles } from "./ai-pages.mjs";
 import { ROOT, computeVersion, localModules, stamp } from "./stamp-version.mjs";
 
-const SITE = "https://speechsynthe.si";
 const escapeHtml = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 function replaceOnce(html, pattern, replacement) {
@@ -64,8 +65,8 @@ ${guide.steps.map((step) => `      <li>${escapeHtml(step)}</li>`).join("\n")}
 }
 
 export function renderPage(home, page) {
-  const url = `${SITE}/${page.slug}/`;
-  let html = home;
+  const url = absolute(pagePath(page));
+  let html = home.replace(/<section class="examples"[\s\S]*?<\/section>\s*/g, "");
   html = replaceOnce(html, /<title>[^<]*<\/title>/, `<title>${escapeHtml(page.title)}</title>`);
   html = replaceOnce(html, /<meta name="description" content="[^"]*">/, `<meta name="description" content="${escapeHtml(page.description)}">`);
   html = replaceOnce(html, /<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${escapeHtml(page.description)}">`);
@@ -76,16 +77,37 @@ export function renderPage(home, page) {
   html = replaceOnce(html, /<script type="application\/ld\+json">\s*\{\s*"@context": "https:\/\/schema\.org",\s*"@type": "FAQPage"[\s\S]*?<\/script>/, faqJsonLd(page.faq));
   html = replaceOnce(html, /<section class="guide"[\s\S]*?<\/section>/, (page.examples ? examplesSection(page.examples) : "") + guideSection(page.guide));
   html = replaceOnce(html, /<section class="faq"[\s\S]*?<\/section>/, faqSection(page.faq));
-  html = html.replace(/ aria-current="page"/g, "");
-  html = replaceOnce(html, new RegExp(`<a href="/${page.slug}/">`), `<a href="/${page.slug}/" aria-current="page">`);
+  html = replaceOnce(html, /<nav class="usages"[\s\S]*?<\/nav>/, `<nav class="usages" aria-label="Autres usages">\n${PUBLIC_PAGES.map((other) => `      <a href="${pagePath(other)}"${other.slug === page.slug ? ' aria-current="page"' : ""}>${escapeHtml(other.h1)}</a>`).join("\n")}\n    </nav>`);
+  html = replaceOnce(html, /<meta property="og:site_name" content="[^"]*">/, `<meta property="og:site_name" content="${escapeHtml(SITE.name)}">`);
+  html = html.replace(/href="https:\/\/github\.com\/[^"/]+\/[^"/]+\/issues"/, `href="${escapeHtml(SITE.contact)}"`);
+  // Regénérés, jamais accumulés lors d’un second build.
+  html = html.replace(/^  <(?:meta name="ai-summary"|link rel="(?:alternate|describedby)")[^>]*>\n/gm, "");
+  const signals = [
+    `<meta name="ai-summary" content="${escapeHtml(page.description)}">`,
+    `<link rel="alternate" type="text/markdown" href="${absolute(markdownPath(page))}">`,
+    ...["llms.txt", "llms-full.txt", "ai.txt"].map((name) => `<link rel="describedby" type="text/plain" href="${absolute(name)}">`),
+  ].map((line) => `  ${line}`).join("\n");
+  html = html.replace("</head>", `${signals}\n</head>`);
+  html = html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g, (block, json) => {
+    const data = JSON.parse(json);
+    if (!["WebSite", "WebApplication"].includes(data["@type"])) return block;
+    data.name = SITE.name;
+    data.url = SITE.url;
+    data.description = HOME.description;
+    if (data["@type"] === "WebSite") {
+      data.alternateName = SITE.alternateName;
+      data.image = SITE.logo;
+    }
+    return `<script type="application/ld+json">\n${JSON.stringify(data, null, 2)}\n  </script>`;
+  });
   return html;
 }
 
 export function sitemap(date) {
-  const urls = ["", ...PAGES.map((page) => `${page.slug}/`)];
+  const urls = PUBLIC_PAGES.map((page) => absolute(pagePath(page)));
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url>\n    <loc>${SITE}/${u}</loc>\n    <lastmod>${date}</lastmod>\n  </url>`).join("\n")}
+${urls.map((u) => `  <url>\n    <loc>${u}</loc>\n    <lastmod>${date}</lastmod>\n  </url>`).join("\n")}
 </urlset>
 `;
 }
@@ -93,12 +115,14 @@ ${urls.map((u) => `  <url>\n    <loc>${SITE}/${u}</loc>\n    <lastmod>${date}</l
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const index = path.join(ROOT, "index.html");
   const version = await computeVersion();
-  const home = stamp(await readFile(index, "utf8"), version, await localModules());
+  const home = stamp(renderPage(await readFile(index, "utf8"), HOME), version, await localModules());
   await writeFile(index, home);
   for (const page of PAGES) {
     await mkdir(path.join(ROOT, page.slug), { recursive: true });
     await writeFile(path.join(ROOT, page.slug, "index.html"), renderPage(home, page));
   }
-  await writeFile(path.join(ROOT, "sitemap.xml"), sitemap(new Date().toISOString().slice(0, 10)));
-  console.log(`version ${version} · accueil + ${PAGES.length} pages · sitemap`);
+  const date = new Date().toISOString().slice(0, 10);
+  await writeFile(path.join(ROOT, "sitemap.xml"), sitemap(date));
+  for (const [filename, content] of generatedAiFiles(date)) await writeFile(path.join(ROOT, filename), content);
+  console.log(`version ${version} · accueil + ${PAGES.length} pages · sitemap · Markdown et découverte IA`);
 }
