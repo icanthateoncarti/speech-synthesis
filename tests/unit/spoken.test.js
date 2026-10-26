@@ -105,6 +105,92 @@ test("padWav ajoute le silence autour du son", () => {
   assert.equal(padWav(wav, 0, 0), wav);
 });
 
+test("phrases inventées : parenthèses, guillemets, flèches, sigles et années", () => {
+  assert.equal(spokenText("La réunion (à 14 h) commence après le café."),
+    "La réunion, entre parenthèses, à 14 h, commence après le café.");
+  assert.equal(spokenText("Le prix « indicatif » sera confirmé lundi."),
+    "Le prix, entre guillemets, indicatif, sera confirmé lundi.");
+  assert.equal(spokenText("Objectif → plan → action."), "Objectif vers plan vers action.");
+  assert.equal(spokenText("Le KPI du mois est en hausse."), "Le K P I du mois est en hausse.");
+  assert.equal(spokenText("En 2024/2025, le budget a doublé."), "En 2024, 2025, le budget a doublé.");
+  assert.equal(spokenText("Le 1er avril, on fête le printemps."), "Le premier avril, on fête le printemps.");
+  assert.equal(spokenText("La 1ère étape est la plus simple."), "La première étape est la plus simple.");
+  assert.equal(spokenText("Le sigle ONU et le sigle SNCF."), "Le sigle ONU et le sigle S N C F.");
+  assert.equal(spokenText("Le BO du cours mentionne l’UE."), "Le B O du cours mentionne l’U E.");
+  assert.equal(spokenText("Le taux est de 3,5 % (environ)."), "Le taux est de 3,5 %, entre parenthèses, environ.");
+  assert.equal(spokenText("Le chapitre IV et le chapitre 12."), "Le chapitre IV et le chapitre 12.");
+  assert.equal(spokenText("Le signe ↑ indique la hausse."), "Le signe, flèche vers le haut, indique la hausse.");
+  assert.equal(spokenText("La flèche ↔ signifie les deux sens."), "La flèche, flèche dans les deux sens, signifie les deux sens.");
+  assert.equal(spokenText("Le mot « test » (sans accent) et [une note]."),
+    "Le mot, entre guillemets, test, entre parenthèses, sans accent, et, entre crochets, une note.");
+  assert.equal(spokenText("La plage 2020-2021 (fermée) → 2022."),
+    "La plage 2020-2021, entre parenthèses, fermée, vers 2022.");
+});
+
+test("langue : vingt phrases françaises et vingt phrases anglaises inventées", async () => {
+  const { detectLanguage } = await import("../../src/text.js");
+  const french = [
+    "Le chat dort sur la table du salon.",
+    "Nous préparons le dîner pour les invités de ce soir.",
+    "La bibliothèque ferme ses portes à dix-huit heures.",
+    "Il faut arroser les plantes une fois par semaine.",
+    "Le train de sept heures arrive avec du retard.",
+    "Elle écrit une lettre à sa grand-mère.",
+    "Les enfants jouent dans le jardin après l'école.",
+    "Ce film raconte l'histoire d'une famille ordinaire.",
+    "Le boulanger prépare le pain avant le lever du soleil.",
+    "Nous avons marché jusqu'au sommet malgré la pluie.",
+    "La réunion est reportée à la semaine prochaine.",
+    "Il cherche ses clés dans toute la maison.",
+    "Le musée présente une collection de peintures anciennes.",
+    "Vous pouvez garer la voiture derrière la gare.",
+    "La soupe est trop chaude pour être mangée tout de suite.",
+    "Les oiseaux chantent dès que le jour se lève.",
+    "Mon voisin répare sa bicyclette dans la cour.",
+    "Cette décision a changé le cours de notre voyage.",
+    "Le marché du samedi attire beaucoup de monde.",
+    "Elle apprend le piano depuis trois ans.",
+  ];
+  const english = [
+    "The cat sleeps on the table in the living room.",
+    "We are preparing dinner for the guests tonight.",
+    "The library closes its doors at six in the evening.",
+    "You should water the plants in the garden once a week.",
+    "The train is running late this evening.",
+    "She writes a letter to her grandmother and waits for an answer.",
+    "The children play in the garden and the dog sleeps.",
+    "This film tells the story of an ordinary family.",
+    "The baker makes bread in the morning before the sun rises.",
+    "We walked to the top despite the rain.",
+    "The meeting is postponed to next week.",
+    "He is looking for his keys all over the house.",
+    "The museum shows a collection of old paintings from the region.",
+    "You can park the car behind the station.",
+    "The soup is too hot to eat right away.",
+    "The birds sing in the morning.",
+    "My neighbor repairs the bicycle in the yard with the children.",
+    "This decision changed the course of our trip.",
+    "The Saturday market attracts a lot of people from the city.",
+    "She has been learning the piano for three years.",
+  ];
+  for (const text of french) assert.equal(detectLanguage(text), "fr", text);
+  for (const text of english) assert.equal(detectLanguage(text), "en", text);
+});
+
+test("langue : cas limites, anglais dans une phrase française et titres seuls", async () => {
+  const { detectLanguage } = await import("../../src/text.js");
+  assert.equal(detectLanguage("Le marketing, le storytelling et le dashboard sont dans le cloud."), "fr");
+  assert.equal(detectLanguage("Le replenishment est le processus de déplacement de l'inventaire."), "fr");
+  assert.equal(detectLanguage("The team will review the marketing plan and the budget."), "en");
+  assert.equal(detectLanguage("The KPI dashboard is in the cloud."), "en");
+  assert.equal(detectLanguage("Replenishment is the process of moving inventory."), "en");
+  // À vérifier : un titre anglais sans petit mot fréquent retombe en français.
+  assert.equal(detectLanguage("Supply Chain Management"), "fr");
+  assert.equal(detectLanguage("Data Marketing Strategy"), "fr");
+  // À vérifier : un titre d'un seul mot est trop court pour trancher.
+  assert.equal(detectLanguage("The"), "fr");
+});
+
 test("langue : un cours en anglais est lu en anglais, un cours français truffé d'anglais reste en français", async () => {
   const { detectLanguage } = await import("../../src/text.js");
   assert.equal(detectLanguage("Replenishment is the process of moving inventory along the supply chain to ensure products are available at the right place."), "en");

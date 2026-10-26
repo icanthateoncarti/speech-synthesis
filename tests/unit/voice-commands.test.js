@@ -31,6 +31,89 @@ test("les demandes de navigation de Jonas sont reconnues avec chiffres ou mots",
   for (const [raw, expected] of cases) assert.deepEqual(parseVoiceCommand(raw), expected, raw);
 });
 
+test("cinquante formulations françaises réalistes sont reconnues telles qu'aujourd'hui", () => {
+  const cases = [
+    ["recule de deux minutes", { type: "relative-time", seconds: -120 }],
+    ["va au chapitre suivant", { type: "relative-chapter", count: 1 }],
+    ["reviens 10 secondes en arrière", { type: "relative-time", seconds: -10 }],
+    ["avance de trois chapitres", { type: "relative-chapter", count: 3 }],
+    ["passe à la phrase suivante", { type: "relative-sentence", count: 1 }],
+    ["retourne à la phrase précédente", { type: "relative-sentence", count: -1 }],
+    ["remonte de quinze secondes", { type: "relative-time", seconds: -15 }],
+    ["saute deux phrases", { type: "relative-sentence", count: 2 }],
+    ["skip de cinq minutes", { type: "relative-time", seconds: 300 }],
+    ["avance de quatre-vingt-dix secondes", { type: "relative-time", seconds: 90 }],
+    ["recule de septante secondes", { type: "relative-time", seconds: -70 }],
+    ["avance de nonante-neuf secondes", { type: "relative-time", seconds: 99 }],
+    ["recule de cent secondes", { type: "relative-time", seconds: -100 }],
+    ["avance de deux cents secondes", { type: "relative-time", seconds: 200 }],
+    ["avance de mille cinq cents secondes", { type: "relative-time", seconds: 1500 }],
+    ["mets en pause", { type: "pause" }],
+    ["arrête la lecture", { type: "pause" }],
+    ["continue la lecture", { type: "resume" }],
+    ["lecture", { type: "resume" }],
+    ["recommence ce chapitre", { type: "chapter-start" }],
+    ["retourne au début du chapitre", { type: "chapter-start" }],
+    ["reviens en début de chapitre", { type: "chapter-start" }],
+    ["va au chapitre précédent", { type: "relative-chapter", count: -1 }],
+    ["passe au chapitre suivant", { type: "relative-chapter", count: 1 }],
+    ["va à la phrase précédente", { type: "relative-sentence", count: -1 }],
+    ["passe à la phrase suivante", { type: "relative-sentence", count: 1 }],
+    ["reviens au chapitre précédent", { type: "relative-chapter", count: -1 }],
+    ["retourne au chapitre suivant", { type: "relative-chapter", count: 1 }],
+    ["s'il te plaît, recule de trente secondes", { type: "relative-time", seconds: -30 }],
+    ["avance de dix secondes, merci", { type: "relative-time", seconds: 10 }],
+    ["attends, attends, avance de cinq phrases", { type: "relative-sentence", count: 5 }],
+    ["stop, recule de deux phrases", { type: "relative-sentence", count: -2 }],
+    ["recule de quatre-vingt-dix-neuf secondes", { type: "relative-time", seconds: -99 }],
+    ["avance de soixante et onze secondes", { type: "relative-time", seconds: 71 }],
+    ["recule de trois cents secondes", { type: "relative-time", seconds: -300 }],
+    ["avance d'une minute", { type: "relative-time", seconds: 60 }],
+    ["recule de deux heures", { type: "relative-time", seconds: -7200 }],
+    ["avance de 24 heures", { type: "relative-time", seconds: 86400 }],
+    ["s'il te plaît avance de deux phrases", { type: "relative-sentence", count: 2 }],
+    ["avance de deux phrases s'il te plaît", { type: "relative-sentence", count: 2 }],
+    ["recule de dix secondes merci", { type: "relative-time", seconds: -10 }],
+    ["recule deux minutes", { type: "relative-time", seconds: -120 }],
+    ["avance cinq minutes", { type: "relative-time", seconds: 300 }],
+    ["recule de 1 minute", { type: "relative-time", seconds: -60 }],
+    ["avance de 1 phrase", { type: "relative-sentence", count: 1 }],
+    ["recule de 1 chapitre", { type: "relative-chapter", count: -1 }],
+    ["skip jusqu'aux trois prochains chapitres", { type: "relative-chapter", count: 3 }],
+    ["recule de deux chapitres", { type: "relative-chapter", count: -2 }],
+    ["avance de quatre phrases", { type: "relative-sentence", count: 4 }],
+    ["reviens de dix secondes", { type: "relative-time", seconds: -10 }],
+    ["recule de cinq phrases", { type: "relative-sentence", count: -5 }],
+    ["passe deux chapitres", { type: "relative-chapter", count: 2 }],
+    ["saute trois chapitres", { type: "relative-chapter", count: 3 }],
+    ["reviens à la phrase précédente", { type: "relative-sentence", count: -1 }],
+    ["retourne deux phrases en arrière", { type: "relative-sentence", count: -2 }],
+  ];
+  for (const [raw, expected] of cases) assert.deepEqual(parseVoiceCommand(raw), expected, raw);
+});
+
+test("formulations naturelles encore non comprises : comportement actuel verrouillé", () => {
+  // À vérifier : ces tournures naturelles ne sont pas reconnues aujourd'hui.
+  // Le test fige le comportement actuel ; le journal les liste pour Jonas.
+  for (const text of [
+    "je voudrais reculer de deux minutes",
+    "peux-tu reculer de deux minutes",
+    "tu peux avancer de cinq minutes",
+    "reculer de deux minutes",
+    "avancer de deux minutes",
+    "merci, recule de dix secondes",
+    "recule de 2 min",
+    "avance de 30 s",
+    "reviens 30s en arrière",
+    "avance de 0,5 minute",
+    "recule d'un quart d'heure",
+    "avance d'une minute et demie",
+    "recule de 2 minutes 30",
+    "va 2 chapitres plus loin",
+    "avance jusqu'au chapitre suivant",
+  ]) assert.equal(parseVoiceCommand(text), null, text);
+});
+
 test("le texte ordinaire et les demandes ambiguës ne déclenchent pas de navigation", () => {
   for (const text of [
     "", "Le chapitre précédent explique les cinq minutes de pause.",
