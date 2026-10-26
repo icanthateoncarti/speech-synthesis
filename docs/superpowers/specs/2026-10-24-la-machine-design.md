@@ -175,6 +175,11 @@ lecteur du site ; elle ne modifie pas un MP3 déjà téléchargé.
 
 - [ ] Permettre de partager une session de l'application radio via un lien.
 
+### Retravailler l'UI des commandes — demande de Jonas du 2026-10-26
+
+- [ ] Les boutons ne sont pas encore parfaitement optimisés ni esthétiques : reprendre leur rendu et leur sensation de pression.
+- [ ] Bouton rotatif (JESSICA / TOM) : il faut cliquer dessus ; un clic-glissé sélectionne le texte au lieu de tourner le bouton. Le faire tourner au glisser (pointer events) et empêcher la sélection de texte pendant le geste.
+
 ### Autres pistes
 - Pages par usage, une par recherche (PDF, TikTok, répondeur, révisions), avec la machine intégrée.
 - (Search Console et compteur sans cookies : voir §7, à brancher dès la v1.)
