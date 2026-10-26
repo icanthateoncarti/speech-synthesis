@@ -57,6 +57,15 @@ test("mots du travail et de la sécurité informatique réécrits pour la voix f
     "Un a-kaoune permet le daoune-lode et l'eupe-grède.");
 });
 
+test("mots de marketing, de RH et de formation réécrits pour la voix française", () => {
+  assert.equal(spokenText("Le webinar et l'e-book complètent le e-learning."),
+    "Le ouèbe-i-nar et l'i-bouk complètent le i-leur-ninng.");
+  assert.equal(spokenText("Le recruiting, le hiring et l'onboarding précèdent l'offboarding."),
+    "Le ri-krou-tinng, le haïeurinng et l'onne-bordinng précèdent l'ofe-bordinng.");
+  assert.equal(spokenText("Le packaging et le merchandising servent la community."),
+    "Le pa-ké-djinng et le meur-tchan-dai-zinng servent la keu-myou-ni-ti.");
+});
+
 test("guillemets droits : ouverture puis fermeture, même séparés du mot", () => {
   assert.equal(spokenText('Le mot " test " puis "fin".'), "Le mot, entre guillemets, test, puis, entre guillemets, fin.");
 });

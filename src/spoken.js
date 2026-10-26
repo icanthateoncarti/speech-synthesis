@@ -49,6 +49,12 @@ const LEXICON = new Map(Object.entries({
   backup: "bak-eup", upgrade: "eupe-grède", download: "daoune-lode", upload: "eupe-lode",
   login: "loguine", account: "a-kaoune", password: "passe-oueurde", phishing: "fi-sinng",
   ransomware: "ran-some-ouère", fork: "forque",
+  // Marketing, RH et formation (2026-10-26).
+  pull: "poule", push: "pouche", onboarding: "onne-bordinng", offboarding: "ofe-bordinng",
+  recruiting: "ri-krou-tinng", hiring: "haïeurinng", positioning: "po-zi-sio-ninng",
+  merchandising: "meur-tchan-dai-zinng", packaging: "pa-ké-djinng", "e-learning": "i-leur-ninng",
+  "e-book": "i-bouk", webinar: "ouèbe-i-nar", streaming: "stri-minng", community: "keu-myou-ni-ti",
+  copy: "kopi", reel: "rile", blogging: "blo-guinng",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
