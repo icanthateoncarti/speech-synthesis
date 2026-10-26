@@ -5,13 +5,13 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-v21qcWXCe74ZJC4QDrVFZFN8vL1Czs/BDF4t9Etji1Y=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PDF en audio gratuit — écoute tes documents ou garde le MP3</title>
-  <meta name="description" content="Écoute tes cours en PDF ou PowerPoint, choisis les passages à lire et garde le MP3. Gratuit, sans compte. Tes documents restent sur ton appareil.">
+  <meta name="description" content="Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.">
   <link rel="canonical" href="https://speechsynthe.si/pdf-en-audio/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="speechsynthe.si">
   <meta property="og:title" content="PDF en audio gratuit — écoute tes documents ou garde le MP3">
-  <meta property="og:description" content="Écoute tes cours en PDF ou PowerPoint, choisis les passages à lire et garde le MP3. Gratuit, sans compte. Tes documents restent sur ton appareil.">
+  <meta property="og:description" content="Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.">
   <meta property="og:url" content="https://speechsynthe.si/pdf-en-audio/">
   <meta property="og:image" content="https://speechsynthe.si/assets/og.png">
   <meta property="og:image:width" content="1200">
@@ -48,6 +48,22 @@
   "mainEntity": [
     {
       "@type": "Question",
+      "name": "Est-ce que mon cours est résumé ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non : la radio lit le texte extrait du PDF ou du PowerPoint, sans le résumer ni le reformuler. Pour un PDF, tu peux choisir toi-même les passages à lire dans PAGES."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Et si le cours est en anglais ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La radio détecte la langue du texte et utilise une voix anglaise. Elle lit le cours dans sa langue d’origine, sans le traduire."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "Comment écouter mon PDF ?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -59,7 +75,7 @@
       "name": "Comment garder mon PDF en MP3 ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Importe ton PDF, règle la voix et la vitesse, puis appuie sur MP3. Le fichier audio reprend les passages sélectionnés dans PAGES."
+        "text": "Importe ton PDF, règle la voix et la vitesse, puis appuie sur MP3. Le fichier audio reprend les passages sélectionnés dans PAGES et peut s’écouter sans connexion une fois téléchargé."
       }
     },
     {
@@ -246,25 +262,33 @@
   </main>
 
   <section class="guide" aria-labelledby="guide-title">
-    <h2 id="guide-title">Tes cours à écouter, même loin de ton écran</h2>
+    <h2 id="guide-title">Glisse ton cours. Écoute-le en sortant.</h2>
     <ol class="steps">
       <li>Appuie sur IMPORTER pour ouvrir ton PDF ou ton PowerPoint. Tu peux aussi le déposer sur la radio.</li>
       <li>Pour un PDF, ouvre PAGES et sélectionne les passages à lire ou à sauter. Choisis ensuite la voix et la vitesse.</li>
-      <li>Appuie sur PARLE pour écouter, ou sur MP3 pour emporter ton cours en audio.</li>
+      <li>Appuie sur PARLE pour écouter, ou sur MP3 pour emporter ton cours et l’écouter sans connexion.</li>
     </ol>
-    <h3>Garde les passages dont tu as besoin</h3>
-    <p>Un chapitre à réviser ? Sélectionne-le dans PAGES, puis écoute-le à ton rythme. Ton PDF est traité sur ton appareil, sans être envoyé à un serveur.</p>
+    <h3>Le texte de ton cours, sans résumé</h3>
+    <p>La radio lit le texte extrait de ton cours sans le résumer : elle garde ses explications et ses exemples. Un cours long peut donc donner plusieurs heures d’écoute. Pour cibler tes révisions, choisis les passages dans PAGES, puis garde le MP3 pour les écouter en marchant ou dans les transports.</p>
   </section>
 
   <section class="faq" id="faq" aria-labelledby="faq-title">
     <h2 id="faq-title">Avant d’appuyer sur lecture</h2>
+    <details>
+      <summary>Est-ce que mon cours est résumé ?</summary>
+      <p class="answer">Non : la radio lit le texte extrait du PDF ou du PowerPoint, sans le résumer ni le reformuler. Pour un PDF, tu peux choisir toi-même les passages à lire dans PAGES.</p>
+    </details>
+    <details>
+      <summary>Et si le cours est en anglais ?</summary>
+      <p class="answer">La radio détecte la langue du texte et utilise une voix anglaise. Elle lit le cours dans sa langue d’origine, sans le traduire.</p>
+    </details>
     <details>
       <summary>Comment écouter mon PDF ?</summary>
       <p class="answer">Appuie sur IMPORTER, choisis ton PDF, puis appuie sur PARLE. Tu peux aussi déposer le fichier sur la radio.</p>
     </details>
     <details>
       <summary>Comment garder mon PDF en MP3 ?</summary>
-      <p class="answer">Importe ton PDF, règle la voix et la vitesse, puis appuie sur MP3. Le fichier audio reprend les passages sélectionnés dans PAGES.</p>
+      <p class="answer">Importe ton PDF, règle la voix et la vitesse, puis appuie sur MP3. Le fichier audio reprend les passages sélectionnés dans PAGES et peut s’écouter sans connexion une fois téléchargé.</p>
     </details>
     <details>
       <summary>Comment retrouver un passage pendant la lecture ?</summary>
@@ -293,6 +317,7 @@
   </section>
 
   <footer class="credits">
+    <p>Créé pour réviser mes propres cours, cet outil évolue avec les retours de ceux qui l’utilisent. Un souci pendant la lecture ? <a href="https://github.com/icanthateoncarti/speech-synthesis/issues">Signaler un bug sur GitHub</a>.</p>
     <nav class="usages" aria-label="Autres usages">
       <a href="/">Texte en audio</a>
       <a href="/pdf-en-audio/" aria-current="page">PDF en audio</a>

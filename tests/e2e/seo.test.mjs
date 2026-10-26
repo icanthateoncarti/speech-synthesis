@@ -5,12 +5,14 @@ import { startServer, launch } from "./harness.mjs";
 const QUESTIONS = [
   "Est-ce gratuit, même pour télécharger le MP3 ?",
   "Mon texte reste-t-il privé ?",
-  "Comment garder mon texte en MP3 ?",
+  "Comment emporter mon cours en MP3 ?",
   "Comment écouter un PDF ou un PowerPoint ?",
   "Quelles voix sont disponibles ?",
   "Puis-je accélérer ou ralentir la voix ?",
   "Pourquoi ce temps de chargement ?",
-  "Comment ajouter l’audio à une vidéo ?"
+  "Est-ce que mon cours est résumé ?",
+  "Pourquoi l’audio est-il si long ?",
+  "Et si mon cours est en anglais ?"
 ];
 
 let server, browser, page;
@@ -29,16 +31,16 @@ test("FAQ hors du premier écran", async () => {
   });
   assert.ok(faq, "section #faq absente");
   assert.ok(faq.top >= 900, `FAQ trop haute : ${faq.top}`);
-  assert.equal(faq.items, 8);
+  assert.equal(faq.items, QUESTIONS.length);
 });
 
-test("JSON-LD FAQPage valide, 8 questions identiques au HTML", async () => {
+test("JSON-LD FAQPage valide, questions identiques au HTML", async () => {
   const ld = await page.$$eval('script[type="application/ld+json"]', (els) => els.map((e) => e.textContent));
   assert.ok(ld.length >= 1, "pas de JSON-LD");
   const data = ld.map((t) => JSON.parse(t)).find((d) => d["@type"] === "FAQPage");
   assert.ok(data, "pas de FAQPage");
   assert.equal(data["@context"], "https://schema.org");
-  assert.equal(data.mainEntity.length, 8);
+  assert.equal(data.mainEntity.length, QUESTIONS.length);
   const html = await page.$$eval("#faq details", (ds) => ds.map((d) => ({
     q: d.querySelector("summary").textContent.trim(),
     a: d.querySelector(".answer").textContent.trim().replace(/\s+/g, " "),
