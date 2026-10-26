@@ -34,6 +34,13 @@ test("mots anglais réécrits pour la voix française, pluriels et majuscules co
   assert.equal(spokenText("Data Mining et feedback"), "Data maïninng et fide-bak");
 });
 
+test("mots de gestion et de supply chain réécrits pour la voix française", () => {
+  assert.equal(spokenText("Le team vérifie l'inventory, le process et la quality du planning."),
+    "Le tim vérifie l'inn-veun-tori, le pro-sèss et la koua-li-ti du plan-ninng.");
+  assert.equal(spokenText("Le warehouse, le sourcing et le forecasting suivent le cashflow."),
+    "Le ouère-haouz, le sor-sinng et le for-kas-tinng suivent le cache-flo.");
+});
+
 test("guillemets droits : ouverture puis fermeture, même séparés du mot", () => {
   assert.equal(spokenText('Le mot " test " puis "fin".'), "Le mot, entre guillemets, test, puis, entre guillemets, fin.");
 });

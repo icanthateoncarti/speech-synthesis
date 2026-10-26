@@ -31,6 +31,12 @@ const LEXICON = new Map(Object.entries({
   shopify: "chopi-faï", deep: "dipe", stakeholder: "stèque-oldeur", input: "inn-poute",
   output: "aoute-poute", targeting: "targuétinng", landing: "landinng", mockup: "mokeupe",
   wireframe: "waïeur-frème", template: "tèmplète",
+  // Gestion, supply chain et pilotage (cours EPHEC, 2026-10-26).
+  team: "tim", inventory: "inn-veun-tori", warehouse: "ouère-haouz", purchasing: "peur-tché-sinng",
+  delivery: "di-liv-ri", sourcing: "sor-sinng", forecasting: "for-kas-tinng", flow: "flo",
+  cashflow: "cache-flo", wholesale: "hol-séle", strategy: "stra-té-dji", process: "pro-sèss",
+  quality: "koua-li-ti", lean: "linne", backlog: "bak-log", milestone: "maïle-stonn",
+  planning: "plan-ninng", network: "nète-oueurque",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
