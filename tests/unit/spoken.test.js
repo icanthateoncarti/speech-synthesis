@@ -48,6 +48,15 @@ test("mots d'informatique, de data et de finance réécrits pour la voix frança
     "Le tré-ninng améliore l'a-kiou-ra-si et réduit le tcheurne.");
 });
 
+test("mots du travail et de la sécurité informatique réécrits pour la voix française", () => {
+  assert.equal(spokenText("Le workshop sur le teamwork demande des skills et un backup."),
+    "Le oueurque-chope sur le tim-oueurque demande des skilz et un bak-eup.");
+  assert.equal(spokenText("Le password, le login et le firewall protègent le server."),
+    "Le passe-oueurde, le loguine et le faïeur-ouol protègent le sèr-veur.");
+  assert.equal(spokenText("Un account permet le download et l'upgrade."),
+    "Un a-kaoune permet le daoune-lode et l'eupe-grède.");
+});
+
 test("guillemets droits : ouverture puis fermeture, même séparés du mot", () => {
   assert.equal(spokenText('Le mot " test " puis "fin".'), "Le mot, entre guillemets, test, puis, entre guillemets, fin.");
 });

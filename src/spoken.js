@@ -43,6 +43,12 @@ const LEXICON = new Map(Object.entries({
   training: "tré-ninng", accuracy: "a-kiou-ra-si", churn: "tcheurne", advertising: "ad-veur-taï-zinng",
   copywriting: "ko-pi-raï-tinng", funding: "feun-dinng", founder: "fone-deur", equity: "ékoui-ti",
   deal: "dile", board: "borde",
+  // Monde du travail et sécurité informatique (2026-10-26).
+  shareholder: "chère-hol-deur", risk: "risque", liability: "la-y-a-bi-li-ti", workshop: "oueurque-chope",
+  work: "oueurque", teamwork: "tim-oueurque", skills: "skilz", firewall: "faïeur-ouol",
+  backup: "bak-eup", upgrade: "eupe-grède", download: "daoune-lode", upload: "eupe-lode",
+  login: "loguine", account: "a-kaoune", password: "passe-oueurde", phishing: "fi-sinng",
+  ransomware: "ran-some-ouère", fork: "forque",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
