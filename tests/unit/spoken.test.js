@@ -227,3 +227,10 @@ test("mots anglais lus à la française, session 2, lot 1", () => {
   assert.equal(spokenText("Le supplier, le procurement et la logistics couvrent la transportation, la demand, la revenue, la margin, les operations et la value avant le deployment."),
     "Le seu-plaï-eur, le pro-kiou-meurt et la lo-djisse-tik couvrent la trasse-por-té-cheune, la di-mad, la re-ve-niou, la mar-djine, les o-pé-ré-cheune et la va-lou avant le di-ploï-meurte.");
 });
+
+test("mots anglais lus à la française, session 2, lot 2", () => {
+  assert.equal(spokenText("La campaign, le funnel, la brand et l'investor parlent d'un unicorn, d'une merger, de la governance et de l'insurance."),
+    "La kem-pène, le feu-nèle, la brènde et l'ine-vesse-teur parlent d'un you-ni-corne, d'une meur-djeur, de la go-veur-nasse et de l'ine-chou-rasse.");
+  assert.equal(spokenText("Le consumer, le vendor et le username tentent la venture du manufacturer, du distributor, du purchaser et du merchandiser."),
+    "Le ko-sou-meur, le vèn-deur et le you-zeur-nème tentent la vène-tcheur du ma-niou-fak-teur, du disse-tri-biou-teur, du peur-tché-seur et du meur-tcheune-dai-zeur.");
+});

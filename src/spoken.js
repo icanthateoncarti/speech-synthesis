@@ -61,6 +61,13 @@ const LEXICON = new Map(Object.entries({
   procurement: "pro-kiou-meurt", logistics: "lo-djisse-tik", transportation: "trasse-por-té-cheune",
   demand: "di-mad", revenue: "re-ve-niou", margin: "mar-djine", operations: "o-pé-ré-cheune",
   value: "va-lou", deployment: "di-ploï-meurte",
+  // Mots anglais lus à la française, session 2 (2026-10-26), lot 2.
+  campaign: "kem-pène", funnel: "feu-nèle", brand: "brènde", investor: "ine-vesse-teur",
+  unicorn: "you-ni-corne", merger: "meur-djeur", governance: "go-veur-nasse",
+  insurance: "ine-chou-rasse", consumer: "ko-sou-meur", vendor: "vèn-deur",
+  username: "you-zeur-nème", venture: "vène-tcheur", manufacturer: "ma-niou-fak-teur",
+  distributor: "disse-tri-biou-teur", purchaser: "peur-tché-seur",
+  merchandiser: "meur-tcheune-dai-zeur",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
