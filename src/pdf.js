@@ -1,9 +1,12 @@
 import { normalizeText } from "./text.js";
+import { normalizeWithMap } from "./text-map.js";
 import { MAX_FILE_BYTES, MAX_PAGES, MAX_TEXT_CHARS, throwIfAborted, tooLarge } from "./limits.js";
 
 let library;
 
-function pageText(items) {
+// `record(item, start, end)` note où chaque morceau atterrit dans le texte de la
+// page : c'est ce qui relie un mot cliqué sur la page affichée au texte lu.
+function pageText(items, record) {
   let text = "", previous = null, lineBreak = false;
   for (const item of items) {
     if (typeof item.str !== "string") continue;
@@ -11,6 +14,7 @@ function pageText(items) {
     const gap = previous && item.transform?.[4] - (previous.transform?.[4] + previous.width);
     const separated = Number.isFinite(gap) && gap > Math.max(0.5, Math.max(item.height || 0, previous?.height || 0) * 0.15);
     if (text && !/\s$/.test(text) && !/^\s/.test(item.str) && (lineBreak || separated)) text += " ";
+    record?.(item, text.length, text.length + item.str.length);
     text += item.str;
     previous = item;
     lineBreak = Boolean(item.hasEOL);
@@ -21,7 +25,7 @@ function pageText(items) {
 // Les lignes nettement plus grandes que le texte courant de la page sont des
 // titres : elles reçoivent leur propre ligne (et donc les pauses de lecture),
 // au lieu d'être collées au paragraphe comme les retours de mise en page.
-function pageTextWithHeadings(items, headings = []) {
+function pageTextWithHeadings(items, headings = [], record) {
   const lines = [];
   let current = [];
   for (const item of items) {
@@ -31,7 +35,7 @@ function pageTextWithHeadings(items, headings = []) {
   }
   if (current.length) lines.push(current);
   const sized = items.filter((item) => item.str?.trim() && item.height > 0);
-  if (!sized.length) return pageText(items);
+  if (!sized.length) return pageText(items, record);
   // Taille du texte courant : médiane pondérée par le nombre de caractères.
   const sorted = sized.map((item) => [item.height, item.str.length]).sort((a, b) => a[0] - b[0]);
   const half = sorted.reduce((n, [, count]) => n + count, 0) / 2;
@@ -39,12 +43,17 @@ function pageTextWithHeadings(items, headings = []) {
   for (const [height, count] of sorted) { seen += count; body = height; if (seen >= half) break; }
   let text = "", previousHeading = false;
   for (const line of lines) {
-    const value = pageText(line).trim();
+    const spans = [];
+    const raw = pageText(line, (item, start, end) => spans.push([item, start, end]));
+    const value = raw.trim();
     if (!value) continue;
+    const lead = raw.length - raw.trimStart().length;
     const height = Math.max(0, ...line.filter((item) => item.str?.trim()).map((item) => item.height || 0));
     const heading = height >= body * 1.2 && value.length <= 120 && /\p{L}/u.test(value);
     if (heading) headings.push(value);
     if (text) text += heading || previousHeading ? "\n" : " ";
+    const base = text.length - lead;
+    for (const [item, start, end] of spans) record?.(item, Math.max(text.length, base + start), Math.min(text.length + value.length, base + end));
     text += value;
     previousHeading = heading;
   }
@@ -180,10 +189,20 @@ export async function extractPdfDocument(file, { signal } = {}) {
       // hasEOL indique une ligne de mise en page, souvent au milieu d'une phrase.
       // Les phrases restent continues ; seuls les titres et le changement de page ajoutent un saut.
       // Des morceaux contigus peuvent être les glyphes d'un même mot (ex. ligature fi).
-      let text = normalizeText(pageTextWithHeadings(content.items, headings));
+      // Position de chaque morceau (dans l'ordre de la couche de texte de PDF.js)
+      // dans le texte brut de la page, puis correspondance brut → nettoyé.
+      const strings = content.items.filter((item) => typeof item.str === "string");
+      const order = new Map(strings.map((item, index) => [item, index]));
+      const spans = new Int32Array(strings.length * 2).fill(-1);
+      const raw = pageTextWithHeadings(content.items, headings, (item, start, end) => {
+        const index = order.get(item);
+        spans[index * 2] = start; spans[index * 2 + 1] = end;
+      });
+      const normalized = normalizeWithMap(raw);
+      let text = normalized.text;
       page.cleanup();
       if (total + text.length > MAX_TEXT_CHARS) { text = text.slice(0, MAX_TEXT_CHARS - total); truncated = true; }
-      pages.push({ text, lines: pageLines(content.items) });
+      pages.push({ text, lines: pageLines(content.items), spans, map: normalized.map });
       total += text.length + 1;
       if (truncated && total >= MAX_TEXT_CHARS) break;
     }
@@ -198,7 +217,9 @@ export async function extractPdfDocument(file, { signal } = {}) {
     });
     const outline = await outlineChapters(document, pages, pageOffsets);
     const chapters = uniqueChapters(outline.length ? outline : detectedChapters(pages, pageOffsets), text.length);
-    return { text, chapters, pageOffsets, titles: headings.map((heading) => normalizeText(heading)), truncated };
+    // Pour la vue des pages : où tombe chaque caractère de chaque morceau dans le texte final.
+    const pageMaps = pages.map((page, index) => ({ offset: pageOffsets[index], length: page.text.length, spans: page.spans, map: page.map }));
+    return { text, chapters, pageOffsets, pageMaps, titles: headings.map((heading) => normalizeText(heading)), truncated };
   } catch (error) {
     throwIfAborted(signal);
     throw error;
@@ -206,6 +227,15 @@ export async function extractPdfDocument(file, { signal } = {}) {
     signal?.removeEventListener("abort", abort);
     await task.destroy();
   }
+}
+
+// Vue des pages : le document est rouvert à partir du fichier importé, avec la
+// même bibliothèque (rendu des pages et couche de texte de PDF.js).
+export async function openPdfForView(file) {
+  library ??= loadPdfJs().catch((err) => { library = null; throw err; });
+  const pdfjs = await library;
+  const task = pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()), isEvalSupported: false });
+  return { pdfjs, task };
 }
 
 export async function extractPdfText(file) {

@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2yzuhCi9POYH3MMvoUDj+tLcJTy38pI4KFLrOoC4FuQ=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-iEsPqvdlxPtx/90I3czixBgJZvTLbMmcouJN4j0Ihew=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PDF en audio gratuit et sans limite : écouter ou convertir en MP3</title>
   <meta name="description" content="Transforme un PDF ou un PowerPoint en audio : la machine le lit à voix haute, chapitre par chapitre, et le convertit en MP3. Gratuit, sans compte, ton fichier reste sur ton ordinateur.">
@@ -112,29 +112,32 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=6bf86118ca">
+  <link rel="stylesheet" href="/styles/machine.css?v=ce21ea56fe">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=6bf86118ca",
-      "/src/boot.js": "/src/boot.js?v=6bf86118ca",
-      "/src/limits.js": "/src/limits.js?v=6bf86118ca",
-      "/src/machine.js": "/src/machine.js?v=6bf86118ca",
-      "/src/main.js": "/src/main.js?v=6bf86118ca",
-      "/src/navigation.js": "/src/navigation.js?v=6bf86118ca",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=6bf86118ca",
-      "/src/pdf.js": "/src/pdf.js?v=6bf86118ca",
-      "/src/player.js": "/src/player.js?v=6bf86118ca",
-      "/src/pptx.js": "/src/pptx.js?v=6bf86118ca",
-      "/src/shader.js": "/src/shader.js?v=6bf86118ca",
-      "/src/spoken.js": "/src/spoken.js?v=6bf86118ca",
-      "/src/text.js": "/src/text.js?v=6bf86118ca",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=6bf86118ca",
-      "/src/tts.js": "/src/tts.js?v=6bf86118ca",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=6bf86118ca"
+      "/src/audio.js": "/src/audio.js?v=ce21ea56fe",
+      "/src/boot.js": "/src/boot.js?v=ce21ea56fe",
+      "/src/limits.js": "/src/limits.js?v=ce21ea56fe",
+      "/src/machine.js": "/src/machine.js?v=ce21ea56fe",
+      "/src/main.js": "/src/main.js?v=ce21ea56fe",
+      "/src/navigation.js": "/src/navigation.js?v=ce21ea56fe",
+      "/src/pages.js": "/src/pages.js?v=ce21ea56fe",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=ce21ea56fe",
+      "/src/pdf.js": "/src/pdf.js?v=ce21ea56fe",
+      "/src/player.js": "/src/player.js?v=ce21ea56fe",
+      "/src/pptx.js": "/src/pptx.js?v=ce21ea56fe",
+      "/src/selection.js": "/src/selection.js?v=ce21ea56fe",
+      "/src/shader.js": "/src/shader.js?v=ce21ea56fe",
+      "/src/spoken.js": "/src/spoken.js?v=ce21ea56fe",
+      "/src/text-map.js": "/src/text-map.js?v=ce21ea56fe",
+      "/src/text.js": "/src/text.js?v=ce21ea56fe",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=ce21ea56fe",
+      "/src/tts.js": "/src/tts.js?v=ce21ea56fe",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=ce21ea56fe"
     }
   }
   </script>
@@ -158,6 +161,7 @@
         </div>
 
         <div class="screen">
+          <div class="document-label" id="document-label" hidden></div>
           <div class="display">
             <textarea id="screen" aria-label="Texte à lire" placeholder=" " spellcheck="false" autocomplete="off"></textarea>
             <span class="cursor" aria-hidden="true"></span>
@@ -175,29 +179,16 @@
               <button type="button" id="forward" aria-label="Avancer de 30 secondes">30 s ↷</button>
               <select id="chapter" aria-label="Chapitre"></select>
               <button type="button" id="chapter-restart" aria-label="Recommencer le chapitre">↤</button>
+              <button type="button" id="pages-open" aria-haspopup="dialog" hidden>PAGES</button>
               <button type="button" id="commands-toggle" aria-expanded="false" aria-controls="commands-panel">COMMANDES</button>
             </div>
           </div>
         </div>
 
-        <div id="commands-panel" class="commands-panel" hidden>
-          <div class="jump-controls" role="group" aria-label="Saut de lecture">
-            <input type="number" id="jump-count" min="1" max="10000" value="3" aria-label="Nombre à parcourir">
-            <select id="jump-unit" aria-label="Unité de navigation"><option value="sentences">phrases</option><option value="seconds">secondes</option><option value="chapters">chapitres</option></select>
-            <button type="button" id="jump-back" aria-label="Reculer du nombre choisi">←</button><button type="button" id="jump-forward" aria-label="Avancer du nombre choisi">→</button>
-          </div>
-          <form id="command-form" class="command-form">
-            <input id="command" type="text" maxlength="200" aria-label="Commande de lecture" placeholder="Reviens 3 phrases en arrière" autocomplete="off">
-            <button type="submit" aria-label="Exécuter la commande">↵</button>
-            <button type="button" id="voice-command" aria-label="Dicter une commande" aria-pressed="false">MICRO</button>
-          </form>
-          <p id="command-feedback" role="status">Par exemple : « avance de 5 minutes » ou « recommence le chapitre ».</p>
-        </div>
-
         <div class="deck">
           <div class="control-group source-controls" role="group" aria-label="Texte">
             <div class="source-keys">
-              <button type="button" class="key y" id="key-pdf" aria-label="Importer un PDF ou une présentation PowerPoint">↑&nbsp;PDF/PPTX</button>
+              <button type="button" class="key y import-key" id="key-pdf" aria-label="Importer un PDF ou une présentation PowerPoint"><span class="key-symbol" aria-hidden="true">↑</span><span class="key-copy"><span>IMPORTER</span><span class="key-detail">PDF · PPTX</span></span></button>
               <button type="button" class="key recessed" id="key-clear" aria-label="Effacer l'écran">EFFACE</button>
               <input type="file" id="pdf-input" accept="application/pdf,.pdf,.pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation" hidden>
             </div>
@@ -217,6 +208,7 @@
                 </div>
                 <label for="speed" class="silk-label">VITESSE</label>
               </div>
+              <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
             </div>
           </div>
           <div class="control-group playback-controls" role="group" aria-label="Lecture et téléchargement">
@@ -225,8 +217,22 @@
               <button type="button" class="key y" id="key-mp3" aria-label="Télécharger le MP3">⬇ MP3</button>
             </div>
           </div>
-          <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         </div>
+
+        <div id="commands-panel" class="commands-panel" hidden>
+          <div class="jump-controls" role="group" aria-label="Saut de lecture">
+            <input type="number" id="jump-count" min="1" max="10000" value="3" aria-label="Nombre à parcourir">
+            <select id="jump-unit" aria-label="Unité de navigation"><option value="sentences">phrases</option><option value="seconds">secondes</option><option value="chapters">chapitres</option></select>
+            <button type="button" id="jump-back" aria-label="Reculer du nombre choisi">←</button><button type="button" id="jump-forward" aria-label="Avancer du nombre choisi">→</button>
+          </div>
+          <form id="command-form" class="command-form">
+            <input id="command" type="text" maxlength="200" aria-label="Commande de lecture" placeholder="Reviens 3 phrases en arrière" autocomplete="off">
+            <button type="submit" aria-label="Exécuter la commande">↵</button>
+            <button type="button" id="voice-command" aria-label="Dicter une commande" aria-pressed="false">MICRO</button>
+          </form>
+          <p id="command-feedback" role="status">Par exemple : « avance de 5 minutes » ou « recommence le chapitre ».</p>
+        </div>
+
       </div>
     </section>
   </main>
@@ -286,7 +292,28 @@
     <p>Tout tourne dans ton navigateur, rien n'est envoyé. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
   </footer>
 
-  <script type="module" src="/src/boot.js?v=6bf86118ca"></script>
-  <script type="module" src="/src/main.js?v=6bf86118ca"></script>
+  <dialog id="pages-dialog" class="pages-dialog" aria-labelledby="pages-title">
+    <div class="pages-bar">
+      <div class="pages-heading">
+        <h2 id="pages-title">Pages</h2>
+        <span id="pages-file" class="pages-file"></span>
+      </div>
+      <div class="pages-tools" role="group" aria-label="Surligneur">
+        <button type="button" data-tool="include" aria-pressed="true">À lire</button>
+        <button type="button" data-tool="exclude" aria-pressed="false">À sauter</button>
+        <button type="button" data-tool="erase" aria-pressed="false">Gomme</button>
+      </div>
+      <p id="pages-hint" class="pages-hint" role="status"></p>
+      <div class="pages-actions">
+        <span id="pages-summary" class="pages-summary"></span>
+        <button type="button" id="pages-clear">Tout effacer</button>
+        <button type="button" id="pages-done" class="pages-done">Terminé</button>
+      </div>
+    </div>
+    <div id="pages-list" class="pages-list"></div>
+  </dialog>
+
+  <script type="module" src="/src/boot.js?v=ce21ea56fe"></script>
+  <script type="module" src="/src/main.js?v=ce21ea56fe"></script>
 </body>
 </html>

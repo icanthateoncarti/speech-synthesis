@@ -6,6 +6,7 @@ import { wavDuration, wavToMp3 } from "./audio.js";
 import { buildReadingIndex, generatedDuration, navigationTarget, timeAtTextOffset, textOffsetAtTime } from "./navigation.js";
 import { createVoiceCommands, parseVoiceCommand } from "./voice-commands.js";
 import { MAX_FILE_BYTES } from "./limits.js";
+import { excerpt, hasMarks, readRanges } from "./selection.js";
 
 const $ = (id) => document.getElementById(id);
 const screen = $("screen"), reader = $("reader"), speak = $("key-speak");
@@ -65,6 +66,17 @@ function paint() {
   $("key-mp3").disabled = Boolean(exportJob);
   $("key-mp3").textContent = exportJob ? "… MP3" : "⬇ MP3";
   $("key-pdf").disabled = pdfBusy;
+  const pages = documentInfo.pages;
+  $("pages-open").hidden = !pages;
+  if (pages) {
+    const passages = hasMarks(pages.marks) ? readRanges(pages.fullText.length, pages.marks).length : 0;
+    $("pages-open").textContent = passages ? `PAGES · ${passages}` : "PAGES";
+    $("pages-open").setAttribute("aria-label", passages ? `Pages du PDF, ${passages} passage${passages > 1 ? "s" : ""} retenu${passages > 1 ? "s" : ""}` : "Pages du PDF : choisir ce qu'il faut lire");
+  }
+  $("document-label").hidden = !documentInfo.name;
+  $("document-label").textContent = documentInfo.name;
+  $("document-label").title = documentInfo.name;
+  document.querySelector(".machine").dataset.playback = state.error ? "error" : paused ? "paused" : reading ? "playing" : "idle";
   $("transport").hidden = !hasSpeakableContent(state.text);
   for (const name of ["jessica", "tom"]) {
     $("voice-" + name).setAttribute("aria-checked", String(state.voice === name));
@@ -311,6 +323,10 @@ async function importDocument(file) {
     pdfBusy = false;
     if (!hasSpeakableContent(document.text)) { dispatch({ type: "PDF_EMPTY", format }); return; }
     documentInfo = { name: file.name, chapters: document.chapters, titles: document.titles ?? [] };
+    // PDF : la vue des pages permet de choisir ce qu'il faut lire ou sauter.
+    if (format === "pdf" && document.pageMaps) {
+      documentInfo.pages = { file, pageMaps: document.pageMaps, fullText: document.text, fullChapters: document.chapters, marks: { include: [], exclude: [] } };
+    }
     screen.value = document.text; screen.setSelectionRange(0, 0); screen.scrollTop = 0;
     dispatch({ type: "TEXT_CHANGED", text: document.text }); rebuildIndex();
     screen.focus({ preventScroll: true }); preload();
@@ -324,6 +340,35 @@ async function importDocument(file) {
     if (importJob === job) importJob = null;
   }
 }
+// Les passages surlignés deviennent le texte de la machine (chapitres replacés).
+function applyMarks() {
+  const pages = documentInfo.pages;
+  const marked = hasMarks(pages.marks);
+  const ranges = readRanges(pages.fullText.length, pages.marks);
+  const next = marked ? excerpt(pages.fullText, ranges, pages.fullChapters) : { text: pages.fullText, chapters: pages.fullChapters };
+  if (next.text !== state.text) {
+    cancelWork();
+    screen.value = next.text; screen.setSelectionRange(0, 0); screen.scrollTop = 0;
+    documentInfo.chapters = next.chapters;
+    dispatch({ type: "TEXT_CHANGED", text: next.text }); rebuildIndex(); preload();
+  }
+  message(!marked ? "TOUT LE DOCUMENT" : !next.text ? "RIEN À LIRE · OUVRE PAGES" : `SÉLECTION · ${ranges.length} PASSAGE${ranges.length > 1 ? "S" : ""}`, 5000);
+}
+async function openPagesView() {
+  const pages = documentInfo.pages;
+  if (!pages) return;
+  pausePlayback();
+  try {
+    const { openPages } = await import("./pages.js");
+    const marks = await openPages({ file: pages.file, pageMaps: pages.pageMaps, text: pages.fullText, marks: pages.marks });
+    if (documentInfo.pages !== pages) return;
+    pages.marks = marks;
+    applyMarks();
+  } catch {
+    message("PAGES INDISPONIBLES · RÉESSAIE");
+  }
+}
+$("pages-open").addEventListener("click", () => { void openPagesView(); });
 screen.addEventListener("input", () => {
   if (synthesis || exportJob || pdfBusy || playbackActive) cancelWork();
   documentInfo = { name: "", chapters: [] };
@@ -374,6 +419,17 @@ $("seek").addEventListener("change", () => { const target = Number($("seek").val
 $("commands-toggle").addEventListener("click", () => {
   const open = $("commands-panel").hidden;
   $("commands-panel").hidden = !open; $("commands-toggle").setAttribute("aria-expanded", String(open));
+  if (open) {
+    $("command").focus({ preventScroll: true });
+    $("commands-panel").scrollIntoView({ block: "nearest", behavior: "instant" });
+  }
+});
+$("commands-panel").addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+  event.preventDefault();
+  $("commands-panel").hidden = true;
+  $("commands-toggle").setAttribute("aria-expanded", "false");
+  $("commands-toggle").focus();
 });
 for (const [id, direction] of [["jump-back", -1], ["jump-forward", 1]]) $(id).addEventListener("click", () => {
   const count = Number($("jump-count").value);
