@@ -208,3 +208,15 @@ test("un mot anglais qui est aussi un mot français courant n'est pas réécrit"
   assert.equal(spokenText("J'ai mis mon pull."), "J'ai mis mon pull.");
   assert.equal(spokenText("Le planning de la semaine."), "Le pla-ninng de la semaine.");
 });
+
+test("symboles décoratifs : puces privées, formulaires et lignes de tirets", () => {
+  assert.equal(spokenText("\uF0A7 Premier point\n\uF0A7 Deuxième point"), "Premier point, Deuxième point");
+  assert.equal(spokenText("co\uF0A7op"), "coop");
+  assert.equal(spokenText("Nom : __________"), "Nom :");
+  assert.equal(spokenText("Date : ........."), "Date :");
+  assert.equal(spokenText("Titre\n----------\nSuite"), "Titre, Suite");
+  assert.equal(spokenText("Trait ••• puis *** puis ─── puis ··· puis === puis ___ puis ………"), "Trait, puis, puis, puis, puis, puis, puis");
+  assert.equal(spokenText("La version 1.2.3 coûte 3.5 €, p. ex. etc."), "La version 1.2.3 coûte 3.5 €, p. ex. etc.");
+  assert.equal(spokenText("Il hésite... puis reprend."), "Il hésite... puis reprend.");
+  assert.equal(spokenText("A -> B, C => D, E <- F, G <=> H"), "A vers B, C vers D, E, flèche vers la gauche, F, G, flèche dans les deux sens, H");
+});

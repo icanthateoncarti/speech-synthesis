@@ -103,6 +103,10 @@ export function spokenWords(words, lang = "fr") {
   let quoted = false;
   return words.map((raw, k) => {
     let word = raw, prefix = "";
+    if (/[\uE000-\uF8FF]/u.test(word)) {
+      word = word.replace(/[\uE000-\uF8FF]/gu, "");
+      if (!word) return ",";
+    }
     while (word) {
       const first = word[0];
       if (first === '"' && quoted) break;
@@ -115,6 +119,10 @@ export function spokenWords(words, lang = "fr") {
     // « mot(s) » : une parenthèse collée au mot reste telle quelle.
     if (!/\p{L}[(\[]/u.test(word)) word = word.replace(CLOSERS, ",");
     for (const [pattern, spoken] of arrows) word = word.replace(pattern, spoken);
+    // Lignes de formulaire et puces décoratives : une pause, jamais l'épellation.
+    // « ... » exact reste une ponctuation ; les nombres (3.5, 1.2.3) et les
+    // abréviations (p., etc.) ne forment pas de suite de trois caractères.
+    word = word.replace(/[-_.…·•─=*]{3,}/gu, (run) => run === "..." ? run : ",");
     word = word.replace(/\p{L}+(?:-\p{L}+)*/gu, (token) => pronounce(token, words[k - 1], words[k + 1], lang))
       .replace(/&/g, lang === "en" ? " and " : " et ")
       .replace(/^(\d{4})\/(\d{4})/u, "$1, $2");
