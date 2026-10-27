@@ -233,6 +233,8 @@ test("mots anglais relevés dans les cours français, session 3", () => {
     "ine-sta-grem et you-toube restent onne-laïne sur mou-deul.");
   assert.equal(spokenText("Le study, le computer et les influencers sont dans la salle."),
     "Le steu-di, le keum-piou-teur et les ine-flou-eun-seurs sont dans la salle.");
+  assert.equal(spokenText("La valeur missing reste dans la table."),
+    "La valeur missinng reste dans la table.");
 });
 
 test("mots anglais lus à la française, session 2, lot 2", () => {
