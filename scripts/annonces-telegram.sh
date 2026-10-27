@@ -9,13 +9,20 @@ export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 SITE="https://speechsynthe.si"
-STATE="$REPO/logs/annonces-envoyees.txt"
-LOG="$REPO/logs/annonces-telegram.log"
+# État commun à toutes les copies du dépôt (worktrees compris), hors des fichiers suivis :
+# une annonce déjà envoyée ne repart jamais, d'où que le script soit lancé.
+COMMON="$(git -C "$REPO" rev-parse --path-format=absolute --git-common-dir)"
+STATE="$COMMON/annonces-envoyees.txt"
+LOG="$COMMON/annonces-telegram.log"
 ENV_FILE="$HOME/.claude/.env"
 
-mkdir -p "$REPO/logs"
 touch "$STATE"
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >> "$LOG"; }
+
+# Un seul passage à la fois : deux passages simultanés enverraient deux fois le même tweet.
+LOCK="$COMMON/annonces-telegram.lock"
+mkdir "$LOCK" 2>/dev/null || { [[ -n "$(find "$LOCK" -mmin +10 2>/dev/null)" ]] && rmdir "$LOCK" && mkdir "$LOCK"; } || exit 0
+trap 'rmdir "$LOCK" 2>/dev/null' EXIT
 
 [[ -f "$ENV_FILE" ]] || { log "pas de $ENV_FILE"; exit 0; }
 # shellcheck disable=SC1090
@@ -37,7 +44,7 @@ while IFS= read -r file; do
   grep -qxF "$file" "$STATE" && continue
   tweet=$(git -C "$REPO" show "origin/main:$file") || continue
   # Pas encore en ligne (GitHub Pages publie en une à deux minutes) : on réessaiera.
-  live=$(curl -fsS --max-time 20 "$SITE/$file?t=$(date +%s)") || continue
+  live=$(curl -fsS --max-time 20 "$SITE/$file?t=$(date +%s)" 2>/dev/null) || continue
   [[ "$live" == "$tweet" ]] || continue
   count=$(printf '%s' "$tweet" | node --input-type=module -e "import { tweetLength } from '$REPO/scripts/annonces.mjs'; import { readFileSync } from 'node:fs'; console.log(tweetLength(readFileSync(0, 'utf8')))" 2>/dev/null || echo "?")
   topic=$(basename "$file" .md | cut -c12- | tr '-' ' ')
