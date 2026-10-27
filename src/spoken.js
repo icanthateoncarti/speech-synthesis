@@ -107,6 +107,7 @@ const LEXICON_EN = new Map(Object.entries({
   "qualité": "kah-lee-tay", "propriétaire": "pro-pree-eh-tair", "capacité": "kah-pah-see-tay",
   "présent": "preh-zahn", "activité": "ahk-tee-vee-tay", "année": "ah-nay",
   "bien-être": "byan-et-ruh",
+  "passée": "pahss", "développe": "dev-lawp", "développement": "dev-lawp-mahn",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).

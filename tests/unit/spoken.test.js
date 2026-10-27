@@ -270,6 +270,11 @@ test("mots français des cours anglais, lot 4", () => {
     "Une ahk-tee-vee-tay, une ah-nay et le byan-et-ruh.");
 });
 
+test("mots français des cours anglais, formes proches", () => {
+  assert.equal(spokenText("The passée and développe forms.", "en"), "The pahss and dev-lawp forms.");
+  assert.equal(spokenText("Le développement est là.", "en"), "Le dev-lawp-mahn est là.");
+});
+
 test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
   assert.equal(spokenText("J'ai mis mon pull."), "J'ai mis mon pull.");
   assert.equal(spokenText("Le planning de la semaine."), "Le pla-ninng de la semaine.");
