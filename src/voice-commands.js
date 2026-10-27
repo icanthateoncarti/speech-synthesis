@@ -31,6 +31,16 @@ function smallNumber(words) {
 }
 
 function numberValue(value) {
+  const parts = value.split(" virgule ");
+  if (parts.length > 1) {
+    if (parts.length !== 2 || !parts[1]) return null;
+    const whole = parts[0] === "" ? 0 : numberValue(parts[0]);
+    const digits = parts[1].split(" ").filter(Boolean)
+      .map((word) => /^\d$/.test(word) ? Number(word) : UNITS.get(word));
+    if (whole === null || !digits.length || digits.some((digit) => !Number.isInteger(digit) || digit < 0 || digit > 9)) return null;
+    const fraction = digits.reduce((total, digit) => total * 10 + digit, 0) / 10 ** digits.length;
+    return whole + fraction <= 10_000 ? whole + fraction : null;
+  }
   if (/^\d+$/.test(value)) {
     const number = Number(value);
     return Number.isSafeInteger(number) && number <= 10_000 ? number : null;
@@ -56,7 +66,10 @@ function numberValue(value) {
 
 function normalizeCommand(raw) {
   return String(raw ?? "").normalize("NFD").replace(/\p{M}/gu, "")
-    .toLowerCase().replace(/['’\-]/g, " ").replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .toLowerCase()
+    // « 0,5 » : la virgule décimale survit à la ponctuation, comme un mot.
+    .replace(/(\d),(\d)/g, "$1 virgule $2")
+    .replace(/['’\-]/g, " ").replace(/[^\p{L}\p{N}\s]/gu, " ")
     .replace(/\s+/g, " ").trim();
 }
 
@@ -97,6 +110,23 @@ export function parseVoiceCommand(raw) {
     .replace(/^(?:jusqu aux|jusqu au|de|d) /, "")
     .replace(/ (?:en arriere|en avant)$/, "")
     .replace(/ (?:prochains?|prochaines?|suivants?|suivantes?|precedents?|precedentes?) (?=chapitres?$|phrases?$)/, " ");
+
+  // « un quart d'heure » vaut quinze minutes.
+  text = text.replace(/^(?:un )?quart d heure$/, "quinze minutes");
+
+  // « une minute et demie », « deux heures et demie » : la demie s'ajoute.
+  const half = /^(.+?) (secondes?|sec|s|minutes?|min|mn|heures?|h) et demie$/.exec(text);
+  if (half) text = `${half[1]} virgule cinq ${half[2]}`;
+
+  // « 2 minutes 30 » : deux minutes et trente secondes.
+  const compound = /^(.+?) (?:minutes?|min|mn) (?:et )?(.+)$/.exec(text);
+  if (compound) {
+    const minutes = numberValue(compound[1]);
+    const seconds = numberValue(compound[2].replace(/ (?:secondes?|sec|s)$/, ""));
+    if (minutes !== null && seconds !== null && Number.isInteger(seconds) && seconds >= 0 && seconds < 60) {
+      text = `${minutes * 60 + seconds} secondes`;
+    }
+  }
 
   // « 30s », « 2min » : l'unité collée au nombre est séparée avant l'analyse.
   text = text.replace(/^(\d+)(minutes?|min|mn|secondes?|sec|s|heures?|h)$/, "$1 $2");

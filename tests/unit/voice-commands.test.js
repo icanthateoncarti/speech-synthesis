@@ -103,6 +103,11 @@ test("les tournures naturelles comprises au fil de la session 2", () => {
     ["recule de 2 min", { type: "relative-time", seconds: -120 }],
     ["avance de 30 s", { type: "relative-time", seconds: 30 }],
     ["reviens 30s en arrière", { type: "relative-time", seconds: -30 }],
+    ["avance de 0,5 minute", { type: "relative-time", seconds: 30 }],
+    ["recule d'un quart d'heure", { type: "relative-time", seconds: -900 }],
+    ["avance d'une minute et demie", { type: "relative-time", seconds: 90 }],
+    ["avance de deux minutes et demie", { type: "relative-time", seconds: 150 }],
+    ["recule de 2 minutes 30", { type: "relative-time", seconds: -150 }],
   ];
   for (const [raw, expected] of cases) assert.deepEqual(parseVoiceCommand(raw), expected, raw);
 });
@@ -111,10 +116,6 @@ test("formulations naturelles encore non comprises : comportement actuel verroui
   // À vérifier : ces tournures naturelles ne sont pas reconnues aujourd'hui.
   // Le test fige le comportement actuel ; le journal les liste pour Jonas.
   for (const text of [
-    "avance de 0,5 minute",
-    "recule d'un quart d'heure",
-    "avance d'une minute et demie",
-    "recule de 2 minutes 30",
     "va 2 chapitres plus loin",
     "avance jusqu'au chapitre suivant",
   ]) assert.equal(parseVoiceCommand(text), null, text);
@@ -123,6 +124,7 @@ test("formulations naturelles encore non comprises : comportement actuel verroui
 test("le texte ordinaire et les demandes ambiguës ne déclenchent pas de navigation", () => {
   for (const text of [
     "", "Le chapitre précédent explique les cinq minutes de pause.",
+    "Le cours dure une heure et demie.",
     "Je voudrais avancer dans ma lecture.", "Je voudrais un café.",
     "Avance de deux trois secondes",
     "Avance de -30 secondes", "Reviens de moins trente secondes", "Avance de zéro phrase",
