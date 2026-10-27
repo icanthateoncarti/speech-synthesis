@@ -146,6 +146,8 @@ const LEXICON_EN = new Map(Object.entries({
   "réussite": "ray-ew-seet", "revenu": "ruh-vuh-nyew", "révolue": "ray-voh-lew", "sécurité": "say-kew-ree-tay",
   "serrée": "sair-ray", "simultanéité": "see-mewl-tah-nay-ee-tay", "société": "soh-syay-tay", "stratégie": "strah-tay-zhee",
   "structurées": "strewk-tew-ray", "succès": "suke-say", "supérieur": "sue-pay-ree-ur", "têtu": "tay-tyew",
+  // Mots français des cours anglais, session 7 (2026-10-27), lot 3.
+  "trébucher": "tray-buh-shay", "variées": "vah-ree-yay", "vérité": "vay-ree-tay", "vêtements": "vet-mahn",
 }));
 
 // Pluriel anglais dont le singulier est une entrée française : « parties » ne

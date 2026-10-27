@@ -314,6 +314,11 @@ test("mots français des cours anglais, session 7, lot 2", () => {
     "strewk-tew-ray, suke-say, sue-pay-ree-ur et tay-tyew.");
 });
 
+test("mots français des cours anglais, session 7, lot 3", () => {
+  assert.equal(spokenText("Trébucher, variées, vérité et vêtements.", "en"),
+    "tray-buh-shay, vah-ree-yay, vay-ree-tay et vet-mahn.");
+});
+
 test("mots français des cours anglais, session 6, lot 1", () => {
   assert.equal(spokenText("The accès and acquérir.", "en"), "The ahk-seh and ah-kay-reer.");
   assert.equal(spokenText("Adopté, agréable, américain et antérieure.", "en"),
