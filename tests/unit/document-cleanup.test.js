@@ -66,12 +66,14 @@ test("numéros de page : chiffres arabes regroupés, chiffres romains non reconn
   assert.deepEqual(repeatedNoise([fragment("IV", 0, 0), fragment("IV", 1, 10), fragment("IV", 2, 20)], 3).map((item) => item.text), ["IV"]);
 });
 
-test("textes qui ressemblent à un en-tête : titres exclus, année prise pour un numéro", () => {
+test("textes qui ressemblent à un en-tête : titres exclus, nombre identique gardé", () => {
   for (const title of ["Chapitre 1 : Variables", "Chapter II", "Section 3", "Module IV", "Unité 2", "Lesson 4", "Leçon 2"]) {
     assert.deepEqual(repeatedNoise([fragment(title, 0, 0), fragment(title, 1, 100)], 2), [], title);
   }
-  // À vérifier : un nombre isolé (année, référence) est classé « numéro de page ».
-  assert.deepEqual(repeatedNoise([fragment("2026", 0, 0), fragment("2026", 1, 10)], 2).map((item) => item.text), ["Numéros de page"]);
+  // Un nombre identique répété garde son propre texte, pas « Numéros de page ».
+  assert.deepEqual(repeatedNoise([fragment("2026", 0, 0), fragment("2026", 1, 10)], 2).map((item) => item.text), ["2026"]);
+  // Des nombres différents forment bien le groupe des numéros de page.
+  assert.deepEqual(repeatedNoise([fragment("2026", 0, 0), fragment("2027", 1, 10)], 2).map((item) => item.text), ["Numéros de page"]);
   // À vérifier : « Partie A » n’est pas reconnu par la règle des titres de chapitre.
   assert.deepEqual(repeatedNoise([fragment("Partie A", 0, 0), fragment("Partie A", 1, 10)], 2).map((item) => item.text), ["Partie A"]);
 });
