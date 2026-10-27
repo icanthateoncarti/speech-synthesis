@@ -159,7 +159,13 @@ function pronounce(token, previous, next, lang) {
   if (lang === "en") {
     const lower = token.toLocaleLowerCase("en");
     if (ENGLISH_KEEP.has(lower)) return token;
-    return LEXICON_EN.get(lower) ?? (lower.endsWith("s") ? LEXICON_EN.get(lower.slice(0, -1)) : undefined) ?? token;
+    const withoutS = lower.endsWith("s") ? lower.slice(0, -1) : undefined;
+    // Féminin : « basée » se dit comme « basé », « développées » comme « développé ».
+    const masculine = lower.endsWith("ées") ? lower.slice(0, -2) : lower.endsWith("ée") ? lower.slice(0, -1) : undefined;
+    return LEXICON_EN.get(lower)
+      ?? (withoutS === undefined ? undefined : LEXICON_EN.get(withoutS))
+      ?? (masculine === undefined ? undefined : LEXICON_EN.get(masculine))
+      ?? token;
   }
   if (lang !== "fr") return token;
   const lower = token.toLocaleLowerCase("fr");

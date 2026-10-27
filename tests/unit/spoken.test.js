@@ -280,6 +280,14 @@ test("mots français des cours anglais, formes proches", () => {
   assert.equal(spokenText("Les parties prenantes.", "en"), "Les parties prenantes.");
 });
 
+test("mots français des cours anglais, féminins couverts par la règle", () => {
+  assert.equal(spokenText("Basée, chargées et commencée.", "en"),
+    "bah-zay, shar-zhay et koh-mahn-say.");
+  assert.equal(spokenText("Les idées développées.", "en"), "Les ee-day day-vlaw-pay.");
+  assert.equal(spokenText("Une pomme mangée reste intacte.", "en"),
+    "Une pomme mangée reste intacte.");
+});
+
 test("mots français des cours anglais, session 6, lot 1", () => {
   assert.equal(spokenText("The accès and acquérir.", "en"), "The ahk-seh and ah-kay-reer.");
   assert.equal(spokenText("Adopté, agréable, américain et antérieure.", "en"),
