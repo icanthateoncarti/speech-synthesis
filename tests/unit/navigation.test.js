@@ -63,6 +63,100 @@ test("les métadonnées PDF donnent des chapitres précis sans confondre une men
   assert.equal(generatedDuration([2, 3, undefined, 4]), 5.15);
 });
 
+test("texte vide : un chapitre neutre, aucun déplacement et rien à synthétiser", () => {
+  const index = buildReadingIndex("");
+  assert.equal(index.text, "");
+  assert.deepEqual(index.chunks, []);
+  assert.deepEqual(index.sentences, []);
+  assert.deepEqual(index.chapters.map(({ title, start, end, chunkIndex }) => ({ title, start, end, chunkIndex })),
+    [{ title: "Texte", start: 0, end: 0, chunkIndex: null }]);
+  assert.equal(textOffsetAtTime(index, -5, []), 0);
+  assert.equal(textOffsetAtTime(index, 0, []), 0);
+  assert.equal(textOffsetAtTime(index, 5, []), 0);
+  assert.deepEqual(timeAtTextOffset(index, 0, []), { time: 0, offset: 0, chunkIndex: null, pending: true });
+  assert.deepEqual(timeAtTextOffset(index, 5, []), { time: 0, offset: 0, chunkIndex: null, pending: true });
+
+  assert.deepEqual(navigationTarget(index, { unit: "seconds", amount: 5 }, 0, [], true), { time: 0, offset: null, chunkIndex: null, pending: true });
+  assert.deepEqual(navigationTarget(index, { unit: "seconds", amount: -5 }, 0, [], false), { time: 0, offset: null, chunkIndex: null, pending: true });
+  assert.deepEqual(navigationTarget(index, { unit: "sentences", amount: 1 }, 0, [], true), { time: 0, offset: 0, chunkIndex: null, pending: true });
+  assert.equal(navigationTarget(index, { unit: "chapters", amount: 1 }, 0, [], true).title, "Texte");
+});
+
+test("un seul mot : les offsets et les durées restent bornés", () => {
+  const index = buildReadingIndex("Bonjour");
+  assert.deepEqual(index.chunks.map(({ text, start, end }) => ({ text, start, end })), [{ text: "Bonjour", start: 0, end: 7 }]);
+  assert.equal(index.sentences.length, 1);
+  assert.deepEqual(index.chapters.map(({ title, start, end }) => ({ title, start, end })), [{ title: "Texte", start: 0, end: 7 }]);
+  const durations = [1];
+  assert.equal(textOffsetAtTime(index, -5, durations), 0);
+  assert.equal(textOffsetAtTime(index, 0, durations), 0);
+  assert.equal(textOffsetAtTime(index, 0.5, durations), 3.5);
+  assert.equal(textOffsetAtTime(index, 1, durations), 7);
+  assert.equal(textOffsetAtTime(index, 99, durations), 7);
+  assert.deepEqual(timeAtTextOffset(index, -5, durations), { time: 0, offset: 0, chunkIndex: 0, pending: false });
+  assert.deepEqual(timeAtTextOffset(index, 3.5, durations), { time: 0.5, offset: 3.5, chunkIndex: 0, pending: false });
+  assert.deepEqual(timeAtTextOffset(index, 99, durations), { time: 1, offset: 7, chunkIndex: 0, pending: false });
+  assert.deepEqual(navigationTarget(index, { unit: "seconds", amount: 5 }, 0, durations, true), { time: 1, offset: 7, chunkIndex: 0, pending: false });
+  assert.deepEqual(navigationTarget(index, { unit: "seconds", amount: -5 }, 0, durations, true), { time: 0, offset: 0, chunkIndex: 0, pending: false });
+  assert.deepEqual(navigationTarget(index, { unit: "sentences", amount: 1 }, 1, durations, true), { time: 0, offset: 0, chunkIndex: 0, pending: false, entryIndex: 0, title: null });
+});
+
+test("durées nulles : le silence entre les morceaux reste compté, les offsets sont à vérifier", () => {
+  const index = buildReadingIndex("Bonjour. Salut.");
+  assert.deepEqual(index.chunks.map(({ text, start, end }) => ({ text, start, end })), [
+    { text: "Bonjour.", start: 0, end: 8 }, { text: "Salut.", start: 9, end: 15 },
+  ]);
+  assert.equal(generatedDuration([0, 0]), 0.15);
+  assert.equal(generatedDuration([1, -1, 2]), 1);
+  assert.equal(generatedDuration([1, Number.NaN, 2]), 1);
+  // À vérifier : avec des durées nulles, un temps avant le début (et à 0) renvoie
+  // la fin du premier morceau au lieu du début du texte.
+  assert.equal(textOffsetAtTime(index, -1, [0, 0]), 8);
+  assert.equal(textOffsetAtTime(index, 0, [0, 0]), 8);
+  assert.equal(textOffsetAtTime(index, 0.15, [0, 0]), 15);
+  assert.deepEqual(timeAtTextOffset(index, 0, [0, 0]), { time: 0, offset: 0, chunkIndex: 0, pending: false });
+  // À vérifier : le même décalage se retrouve dans la navigation en secondes.
+  const back = navigationTarget(index, { unit: "seconds", amount: -9 }, 0.15, [0, 0], true);
+  assert.equal(back.time, 0);
+  assert.equal(back.offset, 8);
+  assert.equal(back.pending, false);
+});
+
+test("navigation au-delà des bornes : les phrases et les chapitres sont ramenés dans le texte", () => {
+  const text = "Bonjour le monde. Salut.";
+  const index = buildReadingIndex(text);
+  const durations = index.chunks.map(() => 1);
+  assert.deepEqual(navigationTarget(index, { unit: "sentences", amount: 5 }, 99, durations, true),
+    { time: 1.15, offset: 18, chunkIndex: 1, pending: false, entryIndex: 1, title: null });
+  assert.deepEqual(navigationTarget(index, { unit: "sentences", amount: -5 }, -99, durations, true),
+    { time: 0, offset: 0, chunkIndex: 0, pending: false, entryIndex: 0, title: null });
+  assert.deepEqual(navigationTarget(index, { unit: "chapters", amount: 5 }, 99, durations, true),
+    { time: 0, offset: 0, chunkIndex: 0, pending: false, entryIndex: 0, title: "Texte" });
+  assert.deepEqual(navigationTarget(index, { unit: "sentences", index: 99 }, 0, durations, true),
+    { time: 1.15, offset: 18, chunkIndex: 1, pending: false, entryIndex: 1, title: null });
+  assert.deepEqual(navigationTarget(index, { unit: "sentences", index: -99 }, 0, durations, true),
+    { time: 0, offset: 0, chunkIndex: 0, pending: false, entryIndex: 0, title: null });
+  assert.equal(timeAtTextOffset(index, text.length + 10, durations).offset, text.length);
+  assert.equal(timeAtTextOffset(index, -10, durations).offset, 0);
+  assert.equal(textOffsetAtTime(index, 99, durations), text.length);
+});
+
+test("chapitres fournis : offsets hors du texte ramenés aux bornes et doublons fusionnés", () => {
+  const text = "Bonjour le monde. Salut.";
+  const index = buildReadingIndex(text, undefined, [
+    { title: "Après", offset: 999 },
+    { title: "Avant", offset: -5 },
+    { title: "Début", offset: 0 },
+    { title: "Début bis", offset: 0 },
+    { title: "", offset: 3 },
+    { title: "Sans offset" },
+  ]);
+  assert.deepEqual(index.chapters.map(({ title, start, end }) => ({ title, start, end })), [
+    { title: "Avant", start: 0, end: text.length },
+    { title: "Après", start: text.length, end: text.length },
+  ]);
+});
+
 function fakeAudio() {
   const originals = { AudioContext: globalThis.AudioContext, requestAnimationFrame: globalThis.requestAnimationFrame, cancelAnimationFrame: globalThis.cancelAnimationFrame };
   let nextFrame = 0, context;

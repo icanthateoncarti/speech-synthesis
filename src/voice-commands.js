@@ -31,6 +31,16 @@ function smallNumber(words) {
 }
 
 function numberValue(value) {
+  const parts = value.split(" virgule ");
+  if (parts.length > 1) {
+    if (parts.length !== 2 || !parts[1]) return null;
+    const whole = parts[0] === "" ? 0 : numberValue(parts[0]);
+    const digits = parts[1].split(" ").filter(Boolean)
+      .map((word) => /^\d$/.test(word) ? Number(word) : UNITS.get(word));
+    if (whole === null || !digits.length || digits.some((digit) => !Number.isInteger(digit) || digit < 0 || digit > 9)) return null;
+    const fraction = digits.reduce((total, digit) => total * 10 + digit, 0) / 10 ** digits.length;
+    return whole + fraction <= 10_000 ? whole + fraction : null;
+  }
   if (/^\d+$/.test(value)) {
     const number = Number(value);
     return Number.isSafeInteger(number) && number <= 10_000 ? number : null;
@@ -56,7 +66,10 @@ function numberValue(value) {
 
 function normalizeCommand(raw) {
   return String(raw ?? "").normalize("NFD").replace(/\p{M}/gu, "")
-    .toLowerCase().replace(/['’\-]/g, " ").replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .toLowerCase()
+    // « 0,5 » : la virgule décimale survit à la ponctuation, comme un mot.
+    .replace(/(\d),(\d)/g, "$1 virgule $2")
+    .replace(/['’\-]/g, " ").replace(/[^\p{L}\p{N}\s]/gu, " ")
     .replace(/\s+/g, " ").trim();
 }
 
@@ -68,7 +81,7 @@ export function parseVoiceCommand(raw) {
   // Un signe négatif explicite ne doit jamais se transformer en nombre positif.
   if (/[-−]\s*\d/.test(String(raw))) return null;
   let text = normalizeCommand(raw)
-    .replace(/^(?:s il te plait|peux tu|tu peux) /, "")
+    .replace(/^(?:s il te plait|je voudrais|peux tu|tu peux|merci) /, "")
     .replace(/ (?:s il te plait|merci)$/, "");
   if (/^(?:pause|stop|arrete|attends|attend|mets en pause|mets la lecture en pause|arrete la lecture)$/.test(text)
       || /^(?:(?:attends|attend|stop)(?: |$))+$/.test(text)) return { type: "pause" };
@@ -88,24 +101,55 @@ export function parseVoiceCommand(raw) {
   }
 
   let direction;
-  if (/^(?:reviens|recule|reculez|retourne|remonte)\b/.test(text)) direction = -1;
-  else if (/^(?:avance|avancez|passe|saute|skip)\b/.test(text)) direction = 1;
+  if (/^(?:reviens|recule|reculez|reculer|retourne|remonte)\b/.test(text)) direction = -1;
+  else if (/^(?:avance|avancez|avancer|va|passe|saute|skip)\b/.test(text)) direction = 1;
   else return null;
   if ((direction > 0 && / en arriere$/.test(text)) || (direction < 0 && / en avant$/.test(text))) return null;
-  text = text.replace(/^(?:reviens|recule|reculez|retourne|remonte|avance|avancez|passe|saute|skip)\b/, "").trim()
+  text = text.replace(/^(?:reviens|recule|reculez|reculer|retourne|remonte|avance|avancez|avancer|va|passe|saute|skip)\b/, "").trim()
     .replace(/^(?:en arriere|en avant) /, "")
     .replace(/^(?:jusqu aux|jusqu au|de|d) /, "")
     .replace(/ (?:en arriere|en avant)$/, "")
     .replace(/ (?:prochains?|prochaines?|suivants?|suivantes?|precedents?|precedentes?) (?=chapitres?$|phrases?$)/, " ");
 
-  const quantity = /^(.+?) (secondes?|minutes?|heures?|phrases?|chapitres?)$/.exec(text);
+  // « 2 chapitres plus loin » : le suffixe confirme le sens déjà connu.
+  if (direction > 0) text = text.replace(/ plus loin$/, "");
+  // « jusqu'au chapitre suivant » ne précise pas la distance : un chapitre.
+  const adjacentTail = /^(chapitre|phrase) (precedent|precedente|suivant|suivante|prochain|prochaine)$/.exec(text);
+  if (adjacentTail) {
+    return {
+      type: adjacentTail[1] === "phrase" ? "relative-sentence" : "relative-chapter",
+      count: adjacentTail[2].startsWith("preced") ? -1 : 1,
+    };
+  }
+
+  // « un quart d'heure » vaut quinze minutes.
+  text = text.replace(/^(?:un )?quart d heure$/, "quinze minutes");
+
+  // « une minute et demie », « deux heures et demie » : la demie s'ajoute.
+  const half = /^(.+?) (secondes?|sec|s|minutes?|min|mn|heures?|h) et demie$/.exec(text);
+  if (half) text = `${half[1]} virgule cinq ${half[2]}`;
+
+  // « 2 minutes 30 » : deux minutes et trente secondes.
+  const compound = /^(.+?) (?:minutes?|min|mn) (?:et )?(.+)$/.exec(text);
+  if (compound) {
+    const minutes = numberValue(compound[1]);
+    const seconds = numberValue(compound[2].replace(/ (?:secondes?|sec|s)$/, ""));
+    if (minutes !== null && seconds !== null && Number.isInteger(seconds) && seconds >= 0 && seconds < 60) {
+      text = `${minutes * 60 + seconds} secondes`;
+    }
+  }
+
+  // « 30s », « 2min » : l'unité collée au nombre est séparée avant l'analyse.
+  text = text.replace(/^(\d+)(minutes?|min|mn|secondes?|sec|s|heures?|h)$/, "$1 $2");
+
+  const quantity = /^(.+?) (secondes?|sec|s|minutes?|min|mn|heures?|h|phrases?|chapitres?)$/.exec(text);
   if (!quantity) return null;
   const number = numberValue(quantity[1]);
   if (number === null || number <= 0) return null;
   const unit = quantity[2];
   if (unit.startsWith("phrase")) return { type: "relative-sentence", count: direction * number };
   if (unit.startsWith("chapitre")) return { type: "relative-chapter", count: direction * number };
-  const factor = unit.startsWith("heure") ? 3600 : unit.startsWith("minute") ? 60 : 1;
+  const factor = /^(?:heures?|h)$/.test(unit) ? 3600 : /^(?:minutes?|min|mn)$/.test(unit) ? 60 : 1;
   const seconds = number * factor;
   return seconds <= 86_400 ? { type: "relative-time", seconds: direction * seconds } : null;
 }

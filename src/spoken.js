@@ -31,6 +31,46 @@ const LEXICON = new Map(Object.entries({
   shopify: "chopi-faï", deep: "dipe", stakeholder: "stèque-oldeur", input: "inn-poute",
   output: "aoute-poute", targeting: "targuétinng", landing: "landinng", mockup: "mokeupe",
   wireframe: "waïeur-frème", template: "tèmplète",
+  // Gestion, supply chain et pilotage (cours EPHEC, 2026-10-26).
+  team: "tim", inventory: "inn-veun-tori", warehouse: "ouère-haouz", purchasing: "peur-tché-sinng",
+  delivery: "di-liv-ri", sourcing: "sor-sinng", forecasting: "for-kas-tinng", flow: "flo",
+  cashflow: "cache-flo", wholesale: "hol-séle", strategy: "stra-té-dji", process: "pro-sèss",
+  quality: "koua-li-ti", lean: "linne", backlog: "bak-log", milestone: "maïle-stonn",
+  planning: "pla-ninng", network: "nète-oueurque",
+  // Informatique, data et finance (2026-10-26).
+  server: "sèr-veur", software: "soft-ouère", query: "koui-ri", feature: "fi-tcheur",
+  release: "ri-lisse", repository: "ri-po-zi-tori", branch: "brantche", library: "laï-bre-ri",
+  training: "tré-ninng", accuracy: "a-kiou-ra-si", churn: "tcheurne", advertising: "ad-veur-taï-zinng",
+  copywriting: "ko-pi-raï-tinng", funding: "feun-dinng", founder: "fone-deur", equity: "ékoui-ti",
+  deal: "dile", board: "borde",
+  // Monde du travail et sécurité informatique (2026-10-26).
+  shareholder: "chère-hol-deur", risk: "risque", liability: "la-y-a-bi-li-ti", workshop: "oueurque-chope",
+  work: "oueurque", teamwork: "tim-oueurque", skills: "skilz", firewall: "faïeur-ouol",
+  backup: "bak-eup", upgrade: "eupe-grède", download: "daoune-lode", upload: "eupe-lode",
+  login: "loguine", account: "a-kaoune", password: "passe-oueurde", phishing: "fi-sinng",
+  ransomware: "ran-some-ouère", fork: "forque",
+  // Marketing, RH et formation (2026-10-26).
+  push: "pouche", onboarding: "onne-bordinng", offboarding: "ofe-bordinng",
+  recruiting: "ri-krou-tinng", hiring: "haïeurinng", positioning: "po-zi-sio-ninng",
+  merchandising: "meur-tchan-dai-zinng", packaging: "pa-ké-djinng", "e-learning": "i-leur-ninng",
+  "e-book": "i-bouk", webinar: "ouèbe-i-nar", streaming: "stri-minng", community: "keu-myou-ni-ti",
+  copy: "kopi", reel: "rile", blogging: "blo-guinng",
+  // Mots anglais lus à la française, session 2 (2026-10-26), lot 1.
+  supply: "seu-plaï", chain: "tchène", project: "pro-djèkt", user: "youzeur",
+  customer: "keusse-teu-meur", journey: "djeur-ni", supplier: "seu-plaï-eur",
+  procurement: "pro-kiou-meurt", logistics: "lo-djisse-tik", transportation: "trasse-por-té-cheune",
+  demand: "di-mad", revenue: "re-ve-niou", margin: "mar-djine", operations: "o-pé-ré-cheune",
+  value: "va-lou", deployment: "di-ploï-meurte",
+  // Mots anglais lus à la française, session 2 (2026-10-26), lot 2.
+  campaign: "kem-pène", funnel: "feu-nèle", brand: "brènde", investor: "ine-vesse-teur",
+  unicorn: "you-ni-corne", merger: "meur-djeur", governance: "go-veur-nasse",
+  insurance: "ine-chou-rasse", consumer: "ko-sou-meur", vendor: "vèn-deur",
+  username: "you-zeur-nème", venture: "vène-tcheur", manufacturer: "ma-niou-fak-teur",
+  distributor: "disse-tri-biou-teur", purchaser: "peur-tché-seur",
+  merchandiser: "meur-tcheune-dai-zeur",
+  // Mots anglais relevés dans les cours français, session 3 (2026-10-27).
+  online: "onne-laïne", computer: "keum-piou-teur", study: "steu-di",
+  moodle: "mou-deul", missing: "missinng",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
@@ -67,6 +107,31 @@ const ARROWS_EN = [
 ];
 const CLOSERS = /[)\]»”]/gu;
 
+// Symboles et abréviations que la voix ignore ou lit à l'anglaise. Les formes
+// ambiguës (« ex. », « h. », « ~ ») restent telles quelles : voir le journal.
+function replaceMarks(word, next, lang) {
+  const french = lang === "fr";
+  const numberNext = /^\d/u.test(next ?? "");
+  word = word.replace(/[nN][°º]/gu, french ? "numéro " : " number ")
+    // « versusse » donne /vɛʁsys/ à la voix française ; « versus » y perd le s.
+    .replace(/(?<![\p{L}\p{N}])vs\.?(?![\p{L}\p{N}])/giu, french ? "versusse" : "versus")
+    .replace(/(?<![\p{L}\p{N}])e\.g\./giu, french ? "par exemple" : "for example");
+  if (french) {
+    word = word.replace(/§{2,}/gu, "paragraphes").replace(/§/gu, "paragraphe")
+      .replace(/≠/gu, " différent de ")
+      .replace(/\|/gu, " barre verticale ");
+  } else {
+    word = word.replace(/\|/gu, " vertical bar ")
+      .replace(/(?<![\p{L}\p{N}])km(?![\p{L}\p{N}])/giu, "kilometers");
+  }
+  if ((word === "p." || word === "pp.") && numberNext) word = word === "p." ? "page" : "pages";
+  word = word.replace(/(?<![\p{L}\p{N}])p\.(?=\d)/giu, "page ")
+    .replace(/(?<![\p{L}\p{N}])pp\.(?=\d)/giu, "pages ")
+    .replace(/#(?=\d)/gu, french ? "numéro " : " number ");
+  if (word === "#" && numberNext) word = french ? "numéro" : "number";
+  return word;
+}
+
 function tidy(text) {
   return text.replace(/\s+/g, " ").replace(/\s+,/g, ",")
     .replace(/,(?:\s*,)+/g, ",").replace(/,([.!?…;:])/g, "$1").replace(/^[\s,]+|[\s,]+$/g, "");
@@ -79,6 +144,10 @@ export function spokenWords(words, lang = "fr") {
   let quoted = false;
   return words.map((raw, k) => {
     let word = raw, prefix = "";
+    if (/[\uE000-\uF8FF]/u.test(word)) {
+      word = word.replace(/[\uE000-\uF8FF]/gu, "");
+      if (!word) return ",";
+    }
     while (word) {
       const first = word[0];
       if (first === '"' && quoted) break;
@@ -91,6 +160,11 @@ export function spokenWords(words, lang = "fr") {
     // « mot(s) » : une parenthèse collée au mot reste telle quelle.
     if (!/\p{L}[(\[]/u.test(word)) word = word.replace(CLOSERS, ",");
     for (const [pattern, spoken] of arrows) word = word.replace(pattern, spoken);
+    word = replaceMarks(word, words[k + 1], lang);
+    // Lignes de formulaire et puces décoratives : une pause, jamais l'épellation.
+    // « ... » exact reste une ponctuation ; les nombres (3.5, 1.2.3) et les
+    // abréviations (p., etc.) ne forment pas de suite de trois caractères.
+    word = word.replace(/[-_.…·•─=*]{3,}/gu, (run) => run === "..." ? run : ",");
     word = word.replace(/\p{L}+(?:-\p{L}+)*/gu, (token) => pronounce(token, words[k - 1], words[k + 1], lang))
       .replace(/&/g, lang === "en" ? " and " : " et ")
       .replace(/^(\d{4})\/(\d{4})/u, "$1, $2");
