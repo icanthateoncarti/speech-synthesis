@@ -1,0 +1,1 @@
+New on speechsynthe.si: clean up repeated headers and page numbers in your PDF or PowerPoint before listening. Choose what to remove and restore it anytime. Numbered chapter markers stay. Tagged PDF tables now read row by row. Nothing uploaded.
