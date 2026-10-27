@@ -92,6 +92,13 @@ const LEXICON_EN = new Map(Object.entries({
   "établir": "et-ah-bleer", "défendez": "de-fahn-dez", "définir": "de-fee-neer",
   "délai": "de-let", "délais": "de-let", "déroulée": "deh-roo-lay",
   "dérouler": "deh-roo-lay", "durée": "dew-ray",
+  "enquête": "ahn-ket", "êtes": "et", "intérêts": "ahn-tay-ray", "méthode": "met-awd",
+  "paramètres": "pa-ra-metr", "réponse": "re-pawns", "représentez": "re-pre-zahn-tez",
+  "utilisé": "ew-tee-lee-zay", "améliorations": "ah-mel-yaw-rah-syohn",
+  "antérieur": "ahn-tay-ryer", "aperçu": "ah-pair-sue", "après": "ah-press",
+  "compétence": "kom-pet-ahns", "comptabilité": "kon-tah-bee-lee-tay", "déjà": "de-zhah",
+  "demande": "de-mahnd", "développé": "dev-lawp", "diplôme": "dee-plohm",
+  "façon": "fah-sawn", "général": "zheh-neh-rahl", "générale": "zheh-neh-rahl",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).

@@ -240,6 +240,20 @@ test("mots français des cours anglais, lot 2", () => {
   assert.equal(spokenText("La déroulée, dérouler et la durée.", "en"), "La deh-roo-lay, deh-roo-lay et la dew-ray.");
 });
 
+test("mots français des cours anglais, lot 3", () => {
+  assert.equal(spokenText("The enquête and the intérêts are et.", "en"), "The ahn-ket and the ahn-tay-ray are et.");
+  assert.equal(spokenText("The méthode, the paramètres and the réponse.", "en"), "The met-awd, the pa-ra-metr and the re-pawns.");
+  assert.equal(spokenText("Please représentez, utilisé et améliorations.", "en"),
+    "Please re-pre-zahn-tez, ew-tee-lee-zay et ah-mel-yaw-rah-syohn.");
+  assert.equal(spokenText("Antérieur, aperçu and après.", "en"), "ahn-tay-ryer, ah-pair-sue and ah-press.");
+  assert.equal(spokenText("La compétence and la comptabilité, déjà.", "en"),
+    "La kom-pet-ahns and la kon-tah-bee-lee-tay, de-zhah.");
+  assert.equal(spokenText("La demande, développé, le diplôme.", "en"),
+    "La de-mahnd, dev-lawp, le dee-plohm.");
+  assert.equal(spokenText("De façon générale, le général.", "en"),
+    "De fah-sawn zheh-neh-rahl, le zheh-neh-rahl.");
+});
+
 test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
   assert.equal(spokenText("J'ai mis mon pull."), "J'ai mis mon pull.");
   assert.equal(spokenText("Le planning de la semaine."), "Le pla-ninng de la semaine.");
