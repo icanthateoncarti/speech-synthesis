@@ -56,24 +56,25 @@ test("document vide, page unique, en-tête présent sur toutes les pages sauf un
   assert.deepEqual(repeatedNoise([fragment("En-tête", 0, 0), fragment("En-tête", 1, 10)], 5), []);
 });
 
-test("numéros de page : chiffres arabes regroupés, chiffres romains non reconnus", () => {
+test("numéros de page : chiffres arabes et romains regroupés", () => {
   const arabic = [fragment("1", 0, 0), fragment("2", 1, 10), fragment("Page 3 / 3", 2, 20)];
   assert.deepEqual(repeatedNoise(arabic, 3).map((item) => item.text), ["Numéros de page"]);
-  // À vérifier : PAGE_NUMBER n’accepte que les chiffres arabes. Des numéros
-  // romains distincts ne sont donc jamais proposés.
-  assert.deepEqual(repeatedNoise([fragment("I", 0, 0), fragment("II", 1, 10), fragment("III", 2, 20)], 3), []);
-  // Un même numéro romain répété est proposé comme un en-tête ordinaire.
+  // Des numéros romains distincts suivent la même règle que les chiffres arabes.
+  assert.deepEqual(repeatedNoise([fragment("I", 0, 0), fragment("II", 1, 10), fragment("III", 2, 20)], 3).map((item) => item.text), ["Numéros de page"]);
+  // Un même numéro romain répété garde son propre texte.
   assert.deepEqual(repeatedNoise([fragment("IV", 0, 0), fragment("IV", 1, 10), fragment("IV", 2, 20)], 3).map((item) => item.text), ["IV"]);
 });
 
-test("textes qui ressemblent à un en-tête : titres exclus, année prise pour un numéro", () => {
-  for (const title of ["Chapitre 1 : Variables", "Chapter II", "Section 3", "Module IV", "Unité 2", "Lesson 4", "Leçon 2"]) {
+test("textes qui ressemblent à un en-tête : titres exclus, nombre identique gardé", () => {
+  for (const title of ["Chapitre 1 : Variables", "Chapter II", "Section 3", "Module IV", "Unité 2", "Lesson 4", "Leçon 2", "Partie A", "Section B", "Part C"]) {
     assert.deepEqual(repeatedNoise([fragment(title, 0, 0), fragment(title, 1, 100)], 2), [], title);
   }
-  // À vérifier : un nombre isolé (année, référence) est classé « numéro de page ».
-  assert.deepEqual(repeatedNoise([fragment("2026", 0, 0), fragment("2026", 1, 10)], 2).map((item) => item.text), ["Numéros de page"]);
-  // À vérifier : « Partie A » n’est pas reconnu par la règle des titres de chapitre.
-  assert.deepEqual(repeatedNoise([fragment("Partie A", 0, 0), fragment("Partie A", 1, 10)], 2).map((item) => item.text), ["Partie A"]);
+  // Un nombre identique répété garde son propre texte, pas « Numéros de page ».
+  assert.deepEqual(repeatedNoise([fragment("2026", 0, 0), fragment("2026", 1, 10)], 2).map((item) => item.text), ["2026"]);
+  // Des nombres différents forment bien le groupe des numéros de page.
+  assert.deepEqual(repeatedNoise([fragment("2026", 0, 0), fragment("2027", 1, 10)], 2).map((item) => item.text), ["Numéros de page"]);
+  // « Part of the course » n’est pas un titre de chapitre : le texte reste proposé.
+  assert.deepEqual(repeatedNoise([fragment("Part of the course", 0, 0), fragment("Part of the course", 1, 10)], 2).map((item) => item.text), ["Part of the course"]);
 });
 
 test("puces, casse et espaces regroupés ; ligne trop longue ou vide ignorée", () => {

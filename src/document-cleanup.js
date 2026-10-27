@@ -1,23 +1,54 @@
 import { readRanges, subtractRange, excerpt } from "./selection.js";
 
-const CHAPTER = /^(?:chapitre|chapter|partie|part|section|module|unité|unit|lesson|leçon)\s+(?:\d+|[ivxlcdm]+)(?:\b|[.:–—-])/iu;
+const CHAPTER = /^(?:chapitre|chapter|partie|part|section|module|unité|unit|lesson|leçon)\s+(?:[a-z]|\d+|[ivxlcdm]+)(?:\b|[.:–—-])/iu;
 const PAGE_NUMBER = /^(?:(?:page|slide|diapo)\s*)?\d+\s*(?:(?:\/|sur|of)\s*\d+)?$/iu;
+const ROMAN_PAGE = /^[ivxlcdm]{1,8}$/iu;
+const normalizeKey = (text) => text.toLocaleLowerCase("fr").replace(/\s+/gu, " ");
+
+function pageNumberValue(text) {
+  return PAGE_NUMBER.test(text) || ROMAN_PAGE.test(text) ? normalizeKey(text) : null;
+}
 
 // Propositions seulement : jamais de suppression automatique. Les répétitions
 // doivent apparaître sur plusieurs pages et au bord de la page / diapositive.
 export function repeatedNoise(fragments, pageCount) {
   const groups = new Map();
+  const pageGroups = new Map();
+  let order = 0;
   for (const fragment of fragments) {
     const text = fragment.text.replace(/^\s*[•·]\s*/u, "").trim();
     if (!fragment.edge || !text || text.length > 180 || CHAPTER.test(text) || fragment.end <= fragment.start) continue;
-    const key = PAGE_NUMBER.test(text) ? "page-number" : text.toLocaleLowerCase("fr").replace(/\s+/gu, " ");
-    if (!groups.has(key)) groups.set(key, { id: key, text: key === "page-number" ? "Numéros de page" : text, pages: new Set(), ranges: [] });
+    const pageValue = pageNumberValue(text);
+    if (pageValue !== null) {
+      if (!pageGroups.has(pageValue)) pageGroups.set(pageValue, { text, pages: new Set(), ranges: [], order: order++ });
+      const group = pageGroups.get(pageValue);
+      group.pages.add(fragment.page);
+      group.ranges.push([fragment.start, fragment.end]);
+      continue;
+    }
+    const key = normalizeKey(text);
+    if (!groups.has(key)) groups.set(key, { id: key, text, pages: new Set(), ranges: [], order: order++ });
     const group = groups.get(key);
     group.pages.add(fragment.page);
     group.ranges.push([fragment.start, fragment.end]);
   }
+  const suggestions = [...groups.values()];
+  if (pageGroups.size === 1) {
+    const [group] = pageGroups.values();
+    const id = normalizeKey(group.text);
+    suggestions.push({ id, text: group.text, pages: group.pages, ranges: group.ranges, order: group.order });
+  } else if (pageGroups.size > 1) {
+    const pages = new Set(), ranges = [];
+    let first = Infinity;
+    for (const group of pageGroups.values()) {
+      group.pages.forEach((page) => pages.add(page));
+      ranges.push(...group.ranges);
+      first = Math.min(first, group.order);
+    }
+    suggestions.push({ id: "page-number", text: "Numéros de page", pages, ranges, order: first });
+  }
   const minimum = Math.max(2, Math.ceil(pageCount * 0.5));
-  return [...groups.values()].filter((group) => group.pages.size >= minimum)
+  return suggestions.sort((a, b) => a.order - b.order).filter((group) => group.pages.size >= minimum)
     .map(({ id, text, pages, ranges }) => ({ id, text, pages: pages.size, ranges }));
 }
 

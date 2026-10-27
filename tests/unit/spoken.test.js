@@ -231,14 +231,14 @@ test("mots français des cours anglais réécrits pour la voix anglaise", () => 
 
 test("mots français des cours anglais, lot 2", () => {
   assert.equal(spokenText("We must gérer, élaborer, réaliser et améliorer.", "en"),
-    "We must zheh-ray, eh-lah-bo-ray, reh-ah-lee-zay et ah-mel-yaw-ray.");
+    "We must zheh-ray, eh-lah-bo-ray, ray-ah-lee-zay et ah-mel-yaw-ray.");
   assert.equal(spokenText("Contrôler l'entreprise et la récompense.", "en"),
     "kon-troh-lay l'ahn-trer-preez et la ray-kom-pahns.");
   assert.equal(spokenText("Adaptée, ans et budgétaires.", "en"), "ah-dahp-tay, awn et bood-zhay-tair.");
   assert.equal(spokenText("Les compétences, créer et établir.", "en"), "Les kom-pay-tahns, kray-eh et eh-tah-bleer.");
   assert.equal(spokenText("Défendez, définir, un délai et des délais.", "en"),
     "day-fahn-day, day-fee-neer, un day-leh et des day-leh.");
-  assert.equal(spokenText("La déroulée, dérouler et la durée.", "en"), "La deh-roo-lay, deh-roo-lay et la dew-ray.");
+  assert.equal(spokenText("La déroulée, dérouler et la durée.", "en"), "La day-roo-lay, day-roo-lay et la dew-ray.");
 });
 
 test("mots français des cours anglais, lot 3", () => {
@@ -262,7 +262,7 @@ test("mots français des cours anglais, lot 4", () => {
     "La zhest-yon an-tran-sek et la mah-nee-air.");
   assert.equal(spokenText("Motivé and opérationnels.", "en"), "maw-tee-vay and aw-peh-rah-syo-nel.");
   assert.equal(spokenText("Réalisable, réalisation et règlement.", "en"),
-    "reh-ah-lee-zah-bull, reh-ah-lee-zah-syohn et reh-gluh-mahn.");
+    "ray-ah-lee-zah-bull, ray-ah-lee-zah-syohn et reh-gluh-mahn.");
   assert.equal(spokenText("La rémunération, terminé et qualité.", "en"),
     "La ray-mew-nay-rah-syohn, ter-mee-nay et kah-lee-tay.");
   assert.equal(spokenText("Le propriétaire, la capacité et le présent.", "en"),
@@ -278,6 +278,56 @@ test("mots français des cours anglais, formes proches", () => {
   assert.equal(spokenText("Both parties agree.", "en"), "Both parties agree.");
   // À vérifier : le pluriel français « parties » reste donc lui aussi inchangé.
   assert.equal(spokenText("Les parties prenantes.", "en"), "Les parties prenantes.");
+});
+
+test("mots français des cours anglais, session 6, lot 1", () => {
+  assert.equal(spokenText("The accès and acquérir.", "en"), "The ahk-seh and ah-kay-reer.");
+  assert.equal(spokenText("Adopté, agréable, américain et antérieure.", "en"),
+    "ah-dawp-tay, ah-gray-ah-bull, ah-may-ree-kan et ahn-tay-ree-ur.");
+  assert.equal(spokenText("Assisté, associée, atténuer et autorisé.", "en"),
+    "ah-siss-tay, ah-soh-say, ah-tay-nway et oh-toh-ree-zay.");
+  assert.equal(spokenText("Basé, basée, bâton, célèbre et chaîne.", "en"),
+    "bah-zay, bah-zay, bah-tawn, say-leb-r et shen.");
+  assert.equal(spokenText("Chargé, chargée, chronométrer, commencé et commencée.", "en"),
+    "shar-zhay, shar-zhay, kroh-noh-may-tray, koh-mahn-say et koh-mahn-say.");
+});
+
+test("mots français des cours anglais, session 6, lot 2", () => {
+  assert.equal(spokenText("The complète and complètement forms.", "en"), "The kom-plet and kom-plet-mahn forms.");
+  assert.equal(spokenText("Comptabilisés, confronté, conseil et cours.", "en"),
+    "kon-tah-bee-lee-zay, kon-frawn-tay, kon-sell et koor.");
+  assert.equal(spokenText("Éthique, évolution, dégouliner et déléguer.", "en"),
+    "eh-teek, eh-voh-lew-syon, day-goo-lee-nay et day-lay-gay.");
+  assert.equal(spokenText("Délivrable, délocaliser, dépassé et désir.", "en"),
+    "day-lee-vrah-bull, day-loh-kah-lee-zay, day-pah-say et day-zeer.");
+  assert.equal(spokenText("Dirigé, échange, échelons, écologique, économique et élégance.", "en"),
+    "dee-ree-zhay, eh-shahnzh, eh-shlon, eh-koh-loh-zheek, eh-koh-noh-meek et eh-lay-gahns.");
+});
+
+test("mots français des cours anglais, session 6, lot 3", () => {
+  assert.equal(spokenText("Éloignée, employés, entêté et épuiser.", "en"),
+    "eh-loo-ah-nay, ahn-ploo-ah-yay, ahn-tet-tay et eh-poo-ee-zay.");
+  assert.equal(spokenText("L équipe équitable, les ères et l état.", "en"),
+    "L eh-keep eh-kee-tah-bull, les air et l eh-tah.");
+  assert.equal(spokenText("Étudiants, évènement, évident et éviter.", "en"),
+    "eh-tew-dyahn, eh-ven-mahn, eh-vee-dahn et eh-vee-tay.");
+  assert.equal(spokenText("Évoluer, exercice, extrinsèque et famille.", "en"),
+    "eh-voh-loo-eh, egg-zair-seess, ek-stran-sek et fah-mee.");
+  assert.equal(spokenText("Fêtes, figuré, financière et financières.", "en"),
+    "fet, fee-goo-ray, fee-nahn-see-air et fee-nahn-see-air.");
+});
+
+test("mots français des cours anglais, session 6, lot 4", () => {
+  assert.equal(spokenText("Français, gérant, géré et hiérarchique.", "en"),
+    "frahn-say, zhay-rahn, zhay-ray et yay-rar-sheek.");
+  assert.equal(spokenText("Horaire, hypothèse, idée et idées.", "en"),
+    "oh-rair, ee-poh-tez, ee-day et ee-day.");
+  assert.equal(spokenText("Inadéquation, indiquée, intérêt et inventée.", "en"),
+    "ee-nah-day-kwah-syon, an-dee-kay, ahn-tay-ray et an-vahn-tay.");
+  assert.equal(spokenText("Irrégulières, isolée, juvénile et éloge.", "en"),
+    "ee-ray-goo-lee-air, ee-zoh-lay, zhoo-vay-neel et eh-lohzh.");
+  assert.equal(spokenText("Exécution, lancé, maîtrise et mathématiques.", "en"),
+    "egg-zay-kew-syon, lahn-say, may-treez et mah-tay-mah-teek.");
 });
 
 test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
