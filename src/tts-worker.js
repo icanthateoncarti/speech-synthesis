@@ -2,7 +2,12 @@
 // Un message = une tâche ; les tâches passent l'une après l'autre.
 //   reçoit : { id, type: "synthesize", text, voiceId, lengthScale } | { id, type: "download", voiceId }
 //   envoie : { id, type: "progress", pct } | { id, type: "done", wav? } | { id, type: "error", kind, message }
-import { predict, download, PATH_MAP } from "./vendor/vits-web/vits-web.js";
+// Les workers ignorent l'import map de la page. Propager la version au moteur
+// évite qu'un worker neuf récupère une ancienne copie depuis le cache HTTP.
+const engineUrl = new URL("./vendor/vits-web/vits-web.js", import.meta.url);
+engineUrl.search = new URL(import.meta.url).search;
+let engine;
+const loadEngine = () => engine ??= import(engineUrl.href);
 
 // --- réseau : tout échec de fetch pendant une tâche la classe en "network" ---------------
 // vits-web ne vérifie jamais res.ok : une page d'erreur serait mise en cache comme modèle.
@@ -60,8 +65,8 @@ const looksLikeNetwork = (err) =>
 // vits-web range les fichiers dans OPFS /piper/<nom>. getFileHandle({create:true}) crée un
 // fichier vide avant l'écriture : interrompue (cancel → terminate, onglet fermé), elle laisse
 // un fichier de 0 octet que vits-web prendrait pour un modèle en cache.
-const cacheNames = (voiceId) => {
-  const name = PATH_MAP[voiceId].split("/").at(-1);
+const cacheNames = (voiceId, paths) => {
+  const name = paths[voiceId].split("/").at(-1);
   return [name, `${name}.json`];
 };
 
@@ -69,10 +74,10 @@ async function piperDir() {
   return (await navigator.storage.getDirectory()).getDirectoryHandle("piper", { create: true });
 }
 
-async function cachedSizes(voiceId) {
+async function cachedSizes(voiceId, paths) {
   const dir = await piperDir();
   const out = {};
-  for (const name of cacheNames(voiceId)) {
+  for (const name of cacheNames(voiceId, paths)) {
     try {
       out[name] = (await (await dir.getFileHandle(name)).getFile()).size;
     } catch {
@@ -82,31 +87,15 @@ async function cachedSizes(voiceId) {
   return out;
 }
 
-async function dropEmptyCache(voiceId) {
+async function dropEmptyCache(voiceId, paths) {
   try {
     const dir = await piperDir();
-    for (const [name, size] of Object.entries(await cachedSizes(voiceId))) {
+    for (const [name, size] of Object.entries(await cachedSizes(voiceId, paths))) {
       if (size === 0) await dir.removeEntry(name).catch(() => {});
     }
   } catch {
     // OPFS indisponible : vits-web retéléchargera, rien à nettoyer
   }
-}
-
-// download() de vits-web n'attend pas la fin des écritures OPFS : on attend qu'elles aboutissent.
-async function waitForCache(voiceId, timeoutMs = 60_000) {
-  const until = Date.now() + timeoutMs;
-  while (Date.now() < until) {
-    let sizes;
-    try {
-      sizes = await cachedSizes(voiceId);
-    } catch {
-      return; // OPFS indisponible : rien à attendre
-    }
-    if (Object.values(sizes).every((s) => s > 0)) return;
-    await new Promise((r) => setTimeout(r, 100));
-  }
-  throw new Error("le modèle téléchargé n'a pas pu être écrit dans le cache");
 }
 
 // --- erreurs perdues par vits-web ----------------------------------------------------------
@@ -131,6 +120,7 @@ const toPct = (p) => (p?.total > 0 ? Math.min(100, Math.round((p.loaded * 100) /
 
 async function run(msg) {
   const { id, type, voiceId } = msg;
+  const { predict, prepareVoice, PATH_MAP } = await loadEngine();
   if (!(voiceId in PATH_MAP)) throw new Error(`voix inconnue : ${voiceId}`);
   let last = -1;
   const onProgress = (p) => {
@@ -140,16 +130,11 @@ async function run(msg) {
       self.postMessage({ id, type: "progress", pct });
     }
   };
-  await dropEmptyCache(voiceId);
   if (type === "download") {
-    // download() de vits-web retélécharge sans regarder le cache (et HF répond no-store).
-    const sizes = await cachedSizes(voiceId).catch(() => ({}));
-    if (Object.keys(sizes).length && Object.values(sizes).every((s) => s > 0)) {
-      self.postMessage({ id, type: "done" });
-      return;
-    }
-    await download(voiceId, onProgress);
-    await waitForCache(voiceId);
+    await dropEmptyCache(voiceId, PATH_MAP);
+    // Même chemin vérifié que predict() : cache SHA-256, écriture OPFS attendue,
+    // puis session ONNX et phonémiseur prêts. Aucune vérification disque par phrase.
+    await prepareVoice(voiceId, onProgress);
     self.postMessage({ id, type: "done" });
     return;
   }

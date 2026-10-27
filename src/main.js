@@ -339,6 +339,7 @@ async function importDocument(file) {
     if (version !== revision) return;
     pdfBusy = false;
     if (!hasSpeakableContent(document.text)) { dispatch({ type: "PDF_EMPTY", format }); return; }
+    tts.clearCache();
     documentInfo = { name: file.name, chapters: document.chapters, titles: document.titles ?? [] };
     documentInfo.cleaning = {
       fullText: document.text, fullChapters: document.chapters,
@@ -419,6 +420,7 @@ speak.addEventListener("click", () => { void togglePlayback(); });
 $("key-mp3").addEventListener("click", () => { void exportMp3(); });
 $("key-clear").addEventListener("click", () => {
   cancelWork({ cancelPreload: true }); screen.value = ""; documentInfo = { name: "", chapters: [] }; audioDetails = null;
+  tts.clearCache();
   dispatch({ type: "CLEAR" }); rebuildIndex();
   $("commands-panel").hidden = true; $("commands-toggle").setAttribute("aria-expanded", "false"); screen.focus();
 });

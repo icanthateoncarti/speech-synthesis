@@ -3,6 +3,7 @@
 import { splitIntoParts, titlePauses, speedToLengthScale, detectLanguage } from "./text.js";
 import { spokenText } from "./spoken.js";
 import { concatWavsAsync, padWav, wavDuration } from "./audio.js";
+import { createSpeechCache } from "./speech-cache.js";
 
 export const VOICES = { jessica: "fr_FR-upmc-medium", tom: "fr_FR-tom-medium" };
 // Texte anglais : mêmes positions du bouton, voix anglaises libres de droits
@@ -23,6 +24,7 @@ const voiceIdOf = (voice, lang = "fr") => {
 };
 
 export function createTts() {
+  const cache = createSpeechCache();
   let worker = null; // celui qui reçoit les nouvelles demandes
   let nextId = 1;
   let generation = 0; // change à chaque cancel() : les synthèses lancées avant s'arrêtent
@@ -104,18 +106,30 @@ export function createTts() {
     try {
       const wavs = [];
       const durations = [];
+      let lastYield = performance.now();
       for (let i = 0; i < chunks.length; i++) {
+        // Un cours déjà préparé peut produire des centaines de résultats immédiats.
+        // Laisser passer les clics (annulation, navigation) et le rendu mobile.
+        if (performance.now() - lastYield >= 16) {
+          await new Promise((resolve) => setTimeout(resolve, 0));
+          lastYield = performance.now();
+        }
         if (gen !== generation) throw cancelled();
         const message = { type: "synthesize", text: spokenText(chunks[i], lang), voiceId, lengthScale };
-        let wav;
-        try {
-          wav = await request(message, onProgress);
-        } catch (error) {
+        const cacheKey = JSON.stringify([voiceId, lengthScale, message.text]);
+        let wav = cache.get(cacheKey);
+        if (!wav) {
+          try {
+            wav = await request(message, onProgress);
+          } catch (error) {
+            if (gen !== generation) throw cancelled();
+            if (error.kind !== "other") throw error;
+            // Une seule reprise du morceau courant après un arrêt du moteur.
+            // Aucun morceau déjà lu n'est rejoué et une erreur réseau reste explicite.
+            wav = await request(message, onProgress);
+          }
           if (gen !== generation) throw cancelled();
-          if (error.kind !== "other") throw error;
-          // Une seule reprise du morceau courant après un arrêt du moteur.
-          // Aucun morceau déjà lu n'est rejoué et une erreur réseau reste explicite.
-          wav = await request(message, onProgress);
+          cache.put(cacheKey, wav);
         }
         if (gen !== generation) throw cancelled();
         wav = padWav(wav, pauses[i].before, pauses[i].after);
@@ -125,7 +139,8 @@ export function createTts() {
         onChunk?.(wav.slice(0), i, chunks.length, pauses[i]);
       }
       if (gen !== generation) throw cancelled();
-      const wav = wavs.length === 1 ? wavs[0] : await concatWavsAsync(wavs, { signal: controller.signal });
+      // Le résultat appartient à l'appelant (qui peut le transférer/détacher).
+      const wav = wavs.length === 1 ? wavs[0].slice(0) : await concatWavsAsync(wavs, { signal: controller.signal });
       if (gen !== generation) throw cancelled();
       return { wav, chunks, durations, pauses, lang };
     } finally {
@@ -151,5 +166,5 @@ export function createTts() {
     rejectAll(ttsError("cancelled", "synthèse annulée"));
   }
 
-  return { synthesize, preload, cancel };
+  return { synthesize, preload, cancel, clearCache: () => cache.clear() };
 }

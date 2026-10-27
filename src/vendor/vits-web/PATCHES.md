@@ -52,15 +52,28 @@ Licence : MIT (champ `license` du `package.json` ; le dépôt amont n'a pas de f
    chacune des 363 lignes de la synthèse PDF. Les erreurs de `callMain` sont
    propagées directement ; le module est recréé après un échec.
 
-## Défauts connus de l'amont, contournés dans `src/tts-worker.js` (pas ici)
+5. **Préparation anticipée du moteur (2026-10-27).**
+
+   `prepareVoice()` charge ONNX et Piper ensemble, puis prépare la session et le
+   phonémiseur en parallèle. Le préchargement appelé dès la saisie/import prépare
+   désormais le moteur complet. Configuration et modèle sont lus ensemble ; leur
+   vérification SHA-256 et l'attente des écritures OPFS restent obligatoires.
+   Une voix active ne provoque plus deux lectures OPFS par phrase.
+
+   Un seul thread WASM lorsque `crossOriginIsolated` est absent (GitHub Pages).
+   En contexte isolé : moitié des cœurs, avec un plafond de quatre. Cela explicite
+   le repli déjà appliqué par ONNX et évite de demander tous les cœurs du téléphone.
+   Référence : https://onnxruntime.ai/docs/tutorials/web/env-flags-and-session-options.html
+
+## Défauts connus de l'amont, contournés par l'intégration
 
 - `fetch` n'est jamais vérifié (`res.ok`) : une page d'erreur HTTP serait mise en cache OPFS comme modèle. Le worker enveloppe `fetch` et lève une erreur réseau sur toute réponse non OK.
-- `download` n'attend pas la fin de l'écriture OPFS. Un fichier vide existe dès `getFileHandle({ create: true })` et `predict` le prendrait pour un modèle en cache. Le worker attend que les fichiers soient écrits, et supprime ceux de taille 0 avant chaque tâche (écriture interrompue par `cancel()`, onglet fermé…).
+- `download` n'attend pas la fin de l'écriture OPFS. Le site utilise désormais `prepareVoice` et `f`, qui attendent l'écriture. Un fichier interrompu (vide ou partiel) est refusé par l'empreinte avant usage ; le préchargement supprime aussi les fichiers vides laissés par une interruption.
 - L'amont initialisait piper dans `new Promise(async …)` : la copie adaptée utilise désormais un appel async direct et le collecteur décrit ci-dessus. Le worker conserve ses gardes `unhandledrejection` et `error` pour une erreur issue du runtime WASM.
-- `download` retélécharge le modèle même s'il est déjà dans OPFS (et HF répond `no-store`). Le worker saute `download` quand les deux fichiers sont déjà en cache et non vides.
+- `download` retélécharge le modèle même s'il est déjà dans OPFS (et HF répond `no-store`). `prepareVoice` réutilise la session active, ou les fichiers OPFS vérifiés.
 - `import(onnxruntime-web)` raté (hors ligne) reste en échec dans la table des modules du worker. `src/tts.js` remplace le worker après toute erreur, réseau ou runtime ; une erreur runtime autorise une seule reprise du morceau courant dans un worker neuf.
 
-4. **Voix figées et vérifiées (audit S07, 2026-10-26).**
+## Voix figées et vérifiées (audit S07, 2026-10-26)
 
    - `u` pointe sur la révision `840e38a7e26d813bd6221b78cfbaefa3585b3f71` du dépôt `diffusionstudio/piper-voices` au lieu de la branche mutable `resolve/main`.
    - `VOICE_SHA256` contient l'empreinte SHA-256 des 8 fichiers des 4 voix du site (modèles : empreintes LFS publiées par HuggingFace ; configurations : calculées, empreinte git recoupée avec l'API). `S` refuse un téléchargement dont l'empreinte diffère, avant toute mise en cache ; `f` vérifie aussi un fichier déjà en cache et le remplace s'il est abîmé. Une voix absente de la liste est refusée.

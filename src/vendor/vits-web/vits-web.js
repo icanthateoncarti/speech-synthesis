@@ -202,7 +202,7 @@ let phonemizer, phonemizerUses = 0, phonemeResult;
 
 // Le worker sérialise les demandes : les callbacks du module WASM peuvent écrire
 // dans le résultat courant. Rotation bornée pour les allocations internes du CLI.
-async function phonemeIds(text, voice) {
+async function preparePhonemizer() {
   if (!phonemizer || phonemizerUses >= 128) {
     phonemizer = null;
     phonemizerUses = 0;
@@ -222,6 +222,10 @@ async function phonemeIds(text, voice) {
       }
     });
   }
+}
+
+async function phonemeIds(text, voice) {
+  await preparePhonemizer();
   const result = { ids: null, error: null };
   phonemeResult = result;
   try {
@@ -253,18 +257,33 @@ async function voiceSession(voiceId, onProgress) {
     await previous.session.release();
   }
   const modelPath = c[voiceId];
-  const configBlob = await f(`${u}/${modelPath}.json`);
+  const [configBlob, model] = await Promise.all([
+    f(`${u}/${modelPath}.json`), f(`${u}/${modelPath}`, onProgress)
+  ]);
   const config = JSON.parse(await configBlob.text());
-  const model = await f(`${u}/${modelPath}`, onProgress);
   const session = await _.InferenceSession.create(await model.arrayBuffer());
   activeVoice = { id: voiceId, config, session };
   return activeVoice;
 }
 
+// Le préchargement prépare également les runtimes. Le phonémiseur et le modèle
+// se chargent ensemble, avant le clic PARLE/MP3, sans générer de son inutile.
+async function prepareVoice(voiceId, onProgress) {
+  if (!h || !_) {
+    [h, _] = await Promise.all([
+      import("./piper-DeOu3H9E.js"),
+      import("https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/wasm/+esm")
+    ]);
+    _.env.wasm.numThreads = globalThis.crossOriginIsolated
+      ? Math.max(1, Math.min(4, Math.floor((navigator.hardwareConcurrency || 2) / 2))) : 1;
+    _.env.wasm.wasmPaths = B;
+  }
+  const [voice] = await Promise.all([voiceSession(voiceId, onProgress), preparePhonemizer()]);
+  return voice;
+}
+
 async function N(e, m) {
-  h = h ?? await import("./piper-DeOu3H9E.js"), _ = _ ?? await import("https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/wasm/+esm");
-  _.env.allowLocalModels = !1, _.env.wasm.numThreads = navigator.hardwareConcurrency, _.env.wasm.wasmPaths = B;
-  const { config: i, session: y } = await voiceSession(e.voiceId, m);
+  const { config: i, session: y } = await prepareVoice(e.voiceId, m);
   const t = await phonemeIds(e.text, i.espeak.voice), r = 0, s = i.audio.sample_rate, d = i.inference.noise_scale, g = e.lengthScale ?? i.inference.length_scale, U = i.inference.noise_w, w = {
     input: new _.Tensor("int64", t, [1, t.length]),
     input_lengths: new _.Tensor("int64", [t.length]),
@@ -333,6 +352,7 @@ export {
   I as download,
   j as flush,
   N as predict,
+  prepareVoice,
   F as remove,
   L as stored,
   P as voices

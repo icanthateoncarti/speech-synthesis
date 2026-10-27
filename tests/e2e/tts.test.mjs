@@ -116,7 +116,7 @@ test("lecture longue : plus de 128 morceaux sans arrêt du moteur", { timeout: 2
   try {
     const result = await page.evaluate(async () => {
       let calls = 0;
-      const result = await window.tts.synthesize({ text: "Le jour est clair. ".repeat(140), voice: "jessica", speed: 1 }, {
+      const result = await window.tts.synthesize({ text: Array.from({ length: 140 }, (_, i) => `Le jour numéro ${i + 1} est clair.`).join(" "), voice: "jessica", speed: 1 }, {
         onChunk: () => calls++,
       });
       return { calls, chunks: result.chunks.length, seconds: window.wavDuration(result.wav) };
@@ -190,12 +190,12 @@ test("réseau coupé au premier téléchargement → err.kind === 'network', pui
   try {
     local = await startServer();
     fresh = await launch({ profile });
-    let offline = false;
+    let offline = false, blockLibraries = true;
     const blocked = [];
     await fresh.page.setRequestInterception(true);
     fresh.page.on("request", (req) => {
       const u = req.url();
-      if (offline && (u.includes("huggingface.co") || u.includes("cdn.jsdelivr.net"))) {
+      if (offline && (u.includes("huggingface.co") || (blockLibraries && u.includes("cdn.jsdelivr.net")))) {
         blocked.push(u);
         req.abort("internetdisconnected");
       } else {
@@ -215,6 +215,11 @@ test("réseau coupé au premier téléchargement → err.kind === 'network', pui
     assert.equal(cut.synth, "network");
     assert.equal(cut.preload, "network");
     assert.ok(blocked.some((u) => u.includes("onnxruntime-web")), "l'import d'onnxruntime-web n'a pas été coupé");
+    // Le préchargement prépare désormais aussi ONNX. Tester séparément une
+    // coupure du modèle, une fois les bibliothèques accessibles.
+    blockLibraries = false;
+    const modelCut = await fresh.page.evaluate(() => window.tts.preload("tom").then(() => "resolved", err => err.kind));
+    assert.equal(modelCut, "network");
     assert.ok(blocked.some((u) => u.includes("huggingface.co")), "aucune requête vers huggingface.co n'a été coupée");
 
     offline = false;
