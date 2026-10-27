@@ -17,6 +17,28 @@ function fixture({ columnOrder = false, header = true, empty = false, merged = f
   return { items, tree: { role: "Root", children: [table] }, table, texts };
 }
 
+function simpleTable(rows, { roles, heights = [], scopes = [], prefix = "" } = {}) {
+  const items = [];
+  rows.forEach((row, y) => row.forEach((str, x) => {
+    const id = `${prefix}${y}-${x}`;
+    items.push({ type: "beginMarkedContentProps", id });
+    items.push({ str, height: heights[y]?.[x] ?? 10, width: str.length * 5, transform: [10, 0, 0, 10, x * 100, 600 - y * 30], hasEOL: true });
+    items.push({ type: "endMarkedContent" });
+  }));
+  const table = {
+    role: "Table",
+    children: rows.map((row, y) => ({
+      role: "TR",
+      children: row.map((str, x) => ({
+        role: roles?.[y]?.[x] ?? "TD",
+        scope: scopes?.[y]?.[x],
+        children: [{ type: "content", id: `${prefix}${y}-${x}` }],
+      })),
+    })),
+  };
+  return { items, tree: { role: "Root", children: [table] }, table };
+}
+
 test("tableau dessiné par colonnes : lecture par lignes et rappel des en-têtes", () => {
   const { items, tree } = fixture({ columnOrder: true });
   assert.equal(pdfPageText(items, tree), "Cours ; Durée.\nCours : Économie ; Durée : Deux heures.\nCours : Anglais ; Durée : Une heure.");
@@ -77,4 +99,45 @@ test("retour à la ligne et fragments d’un mot à l’intérieur d’une cellu
     { str: "", hasEOL: true },
     { str: "générale", height: 10, width: 40, transform: [10, 0, 0, 10, 0, 555] });
   assert.match(pdfPageText(f.items, f.tree), /Cours : Économie générale ; Durée/);
+});
+
+test("tableau d’une seule cellule : lu une fois, sans libellé inventé", () => {
+  const f = simpleTable([["Unique"]]);
+  assert.equal(pdfPageText(f.items, f.tree), "Unique.");
+  assert.deepEqual(pdfTables(f.items, f.tree).map((table) => table.labeled), [false]);
+});
+
+test("cellules vides et lignes de longueurs différentes : aucune donnée inventée", () => {
+  const ragged = simpleTable([["", "Rempli"], ["Seul"], ["A", "", "C"]]);
+  assert.equal(pdfPageText(ragged.items, ragged.tree), "Rempli.\nSeul.\nA ; C.");
+  const empty = simpleTable([[""], [""]]);
+  assert.equal(pdfPageText(empty.items, empty.tree), "");
+});
+
+test("en-têtes de ligne et en-tête mixte : aucun libellé de colonne inventé", () => {
+  const rowHeaders = simpleTable([["Ligne", "Valeur"], ["Donnée", "Ici"]], {
+    roles: [["TH", "TH"], ["TD", "TD"]],
+    scopes: [["Row", "Row"]],
+  });
+  assert.equal(pdfPageText(rowHeaders.items, rowHeaders.tree), "Ligne ; Valeur.\nDonnée ; Ici.");
+  const mixed = simpleTable([["Cours", "Durée"], ["Économie", "Deux heures"]], {
+    roles: [["TH", "TD"], ["TD", "TD"]],
+  });
+  assert.equal(pdfPageText(mixed.items, mixed.tree), "Cours ; Durée.\nÉconomie ; Deux heures.");
+});
+
+test("un grand texte de cellule n’est pas pris pour un titre", () => {
+  const f = simpleTable([["Titre", "Suite"], ["Corps", "Ici"]], { heights: [[20, 20], [10, 10]] });
+  const headings = [];
+  assert.equal(pdfPageText(f.items, f.tree, headings), "Titre ; Suite.\nCorps ; Ici.");
+  assert.deepEqual(headings, []);
+});
+
+test("deux tableaux sur une même page : chacun lu une fois, dans l’ordre", () => {
+  const first = simpleTable([["A", "B"], ["C", "D"]], { prefix: "a-" });
+  const second = simpleTable([["E", "F"], ["G", "H"]], { prefix: "b-" });
+  const between = { str: "Entre les deux.", height: 10, hasEOL: true };
+  const tree = { role: "Root", children: [first.table, second.table] };
+  assert.equal(pdfPageText([...first.items, between, ...second.items], tree), "A ; B.\nC ; D.\nEntre les deux.\nE ; F.\nG ; H.");
+  assert.equal(pdfTables([...first.items, between, ...second.items], tree).length, 2);
 });
