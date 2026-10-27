@@ -10,3 +10,5 @@ tests/e2e/.chrome-profile/
 *.key
 # Rapport d'audit : décrit des failles encore ouvertes (S07–S08), à garder hors du dépôt public.
 docs/security/
+# Journal et état local des notifications Telegram (scripts/annonces-telegram.sh)
+logs/
