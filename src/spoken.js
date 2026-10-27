@@ -119,9 +119,10 @@ function replaceMarks(word, next, lang) {
   if (french) {
     word = word.replace(/§{2,}/gu, "paragraphes").replace(/§/gu, "paragraphe")
       .replace(/≠/gu, " différent de ")
-      .replace(/\|/gu, " barre verticale ");
+      // « | » sépare des colonnes : une pause, pas « barre verticale » à chaque case.
+      .replace(/\|/gu, ",");
   } else {
-    word = word.replace(/\|/gu, " vertical bar ")
+    word = word.replace(/\|/gu, ",")
       .replace(/(?<![\p{L}\p{N}])km(?![\p{L}\p{N}])/giu, "kilometers");
   }
   if ((word === "p." || word === "pp.") && numberNext) word = word === "p." ? "page" : "pages";

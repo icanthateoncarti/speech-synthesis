@@ -48,7 +48,9 @@ export function applyTool(marks, tool, range) {
 
 /** Ce qui sera lu : les passages « à lire » (ou tout le texte), moins ceux « à sauter ». */
 export function readRanges(length, { include, exclude }) {
-  let ranges = include.length ? include : (length ? [[0, length]] : []);
+  // Jamais de passage hors du texte, même si des marques le débordent.
+  const inside = include.map(([a, b]) => [Math.max(0, a), Math.min(length, b)]).filter(([a, b]) => b > a);
+  let ranges = include.length ? inside : (length ? [[0, length]] : []);
   for (const range of exclude) ranges = subtractRange(ranges, range);
   return ranges;
 }

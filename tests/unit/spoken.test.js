@@ -238,7 +238,7 @@ test("mots anglais relevés dans les cours français, session 3", () => {
 });
 
 test("symboles et abréviations des cours, voix française", () => {
-  assert.equal(spokenText("La colonne | sépare deux champs."), "La colonne barre verticale sépare deux champs.");
+  assert.equal(spokenText("La colonne | sépare deux champs."), "La colonne, sépare deux champs.");
   assert.equal(spokenText("Le § 3 est utile."), "Le paragraphe 3 est utile.");
   assert.equal(spokenText("Le signe ≠ marque la différence."), "Le signe différent de marque la différence.");
   assert.equal(spokenText("Le n° 5 et le nº 6 sont libres."), "Le numéro 5 et le numéro 6 sont libres.");
@@ -256,7 +256,7 @@ test("symboles et abréviations des cours, voix française", () => {
 });
 
 test("symboles et abréviations des cours, voix anglaise", () => {
-  assert.equal(spokenText("The column | separates two fields.", "en"), "The column vertical bar separates two fields.");
+  assert.equal(spokenText("The column | separates two fields.", "en"), "The column, separates two fields.");
   assert.equal(spokenText("The n° 5 is free.", "en"), "The number 5 is free.");
   assert.equal(spokenText("The match A vs. B starts.", "en"), "The match A versus B starts.");
   assert.equal(spokenText("The model e.g. 12 is ready.", "en"), "The model for example 12 is ready.");

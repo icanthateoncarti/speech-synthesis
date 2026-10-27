@@ -81,8 +81,9 @@ test("intervalles : vides, inversés, qui se touchent et hors du texte", () => {
   assert.deepEqual(marks, { include: [[0, 3], [4, 10]], exclude: [[3, 4]] }, "le trait rouge restant ne recouvre jamais le jaune");
 
   assert.deepEqual(readRanges(0, empty), []);
-  // À vérifier : un texte vide avec des passages à lire rend des intervalles hors du texte.
-  assert.deepEqual(readRanges(0, { include: [[0, 5]], exclude: [] }), [[0, 5]]);
+  // Corrigé à la relecture : un passage ne déborde jamais du texte.
+  assert.deepEqual(readRanges(0, { include: [[0, 5]], exclude: [] }), []);
+  assert.deepEqual(readRanges(10, { include: [[-3, 4], [8, 15]], exclude: [] }), [[0, 4], [8, 10]]);
   assert.deepEqual(readRanges(10, empty), [[0, 10]]);
   assert.deepEqual(readRanges(10, { include: [[2, 4]], exclude: [[0, 10]] }), []);
   assert.deepEqual(readRanges(10, { include: [[0, 10]], exclude: [[2, 2]] }), [[0, 10]]);
