@@ -288,6 +288,19 @@ test("mots français des cours anglais, féminins couverts par la règle", () =>
     "Une pomme mangée reste intacte.");
 });
 
+test("mots français des cours anglais, session 7, lot 1", () => {
+  assert.equal(spokenText("Matières, mémoire, méthodologie et néerlandais.", "en"),
+    "mah-tee-air, mem-wahr, may-toh-doh-loh-zhee et nay-air-lahn-day.");
+  assert.equal(spokenText("Nouveau, obsolète, opportunités et payé.", "en"),
+    "noo-voh, ob-soh-let, aw-por-tew-nee-tay et peh-yay.");
+  assert.equal(spokenText("Période, pièces, plaît et planifié.", "en"),
+    "pay-ree-ohd, pee-yes, pleh et plah-nee-fee-yay.");
+  assert.equal(spokenText("Première, prénom, prévisions et prévu.", "en"),
+    "pruh-mee-air, pray-nohm, pray-vee-zhon et pray-vew.");
+  assert.equal(spokenText("Puéril, réalisé, récompenser et rédige.", "en"),
+    "pew-air-eel, ray-ah-lee-zay, ray-kom-pahn-say et ray-deezh.");
+});
+
 test("mots français des cours anglais, session 6, lot 1", () => {
   assert.equal(spokenText("The accès and acquérir.", "en"), "The ahk-seh and ah-kay-reer.");
   assert.equal(spokenText("Adopté, agréable, américain et antérieure.", "en"),

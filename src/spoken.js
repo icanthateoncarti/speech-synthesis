@@ -134,6 +134,12 @@ const LEXICON_EN = new Map(Object.entries({
   "inadéquation": "ee-nah-day-kwah-syon", "indiquée": "an-dee-kay", "intérêt": "ahn-tay-ray", "inventée": "an-vahn-tay",
   "irrégulières": "ee-ray-goo-lee-air", "isolée": "ee-zoh-lay", "juvénile": "zhoo-vay-neel", "éloge": "eh-lohzh",
   "exécution": "egg-zay-kew-syon", "lancé": "lahn-say", "maîtrise": "may-treez", "mathématiques": "mah-tay-mah-teek",
+  // Mots français des cours anglais, session 7 (2026-10-27), lot 1.
+  "matières": "mah-tee-air", "mémoire": "mem-wahr", "méthodologie": "may-toh-doh-loh-zhee", "néerlandais": "nay-air-lahn-day",
+  "nouveau": "noo-voh", "obsolète": "ob-soh-let", "opportunités": "aw-por-tew-nee-tay", "payé": "peh-yay",
+  "période": "pay-ree-ohd", "pièces": "pee-yes", "plaît": "pleh", "planifié": "plah-nee-fee-yay",
+  "première": "pruh-mee-air", "prénom": "pray-nohm", "prévisions": "pray-vee-zhon", "prévu": "pray-vew",
+  "puéril": "pew-air-eel", "réalisé": "ray-ah-lee-zay", "récompenser": "ray-kom-pahn-say", "rédige": "ray-deezh",
 }));
 
 // Pluriel anglais dont le singulier est une entrée française : « parties » ne
