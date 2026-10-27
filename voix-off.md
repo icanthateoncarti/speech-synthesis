@@ -3,7 +3,7 @@
 > Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
 
 Canonical: https://speechsynthe.si/voix-off/
-Last updated: 2026-10-26
+Last updated: 2026-10-27
 
 ## Exemples de textes
 

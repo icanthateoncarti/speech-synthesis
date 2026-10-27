@@ -12,7 +12,8 @@ const QUESTIONS = [
   "Pourquoi ce temps de chargement ?",
   "Est-ce que mon cours est résumé ?",
   "Pourquoi l’audio est-il si long ?",
-  "Et si mon cours est en anglais ?"
+  "Et si mon cours est en anglais ?",
+  "Comment enlever les en-têtes qui se répètent ?"
 ];
 
 let server, browser, page;

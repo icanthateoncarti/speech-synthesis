@@ -3,7 +3,7 @@
 > Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/pdf-en-audio/
-Last updated: 2026-10-26
+Last updated: 2026-10-27
 
 ## Glisse ton cours. Écoute-le en sortant.
 
@@ -24,6 +24,10 @@ Non : la radio lit le texte extrait du PDF ou du PowerPoint, sans le résumer ni
 ### Et si le cours est en anglais ?
 
 La radio détecte la langue du texte et utilise une voix anglaise. Elle lit le cours dans sa langue d’origine, sans le traduire.
+
+### Comment enlever les en-têtes qui se répètent ?
+
+Après l’import, appuie sur NETTOYER et coche les répétitions à retirer. Les repères comme « Chapitre 1 » sont conservés, et tu peux tout rétablir. Le nettoyage s’applique à la lecture et au MP3, sans modifier ton fichier.
 
 ### Comment écouter mon PDF ?
 

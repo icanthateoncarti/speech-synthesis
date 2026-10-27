@@ -2,11 +2,13 @@ import { initialState, reduce, audioKey, statusLine } from "./machine.js";
 import { createTts } from "./tts.js";
 import { createPlayer } from "./player.js";
 import { hasSpeakableContent, splitIntoChunks, wordTimeline, detectLanguage } from "./text.js";
-import { wavDuration, wavToMp3 } from "./audio.js";
+import { wavDuration } from "./audio.js";
+import { exportMp3Audio } from "./mp3-export.js";
 import { buildReadingIndex, generatedDuration, navigationTarget, timeAtTextOffset, textOffsetAtTime } from "./navigation.js";
 import { createVoiceCommands, parseVoiceCommand } from "./voice-commands.js";
 import { MAX_FILE_BYTES } from "./limits.js";
 import { excerpt, hasMarks, readRanges } from "./selection.js";
+import { repeatedNoise, documentExcerpt } from "./document-cleanup.js";
 
 const $ = (id) => document.getElementById(id);
 const screen = $("screen"), reader = $("reader"), speak = $("key-speak");
@@ -54,7 +56,10 @@ function paintPosition(force = false) {
 }
 function paint() {
   const { left, right } = statusLine(state);
-  $("status-left").textContent = state.error ? left : pdfBusy ? "LECTURE DU FICHIER…" : note ?? (pendingNavigation ? "PRÉPARATION DU PASSAGE…" : paused && playbackActive ? "⏸ PAUSE" : left);
+  const audioPct = synthesis ? Math.min(100, Math.floor((synthesis.completedChars ?? 0) * 100 / Math.max(1, synthesis.totalChars ?? 0))) : 0;
+  const progress = exportJob?.stage === "encoding" ? `ENCODAGE MP3 ${exportJob.pct} %`
+    : exportJob ? state.phase === "downloading" && !synthesis?.durations.length ? left : `PRÉPARATION AUDIO ${audioPct} %` : null;
+  $("status-left").textContent = state.error ? left : pdfBusy ? "LECTURE DU FICHIER…" : progress ?? note ?? (pendingNavigation ? "PRÉPARATION DU PASSAGE…" : paused && playbackActive ? "⏸ PAUSE" : left);
   $("status-right").textContent = right;
   const reading = playbackActive && !paused && !pendingNavigation && (synthesis?.durations.length ?? 0) > 0;
   reader.hidden = !reading;
@@ -64,9 +69,13 @@ function paint() {
   speak.setAttribute("aria-label", playbackActive ? paused ? "Reprendre la lecture" : "Mettre en pause" : "Parle");
   speak.setAttribute("aria-pressed", String(playbackActive && !paused));
   $("key-mp3").disabled = Boolean(exportJob);
-  $("key-mp3").textContent = exportJob ? "… MP3" : "⬇ MP3";
+  $("key-mp3").textContent = exportJob ? exportJob.stage === "encoding" ? `MP3 ${exportJob.pct} %` : `AUDIO ${audioPct} %` : "⬇ MP3";
   $("key-pdf").disabled = pdfBusy;
   const pages = documentInfo.pages;
+  const cleaning = documentInfo.cleaning;
+  $("cleanup-open").hidden = !cleaning;
+  $("cleanup-open").textContent = cleaning?.removed.length ? "NETTOYÉ" : "NETTOYER";
+  $("cleanup-open").setAttribute("aria-label", cleaning?.removed.length ? "Revoir le nettoyage du document" : "Nettoyer le document : retirer les répétitions");
   $("pages-open").hidden = !pages;
   if (pages) {
     const passages = hasMarks(pages.marks) ? readRanges(pages.fullText.length, pages.marks).length : 0;
@@ -171,12 +180,13 @@ function ensureSynthesis() {
   const key = audioKey(state);
   if (synthesis?.key === key) return synthesis;
   const chunks = splitIntoChunks(state.text);
-  const job = { key, chunks, durations: [], complete: false, controller: new AbortController(), promise: null };
+  const job = { key, chunks, durations: [], complete: false, controller: new AbortController(), promise: null, completedChars: 0, totalChars: chunks.reduce((sum, chunk) => sum + chunk.length, 0) };
   synthesis = job;
   resetReader(); player.stop(); player.pause();
   if (state.audio?.key === key && state.audio.wav) {
     const details = audioDetails?.key === key ? audioDetails : { chunks: [state.text], durations: [wavDuration(state.audio.wav)], pauses: [] };
     job.chunks = details.chunks; job.durations = details.durations.slice(); job.complete = true;
+    job.completedChars = job.totalChars;
     index = buildReadingIndex(state.text, job.chunks, documentInfo.chapters);
     job.chunks.forEach((chunk, i) => appendWords(chunk, job.durations[i], i, details.pauses?.[i]));
     player.load([state.audio.wav]);
@@ -190,10 +200,12 @@ function ensureSynthesis() {
     onChunk(wav, i, _total, pause) {
       if (!valid(job)) return;
       job.durations[i] = wavDuration(wav);
+      job.completedChars += chunks[i].length;
       appendWords(chunks[i], job.durations[i], i, pause); player.enqueue(wav);
       applyPending();
       if (playbackActive && !paused && !pendingNavigation) dispatch({ type: "PLAYBACK_STARTED" });
       else if (paused) dispatch({ type: "PLAYBACK_PAUSED" });
+      else paint();
       paintPosition(true);
     },
   }).then((result) => {
@@ -295,7 +307,11 @@ async function exportMp3() {
     await ready;
     const result = await job.promise;
     if (exportJob !== task || task.key !== audioKey(state)) return;
-    const mp3 = state.audio?.mp3 ?? await wavToMp3(result.wav, 96, { signal: task.controller.signal });
+    task.stage = "encoding"; task.pct = 0; paint();
+    const mp3 = state.audio?.mp3 ?? await exportMp3Audio(result.wav, {
+      signal: task.controller.signal,
+      onProgress(pct) { if (exportJob === task) { task.pct = pct; paint(); } },
+    });
     if (exportJob !== task || task.key !== audioKey(state)) return;
     dispatch({ type: "MP3_READY", key: task.key, mp3 });
     download(mp3, task.voice);
@@ -324,6 +340,10 @@ async function importDocument(file) {
     pdfBusy = false;
     if (!hasSpeakableContent(document.text)) { dispatch({ type: "PDF_EMPTY", format }); return; }
     documentInfo = { name: file.name, chapters: document.chapters, titles: document.titles ?? [] };
+    documentInfo.cleaning = {
+      fullText: document.text, fullChapters: document.chapters,
+      suggestions: repeatedNoise(document.fragments ?? [], document.pageCount ?? 0), removed: [], reviewed: false,
+    };
     // PDF : la vue des pages permet de choisir ce qu'il faut lire ou sauter.
     if (format === "pdf" && document.pageMaps) {
       documentInfo.pages = { file, pageMaps: document.pageMaps, fullText: document.text, fullChapters: document.chapters, marks: { include: [], exclude: [] } };
@@ -346,7 +366,8 @@ function applyMarks() {
   const pages = documentInfo.pages;
   const marked = hasMarks(pages.marks);
   const ranges = readRanges(pages.fullText.length, pages.marks);
-  const next = marked ? excerpt(pages.fullText, ranges, pages.fullChapters) : { text: pages.fullText, chapters: pages.fullChapters };
+  const next = documentInfo.cleaning ? documentExcerpt(documentInfo.cleaning, pages.marks)
+    : marked ? excerpt(pages.fullText, ranges, pages.fullChapters) : { text: pages.fullText, chapters: pages.fullChapters };
   if (next.text !== state.text) {
     cancelWork();
     screen.value = next.text; screen.setSelectionRange(0, 0); screen.scrollTop = 0;
@@ -370,6 +391,23 @@ async function openPagesView() {
   }
 }
 $("pages-open").addEventListener("click", () => { void openPagesView(); });
+$("cleanup-open").addEventListener("click", async () => {
+  const source = documentInfo.cleaning;
+  if (!source) return;
+  pausePlayback();
+  const { reviewCleanup } = await import("./cleanup-dialog.js");
+  const removed = await reviewCleanup(source);
+  if (documentInfo.cleaning !== source || removed === null) return;
+  source.removed = removed; source.reviewed = true;
+  const next = documentExcerpt(source, documentInfo.pages?.marks);
+  if (next.text !== state.text) {
+    cancelWork();
+    documentInfo.chapters = next.chapters;
+    screen.value = next.text; screen.setSelectionRange(0, 0); screen.scrollTop = 0;
+    dispatch({ type: "TEXT_CHANGED", text: next.text }); rebuildIndex(); preload();
+  } else paint();
+  message(removed.length ? `${removed.length} RÉPÉTITION${removed.length > 1 ? "S" : ""} RETIRÉE${removed.length > 1 ? "S" : ""}` : "NETTOYAGE ANNULÉ · TEXTE RÉTABLI", 5000);
+});
 screen.addEventListener("input", () => {
   if (synthesis || exportJob || pdfBusy || playbackActive) cancelWork();
   documentInfo = { name: "", chapters: [] };

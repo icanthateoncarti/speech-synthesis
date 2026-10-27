@@ -3,7 +3,7 @@
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/
-Last updated: 2026-10-26
+Last updated: 2026-10-27
 
 ## Révise tes cours en les écoutant
 
@@ -56,6 +56,10 @@ La radio prend le temps de lire le texte du cours, y compris ses explications et
 ### Et si mon cours est en anglais ?
 
 La langue du texte est détectée automatiquement : un cours en anglais est lu avec une voix anglaise. Le texte n’est pas traduit.
+
+### Comment enlever les en-têtes qui se répètent ?
+
+Après l’import, appuie sur NETTOYER et coche les répétitions à retirer. Les repères comme « Chapitre 1 » sont conservés, et tu peux tout rétablir. Le nettoyage s’applique à la lecture et au MP3, sans modifier ton fichier.
 
 ## Related
 

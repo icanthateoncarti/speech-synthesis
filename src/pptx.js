@@ -115,7 +115,7 @@ export async function extractPptxDocument(file, { signal } = {}) {
   if (OLE_MAGIC.every((value, i) => bytes[i] === value)) throw pptxError("PasswordException", "présentation protégée par mot de passe");
   const entries = zipEntries(bytes);
   const budget = decompressionBudget();
-  const lines = [], chapters = [], titles = [];
+  const lines = [], chapters = [], titles = [], fragments = [];
   let offset = 0, number = 0, truncated = false;
   const order = await slideOrder(bytes, entries, budget);
   if (order.length > MAX_PAGES) { order.length = MAX_PAGES; truncated = true; }
@@ -132,15 +132,17 @@ export async function extractPptxDocument(file, { signal } = {}) {
     if (!slide.title && !slide.lines.length) continue;
     chapters.push({ title: `${number} · ${slide.title || `Diapo ${number}`}`, offset });
     if (slide.title) titles.push(slide.title);
-    for (const line of slide.title ? [slide.title, ...slide.lines] : slide.lines) {
+    const slideText = slide.title ? [slide.title, ...slide.lines] : slide.lines;
+    for (const [lineIndex, line] of slideText.entries()) {
       if (offset + line.length > MAX_TEXT_CHARS) {
         lines.push(line.slice(0, MAX_TEXT_CHARS - offset));
         offset = MAX_TEXT_CHARS; truncated = true;
         break;
       }
       lines.push(line);
+      fragments.push({ text: line, start: offset, end: offset + line.length, page: number, edge: lineIndex === 0 || lineIndex === slideText.length - 1 });
       offset += line.length + 1;
     }
   }
-  return { text: lines.join("\n"), chapters, titles, truncated };
+  return { text: lines.join("\n"), chapters, titles, fragments, pageCount: number, truncated };
 }

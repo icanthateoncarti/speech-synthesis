@@ -1,4 +1,5 @@
 import { Mp3Encoder } from "@breezystack/lamejs";
+import { createMp3Encoder } from "./mp3-encode.js";
 
 const SILENCE_MS = 150;
 
@@ -110,21 +111,14 @@ export function wavDuration(buf) {
   return samples.length / sampleRate;
 }
 
-export async function wavToMp3(buf, kbps = 96, { signal } = {}) {
+export async function wavToMp3(buf, kbps = 96, { signal, onProgress } = {}) {
   const { sampleRate, samples } = parseWav(buf);
-  const enc = new Mp3Encoder(1, sampleRate, kbps);
-  const chunks = [];
-  let total = 0;
-  const push = (c) => { if (c.length) { chunks.push(c); total += c.length; } };
-  let frames = 0;
-  for (let i = 0; i < samples.length; i += 1152) {
+  const encoder = createMp3Encoder(samples, sampleRate, Mp3Encoder, kbps);
+  for (;;) {
     signal?.throwIfAborted();
-    push(enc.encodeBuffer(samples.subarray(i, i + 1152)));
-    if (++frames % 50 === 0) await new Promise((r) => setTimeout(r));
+    const { pct, result } = encoder.step();
+    onProgress?.(pct);
+    if (result) return result;
+    await new Promise((r) => setTimeout(r, 0));
   }
-  push(enc.flush());
-  const out = new Uint8Array(total);
-  let off = 0;
-  for (const c of chunks) { out.set(c, off); off += c.length; }
-  return out;
 }

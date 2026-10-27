@@ -24,6 +24,7 @@ export const PAGES = [
     faq: [
       ["Est-ce que mon cours est résumé ?", "Non : la radio lit le texte extrait du PDF ou du PowerPoint, sans le résumer ni le reformuler. Pour un PDF, tu peux choisir toi-même les passages à lire dans PAGES."],
       ["Et si le cours est en anglais ?", "La radio détecte la langue du texte et utilise une voix anglaise. Elle lit le cours dans sa langue d’origine, sans le traduire."],
+      ["Comment enlever les en-têtes qui se répètent ?", "Après l’import, appuie sur NETTOYER et coche les répétitions à retirer. Les repères comme « Chapitre 1 » sont conservés, et tu peux tout rétablir. Le nettoyage s’applique à la lecture et au MP3, sans modifier ton fichier."],
       ["Comment écouter mon PDF ?", "Appuie sur IMPORTER, choisis ton PDF, puis appuie sur PARLE. Tu peux aussi déposer le fichier sur la radio."],
       ["Comment garder mon PDF en MP3 ?", "Importe ton PDF, règle la voix et la vitesse, puis appuie sur MP3. Le fichier audio reprend les passages sélectionnés dans PAGES et peut s’écouter sans connexion une fois téléchargé."],
       ["Comment retrouver un passage pendant la lecture ?", "Utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. Dans COMMANDES, tu peux aussi écrire « reviens 3 phrases en arrière »."],
@@ -172,6 +173,10 @@ export const HOME = {
     [
       "Et si mon cours est en anglais ?",
       "La langue du texte est détectée automatiquement : un cours en anglais est lu avec une voix anglaise. Le texte n’est pas traduit."
+    ],
+    [
+      "Comment enlever les en-têtes qui se répètent ?",
+      "Après l’import, appuie sur NETTOYER et coche les répétitions à retirer. Les repères comme « Chapitre 1 » sont conservés, et tu peux tout rétablir. Le nettoyage s’applique à la lecture et au MP3, sans modifier ton fichier."
     ]
   ]
 };

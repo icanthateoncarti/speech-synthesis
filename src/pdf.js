@@ -1,5 +1,7 @@
 import { normalizeText } from "./text.js";
 import { normalizeWithMap } from "./text-map.js";
+import { pdfTables, renderPdfTable } from "./pdf-tables.js";
+import { pdfFragments } from "./document-cleanup.js";
 import { MAX_FILE_BYTES, MAX_PAGES, MAX_TEXT_CHARS, throwIfAborted, tooLarge } from "./limits.js";
 
 let library;
@@ -57,6 +59,26 @@ function pageTextWithHeadings(items, headings = [], record) {
     text += value;
     previousHeading = heading;
   }
+  return text;
+}
+
+export function pdfPageText(items, tree, headings = [], record, tableItems) {
+  const strings = items.filter((item) => typeof item.str === "string");
+  const tables = pdfTables(items, tree);
+  if (!tables.length) return pageTextWithHeadings(strings, headings, record);
+  let text = "", cursor = 0;
+  function append(render) {
+    if (text) text += "\n";
+    const base = text.length;
+    text += render((item, start, end) => record?.(item, base + start, base + end));
+  }
+  for (const table of tables) {
+    if (tableItems) for (const row of table.rows) for (const cell of row) for (const item of cell.items) tableItems.add(item);
+    if (cursor < table.first) append((record) => pageTextWithHeadings(strings.slice(cursor, table.first), headings, record));
+    append((record) => renderPdfTable(table, pageText, record));
+    cursor = table.last + 1;
+  }
+  if (cursor < strings.length) append((record) => pageTextWithHeadings(strings.slice(cursor), headings, record));
   return text;
 }
 
@@ -185,7 +207,11 @@ export async function extractPdfDocument(file, { signal } = {}) {
     for (let n = 1; n <= Math.min(document.numPages, MAX_PAGES); n++) {
       throwIfAborted(signal);
       const page = await document.getPage(n);
-      const content = await page.getTextContent();
+      const [content, structure] = await Promise.all([
+        page.getTextContent({ includeMarkedContent: true }),
+        page.getStructTree().catch(() => null),
+      ]);
+      throwIfAborted(signal);
       // hasEOL indique une ligne de mise en page, souvent au milieu d'une phrase.
       // Les phrases restent continues ; seuls les titres et le changement de page ajoutent un saut.
       // Des morceaux contigus peuvent être les glyphes d'un même mot (ex. ligature fi).
@@ -194,15 +220,17 @@ export async function extractPdfDocument(file, { signal } = {}) {
       const strings = content.items.filter((item) => typeof item.str === "string");
       const order = new Map(strings.map((item, index) => [item, index]));
       const spans = new Int32Array(strings.length * 2).fill(-1);
-      const raw = pageTextWithHeadings(content.items, headings, (item, start, end) => {
+      const tableItems = new Set();
+      const raw = pdfPageText(content.items, structure, headings, (item, start, end) => {
         const index = order.get(item);
         spans[index * 2] = start; spans[index * 2 + 1] = end;
-      });
+      }, tableItems);
       const normalized = normalizeWithMap(raw);
       let text = normalized.text;
       page.cleanup();
       if (total + text.length > MAX_TEXT_CHARS) { text = text.slice(0, MAX_TEXT_CHARS - total); truncated = true; }
-      pages.push({ text, lines: pageLines(content.items), spans, map: normalized.map });
+      const fragments = pdfFragments(content.items, spans, normalized.map, text, page.view, tableItems);
+      pages.push({ text, lines: pageLines(content.items), spans, map: normalized.map, fragments });
       total += text.length + 1;
       if (truncated && total >= MAX_TEXT_CHARS) break;
     }
@@ -219,7 +247,8 @@ export async function extractPdfDocument(file, { signal } = {}) {
     const chapters = uniqueChapters(outline.length ? outline : detectedChapters(pages, pageOffsets), text.length);
     // Pour la vue des pages : où tombe chaque caractère de chaque morceau dans le texte final.
     const pageMaps = pages.map((page, index) => ({ offset: pageOffsets[index], length: page.text.length, spans: page.spans, map: page.map }));
-    return { text, chapters, pageOffsets, pageMaps, titles: headings.map((heading) => normalizeText(heading)), truncated };
+    const fragments = pages.flatMap((page, index) => page.fragments.map((fragment) => ({ ...fragment, page: index, start: pageOffsets[index] + fragment.start, end: pageOffsets[index] + fragment.end })));
+    return { text, chapters, pageOffsets, pageMaps, fragments, pageCount: pages.length, titles: headings.map((heading) => normalizeText(heading)), truncated };
   } catch (error) {
     throwIfAborted(signal);
     throw error;

@@ -48,6 +48,9 @@ before(async () => {
     "ppt/_rels/presentation.xml.rels": `<Relationships>${slides.map((_, i) => `<Relationship Id="rId${i + 1}" Target="slides/slide${i + 1}.xml"/>`).join("")}</Relationships>`,
     ...Object.fromEntries(slides.map((body, i) => [`ppt/slides/slide${i + 1}.xml`, body])),
   });
+  await writeFile(path.join(fixtures, "nettoyer.pptx"), deck([1, 2, 3].map((n) => slide(
+    shape("title", [`Chapitre ${n}`]) + shape("body", [`Explication du chapitre ${n}.`], ["Cours programmation — EPHEC 2025/2026"])
+  ))));
   // Bombe : 40 Mo de texte compressés en quelques dizaines de Ko.
   await writeFile(path.join(fixtures, "bombe.pptx"), deck([slide(shape("body", ["a".repeat(40 * 1024 * 1024)]))]));
   // Géant légitime : 3 diapos de 900 000 caractères = 2,7 millions, au-delà du plafond.
@@ -126,4 +129,22 @@ test("S02 : un PPTX géant est coupé à 2 millions de caractères, avec un mess
   const r = await page.$eval("#screen", (el) => ({ length: el.value.length, start: el.value.slice(0, 8) }));
   assert.ok(r.length <= 2_000_000 && r.length > 1_900_000, `${r.length} caractères`);
   assert.equal(r.start, "Partie 1");
+});
+
+
+test("PPTX : nettoyer les répétitions conserve les chapitres et reste réversible", { timeout: 60_000 }, async () => {
+  await open();
+  await (await page.$("#pdf-input")).uploadFile(path.join(fixtures, "nettoyer.pptx"));
+  await page.waitForFunction(() => document.querySelector("#screen").value.includes("Chapitre 3"));
+  const original = await page.$eval("#screen", el => el.value);
+  await page.click("#cleanup-open");
+  await page.waitForSelector("#cleanup-list input");
+  assert.ok((await page.$eval("#cleanup-list", el => el.textContent)).includes("EPHEC"));
+  await page.click("#cleanup-apply");
+  await page.waitForFunction(() => !document.querySelector("#screen").value.includes("EPHEC"));
+  const text = await page.$eval("#screen", el => el.value);
+  for (const n of [1, 2, 3]) assert.ok(text.includes(`Chapitre ${n}`));
+  assert.equal(await page.$$eval("#chapter option", els => els.length), 3);
+  await page.click("#cleanup-open"); await page.click("#cleanup-restore");
+  await page.waitForFunction(value => document.querySelector("#screen").value === value, {}, original);
 });

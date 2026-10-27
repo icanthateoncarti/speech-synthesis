@@ -317,7 +317,7 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
 #seek::-moz-range-track { height: 3px; background: #245744; }
 #seek::-webkit-slider-thumb { appearance: none; width: 10px; height: 14px; margin-top: -5px; border: 0; border-radius: 2px; background: var(--phosphor); }
 #seek::-moz-range-thumb { width: 10px; height: 14px; border: 0; border-radius: 2px; background: var(--phosphor); }
-.transport-actions { display: flex; align-items: center; gap: 6px; }
+.transport-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .transport-actions button, .transport-actions select { min-height: 44px; min-width: 44px; border: 0; background: #5effd608; color: #a3e4ce; font: 11px var(--mono); cursor: pointer; padding: 8px 10px; border-radius: 6px; }
 .transport-actions select { min-width: 0; flex: 1; max-width: 100%; color: #8dcbb5; text-overflow: ellipsis; background: transparent; }
 .transport-actions option { background: #07130f; }
@@ -460,3 +460,15 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
   .pages-hint { font-size: 11px; line-height: 1.4; }
   .pages-file { max-width: 16ch; }
 }
+
+.cleanup-dialog { width: min(600px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 24px; border: 0; border-radius: 16px; background: #e7e5df; color: #24231f; font: 16px/1.5 sans-serif; }
+.cleanup-dialog::backdrop { background: rgb(0 0 0 / .65); }
+.cleanup-dialog h2 { margin: 0 0 16px; font-size: 22px; }
+.cleanup-list { display: grid; gap: 8px; margin-block: 20px; }
+.cleanup-list label { display: flex; gap: 12px; align-items: flex-start; padding: 12px; min-height: 44px; background: #fff9; border-radius: 8px; cursor: pointer; overflow-wrap: anywhere; }
+.cleanup-list input { flex: 0 0 20px; height: 20px; margin-top: 2px; accent-color: #e6500b; }
+.cleanup-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.cleanup-actions button { min-height: 44px; border: 1px solid #8d887d; border-radius: 8px; padding: 8px 14px; font: inherit; cursor: pointer; }
+.cleanup-actions #cleanup-apply { background: #244de4; border-color: #244de4; color: white; }
+.cleanup-actions button:disabled { opacity: .5; cursor: default; }
+.cleanup-dialog :focus-visible { outline: 3px solid #244de4; outline-offset: 3px; }
