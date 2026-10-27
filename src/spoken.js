@@ -107,6 +107,31 @@ const ARROWS_EN = [
 ];
 const CLOSERS = /[)\]»”]/gu;
 
+// Symboles et abréviations que la voix ignore ou lit à l'anglaise. Les formes
+// ambiguës (« ex. », « h. », « ~ ») restent telles quelles : voir le journal.
+function replaceMarks(word, next, lang) {
+  const french = lang === "fr";
+  const numberNext = /^\d/u.test(next ?? "");
+  word = word.replace(/[nN][°º]/gu, french ? "numéro " : " number ")
+    // « versusse » donne /vɛʁsys/ à la voix française ; « versus » y perd le s.
+    .replace(/(?<![\p{L}\p{N}])vs\.?(?![\p{L}\p{N}])/giu, french ? "versusse" : "versus")
+    .replace(/(?<![\p{L}\p{N}])e\.g\./giu, french ? "par exemple" : "for example");
+  if (french) {
+    word = word.replace(/§{2,}/gu, "paragraphes").replace(/§/gu, "paragraphe")
+      .replace(/≠/gu, " différent de ")
+      .replace(/\|/gu, " barre verticale ");
+  } else {
+    word = word.replace(/\|/gu, " vertical bar ")
+      .replace(/(?<![\p{L}\p{N}])km(?![\p{L}\p{N}])/giu, "kilometers");
+  }
+  if ((word === "p." || word === "pp.") && numberNext) word = word === "p." ? "page" : "pages";
+  word = word.replace(/(?<![\p{L}\p{N}])p\.(?=\d)/giu, "page ")
+    .replace(/(?<![\p{L}\p{N}])pp\.(?=\d)/giu, "pages ")
+    .replace(/#(?=\d)/gu, french ? "numéro " : " number ");
+  if (word === "#" && numberNext) word = french ? "numéro" : "number";
+  return word;
+}
+
 function tidy(text) {
   return text.replace(/\s+/g, " ").replace(/\s+,/g, ",")
     .replace(/,(?:\s*,)+/g, ",").replace(/,([.!?…;:])/g, "$1").replace(/^[\s,]+|[\s,]+$/g, "");
@@ -135,6 +160,7 @@ export function spokenWords(words, lang = "fr") {
     // « mot(s) » : une parenthèse collée au mot reste telle quelle.
     if (!/\p{L}[(\[]/u.test(word)) word = word.replace(CLOSERS, ",");
     for (const [pattern, spoken] of arrows) word = word.replace(pattern, spoken);
+    word = replaceMarks(word, words[k + 1], lang);
     // Lignes de formulaire et puces décoratives : une pause, jamais l'épellation.
     // « ... » exact reste une ponctuation ; les nombres (3.5, 1.2.3) et les
     // abréviations (p., etc.) ne forment pas de suite de trois caractères.

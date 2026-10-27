@@ -237,6 +237,38 @@ test("mots anglais relevés dans les cours français, session 3", () => {
     "La valeur missinng reste dans la table.");
 });
 
+test("symboles et abréviations des cours, voix française", () => {
+  assert.equal(spokenText("La colonne | sépare deux champs."), "La colonne barre verticale sépare deux champs.");
+  assert.equal(spokenText("Le § 3 est utile."), "Le paragraphe 3 est utile.");
+  assert.equal(spokenText("Le signe ≠ marque la différence."), "Le signe différent de marque la différence.");
+  assert.equal(spokenText("Le n° 5 et le nº 6 sont libres."), "Le numéro 5 et le numéro 6 sont libres.");
+  assert.equal(spokenText("Le match A vs. B commence."), "Le match A versusse B commence.");
+  assert.equal(spokenText("Le modèle e.g. 12 est prêt."), "Le modèle par exemple 12 est prêt.");
+  assert.equal(spokenText("Voir p. 12 et pp. 14-15."), "Voir page 12 et pages 14-15.");
+  assert.equal(spokenText("Le rang # 4 est libre."), "Le rang numéro 4 est libre.");
+  // Formes ambiguës : laissées telles quelles, la voix les lit déjà ou un mot
+  // juste serait un pari (voir le journal).
+  assert.equal(spokenText("Voir ex. 12."), "Voir ex. 12.");
+  assert.equal(spokenText("Attendre h. 8."), "Attendre h. 8.");
+  assert.equal(spokenText("Le passage ~ 7."), "Le passage ~ 7.");
+  assert.equal(spokenText("La page p."), "La page p.");
+  assert.equal(spokenText("Le rang #A."), "Le rang #A.");
+});
+
+test("symboles et abréviations des cours, voix anglaise", () => {
+  assert.equal(spokenText("The column | separates two fields.", "en"), "The column vertical bar separates two fields.");
+  assert.equal(spokenText("The n° 5 is free.", "en"), "The number 5 is free.");
+  assert.equal(spokenText("The match A vs. B starts.", "en"), "The match A versus B starts.");
+  assert.equal(spokenText("The model e.g. 12 is ready.", "en"), "The model for example 12 is ready.");
+  assert.equal(spokenText("Turn p. 12 and pp. 14-15.", "en"), "Turn page 12 and pages 14-15.");
+  assert.equal(spokenText("The rank # 4 is free.", "en"), "The rank number 4 is free.");
+  assert.equal(spokenText("The road is 5 km.", "en"), "The road is 5 kilometers.");
+  // Déjà lus correctement par la voix anglaise, ou ambigus.
+  assert.equal(spokenText("The paragraph § 3 is useful.", "en"), "The paragraph § 3 is useful.");
+  assert.equal(spokenText("The sign ≠ marks the difference.", "en"), "The sign ≠ marks the difference.");
+  assert.equal(spokenText("The area is 5 km².", "en"), "The area is 5 km².");
+});
+
 test("mots anglais lus à la française, session 2, lot 2", () => {
   assert.equal(spokenText("La campaign, le funnel, la brand et l'investor parlent d'un unicorn, d'une merger, de la governance et de l'insurance."),
     "La kem-pène, le feu-nèle, la brènde et l'ine-vesse-teur parlent d'un you-ni-corne, d'une meur-djeur, de la go-veur-nasse et de l'ine-chou-rasse.");
