@@ -122,6 +122,12 @@ const LEXICON_EN = new Map(Object.entries({
   "dégouliner": "day-goo-lee-nay", "déléguer": "day-lay-gay", "délivrable": "day-lee-vrah-bull", "délocaliser": "day-loh-kah-lee-zay",
   "dépassé": "day-pah-say", "désir": "day-zeer", "dirigé": "dee-ree-zhay", "échange": "eh-shahnzh",
   "échelons": "eh-shlon", "écologique": "eh-koh-loh-zheek", "économique": "eh-koh-noh-meek", "élégance": "eh-lay-gahns",
+  // Mots français des cours anglais, session 6 (2026-10-27), lot 3.
+  "éloignée": "eh-loo-ah-nay", "employés": "ahn-ploo-ah-yay", "entêté": "ahn-tet-tay", "épuiser": "eh-poo-ee-zay",
+  "équipe": "eh-keep", "équitable": "eh-kee-tah-bull", "ères": "air", "état": "eh-tah",
+  "étudiants": "eh-tew-dyahn", "évènement": "eh-ven-mahn", "évident": "eh-vee-dahn", "éviter": "eh-vee-tay",
+  "évoluer": "eh-voh-loo-eh", "exercice": "egg-zair-seess", "extrinsèque": "ek-stran-sek", "famille": "fah-mee",
+  "fêtes": "fet", "figuré": "fee-goo-ray", "financière": "fee-nahn-see-air", "financières": "fee-nahn-see-air",
 }));
 
 // Pluriel anglais dont le singulier est une entrée française : « parties » ne

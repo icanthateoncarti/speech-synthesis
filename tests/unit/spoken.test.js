@@ -304,6 +304,19 @@ test("mots français des cours anglais, session 6, lot 2", () => {
     "dee-ree-zhay, eh-shahnzh, eh-shlon, eh-koh-loh-zheek, eh-koh-noh-meek et eh-lay-gahns.");
 });
 
+test("mots français des cours anglais, session 6, lot 3", () => {
+  assert.equal(spokenText("Éloignée, employés, entêté et épuiser.", "en"),
+    "eh-loo-ah-nay, ahn-ploo-ah-yay, ahn-tet-tay et eh-poo-ee-zay.");
+  assert.equal(spokenText("L équipe équitable, les ères et l état.", "en"),
+    "L eh-keep eh-kee-tah-bull, les air et l eh-tah.");
+  assert.equal(spokenText("Étudiants, évènement, évident et éviter.", "en"),
+    "eh-tew-dyahn, eh-ven-mahn, eh-vee-dahn et eh-vee-tay.");
+  assert.equal(spokenText("Évoluer, exercice, extrinsèque et famille.", "en"),
+    "eh-voh-loo-eh, egg-zair-seess, ek-stran-sek et fah-mee.");
+  assert.equal(spokenText("Fêtes, figuré, financière et financières.", "en"),
+    "fet, fee-goo-ray, fee-nahn-see-air et fee-nahn-see-air.");
+});
+
 test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
   assert.equal(spokenText("J'ai mis mon pull."), "J'ai mis mon pull.");
   assert.equal(spokenText("Le planning de la semaine."), "Le pla-ninng de la semaine.");
