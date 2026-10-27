@@ -228,6 +228,18 @@ test("mots français des cours anglais réécrits pour la voix anglaise", () => 
     "Paris, Belgium, Brussels, a café and a résumé.");
 });
 
+test("mots français des cours anglais, lot 2", () => {
+  assert.equal(spokenText("We must gérer, élaborer, réaliser et améliorer.", "en"),
+    "We must zheh-ray, el-ah-bor-eh, reh-ah-lee-zay et ah-mel-yaw-ray.");
+  assert.equal(spokenText("Contrôler l'entreprise et la récompense.", "en"),
+    "kon-troh-lay l'ahn-trer-preez et la re-kom-pahns.");
+  assert.equal(spokenText("Adaptée, ans et budgétaires.", "en"), "ah-dahp-tay, awn et bood-zhe-tair.");
+  assert.equal(spokenText("Les compétences, créer et établir.", "en"), "Les kom-pet-ahns, kree-eh et et-ah-bleer.");
+  assert.equal(spokenText("Défendez, définir, un délai et des délais.", "en"),
+    "de-fahn-dez, de-fee-neer, un de-let et des de-let.");
+  assert.equal(spokenText("La déroulée, dérouler et la durée.", "en"), "La deh-roo-lay, deh-roo-lay et la dew-ray.");
+});
+
 test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
   assert.equal(spokenText("J'ai mis mon pull."), "J'ai mis mon pull.");
   assert.equal(spokenText("Le planning de la semaine."), "Le pla-ninng de la semaine.");

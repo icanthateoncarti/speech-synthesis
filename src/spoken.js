@@ -85,6 +85,13 @@ const LEXICON_EN = new Map(Object.entries({
   "objectif": "ob-zhek-teef", "objectifs": "ob-zhek-teef", "résoudre": "re-zood",
   "travail": "trah-vah-ee", "achevée": "ah-shev", "décision": "de-see-zhon",
   "donné": "daw-nay", "donnée": "daw-nay", "échéance": "e-she-ahns", "partie": "par-tee",
+  "gérer": "zheh-ray", "élaborer": "el-ah-bor-eh", "réaliser": "reh-ah-lee-zay",
+  "améliorer": "ah-mel-yaw-ray", "contrôler": "kon-troh-lay", "entreprise": "ahn-trer-preez",
+  "récompense": "re-kom-pahns", "adaptée": "ah-dahp-tay", "ans": "awn",
+  "budgétaires": "bood-zhe-tair", "compétences": "kom-pet-ahns", "créer": "kree-eh",
+  "établir": "et-ah-bleer", "défendez": "de-fahn-dez", "définir": "de-fee-neer",
+  "délai": "de-let", "délais": "de-let", "déroulée": "deh-roo-lay",
+  "dérouler": "deh-roo-lay", "durée": "dew-ray",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
