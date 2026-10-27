@@ -69,9 +69,8 @@ const LEXICON = new Map(Object.entries({
   distributor: "disse-tri-biou-teur", purchaser: "peur-tché-seur",
   merchandiser: "meur-tcheune-dai-zeur",
   // Mots anglais relevés dans les cours français, session 3 (2026-10-27).
-  instagram: "ine-sta-grem", influencers: "ine-flou-eun-seurs", online: "onne-laïne",
-  computer: "keum-piou-teur", study: "steu-di", youtube: "you-toube", moodle: "mou-deul",
-  missing: "missinng",
+  online: "onne-laïne", computer: "keum-piou-teur", study: "steu-di",
+  moodle: "mou-deul", missing: "missinng",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
