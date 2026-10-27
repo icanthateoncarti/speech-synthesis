@@ -74,10 +74,11 @@ const LEXICON = new Map(Object.entries({
 }));
 
 // Mots français rencontrés dans les cours anglais : réécrits en graphie anglaise
-// pour que la voix anglaise approche les sons français. Vérifiés un à un dans le
-// phonémiseur anglais (pas de eɪ, aɪ ni ɚ quand une graphie plus proche existe).
-// Les mots que les anglophones disent déjà à l'anglaise (Paris, Belgium, café,
-// résumé…) restent volontairement hors de ce dictionnaire.
+// pour que la voix anglaise approche les sons français. Chaque forme a été
+// vérifiée dans le phonémiseur anglais ; quand aucun son anglais ne correspond
+// exactement, la graphie la plus proche est gardée. Les mots que les anglophones
+// disent déjà à l'anglaise (Paris, Belgium, café, résumé…) restent volontairement
+// hors de ce dictionnaire.
 const LEXICON_EN = new Map(Object.entries({
   "à": "ah", "développer": "dev-lawp", "être": "et", "prévisible": "prev-ee-zee-bull",
   "dépasser": "de-pahss", "temps": "tawn", "tâche": "tahsh", "projet": "praw-zhet",
@@ -110,6 +111,10 @@ const LEXICON_EN = new Map(Object.entries({
   "passée": "pahss", "développe": "dev-lawp", "développement": "dev-lawp-mahn",
 }));
 
+// Pluriel anglais dont le singulier est une entrée française : « parties » ne
+// doit pas devenir « par-tee ».
+const ENGLISH_KEEP = new Set(["parties"]);
+
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
 const ACRONYM_WORDS = new Set(["ONU", "OTAN", "NASA", "OVNI", "SIDA", "ISO", "IKEA", "CAF", "UNIF"]);
 const LETTERS = /^\p{Lu}+$/u;
@@ -128,6 +133,7 @@ function pronounce(token, previous, next, lang) {
   }
   if (lang === "en") {
     const lower = token.toLocaleLowerCase("en");
+    if (ENGLISH_KEEP.has(lower)) return token;
     return LEXICON_EN.get(lower) ?? (lower.endsWith("s") ? LEXICON_EN.get(lower.slice(0, -1)) : undefined) ?? token;
   }
   if (lang !== "fr") return token;

@@ -273,6 +273,10 @@ test("mots français des cours anglais, lot 4", () => {
 test("mots français des cours anglais, formes proches", () => {
   assert.equal(spokenText("The passée and développe forms.", "en"), "The pahss and dev-lawp forms.");
   assert.equal(spokenText("Le développement est là.", "en"), "Le dev-lawp-mahn est là.");
+  // « parties » est un mot anglais : le pluriel de « partie » ne s'applique pas.
+  assert.equal(spokenText("Both parties agree.", "en"), "Both parties agree.");
+  // À vérifier : le pluriel français « parties » reste donc lui aussi inchangé.
+  assert.equal(spokenText("Les parties prenantes.", "en"), "Les parties prenantes.");
 });
 
 test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
