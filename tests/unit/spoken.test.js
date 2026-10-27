@@ -228,6 +228,13 @@ test("mots anglais lus à la française, session 2, lot 1", () => {
     "Le seu-plaï-eur, le pro-kiou-meurt et la lo-djisse-tik couvrent la trasse-por-té-cheune, la di-mad, la re-ve-niou, la mar-djine, les o-pé-ré-cheune et la va-lou avant le di-ploï-meurte.");
 });
 
+test("mots anglais relevés dans les cours français, session 3", () => {
+  assert.equal(spokenText("Instagram et YouTube restent online sur Moodle."),
+    "ine-sta-grem et you-toube restent onne-laïne sur mou-deul.");
+  assert.equal(spokenText("Le study, le computer et les influencers sont dans la salle."),
+    "Le steu-di, le keum-piou-teur et les ine-flou-eun-seurs sont dans la salle.");
+});
+
 test("mots anglais lus à la française, session 2, lot 2", () => {
   assert.equal(spokenText("La campaign, le funnel, la brand et l'investor parlent d'un unicorn, d'une merger, de la governance et de l'insurance."),
     "La kem-pène, le feu-nèle, la brènde et l'ine-vesse-teur parlent d'un you-ni-corne, d'une meur-djeur, de la go-veur-nasse et de l'ine-chou-rasse.");
