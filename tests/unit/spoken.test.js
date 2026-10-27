@@ -231,14 +231,14 @@ test("mots français des cours anglais réécrits pour la voix anglaise", () => 
 
 test("mots français des cours anglais, lot 2", () => {
   assert.equal(spokenText("We must gérer, élaborer, réaliser et améliorer.", "en"),
-    "We must zheh-ray, eh-lah-bo-ray, reh-ah-lee-zay et ah-mel-yaw-ray.");
+    "We must zheh-ray, eh-lah-bo-ray, ray-ah-lee-zay et ah-mel-yaw-ray.");
   assert.equal(spokenText("Contrôler l'entreprise et la récompense.", "en"),
     "kon-troh-lay l'ahn-trer-preez et la ray-kom-pahns.");
   assert.equal(spokenText("Adaptée, ans et budgétaires.", "en"), "ah-dahp-tay, awn et bood-zhay-tair.");
   assert.equal(spokenText("Les compétences, créer et établir.", "en"), "Les kom-pay-tahns, kray-eh et eh-tah-bleer.");
   assert.equal(spokenText("Défendez, définir, un délai et des délais.", "en"),
     "day-fahn-day, day-fee-neer, un day-leh et des day-leh.");
-  assert.equal(spokenText("La déroulée, dérouler et la durée.", "en"), "La deh-roo-lay, deh-roo-lay et la dew-ray.");
+  assert.equal(spokenText("La déroulée, dérouler et la durée.", "en"), "La day-roo-lay, day-roo-lay et la dew-ray.");
 });
 
 test("mots français des cours anglais, lot 3", () => {
@@ -262,7 +262,7 @@ test("mots français des cours anglais, lot 4", () => {
     "La zhest-yon an-tran-sek et la mah-nee-air.");
   assert.equal(spokenText("Motivé and opérationnels.", "en"), "maw-tee-vay and aw-peh-rah-syo-nel.");
   assert.equal(spokenText("Réalisable, réalisation et règlement.", "en"),
-    "reh-ah-lee-zah-bull, reh-ah-lee-zah-syohn et reh-gluh-mahn.");
+    "ray-ah-lee-zah-bull, ray-ah-lee-zah-syohn et reh-gluh-mahn.");
   assert.equal(spokenText("La rémunération, terminé et qualité.", "en"),
     "La ray-mew-nay-rah-syohn, ter-mee-nay et kah-lee-tay.");
   assert.equal(spokenText("Le propriétaire, la capacité et le présent.", "en"),
