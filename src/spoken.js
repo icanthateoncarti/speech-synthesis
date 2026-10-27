@@ -110,6 +110,12 @@ const LEXICON_EN = new Map(Object.entries({
   "présent": "preh-zahn", "activité": "ahk-tee-vee-tay", "année": "ah-nay",
   "bien-être": "byan-et-ruh",
   "passée": "pah-say", "développe": "day-vlawp", "développement": "day-vlawp-mahn",
+  // Mots français des cours anglais, session 6 (2026-10-27), lot 1.
+  "accès": "ahk-seh", "acquérir": "ah-kay-reer", "adopté": "ah-dawp-tay", "agréable": "ah-gray-ah-bull",
+  "américain": "ah-may-ree-kan", "antérieure": "ahn-tay-ree-ur", "assisté": "ah-siss-tay", "associée": "ah-soh-say",
+  "atténuer": "ah-tay-nway", "autorisé": "oh-toh-ree-zay", "basé": "bah-zay", "basée": "bah-zay",
+  "bâton": "bah-tawn", "célèbre": "say-leb-r", "chaîne": "shen", "chargé": "shar-zhay",
+  "chargée": "shar-zhay", "chronométrer": "kroh-noh-may-tray", "commencé": "koh-mahn-say", "commencée": "koh-mahn-say",
 }));
 
 // Pluriel anglais dont le singulier est une entrée française : « parties » ne

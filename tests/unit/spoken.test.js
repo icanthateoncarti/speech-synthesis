@@ -280,6 +280,18 @@ test("mots français des cours anglais, formes proches", () => {
   assert.equal(spokenText("Les parties prenantes.", "en"), "Les parties prenantes.");
 });
 
+test("mots français des cours anglais, session 6, lot 1", () => {
+  assert.equal(spokenText("The accès and acquérir.", "en"), "The ahk-seh and ah-kay-reer.");
+  assert.equal(spokenText("Adopté, agréable, américain et antérieure.", "en"),
+    "ah-dawp-tay, ah-gray-ah-bull, ah-may-ree-kan et ahn-tay-ree-ur.");
+  assert.equal(spokenText("Assisté, associée, atténuer et autorisé.", "en"),
+    "ah-siss-tay, ah-soh-say, ah-tay-nway et oh-toh-ree-zay.");
+  assert.equal(spokenText("Basé, basée, bâton, célèbre et chaîne.", "en"),
+    "bah-zay, bah-zay, bah-tawn, say-leb-r et shen.");
+  assert.equal(spokenText("Chargé, chargée, chronométrer, commencé et commencée.", "en"),
+    "shar-zhay, shar-zhay, kroh-noh-may-tray, koh-mahn-say et koh-mahn-say.");
+});
+
 test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
   assert.equal(spokenText("J'ai mis mon pull."), "J'ai mis mon pull.");
   assert.equal(spokenText("Le planning de la semaine."), "Le pla-ninng de la semaine.");
