@@ -73,6 +73,20 @@ const LEXICON = new Map(Object.entries({
   moodle: "mou-deul", missing: "missinng",
 }));
 
+// Mots français rencontrés dans les cours anglais : réécrits en graphie anglaise
+// pour que la voix anglaise approche les sons français. Vérifiés un à un dans le
+// phonémiseur anglais (pas de eɪ, aɪ ni ɚ quand une graphie plus proche existe).
+// Les mots que les anglophones disent déjà à l'anglaise (Paris, Belgium, café,
+// résumé…) restent volontairement hors de ce dictionnaire.
+const LEXICON_EN = new Map(Object.entries({
+  "à": "ah", "développer": "dev-lawp", "être": "et", "prévisible": "prev-ee-zee-bull",
+  "dépasser": "de-pahss", "temps": "tawn", "tâche": "tahsh", "projet": "praw-zhet",
+  "passé": "pahss", "problème": "praw-blem", "défi": "de-fee", "étape": "e-tahp",
+  "objectif": "ob-zhek-teef", "objectifs": "ob-zhek-teef", "résoudre": "re-zood",
+  "travail": "trah-vah-ee", "achevée": "ah-shev", "décision": "de-see-zhon",
+  "donné": "daw-nay", "donnée": "daw-nay", "échéance": "e-she-ahns", "partie": "par-tee",
+}));
+
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
 const ACRONYM_WORDS = new Set(["ONU", "OTAN", "NASA", "OVNI", "SIDA", "ISO", "IKEA", "CAF", "UNIF"]);
 const LETTERS = /^\p{Lu}+$/u;
@@ -88,6 +102,10 @@ function pronounce(token, previous, next, lang) {
   // Un titre en capitales (« LE FIL ROUGE ») n'est pas une suite de sigles.
   if (acronym && !ROMAN.test(acronym[1]) && !ACRONYM_WORDS.has(acronym[1]) && !capsWord(previous) && !capsWord(next)) {
     return [...acronym[1]].join(" ");
+  }
+  if (lang === "en") {
+    const lower = token.toLocaleLowerCase("en");
+    return LEXICON_EN.get(lower) ?? (lower.endsWith("s") ? LEXICON_EN.get(lower.slice(0, -1)) : undefined) ?? token;
   }
   if (lang !== "fr") return token;
   const lower = token.toLocaleLowerCase("fr");

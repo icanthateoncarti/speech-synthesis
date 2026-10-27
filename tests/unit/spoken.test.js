@@ -204,6 +204,30 @@ test("règles de lecture en anglais : parenthèses, guillemets, flèche, &, sans
     "Demand, in parentheses, forecast, is, in quotes, key, to stock and orders, the K P I dashboard.");
 });
 
+test("mots français des cours anglais réécrits pour la voix anglaise", () => {
+  assert.equal(spokenText("The word à and the verb être.", "en"), "The word ah and the verb et.");
+  assert.equal(spokenText("We must développer, dépasser et résoudre le problème.", "en"),
+    "We must dev-lawp, de-pahss et re-zood le praw-blem.");
+  assert.equal(spokenText("The prévisible projet has a défi and a tâche.", "en"),
+    "The prev-ee-zee-bull praw-zhet has a de-fee and a tahsh.");
+  assert.equal(spokenText("The étape and the échéance are part of the travail.", "en"),
+    "The e-tahp and the e-she-ahns are part of the trah-vah-ee.");
+  assert.equal(spokenText("The décision was donnée after the partie.", "en"),
+    "The de-see-zhon was daw-nay after the par-tee.");
+  assert.equal(spokenText("The objectif and objectifs are clear.", "en"), "The ob-zhek-teef and ob-zhek-teef are clear.");
+  assert.equal(spokenText("The passé and achevée forms are useful.", "en"), "The pahss and ah-shev forms are useful.");
+  assert.equal(spokenText("The temps is short.", "en"), "The tawn is short.");
+  // Pluriels et majuscules passent par la même entrée.
+  assert.equal(spokenText("Des projets, des étapes et des décisions.", "en"),
+    "Des praw-zhet, des e-tahp et des de-see-zhon.");
+  assert.equal(spokenText("Développer le PROJET.", "en"), "dev-lawp le praw-zhet.");
+  // La voix française garde sa prononciation habituelle.
+  assert.equal(spokenText("Le projet et la décision.", "fr"), "Le projet et la décision.");
+  // Mots que les anglophones disent déjà à l'anglaise : jamais réécrits.
+  assert.equal(spokenText("Paris, Belgium, Brussels, a café and a résumé.", "en"),
+    "Paris, Belgium, Brussels, a café and a résumé.");
+});
+
 test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
   assert.equal(spokenText("J'ai mis mon pull."), "J'ai mis mon pull.");
   assert.equal(spokenText("Le planning de la semaine."), "Le pla-ninng de la semaine.");
