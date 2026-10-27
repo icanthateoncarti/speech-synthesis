@@ -66,15 +66,15 @@ test("numéros de page : chiffres arabes et romains regroupés", () => {
 });
 
 test("textes qui ressemblent à un en-tête : titres exclus, nombre identique gardé", () => {
-  for (const title of ["Chapitre 1 : Variables", "Chapter II", "Section 3", "Module IV", "Unité 2", "Lesson 4", "Leçon 2"]) {
+  for (const title of ["Chapitre 1 : Variables", "Chapter II", "Section 3", "Module IV", "Unité 2", "Lesson 4", "Leçon 2", "Partie A", "Section B", "Part C"]) {
     assert.deepEqual(repeatedNoise([fragment(title, 0, 0), fragment(title, 1, 100)], 2), [], title);
   }
   // Un nombre identique répété garde son propre texte, pas « Numéros de page ».
   assert.deepEqual(repeatedNoise([fragment("2026", 0, 0), fragment("2026", 1, 10)], 2).map((item) => item.text), ["2026"]);
   // Des nombres différents forment bien le groupe des numéros de page.
   assert.deepEqual(repeatedNoise([fragment("2026", 0, 0), fragment("2027", 1, 10)], 2).map((item) => item.text), ["Numéros de page"]);
-  // À vérifier : « Partie A » n’est pas reconnu par la règle des titres de chapitre.
-  assert.deepEqual(repeatedNoise([fragment("Partie A", 0, 0), fragment("Partie A", 1, 10)], 2).map((item) => item.text), ["Partie A"]);
+  // « Part of the course » n’est pas un titre de chapitre : le texte reste proposé.
+  assert.deepEqual(repeatedNoise([fragment("Part of the course", 0, 0), fragment("Part of the course", 1, 10)], 2).map((item) => item.text), ["Part of the course"]);
 });
 
 test("puces, casse et espaces regroupés ; ligne trop longue ou vide ignorée", () => {
