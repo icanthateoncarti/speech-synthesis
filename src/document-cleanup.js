@@ -2,10 +2,11 @@ import { readRanges, subtractRange, excerpt } from "./selection.js";
 
 const CHAPTER = /^(?:chapitre|chapter|partie|part|section|module|unité|unit|lesson|leçon)\s+(?:\d+|[ivxlcdm]+)(?:\b|[.:–—-])/iu;
 const PAGE_NUMBER = /^(?:(?:page|slide|diapo)\s*)?\d+\s*(?:(?:\/|sur|of)\s*\d+)?$/iu;
+const ROMAN_PAGE = /^[ivxlcdm]{1,8}$/iu;
 const normalizeKey = (text) => text.toLocaleLowerCase("fr").replace(/\s+/gu, " ");
 
 function pageNumberValue(text) {
-  return PAGE_NUMBER.test(text) ? normalizeKey(text) : null;
+  return PAGE_NUMBER.test(text) || ROMAN_PAGE.test(text) ? normalizeKey(text) : null;
 }
 
 // Propositions seulement : jamais de suppression automatique. Les répétitions

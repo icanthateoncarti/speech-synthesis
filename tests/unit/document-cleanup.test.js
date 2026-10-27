@@ -56,13 +56,12 @@ test("document vide, page unique, en-tête présent sur toutes les pages sauf un
   assert.deepEqual(repeatedNoise([fragment("En-tête", 0, 0), fragment("En-tête", 1, 10)], 5), []);
 });
 
-test("numéros de page : chiffres arabes regroupés, chiffres romains non reconnus", () => {
+test("numéros de page : chiffres arabes et romains regroupés", () => {
   const arabic = [fragment("1", 0, 0), fragment("2", 1, 10), fragment("Page 3 / 3", 2, 20)];
   assert.deepEqual(repeatedNoise(arabic, 3).map((item) => item.text), ["Numéros de page"]);
-  // À vérifier : PAGE_NUMBER n’accepte que les chiffres arabes. Des numéros
-  // romains distincts ne sont donc jamais proposés.
-  assert.deepEqual(repeatedNoise([fragment("I", 0, 0), fragment("II", 1, 10), fragment("III", 2, 20)], 3), []);
-  // Un même numéro romain répété est proposé comme un en-tête ordinaire.
+  // Des numéros romains distincts suivent la même règle que les chiffres arabes.
+  assert.deepEqual(repeatedNoise([fragment("I", 0, 0), fragment("II", 1, 10), fragment("III", 2, 20)], 3).map((item) => item.text), ["Numéros de page"]);
+  // Un même numéro romain répété garde son propre texte.
   assert.deepEqual(repeatedNoise([fragment("IV", 0, 0), fragment("IV", 1, 10), fragment("IV", 2, 20)], 3).map((item) => item.text), ["IV"]);
 });
 
