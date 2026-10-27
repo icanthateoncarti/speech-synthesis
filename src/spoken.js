@@ -128,6 +128,12 @@ const LEXICON_EN = new Map(Object.entries({
   "étudiants": "eh-tew-dyahn", "évènement": "eh-ven-mahn", "évident": "eh-vee-dahn", "éviter": "eh-vee-tay",
   "évoluer": "eh-voh-loo-eh", "exercice": "egg-zair-seess", "extrinsèque": "ek-stran-sek", "famille": "fah-mee",
   "fêtes": "fet", "figuré": "fee-goo-ray", "financière": "fee-nahn-see-air", "financières": "fee-nahn-see-air",
+  // Mots français des cours anglais, session 6 (2026-10-27), lot 4.
+  "français": "frahn-say", "gérant": "zhay-rahn", "géré": "zhay-ray", "hiérarchique": "yay-rar-sheek",
+  "horaire": "oh-rair", "hypothèse": "ee-poh-tez", "idée": "ee-day", "idées": "ee-day",
+  "inadéquation": "ee-nah-day-kwah-syon", "indiquée": "an-dee-kay", "intérêt": "ahn-tay-ray", "inventée": "an-vahn-tay",
+  "irrégulières": "ee-ray-goo-lee-air", "isolée": "ee-zoh-lay", "juvénile": "zhoo-vay-neel", "éloge": "eh-lohzh",
+  "exécution": "egg-zay-kew-syon", "lancé": "lahn-say", "maîtrise": "may-treez", "mathématiques": "mah-tay-mah-teek",
 }));
 
 // Pluriel anglais dont le singulier est une entrée française : « parties » ne

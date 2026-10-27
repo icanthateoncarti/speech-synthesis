@@ -317,6 +317,19 @@ test("mots français des cours anglais, session 6, lot 3", () => {
     "fet, fee-goo-ray, fee-nahn-see-air et fee-nahn-see-air.");
 });
 
+test("mots français des cours anglais, session 6, lot 4", () => {
+  assert.equal(spokenText("Français, gérant, géré et hiérarchique.", "en"),
+    "frahn-say, zhay-rahn, zhay-ray et yay-rar-sheek.");
+  assert.equal(spokenText("Horaire, hypothèse, idée et idées.", "en"),
+    "oh-rair, ee-poh-tez, ee-day et ee-day.");
+  assert.equal(spokenText("Inadéquation, indiquée, intérêt et inventée.", "en"),
+    "ee-nah-day-kwah-syon, an-dee-kay, ahn-tay-ray et an-vahn-tay.");
+  assert.equal(spokenText("Irrégulières, isolée, juvénile et éloge.", "en"),
+    "ee-ray-goo-lee-air, ee-zoh-lay, zhoo-vay-neel et eh-lohzh.");
+  assert.equal(spokenText("Exécution, lancé, maîtrise et mathématiques.", "en"),
+    "egg-zay-kew-syon, lahn-say, may-treez et mah-tay-mah-teek.");
+});
+
 test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
   assert.equal(spokenText("J'ai mis mon pull."), "J'ai mis mon pull.");
   assert.equal(spokenText("Le planning de la semaine."), "Le pla-ninng de la semaine.");
