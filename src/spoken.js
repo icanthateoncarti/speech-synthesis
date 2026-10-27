@@ -73,6 +73,48 @@ const LEXICON = new Map(Object.entries({
   moodle: "mou-deul", missing: "missinng",
 }));
 
+// Mots français rencontrés dans les cours anglais : réécrits en graphie anglaise
+// pour que la voix anglaise approche les sons français. Chaque forme a été
+// vérifiée dans le phonémiseur anglais ; quand aucun son anglais ne correspond
+// exactement, la graphie la plus proche est gardée. Les mots que les anglophones
+// disent déjà à l'anglaise (Paris, Belgium, café, résumé…) restent volontairement
+// hors de ce dictionnaire.
+const LEXICON_EN = new Map(Object.entries({
+  "à": "ah", "développer": "dev-lawp", "être": "et", "prévisible": "prev-ee-zee-bull",
+  "dépasser": "de-pahss", "temps": "tawn", "tâche": "tahsh", "projet": "praw-zhet",
+  "passé": "pahss", "problème": "praw-blem", "défi": "de-fee", "étape": "e-tahp",
+  "objectif": "ob-zhek-teef", "objectifs": "ob-zhek-teef", "résoudre": "re-zood",
+  "travail": "trah-vah-ee", "achevée": "ah-shev", "décision": "de-see-zhon",
+  "donné": "daw-nay", "donnée": "daw-nay", "échéance": "e-she-ahns", "partie": "par-tee",
+  "gérer": "zheh-ray", "élaborer": "el-ah-bor-eh", "réaliser": "reh-ah-lee-zay",
+  "améliorer": "ah-mel-yaw-ray", "contrôler": "kon-troh-lay", "entreprise": "ahn-trer-preez",
+  "récompense": "re-kom-pahns", "adaptée": "ah-dahp-tay", "ans": "awn",
+  "budgétaires": "bood-zhe-tair", "compétences": "kom-pet-ahns", "créer": "kree-eh",
+  "établir": "et-ah-bleer", "défendez": "de-fahn-dez", "définir": "de-fee-neer",
+  "délai": "de-let", "délais": "de-let", "déroulée": "deh-roo-lay",
+  "dérouler": "deh-roo-lay", "durée": "dew-ray",
+  "enquête": "ahn-ket", "êtes": "et", "intérêts": "ahn-tay-ray", "méthode": "met-awd",
+  "paramètres": "pa-ra-metr", "réponse": "re-pawns", "représentez": "re-pre-zahn-tez",
+  "utilisé": "ew-tee-lee-zay", "améliorations": "ah-mel-yaw-rah-syohn",
+  "antérieur": "ahn-tay-ryer", "aperçu": "ah-pair-sue", "après": "ah-press",
+  "compétence": "kom-pet-ahns", "comptabilité": "kon-tah-bee-lee-tay", "déjà": "de-zhah",
+  "demande": "de-mahnd", "développé": "dev-lawp", "diplôme": "dee-plohm",
+  "façon": "fah-sawn", "général": "zheh-neh-rahl", "générale": "zheh-neh-rahl",
+  "échéancier": "e-she-ahn-see", "expérience": "ek-spe-ree-ahns", "extra-légal": "ek-strah-le-gahl",
+  "gestion": "zhes-chon", "intrinsèque": "an-tran-sek", "manière": "mah-nee-air",
+  "motivé": "maw-tee-vay", "opérationnels": "aw-peh-rah-syo-nel",
+  "réalisable": "reh-ah-lee-zah-bull", "réalisation": "reh-ah-lee-zah-syohn",
+  "règlement": "reh-gluh-mahn", "rémunération": "re-mew-neh-rah-syohn", "terminé": "ter-mee-nay",
+  "qualité": "kah-lee-tay", "propriétaire": "pro-pree-eh-tair", "capacité": "kah-pah-see-tay",
+  "présent": "preh-zahn", "activité": "ahk-tee-vee-tay", "année": "ah-nay",
+  "bien-être": "byan-et-ruh",
+  "passée": "pahss", "développe": "dev-lawp", "développement": "dev-lawp-mahn",
+}));
+
+// Pluriel anglais dont le singulier est une entrée française : « parties » ne
+// doit pas devenir « par-tee ».
+const ENGLISH_KEEP = new Set(["parties"]);
+
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
 const ACRONYM_WORDS = new Set(["ONU", "OTAN", "NASA", "OVNI", "SIDA", "ISO", "IKEA", "CAF", "UNIF"]);
 const LETTERS = /^\p{Lu}+$/u;
@@ -88,6 +130,11 @@ function pronounce(token, previous, next, lang) {
   // Un titre en capitales (« LE FIL ROUGE ») n'est pas une suite de sigles.
   if (acronym && !ROMAN.test(acronym[1]) && !ACRONYM_WORDS.has(acronym[1]) && !capsWord(previous) && !capsWord(next)) {
     return [...acronym[1]].join(" ");
+  }
+  if (lang === "en") {
+    const lower = token.toLocaleLowerCase("en");
+    if (ENGLISH_KEEP.has(lower)) return token;
+    return LEXICON_EN.get(lower) ?? (lower.endsWith("s") ? LEXICON_EN.get(lower.slice(0, -1)) : undefined) ?? token;
   }
   if (lang !== "fr") return token;
   const lower = token.toLocaleLowerCase("fr");

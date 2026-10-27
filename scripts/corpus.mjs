@@ -12,6 +12,7 @@
 import { readFile, readdir, stat, writeFile, mkdir } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { startServer, launch } from "../tests/e2e/harness.mjs";
 
 // ~/Downloads est fouillé à la racine seulement : les sous-dossiers contiennent
@@ -35,7 +36,7 @@ const includeScreenshots = Boolean(args.get("all"));
 const today = new Date().toLocaleDateString("fr-CA"); // AAAA-MM-JJ
 const reportPath = String(args.get("report") ?? path.join(os.homedir(), "inbox", `corpus-speechsynthe-${today}.md`));
 
-async function* walk(dir, depth = Infinity) {
+async function* walk(dir, depth = Infinity, includeScreenshots = false) {
   let entries;
   try {
     entries = await readdir(dir, { withFileTypes: true });
@@ -46,17 +47,19 @@ async function* walk(dir, depth = Infinity) {
     if (entry.name.startsWith(".")) continue;
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (depth > 1) yield* walk(full, depth - 1);
+      if (depth > 1) yield* walk(full, depth - 1, includeScreenshots);
     } else if (entry.isFile() && /\.(pdf|pptx)$/i.test(entry.name) && (includeScreenshots || !/^screencapture-/i.test(entry.name))) {
       yield full;
     }
   }
 }
 
-async function listFiles() {
+// Exporté pour `scripts/mots-francais.mjs` : la liste et l'extraction restent
+// identiques au banc d'essai, seul le comptage change.
+export async function listFiles({ limit = MAX_FILES, includeScreenshots = false } = {}) {
   const found = [];
   for (const root of ROOTS) {
-    for await (const file of walk(root.dir, root.depth)) {
+    for await (const file of walk(root.dir, root.depth, includeScreenshots)) {
       try {
         const info = await stat(file);
         found.push({ path: file, size: info.size, mtime: info.mtimeMs });
@@ -162,7 +165,7 @@ async function extractInPage(page, file) {
   }, { name: path.basename(file.path), type: /\.pptx$/i.test(file.path) ? "PPTX" : "PDF", base64 });
 }
 
-function relative(file) {
+export function relative(file) {
   const home = os.homedir() + path.sep;
   return file.path.startsWith(home) ? file.path.slice(home.length) : file.path;
 }
@@ -263,30 +266,33 @@ function buildReport(rows, startedAt) {
   return lines.join("\n");
 }
 
-const files = await listFiles();
-const server = await startServer();
-const { browser, page } = await launch();
-const rows = [];
-const startedAt = new Date();
-try {
-  await page.goto(server.url);
-  await page.waitForSelector("#key-speak", { timeout: 30_000 });
-  // Prépare les modules (et le worker PDF.js) hors mesure du premier fichier.
-  await page.evaluate(async () => { await import("/src/pdf.js"); await import("/src/pptx.js"); });
-  for (const [index, file] of files.entries()) {
-    process.stderr.write(`[${index + 1}/${files.length}] ${relative(file)}… `);
-    const result = await extractInPage(page, file);
-    rows.push({ file, type: /\.pptx$/i.test(file.path) ? "PPTX" : "PDF", ...result });
-    process.stderr.write(result.ok
-      ? `${result.chars} car., ${result.chapterCount} chap., ${formatDuration(result.durationMs)}\n`
-      : `ERREUR ${result.error.name} : ${result.error.message}\n`);
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+if (isMain) {
+  const files = await listFiles({ limit, includeScreenshots });
+  const server = await startServer();
+  const { browser, page } = await launch();
+  const rows = [];
+  const startedAt = new Date();
+  try {
+    await page.goto(server.url);
+    await page.waitForSelector("#key-speak", { timeout: 30_000 });
+    // Prépare les modules (et le worker PDF.js) hors mesure du premier fichier.
+    await page.evaluate(async () => { await import("/src/pdf.js"); await import("/src/pptx.js"); });
+    for (const [index, file] of files.entries()) {
+      process.stderr.write(`[${index + 1}/${files.length}] ${relative(file)}… `);
+      const result = await extractInPage(page, file);
+      rows.push({ file, type: /\.pptx$/i.test(file.path) ? "PPTX" : "PDF", ...result });
+      process.stderr.write(result.ok
+        ? `${result.chars} car., ${result.chapterCount} chap., ${formatDuration(result.durationMs)}\n`
+        : `ERREUR ${result.error.name} : ${result.error.message}\n`);
+    }
+  } finally {
+    await browser.close();
+    await server.close();
   }
-} finally {
-  await browser.close();
-  await server.close();
-}
 
-const report = buildReport(rows, startedAt);
-await mkdir(path.dirname(reportPath), { recursive: true });
-await writeFile(reportPath, report);
-console.log(reportPath);
+  const report = buildReport(rows, startedAt);
+  await mkdir(path.dirname(reportPath), { recursive: true });
+  await writeFile(reportPath, report);
+  console.log(reportPath);
+}
