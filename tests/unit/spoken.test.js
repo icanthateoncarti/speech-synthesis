@@ -254,6 +254,22 @@ test("mots français des cours anglais, lot 3", () => {
     "De fah-sawn zheh-neh-rahl, le zheh-neh-rahl.");
 });
 
+test("mots français des cours anglais, lot 4", () => {
+  assert.equal(spokenText("The échéancier and the expérience are extra-légal.", "en"),
+    "The e-she-ahn-see and the ek-spe-ree-ahns are ek-strah-le-gahl.");
+  assert.equal(spokenText("La gestion intrinsèque et la manière.", "en"),
+    "La zhes-chon an-tran-sek et la mah-nee-air.");
+  assert.equal(spokenText("Motivé and opérationnels.", "en"), "maw-tee-vay and aw-peh-rah-syo-nel.");
+  assert.equal(spokenText("Réalisable, réalisation et règlement.", "en"),
+    "reh-ah-lee-zah-bull, reh-ah-lee-zah-syohn et reh-gluh-mahn.");
+  assert.equal(spokenText("La rémunération, terminé et qualité.", "en"),
+    "La re-mew-neh-rah-syohn, ter-mee-nay et kah-lee-tay.");
+  assert.equal(spokenText("Le propriétaire, la capacité et le présent.", "en"),
+    "Le pro-pree-eh-tair, la kah-pah-see-tay et le preh-zahn.");
+  assert.equal(spokenText("Une activité, une année et le bien-être.", "en"),
+    "Une ahk-tee-vee-tay, une ah-nay et le byan-et-ruh.");
+});
+
 test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
   assert.equal(spokenText("J'ai mis mon pull."), "J'ai mis mon pull.");
   assert.equal(spokenText("Le planning de la semaine."), "Le pla-ninng de la semaine.");

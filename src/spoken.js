@@ -99,6 +99,14 @@ const LEXICON_EN = new Map(Object.entries({
   "compétence": "kom-pet-ahns", "comptabilité": "kon-tah-bee-lee-tay", "déjà": "de-zhah",
   "demande": "de-mahnd", "développé": "dev-lawp", "diplôme": "dee-plohm",
   "façon": "fah-sawn", "général": "zheh-neh-rahl", "générale": "zheh-neh-rahl",
+  "échéancier": "e-she-ahn-see", "expérience": "ek-spe-ree-ahns", "extra-légal": "ek-strah-le-gahl",
+  "gestion": "zhes-chon", "intrinsèque": "an-tran-sek", "manière": "mah-nee-air",
+  "motivé": "maw-tee-vay", "opérationnels": "aw-peh-rah-syo-nel",
+  "réalisable": "reh-ah-lee-zah-bull", "réalisation": "reh-ah-lee-zah-syohn",
+  "règlement": "reh-gluh-mahn", "rémunération": "re-mew-neh-rah-syohn", "terminé": "ter-mee-nay",
+  "qualité": "kah-lee-tay", "propriétaire": "pro-pree-eh-tair", "capacité": "kah-pah-see-tay",
+  "présent": "preh-zahn", "activité": "ahk-tee-vee-tay", "année": "ah-nay",
+  "bien-être": "byan-et-ruh",
 }));
 
 // Sigles qu'on prononce comme un mot ; les autres sont épelés (KPI → « K P I »).
