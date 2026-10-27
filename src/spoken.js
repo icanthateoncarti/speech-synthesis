@@ -140,6 +140,12 @@ const LEXICON_EN = new Map(Object.entries({
   "période": "pay-ree-ohd", "pièces": "pee-yes", "plaît": "pleh", "planifié": "plah-nee-fee-yay",
   "première": "pruh-mee-air", "prénom": "pray-nohm", "prévisions": "pray-vee-zhon", "prévu": "pray-vew",
   "puéril": "pew-air-eel", "réalisé": "ray-ah-lee-zay", "récompenser": "ray-kom-pahn-say", "rédige": "ray-deezh",
+  // Mots français des cours anglais, session 7 (2026-10-27), lot 2.
+  "réflexion": "ray-flek-syon", "règles": "regl", "répétée": "ray-pay-tay", "répétition": "ray-pay-tee-zhon",
+  "répondre": "ray-pawn-der", "responsabilité": "ress-pawn-sah-bee-lee-tay", "résultat": "ray-zewl-tah", "réussir": "ray-ew-seer",
+  "réussite": "ray-ew-seet", "revenu": "ruh-vuh-nyew", "révolue": "ray-voh-lew", "sécurité": "say-kew-ree-tay",
+  "serrée": "sair-ray", "simultanéité": "see-mewl-tah-nay-ee-tay", "société": "soh-syay-tay", "stratégie": "strah-tay-zhee",
+  "structurées": "strewk-tew-ray", "succès": "suke-say", "supérieur": "sue-pay-ree-ur", "têtu": "tay-tyew",
 }));
 
 // Pluriel anglais dont le singulier est une entrée française : « parties » ne

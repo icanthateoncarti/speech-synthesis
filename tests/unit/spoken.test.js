@@ -301,6 +301,19 @@ test("mots français des cours anglais, session 7, lot 1", () => {
     "pew-air-eel, ray-ah-lee-zay, ray-kom-pahn-say et ray-deezh.");
 });
 
+test("mots français des cours anglais, session 7, lot 2", () => {
+  assert.equal(spokenText("Réflexion, règles, répétée et répétition.", "en"),
+    "ray-flek-syon, regl, ray-pay-tay et ray-pay-tee-zhon.");
+  assert.equal(spokenText("Répondre, responsabilité, résultat et réussir.", "en"),
+    "ray-pawn-der, ress-pawn-sah-bee-lee-tay, ray-zewl-tah et ray-ew-seer.");
+  assert.equal(spokenText("Réussite, revenu, révolue et sécurité.", "en"),
+    "ray-ew-seet, ruh-vuh-nyew, ray-voh-lew et say-kew-ree-tay.");
+  assert.equal(spokenText("Serrée, simultanéité, société et stratégie.", "en"),
+    "sair-ray, see-mewl-tah-nay-ee-tay, soh-syay-tay et strah-tay-zhee.");
+  assert.equal(spokenText("Structurées, succès, supérieur et têtu.", "en"),
+    "strewk-tew-ray, suke-say, sue-pay-ree-ur et tay-tyew.");
+});
+
 test("mots français des cours anglais, session 6, lot 1", () => {
   assert.equal(spokenText("The accès and acquérir.", "en"), "The ahk-seh and ah-kay-reer.");
   assert.equal(spokenText("Adopté, agréable, américain et antérieure.", "en"),
