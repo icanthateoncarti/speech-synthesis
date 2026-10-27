@@ -102,14 +102,25 @@ export function parseVoiceCommand(raw) {
 
   let direction;
   if (/^(?:reviens|recule|reculez|reculer|retourne|remonte)\b/.test(text)) direction = -1;
-  else if (/^(?:avance|avancez|avancer|passe|saute|skip)\b/.test(text)) direction = 1;
+  else if (/^(?:avance|avancez|avancer|va|passe|saute|skip)\b/.test(text)) direction = 1;
   else return null;
   if ((direction > 0 && / en arriere$/.test(text)) || (direction < 0 && / en avant$/.test(text))) return null;
-  text = text.replace(/^(?:reviens|recule|reculez|reculer|retourne|remonte|avance|avancez|avancer|passe|saute|skip)\b/, "").trim()
+  text = text.replace(/^(?:reviens|recule|reculez|reculer|retourne|remonte|avance|avancez|avancer|va|passe|saute|skip)\b/, "").trim()
     .replace(/^(?:en arriere|en avant) /, "")
     .replace(/^(?:jusqu aux|jusqu au|de|d) /, "")
     .replace(/ (?:en arriere|en avant)$/, "")
     .replace(/ (?:prochains?|prochaines?|suivants?|suivantes?|precedents?|precedentes?) (?=chapitres?$|phrases?$)/, " ");
+
+  // « 2 chapitres plus loin » : le suffixe confirme le sens déjà connu.
+  if (direction > 0) text = text.replace(/ plus loin$/, "");
+  // « jusqu'au chapitre suivant » ne précise pas la distance : un chapitre.
+  const adjacentTail = /^(chapitre|phrase) (precedent|precedente|suivant|suivante|prochain|prochaine)$/.exec(text);
+  if (adjacentTail) {
+    return {
+      type: adjacentTail[1] === "phrase" ? "relative-sentence" : "relative-chapter",
+      count: adjacentTail[2].startsWith("preced") ? -1 : 1,
+    };
+  }
 
   // « un quart d'heure » vaut quinze minutes.
   text = text.replace(/^(?:un )?quart d heure$/, "quinze minutes");

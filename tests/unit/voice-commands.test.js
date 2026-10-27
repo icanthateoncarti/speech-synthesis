@@ -108,17 +108,10 @@ test("les tournures naturelles comprises au fil de la session 2", () => {
     ["avance d'une minute et demie", { type: "relative-time", seconds: 90 }],
     ["avance de deux minutes et demie", { type: "relative-time", seconds: 150 }],
     ["recule de 2 minutes 30", { type: "relative-time", seconds: -150 }],
+    ["va 2 chapitres plus loin", { type: "relative-chapter", count: 2 }],
+    ["avance jusqu'au chapitre suivant", { type: "relative-chapter", count: 1 }],
   ];
   for (const [raw, expected] of cases) assert.deepEqual(parseVoiceCommand(raw), expected, raw);
-});
-
-test("formulations naturelles encore non comprises : comportement actuel verrouillé", () => {
-  // À vérifier : ces tournures naturelles ne sont pas reconnues aujourd'hui.
-  // Le test fige le comportement actuel ; le journal les liste pour Jonas.
-  for (const text of [
-    "va 2 chapitres plus loin",
-    "avance jusqu'au chapitre suivant",
-  ]) assert.equal(parseVoiceCommand(text), null, text);
 });
 
 test("le texte ordinaire et les demandes ambiguës ne déclenchent pas de navigation", () => {
