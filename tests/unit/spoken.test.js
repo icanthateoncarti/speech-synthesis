@@ -292,6 +292,18 @@ test("mots français des cours anglais, session 6, lot 1", () => {
     "shar-zhay, shar-zhay, kroh-noh-may-tray, koh-mahn-say et koh-mahn-say.");
 });
 
+test("mots français des cours anglais, session 6, lot 2", () => {
+  assert.equal(spokenText("The complète and complètement forms.", "en"), "The kom-plet and kom-plet-mahn forms.");
+  assert.equal(spokenText("Comptabilisés, confronté, conseil et cours.", "en"),
+    "kon-tah-bee-lee-zay, kon-frawn-tay, kon-sell et koor.");
+  assert.equal(spokenText("Éthique, évolution, dégouliner et déléguer.", "en"),
+    "eh-teek, eh-voh-lew-syon, day-goo-lee-nay et day-lay-gay.");
+  assert.equal(spokenText("Délivrable, délocaliser, dépassé et désir.", "en"),
+    "day-lee-vrah-bull, day-loh-kah-lee-zay, day-pah-say et day-zeer.");
+  assert.equal(spokenText("Dirigé, échange, échelons, écologique, économique et élégance.", "en"),
+    "dee-ree-zhay, eh-shahnzh, eh-shlon, eh-koh-loh-zheek, eh-koh-noh-meek et eh-lay-gahns.");
+});
+
 test("un mot anglais qui est aussi un mot français courant n'est pas réécrit", () => {
   assert.equal(spokenText("J'ai mis mon pull."), "J'ai mis mon pull.");
   assert.equal(spokenText("Le planning de la semaine."), "Le pla-ninng de la semaine.");

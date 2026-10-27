@@ -116,6 +116,12 @@ const LEXICON_EN = new Map(Object.entries({
   "atténuer": "ah-tay-nway", "autorisé": "oh-toh-ree-zay", "basé": "bah-zay", "basée": "bah-zay",
   "bâton": "bah-tawn", "célèbre": "say-leb-r", "chaîne": "shen", "chargé": "shar-zhay",
   "chargée": "shar-zhay", "chronométrer": "kroh-noh-may-tray", "commencé": "koh-mahn-say", "commencée": "koh-mahn-say",
+  // Mots français des cours anglais, session 6 (2026-10-27), lot 2.
+  "complète": "kom-plet", "complètement": "kom-plet-mahn", "comptabilisés": "kon-tah-bee-lee-zay", "confronté": "kon-frawn-tay",
+  "conseil": "kon-sell", "cours": "koor", "éthique": "eh-teek", "évolution": "eh-voh-lew-syon",
+  "dégouliner": "day-goo-lee-nay", "déléguer": "day-lay-gay", "délivrable": "day-lee-vrah-bull", "délocaliser": "day-loh-kah-lee-zay",
+  "dépassé": "day-pah-say", "désir": "day-zeer", "dirigé": "dee-ree-zhay", "échange": "eh-shahnzh",
+  "échelons": "eh-shlon", "écologique": "eh-koh-loh-zheek", "économique": "eh-koh-noh-meek", "élégance": "eh-lay-gahns",
 }));
 
 // Pluriel anglais dont le singulier est une entrée française : « parties » ne
