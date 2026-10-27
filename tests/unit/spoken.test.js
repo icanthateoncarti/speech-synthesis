@@ -207,20 +207,21 @@ test("règles de lecture en anglais : parenthèses, guillemets, flèche, &, sans
 test("mots français des cours anglais réécrits pour la voix anglaise", () => {
   assert.equal(spokenText("The word à and the verb être.", "en"), "The word ah and the verb et.");
   assert.equal(spokenText("We must développer, dépasser et résoudre le problème.", "en"),
-    "We must dev-lawp, de-pahss et re-zood le praw-blem.");
+    "We must day-vlaw-pay, day-pah-say et ray-zood le praw-blem.");
   assert.equal(spokenText("The prévisible projet has a défi and a tâche.", "en"),
-    "The prev-ee-zee-bull praw-zhet has a de-fee and a tahsh.");
-  assert.equal(spokenText("The étape and the échéance are part of the travail.", "en"),
-    "The e-tahp and the e-she-ahns are part of the trah-vah-ee.");
+    "The pray-vee-zee-bull praw-zhay has a day-fee and a tahsh.");
+  assert.equal(spokenText("The étape and the échéance are part of the plan.", "en"),
+    "The eh-tahp and the eh-shay-ahns are part of the plan.");
   assert.equal(spokenText("The décision was donnée after the partie.", "en"),
-    "The de-see-zhon was daw-nay after the par-tee.");
+    "The day-see-zhon was daw-nay after the par-tee.");
   assert.equal(spokenText("The objectif and objectifs are clear.", "en"), "The ob-zhek-teef and ob-zhek-teef are clear.");
-  assert.equal(spokenText("The passé and achevée forms are useful.", "en"), "The pahss and ah-shev forms are useful.");
-  assert.equal(spokenText("The temps is short.", "en"), "The tawn is short.");
+  assert.equal(spokenText("The passé and achevée forms are useful.", "en"), "The pah-say and ahsh-vay forms are useful.");
+  // Aussi des mots anglais : « temps » (intérimaires), « travail » (épreuve).
+  assert.equal(spokenText("The temps went through a long travail.", "en"), "The temps went through a long travail.");
   // Pluriels et majuscules passent par la même entrée.
   assert.equal(spokenText("Des projets, des étapes et des décisions.", "en"),
-    "Des praw-zhet, des e-tahp et des de-see-zhon.");
-  assert.equal(spokenText("Développer le PROJET.", "en"), "dev-lawp le praw-zhet.");
+    "Des praw-zhay, des eh-tahp et des day-see-zhon.");
+  assert.equal(spokenText("Développer le PROJET.", "en"), "day-vlaw-pay le praw-zhay.");
   // La voix française garde sa prononciation habituelle.
   assert.equal(spokenText("Le projet et la décision.", "fr"), "Le projet et la décision.");
   // Mots que les anglophones disent déjà à l'anglaise : jamais réécrits.
@@ -230,40 +231,40 @@ test("mots français des cours anglais réécrits pour la voix anglaise", () => 
 
 test("mots français des cours anglais, lot 2", () => {
   assert.equal(spokenText("We must gérer, élaborer, réaliser et améliorer.", "en"),
-    "We must zheh-ray, el-ah-bor-eh, reh-ah-lee-zay et ah-mel-yaw-ray.");
+    "We must zheh-ray, eh-lah-bo-ray, reh-ah-lee-zay et ah-mel-yaw-ray.");
   assert.equal(spokenText("Contrôler l'entreprise et la récompense.", "en"),
-    "kon-troh-lay l'ahn-trer-preez et la re-kom-pahns.");
-  assert.equal(spokenText("Adaptée, ans et budgétaires.", "en"), "ah-dahp-tay, awn et bood-zhe-tair.");
-  assert.equal(spokenText("Les compétences, créer et établir.", "en"), "Les kom-pet-ahns, kree-eh et et-ah-bleer.");
+    "kon-troh-lay l'ahn-trer-preez et la ray-kom-pahns.");
+  assert.equal(spokenText("Adaptée, ans et budgétaires.", "en"), "ah-dahp-tay, awn et bood-zhay-tair.");
+  assert.equal(spokenText("Les compétences, créer et établir.", "en"), "Les kom-pay-tahns, kray-eh et eh-tah-bleer.");
   assert.equal(spokenText("Défendez, définir, un délai et des délais.", "en"),
-    "de-fahn-dez, de-fee-neer, un de-let et des de-let.");
+    "day-fahn-day, day-fee-neer, un day-leh et des day-leh.");
   assert.equal(spokenText("La déroulée, dérouler et la durée.", "en"), "La deh-roo-lay, deh-roo-lay et la dew-ray.");
 });
 
 test("mots français des cours anglais, lot 3", () => {
   assert.equal(spokenText("The enquête and the intérêts are et.", "en"), "The ahn-ket and the ahn-tay-ray are et.");
-  assert.equal(spokenText("The méthode, the paramètres and the réponse.", "en"), "The met-awd, the pa-ra-metr and the re-pawns.");
+  assert.equal(spokenText("The méthode, the paramètres and the réponse.", "en"), "The may-tawd, the pa-ra-metr and the ray-pawns.");
   assert.equal(spokenText("Please représentez, utilisé et améliorations.", "en"),
-    "Please re-pre-zahn-tez, ew-tee-lee-zay et ah-mel-yaw-rah-syohn.");
-  assert.equal(spokenText("Antérieur, aperçu and après.", "en"), "ahn-tay-ryer, ah-pair-sue and ah-press.");
+    "Please ruh-pray-zahn-tay, ew-tee-lee-zay et ah-mel-yaw-rah-syohn.");
+  assert.equal(spokenText("Antérieur, aperçu and après.", "en"), "ahn-tay-ree-ur, ah-pair-sue and ah-pray.");
   assert.equal(spokenText("La compétence and la comptabilité, déjà.", "en"),
-    "La kom-pet-ahns and la kon-tah-bee-lee-tay, de-zhah.");
+    "La kom-pay-tahns and la kon-tah-bee-lee-tay, day-zhah.");
   assert.equal(spokenText("La demande, développé, le diplôme.", "en"),
-    "La de-mahnd, dev-lawp, le dee-plohm.");
+    "La de-mahnd, day-vlaw-pay, le dee-plohm.");
   assert.equal(spokenText("De façon générale, le général.", "en"),
     "De fah-sawn zheh-neh-rahl, le zheh-neh-rahl.");
 });
 
 test("mots français des cours anglais, lot 4", () => {
   assert.equal(spokenText("The échéancier and the expérience are extra-légal.", "en"),
-    "The e-she-ahn-see and the ek-spe-ree-ahns are ek-strah-le-gahl.");
+    "The eh-shay-ahn-see-eh and the ek-spay-ree-ahns are ek-strah-lay-gahl.");
   assert.equal(spokenText("La gestion intrinsèque et la manière.", "en"),
-    "La zhes-chon an-tran-sek et la mah-nee-air.");
+    "La zhest-yon an-tran-sek et la mah-nee-air.");
   assert.equal(spokenText("Motivé and opérationnels.", "en"), "maw-tee-vay and aw-peh-rah-syo-nel.");
   assert.equal(spokenText("Réalisable, réalisation et règlement.", "en"),
     "reh-ah-lee-zah-bull, reh-ah-lee-zah-syohn et reh-gluh-mahn.");
   assert.equal(spokenText("La rémunération, terminé et qualité.", "en"),
-    "La re-mew-neh-rah-syohn, ter-mee-nay et kah-lee-tay.");
+    "La ray-mew-nay-rah-syohn, ter-mee-nay et kah-lee-tay.");
   assert.equal(spokenText("Le propriétaire, la capacité et le présent.", "en"),
     "Le pro-pree-eh-tair, la kah-pah-see-tay et le preh-zahn.");
   assert.equal(spokenText("Une activité, une année et le bien-être.", "en"),
@@ -271,8 +272,8 @@ test("mots français des cours anglais, lot 4", () => {
 });
 
 test("mots français des cours anglais, formes proches", () => {
-  assert.equal(spokenText("The passée and développe forms.", "en"), "The pahss and dev-lawp forms.");
-  assert.equal(spokenText("Le développement est là.", "en"), "Le dev-lawp-mahn est là.");
+  assert.equal(spokenText("The passée and développe forms.", "en"), "The pah-say and day-vlawp forms.");
+  assert.equal(spokenText("Le développement est là.", "en"), "Le day-vlawp-mahn est là.");
   // « parties » est un mot anglais : le pluriel de « partie » ne s'applique pas.
   assert.equal(spokenText("Both parties agree.", "en"), "Both parties agree.");
   // À vérifier : le pluriel français « parties » reste donc lui aussi inchangé.
