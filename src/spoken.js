@@ -258,6 +258,7 @@ export function spokenWords(words, lang = "fr") {
     // « ... » exact reste une ponctuation ; les nombres (3.5, 1.2.3) et les
     // abréviations (p., etc.) ne forment pas de suite de trois caractères.
     word = word.replace(/[-_.…·•─=*]{3,}/gu, (run) => run === "..." ? run : ",");
+    word = word.replace(/[•●▪◦‣]/gu, ",");
     word = word.replace(/\p{L}+(?:-\p{L}+)*/gu, (token) => pronounce(token, words[k - 1], words[k + 1], lang))
       .replace(/&/g, lang === "en" ? " and " : " et ")
       .replace(/^(\d{4})\/(\d{4})/u, "$1, $2");

@@ -3,6 +3,32 @@ import assert from "node:assert/strict";
 import { createTts } from "../../src/tts.js";
 import { encodeWav, wavDuration } from "../../src/audio.js";
 
+test("listes : même pause dans les passages en direct, le WAV exporté et le cache", async () => {
+  const NativeWorker = globalThis.Worker, messages = [];
+  globalThis.Worker = class {
+    postMessage(message) {
+      messages.push(message);
+      queueMicrotask(() => this.onmessage({ data: { id: message.id, type: "done", wav: encodeWav(new Int16Array(22050).fill(1000), 22050) } }));
+    }
+    terminate() {}
+  };
+  try {
+    const tts = createTts();
+    const input = {text:"The products are available in three flavors • Orange • Orange C-Power • Orange–Mango", voice:"jessica", speed:1};
+    const live = [];
+    const first = await tts.synthesize(input, {onChunk(wav) {live.push(wavDuration(wav));}});
+    assert.ok(messages.every(m => m.voiceId === "en_US-kristin-medium" && !m.text.includes("•")));
+    assert.deepEqual(messages.slice(1).map(m => m.text), ["Orange.", "Orange C-Power.", "Orange–Mango."]);
+    assert.equal(live.length, 4);
+    assert.ok(Math.abs(live[0] - 1) < 0.001);
+    for (const duration of live.slice(1)) assert.ok(Math.abs(duration - 1.45) < 0.001);
+    const saved = await tts.synthesize(input, {blob:true});
+    assert.equal(messages.length, 4, "le cache brut reste réutilisé");
+    assert.equal(wavDuration(await saved.wav.arrayBuffer()), wavDuration(first.wav));
+    assert.deepEqual(saved.pauses, first.pauses);
+  } finally {globalThis.Worker = NativeWorker;}
+});
+
 test("un moteur interrompu est recréé et seul le morceau courant est repris", async () => {
   const NativeWorker = globalThis.Worker;
   const workers = [], messages = [];

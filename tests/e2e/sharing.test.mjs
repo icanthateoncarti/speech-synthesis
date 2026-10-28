@@ -30,7 +30,7 @@ test('partage complet : lien chiffré, import volontaire, réglages, suppression
     await localFrontend(page);await page.goto('https://speechsynthe.si/', {waitUntil:'domcontentloaded'}); console.log('front loaded');await page.waitForSelector('#share-open');
     await page.$eval('#screen',el=>{el.value='Chapitre 1\nCours de test de partage. Aucun document personnel.';el.dispatchEvent(new Event('input'));});
     await page.click('#voice-tom');await page.$eval('#speed',el=>{el.value='1.2';el.dispatchEvent(new Event('input'));});
-    await page.click('#share-open');await page.waitForSelector('#share-dialog[open] #share-create:not([hidden])');await page.click('#share-create'); console.log('creating link');
+    await page.click('#course-tools-toggle'); await page.click('#share-open');await page.waitForSelector('#share-dialog[open] #share-create:not([hidden])');await page.click('#share-create'); console.log('creating link');
     await page.waitForFunction(()=>document.querySelector('#share-link').value || document.querySelector('#share-feedback').textContent.includes('indisponible'),{timeout:30000});
     const link=await page.$eval('#share-link',el=>el.value);assert.match(link,/^https:\/\/speechsynthe.si\/#session=[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}$/);
     console.log('link created'); const receiver=await browser.newPage(); receiver.setDefaultTimeout(15000);await localFrontend(receiver);await receiver.goto(link,{waitUntil:"domcontentloaded"});

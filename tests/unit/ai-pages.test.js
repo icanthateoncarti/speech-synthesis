@@ -18,7 +18,8 @@ const SKIPPED_HTML = new Map([
 async function htmlFiles(dir = ROOT) {
   const out = [];
   for (const entry of await readdir(dir, { withFileTypes: true })) {
-    if (entry.name.startsWith(".") || entry.name === "node_modules") continue;
+    // Local reports and auditions under logs/ are ignored by Git, never published.
+    if (entry.name.startsWith(".") || entry.name === "node_modules" || (dir === ROOT && entry.name === "logs")) continue;
     const file = path.join(dir, entry.name);
     if (entry.isDirectory()) out.push(...await htmlFiles(file));
     else if (entry.name.endsWith(".html")) out.push(path.relative(ROOT, file));

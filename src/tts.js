@@ -116,7 +116,11 @@ export function createTts() {
           lastYield = performance.now();
         }
         if (gen !== generation) throw cancelled();
-        const message = { type: "synthesize", text: spokenText(chunks[i], lang), voiceId, lengthScale };
+        let spoken = spokenText(chunks[i], lang);
+        // Short list labels often have no punctuation in slides. Give the voice
+        // a clear ending as well as the explicit pause added outside the cache.
+        if (parts[i].listStart && !/[.!?…;:,]$/u.test(spoken)) spoken += ".";
+        const message = { type: "synthesize", text: spoken, voiceId, lengthScale };
         const cacheKey = JSON.stringify(["vits-pcm-v1", voiceId, lengthScale, message.text]);
         let wav = cache.get(cacheKey) ?? await audioStore?.get(cacheKey);
         if (!wav) {

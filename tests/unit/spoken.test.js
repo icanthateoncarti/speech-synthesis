@@ -2,6 +2,21 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spokenText, spokenWords } from "../../src/spoken.js";
 import { wordTimeline, splitIntoParts, splitIntoChunks, titlePauses, isTitleLine } from "../../src/text.js";
+
+test("listes PDF : séparer les produits, garder les caractères et marquer les pauses", () => {
+  const text = "Three flavors • Orange • Orange C-Power • Orange–Mango";
+  const parts = splitIntoParts(text);
+  assert.deepEqual(parts.map(p => p.text), ["Three flavors", "• Orange", "• Orange C-Power", "• Orange–Mango"]);
+  assert.equal(parts.map(p => p.text).join(" "), text);
+  assert.deepEqual(titlePauses(parts).map(p => p.before), [0, 0.45, 0.45, 0.45]);
+  assert.ok(parts.every(p => !p.title));
+  assert.equal(spokenText("• Orange C-Power", "en"), "Orange C-Power");
+  assert.equal(spokenText("• Pomme", "fr"), "Pomme");
+  const multiline = splitIntoParts("Produits\n• Pomme\n▪ Poire\n◦ Mangue");
+  assert.deepEqual(titlePauses(multiline), [{before:0, after:1}, {before:0, after:0}, {before:0.45, after:0}, {before:0.45, after:0}]);
+  assert.deepEqual(titlePauses(splitIntoParts("• Premier. Suite. • Deuxième.")).map(p => p.before), [0, 0, 0.45]);
+  assert.equal(spokenText("3.5 litres, 0,3 litre, Orange–Mango, a · b", "en"), "3.5 litres, 0,3 litre, Orange–Mango, a · b");
+});
 import { encodeWav, padWav, wavDuration } from "../../src/audio.js";
 
 test("l'exemple de Jonas : parenthèses et guillemets annoncés, la flèche se dit « vers »", () => {

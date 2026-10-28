@@ -97,6 +97,7 @@ export function detectLanguage(text) {
 
 const TITLE_END = /[.!?…;:,]$/u;
 const BULLET = /^(?:[-–—•*·▪◦]|\d+[.)])\s/u;
+const LIST_MARK = /[•●▪◦‣]/u;
 
 // Une ligne courte, seule, sans ponctuation finale : un titre
 // (« Cours 6 — Du besoin métier au graphique », « Le fil rouge du cours »).
@@ -112,11 +113,19 @@ export function splitIntoParts(text, maxChars = 400, titles = []) {
   const known = new Set(titles.map((title) => normalizeText(title)));
   const parts = [];
   for (const line of normalizeText(text).split("\n")) {
-    const title = known.has(line.trim()) || isTitleLine(line);
-    for (const sentence of splitSentences(line)) {
-      for (const c of splitLong(sentence, maxChars)) {
-        const t = c.trim();
-        if (t && hasSpeakableContent(t)) parts.push({ text: t, title });
+    const title = !LIST_MARK.test(line) && (known.has(line.trim()) || isTitleLine(line));
+    // Keep the original characters for highlighting/navigation, but synthesize
+    // inline PDF/PPTX list items separately so punctuation cannot swallow a pause.
+    for (const item of line.split(/(?=[•●▪◦‣])/u)) {
+      let listStart = LIST_MARK.test(item.trim()[0] ?? "");
+      for (const sentence of splitSentences(item)) {
+        for (const c of splitLong(sentence, maxChars)) {
+          const t = c.trim();
+          if (t && hasSpeakableContent(t)) {
+            parts.push({ text: t, title, ...(listStart ? { listStart: true } : {}) });
+            listStart = false;
+          }
+        }
       }
     }
   }
@@ -127,11 +136,11 @@ export function splitIntoChunks(text, maxChars = 400) {
   return splitIntoParts(text, maxChars).map((part) => part.text);
 }
 
-// Silence avant et après chaque titre ; deux titres qui se suivent ne cumulent
-// pas leurs pauses, et ni le début ni la fin du texte n'en reçoivent.
+// Silence avant/après les titres et avant les éléments à puce. Une pause de
+// titre remplace celle de liste ; aucun silence n'est ajouté au début/à la fin.
 export function titlePauses(parts, seconds = 1) {
   return parts.map((part, i) => ({
-    before: part.title && i > 0 && !parts[i - 1].title ? seconds : 0,
+    before: i > 0 && !parts[i - 1].title ? part.title ? seconds : part.listStart ? 0.45 : 0 : 0,
     after: part.title && i < parts.length - 1 && !parts[i + 1].title ? seconds : 0,
   }));
 }

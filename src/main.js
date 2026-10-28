@@ -16,6 +16,32 @@ import { sessionData } from "./session-data.js";
 
 const $ = (id) => document.getElementById(id);
 const screen = $("screen"), reader = $("reader"), speak = $("key-speak");
+const courseTools = $("course-tools"), courseToggle = $("course-tools-toggle"), coursePanel = $("course-tools-panel");
+function closeCourseTools(restoreFocus = false) {
+  coursePanel.hidden = true;
+  courseToggle.setAttribute("aria-expanded", "false");
+  if (restoreFocus) courseToggle.focus({ preventScroll: true });
+}
+courseToggle.addEventListener("click", () => {
+  const open = coursePanel.hidden;
+  coursePanel.hidden = !open;
+  courseToggle.setAttribute("aria-expanded", String(open));
+});
+courseTools.addEventListener("keydown", event => {
+  if (event.key === "Escape" && !coursePanel.hidden) {
+    event.preventDefault(); event.stopPropagation(); closeCourseTools(true);
+  } else if (event.key === "ArrowDown" && event.target === courseToggle) {
+    event.preventDefault(); coursePanel.hidden = false;
+    courseToggle.setAttribute("aria-expanded", "true");
+    coursePanel.querySelector("button:not([hidden])")?.focus();
+  }
+});
+// Restore focus before the dialog opens, so closing it returns to a visible button.
+coursePanel.addEventListener("click", event => {
+  if (event.target.closest("button")) closeCourseTools(true);
+}, true);
+document.addEventListener("click", event => { if (!courseTools.contains(event.target)) closeCourseTools(); });
+courseTools.addEventListener("focusout", event => { if (!courseTools.contains(event.relatedTarget)) closeCourseTools(); });
 const player = createPlayer(), tts = createTts();
 let state = initialState(), synthesis = null, exportJob = null, audioDetails = null;
 let documentInfo = { name: "", chapters: [] }, index = buildReadingIndex("");

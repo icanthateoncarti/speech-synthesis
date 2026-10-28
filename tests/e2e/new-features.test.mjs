@@ -13,7 +13,7 @@ test('bibliothèque : préparation, fermeture, reprise et suppression hors conne
     const m=await import('/src/library-store.js');for(const c of await m.listCourses()) await m.removeCourse(c.id);
   });
   await page.$eval('#screen',el=>{el.value='Bonjour. Ce cours reste disponible sur cet appareil.';el.dispatchEvent(new Event('input'));});
-  await page.click('#library-open'); await page.waitForSelector('#library-dialog[open]'); await page.click('#library-save');
+  await page.click('#course-tools-toggle'); await page.click('#library-open'); await page.waitForSelector('#library-dialog[open]'); await page.click('#library-save');
   await page.waitForFunction(()=>document.querySelector('#library-list').textContent.includes('Bonjour'));
   await page.click('#library-close'); await page.click('#key-speak');
   await page.waitForFunction(()=>document.querySelector('#status-left').textContent.includes('LECTURE'),{timeout:120000});
@@ -26,7 +26,7 @@ test('bibliothèque : préparation, fermeture, reprise et suppression hors conne
   await page.waitForFunction(()=>document.querySelector('#screen')?.value.includes('Ce cours reste'));
   await page.click('#key-speak');
   await page.waitForFunction(()=>document.querySelector('#key-speak').textContent.includes('PAUSE')||document.querySelector('#status-left').textContent==='PRÊT',{timeout:15000});
-  await page.click('#library-open');
+  await page.click('#course-tools-toggle'); await page.click('#library-open');
   await page.waitForSelector('#library-list .library-row button:last-child');
   page.once('dialog',d=>d.accept());await page.click('#library-list .library-row button:last-child');
   await page.waitForFunction(()=>document.querySelector('#library-list').textContent.includes('Aucun cours'));
@@ -51,7 +51,7 @@ test('OCR local : scan reconnu, aperçu modifiable, annuler conserve le texte', 
   await page.$eval('#review-text',el=>{el.value+='\nPhrase corrigée.';el.dispatchEvent(new Event('input'));});
   await page.click('#review-apply');await page.waitForFunction(()=>document.querySelector('#screen').value.includes('Phrase corrigée.'));
   assert.match(await page.$eval('#screen',el=>el.value),/programmation/);
-  await page.click('#review-open');await page.$eval('#review-text',el=>el.value='Ne pas appliquer.');await page.click('#review-close');
+  await page.click('#course-tools-toggle'); await page.click('#review-open');await page.$eval('#review-text',el=>el.value='Ne pas appliquer.');await page.click('#review-close');
   assert.match(await page.$eval('#screen',el=>el.value),/Phrase corrigée/);
 });
 test('bibliothèque : quota, suppression et sauvegarde tardive restent cohérents',async()=>{
@@ -77,7 +77,7 @@ test('les liens créés restent accessibles après EFFACE, sans nouveau cours',a
   await page.evaluate(()=>localStorage.setItem('radio-created-shares',JSON.stringify([{id:'a'.repeat(22),name:'Lien de test local',deletion:'b'.repeat(43),link:'https://example.invalid',expires:Date.now()+60000}])));
   await page.click('#key-clear');
   assert.equal(await page.$eval('#share-open',el=>el.textContent),'MES LIENS');
-  await page.click('#share-open');await page.waitForSelector('#share-dialog[open]');
+  await page.click('#course-tools-toggle'); await page.click('#share-open');await page.waitForSelector('#share-dialog[open]');
   assert.equal(await page.$eval('#share-create',el=>el.hidden),true);
   assert.match(await page.$eval('#share-list',el=>el.textContent),/Lien de test local/);
   await page.click('#share-close');await page.evaluate(()=>localStorage.removeItem('radio-created-shares'));await page.click('#key-clear');
