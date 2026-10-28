@@ -2,57 +2,81 @@ import { MAX_TEXT_CHARS } from "./limits.js";
 import { hasSpeakableContent } from "./text.js";
 
 let closePrevious;
-// On zoome dans l'écran de la radio : la radio grossit vers son écran, l'écran s'agrandit en laissant
-// voir l'orange autour, assombri. À la fermeture, une copie inerte de l'écran recule dans la radio
-// (la vraie fenêtre est déjà fermée : focus et clavier ne dépendent pas de l'animation).
+// On zoome dans l'écran de la radio : la radio grossit vers son écran pendant qu'un cadre d'écran vide
+// grandit jusqu'à la fenêtre, en laissant voir l'orange autour, assombri ; le contenu apparaît ensuite.
+// À la fermeture, le cadre vide rétrécit dans la radio (la vraie fenêtre est déjà fermée : focus et
+// clavier ne dépendent pas de l'animation). Uniquement transform et opacity : la carte graphique s'en
+// charge, l'animation reste fluide même quand la page applique un long texte.
 // data-entering reste posé pendant l'entrée (les clics ne visent rien tant que l'écran grandit).
 const ZOOM_MS = 520, EASE = "cubic-bezier(.65,0,.35,1)";
 let zoom = null, outro = null;
 function screenGeometry() {
-  const screen = document.querySelector(".screen"), machine = document.querySelector(".machine"), room = document.querySelector(".room");
-  if (!screen || !machine || !room || matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
-  const s = screen.getBoundingClientRect(), m = machine.getBoundingClientRect(), r = room.getBoundingClientRect();
+  const screen = document.querySelector(".screen"), room = document.querySelector(".room");
+  if (!screen || !room || matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
+  const s = screen.getBoundingClientRect(), r = room.getBoundingClientRect();
   if (!s.width) return null;
+  // L'écran zoomé remplit la fenêtre (moins une marge), centré : la fenêtre de relecture prend sa place.
+  const margin = innerWidth < 640 ? 10 : 36;
+  const scale = Math.max(1, Math.min((innerWidth - 2 * margin) / s.width, (innerHeight - 2 * margin) / s.height));
   const cx = s.left + s.width / 2, cy = s.top + s.height / 2, w = innerWidth / 2, h = innerHeight / 2;
-  // Assez gros pour que la radio couvre toute la fenêtre une fois centrée sur son écran.
-  const scale = Math.min(3, Math.max(1.1, w / (cx - m.left), w / (m.right - cx), h / (cy - m.top), h / (m.bottom - cy)));
-  return { screen: s, room, frames: [
-    { transformOrigin: `${cx - r.left}px ${cy - r.top}px`, transform: "none" },
-    { transformOrigin: `${cx - r.left}px ${cy - r.top}px`, transform: `translate(${w - cx}px, ${h - cy}px) scale(${scale})` },
-  ] };
+  const border = parseFloat(getComputedStyle(screen).borderTopWidth) || 8, radius = parseFloat(getComputedStyle(screen).borderTopLeftRadius) || 18;
+  return { screen: s, room, scale,
+    target: { inset: "auto", left: `${w - s.width * scale / 2}px`, top: `${h - s.height * scale / 2}px`, width: `${s.width * scale}px`, height: `${s.height * scale}px`, borderWidth: `${border * scale}px`, borderRadius: `${radius * scale}px` },
+    frames: [
+      { transformOrigin: `${cx - r.left}px ${cy - r.top}px`, transform: "none" },
+      { transformOrigin: `${cx - r.left}px ${cy - r.top}px`, transform: `translate(${w - cx}px, ${h - cy}px) scale(${scale})` },
+    ] };
 }
-const clipTo = (rect, panel) => {
-  const p = panel.getBoundingClientRect(), px = value => `${Math.max(0, value)}px`;
-  return `inset(${px(rect.top - p.top)} ${px(p.right - rect.right)} ${px(p.bottom - rect.bottom)} ${px(rect.left - p.left)} round 18px)`;
+const place = (dialog, target) => {
+  for (const el of dialog.querySelectorAll(".review-screen, .review-shell")) { el.style.cssText = ""; Object.assign(el.style, target ?? {}); }
+};
+// Transform qui ramène le cadre (à sa taille finale) sur l'écran de la radio.
+const onScreen = (rect, shell) => {
+  const t = shell.getBoundingClientRect();
+  return `translate(${rect.left - t.left}px, ${rect.top - t.top}px) scale(${rect.width / t.width}, ${rect.height / t.height})`;
 };
 function zoomIn(dialog) {
   outro?.();
   const g = screenGeometry();
+  place(dialog, g?.target);
   if (!g) return;
-  const panel = dialog.querySelector(".review-screen");
+  const shell = dialog.querySelector(".review-shell"), panel = dialog.querySelector(".review-screen");
   document.documentElement.classList.add("zoomed");
-  zoom = { screen: g.screen, room: g.room.animate(g.frames, { duration: ZOOM_MS, easing: EASE, fill: "forwards" }) };
   dialog.dataset.entering = "";
+  zoom = { screen: g.screen, room: g.room.animate(g.frames, { duration: ZOOM_MS, easing: EASE, fill: "forwards" }) };
+  // Fenêtre redimensionnée ou téléphone tourné : on recalcule le zoom sans animation.
+  zoom.refit = () => {
+    zoom.room.cancel();
+    const next = screenGeometry();
+    place(dialog, next?.target);
+    if (!next) { removeEventListener("resize", zoom.refit); zoom = null; document.documentElement.classList.remove("zoomed"); return; }
+    zoom.screen = next.screen;
+    zoom.room = next.room.animate(next.frames, { duration: ZOOM_MS, easing: EASE, fill: "forwards" });
+    zoom.room.finish();
+  };
+  addEventListener("resize", zoom.refit);
   dialog.querySelector(".review-shade").animate({ opacity: [0, 1] }, { duration: ZOOM_MS, easing: "ease-out" });
-  const grow = panel.animate({ clipPath: [clipTo(g.screen, panel), "inset(0px round 18px)"] }, { duration: ZOOM_MS, easing: EASE });
-  panel.firstElementChild.animate({ opacity: [0, 0, 1], transform: ["translateY(8px)", "translateY(8px)", "none"] }, { duration: ZOOM_MS + 160, easing: "ease-out" });
-  grow.finished.catch(() => {}).finally(() => delete dialog.dataset.entering);
+  const grow = shell.animate({ transform: [onScreen(g.screen, shell), "none"] }, { duration: ZOOM_MS, easing: EASE });
+  grow.finished.then(() => {
+    delete dialog.dataset.entering;
+    panel.animate({ opacity: [0, 1] }, { duration: 180, easing: "ease-out" });
+  }, () => delete dialog.dataset.entering);
 }
+// Renvoie une promesse tenue quand l'écran est rentré dans la radio.
 function zoomOut(dialog) {
-  if (!zoom) return;
-  const { screen, room } = zoom; zoom = null;
+  if (!zoom) return null;
+  const { screen, room, refit } = zoom; zoom = null;
+  removeEventListener("resize", refit);
   const ghost = document.createElement("div");
   ghost.className = "review-ghost"; ghost.inert = true; ghost.setAttribute("aria-hidden", "true");
-  ghost.append(dialog.querySelector(".review-shade").cloneNode(true), dialog.querySelector(".review-screen").cloneNode(true));
+  ghost.append(dialog.querySelector(".review-shade").cloneNode(), dialog.querySelector(".review-shell").cloneNode());
   document.body.append(ghost);
-  const panel = ghost.querySelector(".review-screen");
-  panel.firstElementChild.scrollTop = dialog.querySelector(".review-inner").scrollTop;
-  panel.firstElementChild.animate({ opacity: [1, 0] }, { duration: 180, fill: "forwards" });
-  ghost.firstElementChild.animate({ opacity: [1, 0] }, { duration: ZOOM_MS, easing: "ease-in", fill: "forwards" });
-  const shrink = panel.animate({ clipPath: ["inset(0px round 18px)", clipTo(screen, panel)] }, { duration: ZOOM_MS, easing: EASE, fill: "forwards" });
+  const [shade, shell] = ghost.children;
+  shade.animate({ opacity: [1, 0] }, { duration: ZOOM_MS, easing: "ease-in", fill: "forwards" });
+  const shrink = shell.animate({ transform: ["none", onScreen(screen, shell)] }, { duration: ZOOM_MS, easing: EASE, fill: "forwards" });
   room.reverse();
   outro = () => { outro = null; ghost.remove(); room.cancel(); document.documentElement.classList.remove("zoomed"); };
-  shrink.finished.then(() => outro?.(), () => {});
+  return shrink.finished.then(() => outro?.(), () => {});
 }
 export function reviewDocument({ text, file, scannedPages = [], extract, signal }) {
   closePrevious?.();
@@ -67,19 +91,20 @@ export function reviewDocument({ text, file, scannedPages = [], extract, signal 
   let result = null, controller, active = true;
   const validity = () => { apply.disabled = Boolean(controller) || !hasSpeakableContent(editor.value); };
   return new Promise(resolve => {
-    const close = () => { if (dialog.open) zoomOut(dialog); dialog.close(); finish(); };
+    // Le texte est appliqué une fois l'écran rentré dans la radio, pas pendant l'animation.
+    const close = () => { const back = dialog.open ? zoomOut(dialog) : null; dialog.close(); finish(back); };
     const closed = () => { if (!dialog.open) finish(); };
     const cancel = event => { event.preventDefault(); close(); };
-    const finish = () => {
+    const finish = (back) => {
       if (!active) return;
       active = false;
       // Fermée sans passer par close() : on revient à la radio sans animation.
-      if (zoom) { zoom.room.cancel(); zoom = null; document.documentElement.classList.remove("zoomed"); }
+      if (zoom) { removeEventListener("resize", zoom.refit); zoom.room.cancel(); zoom = null; document.documentElement.classList.remove("zoomed"); }
       dialog.removeEventListener("close", closed); dialog.removeEventListener("cancel", cancel);
       if (closePrevious === close) closePrevious = null;
       controller?.abort(); signal?.removeEventListener("abort", close);
       editor.oninput = apply.onclick = rebuild.onclick = $("review-close").onclick = null;
-      resolve(result);
+      if (back) back.then(() => resolve(result)); else resolve(result);
     };
     editor.oninput = validity;
     apply.onclick = () => { result = editor.value; close(); };

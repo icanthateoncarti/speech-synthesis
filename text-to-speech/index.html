@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-DrfSHdf5jQUKpv4/2+1innr8YaejVwSUjCFzu2oXJsk=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-obMfyhXlj3YpOuaoFbv1WWhyCo/NxRYLFSnFLJf2E5o=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Text to speech gratuit — texte en voix, français et anglais</title>
   <meta name="description" content="Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.">
@@ -113,54 +113,54 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=88938d3e34">
+  <link rel="stylesheet" href="/styles/machine.css?v=ebdb4b09e0">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=88938d3e34",
-      "/src/boot.js": "/src/boot.js?v=88938d3e34",
-      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=88938d3e34",
-      "/src/document-cleanup.js": "/src/document-cleanup.js?v=88938d3e34",
-      "/src/document-review.js": "/src/document-review.js?v=88938d3e34",
-      "/src/library-dialog.js": "/src/library-dialog.js?v=88938d3e34",
-      "/src/library-store.js": "/src/library-store.js?v=88938d3e34",
-      "/src/limits.js": "/src/limits.js?v=88938d3e34",
-      "/src/machine.js": "/src/machine.js?v=88938d3e34",
-      "/src/main.js": "/src/main.js?v=88938d3e34",
-      "/src/mp3-encode.js": "/src/mp3-encode.js?v=88938d3e34",
-      "/src/mp3-export.js": "/src/mp3-export.js?v=88938d3e34",
-      "/src/mp3-stream.js": "/src/mp3-stream.js?v=88938d3e34",
-      "/src/mp3-worker.js": "/src/mp3-worker.js?v=88938d3e34",
-      "/src/navigation.js": "/src/navigation.js?v=88938d3e34",
-      "/src/ocr-worker.js": "/src/ocr-worker.js?v=88938d3e34",
-      "/src/ocr.js": "/src/ocr.js?v=88938d3e34",
-      "/src/offline-worker.js": "/src/offline-worker.js?v=88938d3e34",
-      "/src/pages.js": "/src/pages.js?v=88938d3e34",
-      "/src/pdf-layout.js": "/src/pdf-layout.js?v=88938d3e34",
-      "/src/pdf-tables.js": "/src/pdf-tables.js?v=88938d3e34",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=88938d3e34",
-      "/src/pdf.js": "/src/pdf.js?v=88938d3e34",
-      "/src/player.js": "/src/player.js?v=88938d3e34",
-      "/src/pptx.js": "/src/pptx.js?v=88938d3e34",
-      "/src/selection.js": "/src/selection.js?v=88938d3e34",
-      "/src/session-data.js": "/src/session-data.js?v=88938d3e34",
-      "/src/shader.js": "/src/shader.js?v=88938d3e34",
-      "/src/share-config.js": "/src/share-config.js?v=88938d3e34",
-      "/src/share-crypto.js": "/src/share-crypto.js?v=88938d3e34",
-      "/src/share-dialog.js": "/src/share-dialog.js?v=88938d3e34",
-      "/src/share-location.js": "/src/share-location.js?v=88938d3e34",
-      "/src/share.js": "/src/share.js?v=88938d3e34",
-      "/src/speech-cache.js": "/src/speech-cache.js?v=88938d3e34",
-      "/src/spoken.js": "/src/spoken.js?v=88938d3e34",
-      "/src/text-map.js": "/src/text-map.js?v=88938d3e34",
-      "/src/text.js": "/src/text.js?v=88938d3e34",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=88938d3e34",
-      "/src/tts.js": "/src/tts.js?v=88938d3e34",
-      "/src/usage.js": "/src/usage.js?v=88938d3e34",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=88938d3e34"
+      "/src/audio.js": "/src/audio.js?v=ebdb4b09e0",
+      "/src/boot.js": "/src/boot.js?v=ebdb4b09e0",
+      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=ebdb4b09e0",
+      "/src/document-cleanup.js": "/src/document-cleanup.js?v=ebdb4b09e0",
+      "/src/document-review.js": "/src/document-review.js?v=ebdb4b09e0",
+      "/src/library-dialog.js": "/src/library-dialog.js?v=ebdb4b09e0",
+      "/src/library-store.js": "/src/library-store.js?v=ebdb4b09e0",
+      "/src/limits.js": "/src/limits.js?v=ebdb4b09e0",
+      "/src/machine.js": "/src/machine.js?v=ebdb4b09e0",
+      "/src/main.js": "/src/main.js?v=ebdb4b09e0",
+      "/src/mp3-encode.js": "/src/mp3-encode.js?v=ebdb4b09e0",
+      "/src/mp3-export.js": "/src/mp3-export.js?v=ebdb4b09e0",
+      "/src/mp3-stream.js": "/src/mp3-stream.js?v=ebdb4b09e0",
+      "/src/mp3-worker.js": "/src/mp3-worker.js?v=ebdb4b09e0",
+      "/src/navigation.js": "/src/navigation.js?v=ebdb4b09e0",
+      "/src/ocr-worker.js": "/src/ocr-worker.js?v=ebdb4b09e0",
+      "/src/ocr.js": "/src/ocr.js?v=ebdb4b09e0",
+      "/src/offline-worker.js": "/src/offline-worker.js?v=ebdb4b09e0",
+      "/src/pages.js": "/src/pages.js?v=ebdb4b09e0",
+      "/src/pdf-layout.js": "/src/pdf-layout.js?v=ebdb4b09e0",
+      "/src/pdf-tables.js": "/src/pdf-tables.js?v=ebdb4b09e0",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=ebdb4b09e0",
+      "/src/pdf.js": "/src/pdf.js?v=ebdb4b09e0",
+      "/src/player.js": "/src/player.js?v=ebdb4b09e0",
+      "/src/pptx.js": "/src/pptx.js?v=ebdb4b09e0",
+      "/src/selection.js": "/src/selection.js?v=ebdb4b09e0",
+      "/src/session-data.js": "/src/session-data.js?v=ebdb4b09e0",
+      "/src/shader.js": "/src/shader.js?v=ebdb4b09e0",
+      "/src/share-config.js": "/src/share-config.js?v=ebdb4b09e0",
+      "/src/share-crypto.js": "/src/share-crypto.js?v=ebdb4b09e0",
+      "/src/share-dialog.js": "/src/share-dialog.js?v=ebdb4b09e0",
+      "/src/share-location.js": "/src/share-location.js?v=ebdb4b09e0",
+      "/src/share.js": "/src/share.js?v=ebdb4b09e0",
+      "/src/speech-cache.js": "/src/speech-cache.js?v=ebdb4b09e0",
+      "/src/spoken.js": "/src/spoken.js?v=ebdb4b09e0",
+      "/src/text-map.js": "/src/text-map.js?v=ebdb4b09e0",
+      "/src/text.js": "/src/text.js?v=ebdb4b09e0",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=ebdb4b09e0",
+      "/src/tts.js": "/src/tts.js?v=ebdb4b09e0",
+      "/src/usage.js": "/src/usage.js?v=ebdb4b09e0",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=ebdb4b09e0"
     }
   }
   </script>
@@ -340,6 +340,7 @@
 
   <dialog id="review-dialog" class="review-dialog" aria-labelledby="review-title">
     <div class="review-shade" aria-hidden="true"></div>
+    <div class="review-shell" aria-hidden="true"></div>
     <div class="review-screen"><div class="review-inner">
     <h2 id="review-title">Relire avant d’écouter</h2>
     <p id="review-feedback" role="status"></p>
@@ -397,7 +398,7 @@
     <div id="pages-list" class="pages-list"></div>
   </dialog>
 
-  <script type="module" src="/src/boot.js?v=88938d3e34"></script>
-  <script type="module" src="/src/main.js?v=88938d3e34"></script>
+  <script type="module" src="/src/boot.js?v=ebdb4b09e0"></script>
+  <script type="module" src="/src/main.js?v=ebdb4b09e0"></script>
 </body>
 </html>
