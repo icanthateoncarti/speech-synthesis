@@ -62,3 +62,5 @@ Validation sur le téléphone physique de Jonas (modèle/navigateur inconnus) et
 - 33 tests navigateur de régression passent (lecture/navigation, PDF, nettoyage, MP3, bibliothèque/OCR, clavier/mobile, CSP, version et SEO).
 - Un test supplémentaire de fermeture/réouverture pendant un travail passe ; les cinq tests des nouvelles fonctions ont été relancés après la correction des dialogues.
 - Le parcours complet utilise le service Cloudflare public : création chiffrée, import volontaire avec réglages, suppression et refus après suppression. Les liens techniques créés pendant les essais ont été supprimés.
+
+Les cinq tests des nouvelles fonctions passent également sur `https://speechsynthe.si` après publication. Le cache d’installation comprend explicitement les bibliothèques de démarrage (shaders et lamejs), en plus du site ; leur présence dans Cache Storage est vérifiée avant le test hors connexion.

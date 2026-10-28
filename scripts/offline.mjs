@@ -11,7 +11,10 @@ export async function offlineWorker(root, version) {
     return out;
   }
   const scripts = (await walk("src")).filter(name => !name.endsWith("offline-worker.js"));
-  const assets = ['/', '/pdf-en-audio/', '/text-to-speech/', '/voix-off/', '/message-repondeur/', '/manifest.webmanifest', '/apple-touch-icon.png', '/icon-192.png', '/styles/machine.css?v=' + version,
+  const assets = [
+    'https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm',
+    'https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm',
+    '/', '/pdf-en-audio/', '/text-to-speech/', '/voix-off/', '/message-repondeur/', '/manifest.webmanifest', '/apple-touch-icon.png', '/icon-192.png', '/styles/machine.css?v=' + version,
     ...await walk("assets"), ...scripts, ...scripts.map(name => name + '?v=' + version)];
   return `// Généré par npm run build.\nconst VERSION = ${JSON.stringify(version)}, ASSETS = ${JSON.stringify(assets)};\n` + await readFile(path.join(root, "src/offline-worker.js"), "utf8");
 }

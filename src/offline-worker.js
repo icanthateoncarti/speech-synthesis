@@ -1,4 +1,4 @@
-// VERSION et ASSETS sont injectés par le build dans /sw.js.
+// VERSION et ASSETS (application et bibliothèques de démarrage) sont injectés par le build dans /sw.js.
 const CACHE = "radio-app-" + VERSION;
 self.addEventListener("install", event => event.waitUntil((async () => {
   await (await caches.open(CACHE)).addAll(ASSETS);

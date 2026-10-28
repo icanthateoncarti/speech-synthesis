@@ -19,6 +19,7 @@ test('bibliothèque : préparation, fermeture, reprise et suppression hors conne
   await page.waitForFunction(()=>document.querySelector('#status-left').textContent.includes('LECTURE'),{timeout:120000});
   await page.waitForFunction(()=>document.querySelector('#key-speak').textContent.includes('PARLE'),{timeout:30000});
   await page.evaluate(()=>navigator.serviceWorker.ready);
+  await page.waitForFunction(async()=>Boolean(await caches.match('https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm')) && Boolean(await caches.match('https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm')));
   const saved=await page.evaluate(async()=>{const m=await import('/src/library-store.js');return {courses:await m.listCourses(),bytes:await m.audioUsage()};});
   assert.equal(saved.courses.length,1); assert.ok(saved.bytes>1000); assert.ok(saved.courses[0].offset>0);
   await page.setOfflineMode(true); await page.reload();
