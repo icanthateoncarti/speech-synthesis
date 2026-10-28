@@ -490,10 +490,38 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
 .library-row span { flex: 1 0 100%; overflow-wrap: anywhere; }
 .library-row button { min-height: 44px; padding: 8px 12px; border: 1px solid #aaa; border-radius: 6px; cursor: pointer; }
 
-.review-dialog { width: min(760px, calc(100vw - 24px)); }
-.review-dialog textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 180px; font: 16px/1.5 system-ui; }
-#review-pdf-options { display: grid; gap: 12px; margin: 16px 0; }
+/* Relecture : l'écran de la radio s'agrandit jusqu'à remplir la page (animation dans document-review.js). */
+.review-dialog {
+  width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+  background: #071411; color: #9fdcc8; color-scheme: dark; font: 500 15px/1.6 var(--mono);
+  box-shadow: inset 0 0 120px #60e3b90d;
+}
+.review-dialog[open] { display: flex; }
+.review-dialog::backdrop { background: transparent; }
+.review-dialog::after { content: ""; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 4px); pointer-events: none; }
+.review-inner { box-sizing: border-box; width: min(860px, 100%); margin: 0 auto; padding: 40px 24px 32px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #1f6b58 transparent; }
+.review-dialog h2 { margin: 0 0 12px; font: 400 26px/1.3 var(--dot); color: var(--phosphor); text-shadow: 0 0 9px rgba(94,255,214,.28); text-transform: uppercase; letter-spacing: .03em; }
+.review-dialog p { color: #86b6a6; }
+#review-feedback { color: var(--phosphor); }
+.review-dialog label { color: #b9e8d9; }
+.review-dialog textarea {
+  display: block; width: 100%; box-sizing: border-box; resize: vertical; min-height: 220px; height: 42dvh; margin-top: 8px; padding: 14px 16px;
+  border: 1px solid #21463b; border-radius: 6px; background: #0a1c17; color: var(--phosphor);
+  font: 19px/1.6 var(--dot); letter-spacing: .015em; text-shadow: 0 0 9px rgba(94,255,214,.22); caret-color: var(--phosphor);
+}
+.review-dialog select { min-height: 44px; margin-left: 8px; padding: 0 10px; border: 1px solid #21463b; border-radius: 6px; background: #0a1c17; color: var(--phosphor); font: inherit; }
+.review-dialog input[type=checkbox] { width: 18px; height: 18px; margin: 0 8px 0 0; vertical-align: -3px; accent-color: var(--phosphor); }
+.review-dialog button { min-height: 44px; padding: 8px 18px; border: 1px solid var(--phosphor-dim); border-radius: 6px; background: transparent; color: var(--phosphor); font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }
+.review-dialog button:hover:not(:disabled) { background: #5effd614; }
+.review-dialog #review-apply { background: var(--phosphor); border-color: var(--phosphor); color: #071411; box-shadow: 0 0 14px #5effd640; }
+.review-dialog button:disabled { opacity: .4; cursor: default; }
+.review-dialog :focus-visible { outline: 2px solid var(--phosphor); outline-offset: 3px; }
+.review-dialog .cleanup-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+#review-pdf-options { display: grid; gap: 12px; margin: 16px 0 24px; padding: 16px; border: 1px dashed #21463b; border-radius: 8px; }
 #review-pdf-options[hidden] { display: none; }
-#review-pdf-options select { max-width: 100%; min-height: 44px; }
+#review-pdf-options p { margin: 0; font-size: 13px; }
+#review-pdf-options select { max-width: 100%; }
+#review-extract { justify-self: start; }
+@media (max-width: 640px) { .review-inner { padding: 24px 16px; } .review-dialog h2 { font-size: 21px; } .review-dialog select { margin: 6px 0 0; display: block; width: 100%; } }
 
 #share-result input { width: 100%; box-sizing: border-box; min-height: 44px; font-size: 16px; }

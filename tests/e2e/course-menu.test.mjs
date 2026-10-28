@@ -22,7 +22,7 @@ test('options : clavier, fermeture extérieure, dialogues et focus de retour', a
   await page.$eval('#screen', e => {e.value='Bonjour. Un cours pour tester les options.'; e.dispatchEvent(new Event('input'));});
   for (const name of ['review', 'share']) {
     await page.click('#course-tools-toggle'); await page.click(`#${name}-open`);
-    await page.waitForSelector(`#${name}-dialog[open]`);
+    await page.waitForSelector(`#${name}-dialog[open]:not([data-entering])`);
     assert.equal(await page.$eval('#course-tools-panel', e => e.hidden), true);
     await page.click(`#${name}-close`);
     assert.equal(await page.evaluate(() => document.activeElement.id), 'course-tools-toggle');

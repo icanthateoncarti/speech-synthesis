@@ -2,6 +2,17 @@ import { MAX_TEXT_CHARS } from "./limits.js";
 import { hasSpeakableContent } from "./text.js";
 
 let closePrevious;
+// L'écran de la radio s'agrandit jusqu'à remplir la page : on « rentre » dans l'écran.
+// data-entering reste posé pendant l'animation (les clics ne visent rien tant que l'écran grandit).
+function enterScreen(dialog) {
+  const from = document.querySelector(".screen")?.getBoundingClientRect();
+  if (!from?.width || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const start = `inset(${from.top}px ${innerWidth - from.right}px ${innerHeight - from.bottom}px ${from.left}px round 18px)`;
+  dialog.dataset.entering = "";
+  const grow = dialog.animate({ clipPath: [start, "inset(0px 0px 0px 0px round 0px)"] }, { duration: 460, easing: "cubic-bezier(.65,0,.25,1)" });
+  dialog.firstElementChild.animate({ opacity: [0, 0, 1], transform: ["translateY(8px)", "translateY(8px)", "none"] }, { duration: 620, easing: "ease-out" });
+  grow.finished.catch(() => {}).finally(() => delete dialog.dataset.entering);
+}
 export function reviewDocument({ text, file, scannedPages = [], extract, signal }) {
   closePrevious?.();
   const $ = id => document.getElementById(id);
@@ -45,6 +56,6 @@ export function reviewDocument({ text, file, scannedPages = [], extract, signal 
     };
     closePrevious = close;
     dialog.addEventListener("close", closed); dialog.addEventListener("cancel", cancel); signal?.addEventListener("abort", close, { once: true });
-    dialog.showModal(); validity(); $("review-close").focus();
+    dialog.showModal(); enterScreen(dialog); validity(); $("review-close").focus({ preventScroll: true });
   });
 }
