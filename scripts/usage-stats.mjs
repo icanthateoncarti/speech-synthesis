@@ -17,7 +17,7 @@ const usage = await (await fetch(API + "/stats", { headers: { Authorization: "Be
 // wrangler rafraîchit le jeton OAuth s'il a expiré.
 execFileSync("npx", ["--yes", "wrangler@4.154.0", "whoami"], { env: { ...process.env, HOME: PRIVATE }, stdio: "ignore" });
 const oauth = readFileSync(path.join(PRIVATE, ".wrangler/config/default.toml"), "utf8").match(/^oauth_token\s*=\s*"(.+)"/m)[1];
-const query = `{viewer{accounts(filter:{accountTag:"${ACCOUNT}"}){rumPageloadEventsAdaptiveGroups(limit:100,filter:{date_geq:"${since}"}){sum{visits} dimensions{date}}}}}`;
+const query = `{viewer{accounts(filter:{accountTag:"${ACCOUNT}"}){rumPageloadEventsAdaptiveGroups(limit:100,filter:{date_geq:"${since}"}){sum{visits} avg{sampleInterval} dimensions{date}}}}}`;
 const analytics = await (await fetch("https://api.cloudflare.com/client/v4/graphql", {
   method: "POST", headers: { Authorization: "Bearer " + oauth, "Content-Type": "application/json" }, body: JSON.stringify({ query }),
 })).json();
@@ -25,7 +25,12 @@ if (analytics.errors?.length) throw new Error(analytics.errors[0].message);
 
 const rows = new Map();
 const row = day => rows.get(day) ?? rows.set(day, { visites: 0, imports: 0, "échecs import": 0, écoutes: 0, exports: 0, "échecs export": 0 }).get(day);
-for (const group of analytics.data.viewer.accounts[0].rumPageloadEventsAdaptiveGroups) row(group.dimensions.date).visites += group.sum.visits;
+// Cloudflare échantillonne parfois la réponse : une visite comptée en vaut alors sampleInterval.
+let sampled = 1;
+for (const group of analytics.data.viewer.accounts[0].rumPageloadEventsAdaptiveGroups) {
+  row(group.dimensions.date).visites += group.sum.visits;
+  sampled = Math.max(sampled, group.avg.sampleInterval);
+}
 const detail = new Map();
 for (const { day, event, n } of usage.filter(u => u.day >= since)) {
   const r = row(day);
@@ -41,5 +46,6 @@ console.table(table);
 const total = Object.values(table).reduce((t, r) => { for (const k in r) t[k] = (t[k] ?? 0) + r[k]; return t; }, {});
 const pct = n => total.visites ? `${Math.round((100 * n) / total.visites)} %` : "-";
 console.log(`${days} jours : ${total.visites} visites → ${total.écoutes} visites avec écoute (${pct(total.écoutes)}), ${total.imports} imports, ${total.exports} exports MP3.`);
+if (sampled > 1) console.log(`Visites estimées : Cloudflare a échantillonné (1 sur ${Math.round(sampled)}). Relancer plus tard pour des chiffres exacts.`);
 console.log("Écoutes et exports ne sont comptés que depuis la mise en ligne du compteur (2026-10-28).");
 if (detail.size) console.log("Détail :", Object.fromEntries([...detail].sort(([, a], [, b]) => b - a)));
