@@ -46,7 +46,7 @@ test('OCR local : scan reconnu, aperçu modifiable, annuler conserve le texte', 
   await page.click('#review-close');assert.equal(await page.$eval('#screen',el=>el.value),'Texte précédent.');
   await (await page.$('#pdf-input')).uploadFile(file);
   await page.waitForSelector('#review-dialog[open]:not([data-entering])');await page.click('#review-ocr');await page.click('#review-extract');
-  try { await page.waitForFunction(()=>document.querySelector('#review-text').value.includes('variables') || document.querySelector('#review-feedback').textContent.startsWith('Extraction impossible'),{timeout:45000}); } catch(error) { console.log('OCR diagnostic',await page.$eval('#review-feedback',el=>el.textContent));throw error; }
+  try { await page.waitForFunction(()=>document.querySelector('#review-text').value.includes('variables') || document.querySelector('#review-feedback').textContent.startsWith('Lecture impossible'),{timeout:45000}); } catch(error) { console.log('OCR diagnostic',await page.$eval('#review-feedback',el=>el.textContent));throw error; }
   assert.match(await page.$eval('#review-text',el=>el.value), /variables/, await page.$eval('#review-feedback',el=>el.textContent));
   await page.$eval('#review-text',el=>{el.value+='\nPhrase corrigée.';el.dispatchEvent(new Event('input'));});
   await page.click('#review-apply');await page.waitForFunction(()=>document.querySelector('#screen').value.includes('Phrase corrigée.'));

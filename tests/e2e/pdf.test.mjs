@@ -51,7 +51,7 @@ test("PDF scanné et invalide : message explicite, texte précédent conservé",
   await page.$eval("#screen", (el) => { el.value = "Gardé."; el.dispatchEvent(new Event("input")); });
   await upload("scan.pdf");
   await page.waitForSelector("#review-dialog[open]");
-  assert.match(await page.$eval("#review-feedback", el => el.textContent), /peu ou pas de texte/);
+  assert.match(await page.$eval("#review-feedback", el => el.textContent), /sans texte lisible/);
   await page.click("#review-close");
   assert.equal(await page.$eval("#screen", el => el.value), "Gardé.");
   await upload("invalid.pdf");

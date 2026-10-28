@@ -141,7 +141,7 @@ test("PPTX : nettoyer les répétitions conserve les chapitres et reste réversi
   await page.waitForSelector("#cleanup-list input");
   assert.ok((await page.$eval("#cleanup-list", el => el.textContent)).includes("EPHEC"));
   await page.click("#cleanup-apply");
-  await page.waitForFunction(() => !document.querySelector("#screen").value.includes("EPHEC"));
+  await page.waitForFunction(() => !document.querySelector("#screen").hasAttribute("data-typing") && !document.querySelector("#screen").value.includes("EPHEC"));
   const text = await page.$eval("#screen", el => el.value);
   for (const n of [1, 2, 3]) assert.ok(text.includes(`Chapitre ${n}`));
   assert.equal(await page.$$eval("#chapter option", els => els.length), 3);

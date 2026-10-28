@@ -67,13 +67,40 @@ async function persistCourse() {
 }
 function scheduleSave() { if (courseId) { clearTimeout(saveTimer); saveTimer = setTimeout(persistCourse, 700); } }
 function detachCourse() { clearTimeout(saveTimer); storageWarning = ""; courseStorage = null; courseId = null; courseName = ""; restoreOffset = 0; $("library-state").textContent = ""; }
+// Le texte arrive sur l'écran comme tapé très vite : seulement la partie visible, puis tout le texte.
+// L'état a déjà le texte complet ; seul l'affichage suit. Une touche ou un clic termine tout de suite.
+let typing = null;
+function typeOnScreen(text) {
+  typing?.done();
+  const show = () => { screen.value = text; screen.setSelectionRange(0, 0); screen.scrollTop = 0; };
+  if (!text || matchMedia("(prefers-reduced-motion: reduce)").matches) { show(); return; }
+  // ~ ce qui tient sur l'écran ; la suite arrive d'un coup, hors de vue.
+  const visible = Math.min(text.length, 520), duration = Math.min(650, 150 + visible * 0.9), start = performance.now();
+  let shown = "";
+  const job = {
+    frame: 0,
+    done() { stopTyping(); if (screen.value === shown) show(); },
+  };
+  const step = now => {
+    if (screen.value !== shown) { stopTyping(); return; } // l'écran a été changé ailleurs
+    // L'horodatage d'une image peut précéder start : on borne à [0, 1].
+    const t = Math.min(1, Math.max(0, (now - start) / duration));
+    if (t === 1) { job.done(); return; }
+    shown = text.slice(0, Math.round(visible * t)); screen.value = shown;
+    job.frame = requestAnimationFrame(step);
+  };
+  typing = job; screen.dataset.typing = ""; screen.value = ""; screen.scrollTop = 0; job.frame = requestAnimationFrame(step);
+}
+function stopTyping() { if (typing) { cancelAnimationFrame(typing.frame); typing = null; delete screen.dataset.typing; } }
+for (const type of ["keydown", "pointerdown"]) screen.addEventListener(type, () => typing?.done());
+
 function restoreCourse(value) {
   const data = sessionData(value);
   cancelWork({ cancelPreload: true }); tts.clearCache();
   storageWarning = ""; courseStorage = null;
   courseId = value.id ?? null; courseName = data.name; restoreOffset = data.offset;
   documentInfo = { name: data.name, chapters: data.chapters, titles: data.titles };
-  screen.value = data.text;
+  stopTyping(); screen.value = data.text;
   dispatch({ type: "TEXT_CHANGED", text: data.text }); dispatch({ type: "VOICE_CHANGED", voice: data.voice }); dispatch({ type: "SPEED_CHANGED", speed: data.speed });
   $("speed").value = String(data.speed); rebuildIndex();
   if (courseId) { try { localStorage.setItem("radio-last-course", courseId); } catch {} }
@@ -454,7 +481,7 @@ async function importDocument(file) {
     if (format === "pdf" && document.pageMaps) {
       documentInfo.pages = { file, pageMaps: document.pageMaps, fullText: document.text, fullChapters: document.chapters, marks: { include: [], exclude: [] } };
     }
-    screen.value = document.text; screen.setSelectionRange(0, 0); screen.scrollTop = 0;
+    typeOnScreen(document.text);
     dispatch({ type: "TEXT_CHANGED", text: document.text }); rebuildIndex();
     screen.focus({ preventScroll: true }); preload();
     countUsage(`import-${scanned ? "pdf-scan" : format}`);
@@ -478,7 +505,7 @@ function applyMarks() {
     : marked ? excerpt(pages.fullText, ranges, pages.fullChapters) : { text: pages.fullText, chapters: pages.fullChapters };
   if (next.text !== state.text) {
     cancelWork();
-    screen.value = next.text; screen.setSelectionRange(0, 0); screen.scrollTop = 0;
+    typeOnScreen(next.text);
     documentInfo.chapters = next.chapters;
     dispatch({ type: "TEXT_CHANGED", text: next.text }); rebuildIndex(); preload();
   }
@@ -511,7 +538,7 @@ $("cleanup-open").addEventListener("click", async () => {
   if (next.text !== state.text) {
     cancelWork();
     documentInfo.chapters = next.chapters;
-    screen.value = next.text; screen.setSelectionRange(0, 0); screen.scrollTop = 0;
+    typeOnScreen(next.text);
     dispatch({ type: "TEXT_CHANGED", text: next.text }); rebuildIndex(); preload();
   } else paint();
   message(removed.length ? `${removed.length} RÉPÉTITION${removed.length > 1 ? "S" : ""} RETIRÉE${removed.length > 1 ? "S" : ""}` : "NETTOYAGE ANNULÉ · TEXTE RÉTABLI", 5000);
@@ -529,7 +556,7 @@ $("key-mp3").addEventListener("click", () => { void exportMp3(); });
 $("key-clear").addEventListener("click", () => {
   void persistCourse(); detachCourse();
   try { localStorage.removeItem("radio-last-course"); } catch {}
-  cancelWork({ cancelPreload: true }); screen.value = ""; documentInfo = { name: "", chapters: [] }; audioDetails = null;
+  cancelWork({ cancelPreload: true }); stopTyping(); screen.value = ""; documentInfo = { name: "", chapters: [] }; audioDetails = null;
   tts.clearCache();
   dispatch({ type: "CLEAR" }); rebuildIndex();
   $("commands-panel").hidden = true; $("commands-toggle").setAttribute("aria-expanded", "false"); screen.focus();
@@ -660,7 +687,7 @@ $("voice-command").addEventListener("click", async () => {
 document.addEventListener("click", (event) => {
   const sample = event.target.closest("[data-sample]");
   if (!sample) return;
-  screen.value = sample.dataset.sample; screen.dispatchEvent(new Event("input"));
+  stopTyping(); screen.value = sample.dataset.sample; screen.dispatchEvent(new Event("input"));
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.querySelector(".machine").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
   screen.focus({ preventScroll: true }); screen.setSelectionRange(0, 0);
@@ -702,7 +729,7 @@ $("review-open").addEventListener("click", async () => {
     if (text === null || revision !== version || text === state.text) return;
     cancelWork(); restoreOffset = 0;
     documentInfo = { name: source.name, sourcePdf: source.sourcePdf, chapters: [] };
-    screen.value = text; dispatch({ type: "TEXT_CHANGED", text }); rebuildIndex(); preload();
+    typeOnScreen(text); dispatch({ type: "TEXT_CHANGED", text }); rebuildIndex(); preload();
   } catch (error) { message(error.message, 6000); }
 });
 

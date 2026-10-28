@@ -87,7 +87,9 @@ export function reviewDocument({ text, file, scannedPages = [], extract, signal 
   editor.value = text; editor.maxLength = MAX_TEXT_CHARS;
   $("review-pdf-options").hidden = !file;
   $("review-layout").value = "native"; $("review-ocr").checked = false;
-  feedback.textContent = scannedPages.length ? `${scannedPages.length} page(s) avec peu ou pas de texte détectable. Tu peux activer la reconnaissance des scans ci-dessous.` : "Vérifie l’ordre de lecture et corrige les mots si nécessaire. Le fichier original reste intact.";
+  const scans = scannedPages.length;
+  $("review-pdf-options").open = scans > 0; $("review-lang-row").hidden = true;
+  feedback.textContent = scans ? `${scans} page${scans > 1 ? "s" : ""} sans texte lisible : sûrement des scans (photos de texte). Pour les lire aussi, coche « Lire aussi les pages scannées » plus bas.` : "Vérifie le texte et corrige les mots si besoin. Ton fichier n’est pas modifié.";
   let result = null, controller, active = true;
   const validity = () => { apply.disabled = Boolean(controller) || !hasSpeakableContent(editor.value); };
   return new Promise(resolve => {
@@ -103,23 +105,24 @@ export function reviewDocument({ text, file, scannedPages = [], extract, signal 
       dialog.removeEventListener("close", closed); dialog.removeEventListener("cancel", cancel);
       if (closePrevious === close) closePrevious = null;
       controller?.abort(); signal?.removeEventListener("abort", close);
-      editor.oninput = apply.onclick = rebuild.onclick = $("review-close").onclick = null;
+      editor.oninput = apply.onclick = rebuild.onclick = $("review-close").onclick = $("review-ocr").onchange = null;
       if (back) back.then(() => resolve(result)); else resolve(result);
     };
     editor.oninput = validity;
+    $("review-ocr").onchange = () => { $("review-lang-row").hidden = !$("review-ocr").checked; };
     apply.onclick = () => { result = editor.value; close(); };
     $("review-close").onclick = close;
     rebuild.onclick = async () => {
       if (controller) return;
       controller = new AbortController(); rebuild.disabled = true; validity();
-      feedback.textContent = "Extraction en cours… Tu peux fermer pour annuler.";
+      feedback.textContent = "Lecture du PDF en cours… « Annuler » l’arrête.";
       try {
         const doc = await extract({ signal: controller.signal, layout: $("review-layout").value, ocr: $("review-ocr").checked, lang: $("review-lang").value,
           onProgress: value => { if (active) feedback.textContent = value; } });
         if (!active) return;
         editor.value = doc.text;
-        feedback.textContent = doc.truncated ? "Document limité : 500 pages, 50 pages reconnues ou 2 millions de caractères. Vérifie le texte avant d’appliquer." : "Texte extrait. Vérifie les noms, nombres, colonnes et tableaux avant d’appliquer.";
-      } catch (error) { if (active) feedback.textContent = error.name === "AbortError" ? "Annulé" : "Extraction impossible : " + error.message; }
+        feedback.textContent = doc.truncated ? "Document limité : 500 pages, 50 pages reconnues ou 2 millions de caractères. Vérifie le texte avant de le mettre dans la radio." : "Nouveau texte prêt. Vérifie surtout les noms, les nombres et les tableaux.";
+      } catch (error) { if (active) feedback.textContent = error.name === "AbortError" ? "Annulé" : "Lecture impossible : " + error.message; }
       finally { controller = null; if (active) { rebuild.disabled = false; validity(); } }
     };
     closePrevious = close;

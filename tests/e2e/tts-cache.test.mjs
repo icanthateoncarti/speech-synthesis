@@ -23,6 +23,8 @@ test("un worker versionné ignore un ancien moteur encore dans le cache HTTP", {
     }
     void request.continue();
   };
+  // Sinon le service worker hors ligne sert le moteur depuis son cache et la requête reste invisible.
+  await page.setBypassServiceWorker(true);
   await page.setRequestInterception(true); page.on("request", watch);
   try {
     const seconds = await page.evaluate(async () => {

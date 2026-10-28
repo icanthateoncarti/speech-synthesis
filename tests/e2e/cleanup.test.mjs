@@ -33,7 +33,7 @@ test("PDF : aperçu des parasites, suppression choisie, chapitres préservés, r
   await page.keyboard.press('Escape');
   assert.equal(await page.evaluate(() => document.activeElement.id), 'cleanup-open');
   await page.click('#cleanup-open'); await page.click('#cleanup-apply');
-  await page.waitForFunction(() => !document.querySelector('#screen').value.includes('EPHEC'));
+  await page.waitForFunction(() => !document.querySelector('#screen').hasAttribute('data-typing') && !document.querySelector('#screen').value.includes('EPHEC'));
   const cleaned = await page.$eval('#screen', el => el.value);
   for (const n of [1,2,3]) assert.ok(cleaned.includes(`Chapitre ${n}`));
   assert.ok(cleaned.includes('explication importante'));

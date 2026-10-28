@@ -33,7 +33,11 @@ before(async () => {
 });
 after(async () => { await browser?.close(); await server?.close(); });
 
-const screenText = () => page.$eval("#screen", (el) => el.value);
+// Le texte s'écrit sur l'écran en ~0,6 s : on lit une fois l'écriture finie.
+const screenText = async () => {
+  await page.waitForFunction(() => !document.querySelector("#screen").hasAttribute("data-typing"));
+  return page.$eval("#screen", (el) => el.value);
+};
 async function importPdf() {
   await page.goto(server.url);
   await page.waitForSelector('#key-speak[aria-pressed="false"]');
