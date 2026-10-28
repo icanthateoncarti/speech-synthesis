@@ -49,11 +49,14 @@ test("PDF texte : extraction locale, toutes les pages, chargement à la demande"
 test("PDF scanné et invalide : message explicite, texte précédent conservé", { timeout: 90_000 }, async () => {
   await open();
   await page.$eval("#screen", (el) => { el.value = "Gardé."; el.dispatchEvent(new Event("input")); });
-  for (const [file, expected] of [["scan.pdf", "PDF SANS TEXTE"], ["invalid.pdf", "PDF ILLISIBLE · RÉESSAIE"]]) {
-    await upload(file);
-    await page.waitForFunction((value) => document.querySelector("#status-left").textContent === value, { timeout: 60_000 }, expected);
-    assert.equal(await page.$eval("#screen", (el) => el.value), "Gardé.");
-  }
+  await upload("scan.pdf");
+  await page.waitForSelector("#review-dialog[open]");
+  assert.match(await page.$eval("#review-feedback", el => el.textContent), /peu ou pas de texte/);
+  await page.click("#review-close");
+  assert.equal(await page.$eval("#screen", el => el.value), "Gardé.");
+  await upload("invalid.pdf");
+  await page.waitForFunction(() => document.querySelector("#status-left").textContent === "PDF ILLISIBLE · RÉESSAIE");
+  assert.equal(await page.$eval("#screen", el => el.value), "Gardé.");
 });
 
 test("une phrase répartie sur plusieurs lignes PDF reste un seul morceau vocal", { timeout: 60_000 }, async () => {
@@ -67,6 +70,7 @@ test("une phrase répartie sur plusieurs lignes PDF reste un seul morceau vocal"
 });
 
 test("EFFACE pendant l'import PDF ne laisse pas réapparaître le texte", async () => {
+  await page.setBypassServiceWorker(true);
   await open();
   await page.setRequestInterception(true);
   let held;
@@ -84,7 +88,7 @@ test("EFFACE pendant l'import PDF ne laisse pas réapparaître le texte", async 
     await new Promise((r) => setTimeout(r, 2000));
     assert.equal(await page.$eval("#screen", (el) => el.value), "");
     assert.equal(await page.$eval("#status-left", (el) => el.textContent), "PRÊT");
-  } finally { page.off("request", intercept); await page.setRequestInterception(false); }
+  } finally { page.off("request", intercept); await page.setRequestInterception(false); await page.setBypassServiceWorker(false); }
 });
 
 test("titres d'un PDF repérés à la taille de police : chacun sur sa ligne", { timeout: 90_000 }, async () => {

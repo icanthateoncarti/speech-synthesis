@@ -28,7 +28,7 @@ export const PAGES = [
       ["Comment écouter mon PDF ?", "Appuie sur IMPORTER, choisis ton PDF, puis appuie sur PARLE. Tu peux aussi déposer le fichier sur la radio."],
       ["Comment garder mon PDF en MP3 ?", "Importe ton PDF, règle la voix et la vitesse, puis appuie sur MP3. Le fichier audio reprend les passages sélectionnés dans PAGES et peut s’écouter sans connexion une fois téléchargé."],
       ["Comment retrouver un passage pendant la lecture ?", "Utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. Dans COMMANDES, tu peux aussi écrire « reviens 3 phrases en arrière »."],
-      ["Mon PDF reste-t-il privé ?", "Oui : son texte est extrait et lu sur ton appareil. Le fichier et son contenu ne sont pas envoyés à un serveur."],
+      ["Mon PDF reste-t-il privé ?", "Oui : son texte est extrait et lu sur ton appareil. Le fichier original reste sur ton appareil. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours."],
       ["Et pour un PowerPoint ?", "Importe une présentation au format .pptx : chaque diapositive devient un chapitre. Pour un ancien fichier .ppt, enregistre-le d’abord en .pptx."],
       ["Quelles voix sont disponibles ?", "Deux voix par langue, en français et en anglais."],
       ["Pourquoi mon PDF ne se lit-il pas ?", "La radio a besoin de texte sélectionnable : un PDF composé uniquement de scans ou de photos ne suffit pas. Les tableaux et les mises en page complexes peuvent aussi perturber l’ordre de lecture."],
@@ -140,7 +140,7 @@ export const HOME = {
     ],
     [
       "Mon texte reste-t-il privé ?",
-      "Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus."
+      "Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus. Seule la création volontaire d’un lien de partage envoie une copie chiffrée du texte, conservée 7 jours."
     ],
     [
       "Comment emporter mon cours en MP3 ?",

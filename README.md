@@ -3,9 +3,9 @@
 - **Statut** : actif — outil « La Machine »
 - **But** : outil de synthèse vocale française dans le navigateur — voix Jessica ou Tom, vitesse réglable, écoute en direct, téléchargement MP3, import PDF et PPTX, lecture des textes anglais avec des voix anglaises.
 - **Site** : https://speechsynthe.si (GitHub Pages, branche `main`)
-- **Publication** : mise à jour du 2026-10-27 — nettoyage réversible PDF/PPTX, lecture des tableaux PDF balisés, encodage MP3 dans un worker et progression. Détails et limites : [`docs/document-import.md`](docs/document-import.md).
-- **Dépendances** : ES modules JavaScript, Web Audio, vits-web, onnxruntime-web, Paper shaders, lamejs, PDF.js, tests Node et Puppeteer.
-- **Données** : texte, PDF et audio sont traités dans le navigateur ; seuls les modèles et bibliothèques sont téléchargés.
+- **Publication** : mise à jour du 2026-10-28 — bibliothèque locale, reprise des passages audio, OCR et aperçu des PDF, partage chiffré à expiration. Détails : [`docs/2026-10-28-library-pdf-sharing.md`](docs/2026-10-28-library-pdf-sharing.md).
+- **Dépendances** : ES modules JavaScript, Web Audio, vits-web, onnxruntime-web, Paper shaders, lamejs, PDF.js, Tesseract.js 6.0.1, Cloudflare Worker + Durable Object SQLite pour le partage, tests Node et Puppeteer.
+- **Données** : lecture, extraction PDF et OCR sur l’appareil. La création volontaire d’un lien envoie uniquement une copie chiffrée du texte et des réglages, avec expiration à 7 jours. La bibliothèque reste dans le navigateur.
 - **Code vocal** : [`src/vendor/vits-web/PATCHES.md`](src/vendor/vits-web/PATCHES.md). Jessica (UPMC) est sous CC BY-SA 4.0 ; Tom est sous AGPLv3. Le dépôt reste public.
 - **Tests** : `npm test` ; `npm run test:e2e` (Google Chrome installé et connexion Internet pour les bibliothèques et modèles).
 - **Navigation + glisser-déposer** : disponibles — barre de lecture (±30 s, position, chapitres), panneau COMMANDES (sauts par phrases/secondes/chapitres, commande écrite, micro local facultatif), PARLE = pause/reprise, import PDF par glisser-déposer. Commandes : `docs/voice-commands.md`. Spec : `docs/superpowers/specs/2026-10-24-la-machine-design.md`.
@@ -23,4 +23,4 @@
 - **Indexation** : IndexNow (Bing, ChatGPT Search, Copilot, DuckDuckGo) avec la clé `904e353b535ac91e0d802ce54522f5c6.txt` à la racine, ne pas la supprimer ; après une publication qui change des pages, renvoyer leurs URL à `https://api.indexnow.org/indexnow` (soumis le 2026-10-25 : 202). Google : Search Console, propriété préfixe d'URL vérifiée par le fichier `google47078ed0a8b5dade.html` à la racine (ne pas le supprimer, sinon la propriété est perdue).
 - **Sécurité** : CSP en balise meta générée par `npm run build` (`contentSecurityPolicy` dans `scripts/stamp-version.mjs`) ; un nouveau CDN ou un script en ligne doit y être autorisé, sinon il est bloqué (test `tests/e2e/csp.test.mjs`). Voix figées et vérifiées par SHA-256 (`src/vendor/vits-web/PATCHES.md`, point 4). Budgets d'import : `src/limits.js`. Rapport d'audit : `docs/security/`, hors dépôt.
 - **Licence** : code du site sous AGPL-3.0 (`LICENSE`, choisie le 2026-10-26, cohérente avec la voix Tom en AGPLv3) ; `src/vendor/vits-web` reste sous MIT (sa propre `LICENSE`).
-- **Dernière touche** : 2026-10-27
+- **Dernière touche** : 2026-10-28

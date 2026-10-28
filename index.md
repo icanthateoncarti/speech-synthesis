@@ -3,7 +3,7 @@
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/
-Last updated: 2026-10-27
+Last updated: 2026-10-28
 
 ## Révise tes cours en les écoutant
 
@@ -23,7 +23,7 @@ Oui : l’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonn
 
 ### Mon texte reste-t-il privé ?
 
-Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus.
+Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus. Seule la création volontaire d’un lien de partage envoie une copie chiffrée du texte, conservée 7 jours.
 
 ### Comment emporter mon cours en MP3 ?
 

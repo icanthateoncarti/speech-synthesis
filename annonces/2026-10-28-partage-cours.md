@@ -1,0 +1,1 @@
+Share a course with a link on speechsynthe.si. It carries your selected text, chapters, voice, speed and reading position. The stored copy is encrypted, links expire after 7 days, and you can delete links you created from the same browser.

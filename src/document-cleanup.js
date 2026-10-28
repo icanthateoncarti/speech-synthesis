@@ -26,7 +26,7 @@ export function repeatedNoise(fragments, pageCount) {
       group.ranges.push([fragment.start, fragment.end]);
       continue;
     }
-    const key = normalizeKey(text);
+    const key = normalizeKey(text).replace(/\b(page|slide|diapo)\s+\d+(?:\s*(?:\/|sur|of)\s*\d+)?\s*$/iu, "$1 #");
     if (!groups.has(key)) groups.set(key, { id: key, text, pages: new Set(), ranges: [], order: order++ });
     const group = groups.get(key);
     group.pages.add(fragment.page);

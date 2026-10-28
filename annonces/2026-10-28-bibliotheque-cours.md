@@ -1,0 +1,1 @@
+speechsynthe.si now saves courses on your device, including your reading position and prepared audio. Reopen a saved course to continue. Prepared passages can play offline; you can delete courses to free up space.

@@ -9,6 +9,10 @@ import { createVoiceCommands, parseVoiceCommand } from "./voice-commands.js";
 import { MAX_FILE_BYTES } from "./limits.js";
 import { excerpt, hasMarks, readRanges } from "./selection.js";
 import { repeatedNoise, documentExcerpt } from "./document-cleanup.js";
+import { saveCourse, getCourse, courseAudioStore } from "./library-store.js";
+import { createdShares } from "./share.js";
+import { incomingShare, takeIncomingShare } from "./share-location.js";
+import { sessionData } from "./session-data.js";
 
 const $ = (id) => document.getElementById(id);
 const screen = $("screen"), reader = $("reader"), speak = $("key-speak");
@@ -19,8 +23,37 @@ let playbackActive = false, paused = false, pendingNavigation = null;
 let preloadJob = null, pdfBusy = false, revision = 0, note = null, noteTimer, importJob = null;
 let timeline = [], spans = [], highlighted = -1, elapsed = 0, scrubbing = false, lastPositionPaint = 0;
 let micResume = false, voiceListening = false, dragDepth = 0;
+let courseId = null, courseName = "", restoreOffset = 0, saveTimer, lastSavedAt = 0, storageWarning = "", courseStorage;
 
-function dispatch(event) { state = reduce(state, event); paint(); }
+function snapshot() {
+  return sessionData({ version: 1, text: state.text, voice: state.voice, speed: state.speed,
+    name: courseName || documentInfo.name || state.text.split("\n")[0].slice(0, 80),
+    chapters: documentInfo.chapters, titles: documentInfo.titles ?? [],
+    offset: restoreOffset || textOffsetAtTime(index, player.getTime(), synthesis?.durations ?? []) });
+}
+async function persistCourse() {
+  clearTimeout(saveTimer);
+  if (!courseId || !hasSpeakableContent(state.text)) return;
+  const id = courseId;
+  try { await saveCourse({ id, ...snapshot() }, { existingOnly: true }); if (courseId === id) $("library-state").textContent = storageWarning || "Enregistré sur cet appareil"; }
+  catch (error) { $("library-state").textContent = error.message; }
+}
+function scheduleSave() { if (courseId) { clearTimeout(saveTimer); saveTimer = setTimeout(persistCourse, 700); } }
+function detachCourse() { clearTimeout(saveTimer); storageWarning = ""; courseStorage = null; courseId = null; courseName = ""; restoreOffset = 0; $("library-state").textContent = ""; }
+function restoreCourse(value) {
+  const data = sessionData(value);
+  cancelWork({ cancelPreload: true }); tts.clearCache();
+  storageWarning = ""; courseStorage = null;
+  courseId = value.id ?? null; courseName = data.name; restoreOffset = data.offset;
+  documentInfo = { name: data.name, chapters: data.chapters, titles: data.titles };
+  screen.value = data.text;
+  dispatch({ type: "TEXT_CHANGED", text: data.text }); dispatch({ type: "VOICE_CHANGED", voice: data.voice }); dispatch({ type: "SPEED_CHANGED", speed: data.speed });
+  $("speed").value = String(data.speed); rebuildIndex();
+  if (courseId) { try { localStorage.setItem("radio-last-course", courseId); } catch {} }
+  message(data.offset ? "COURS RETROUVÉ · PARLE POUR REPRENDRE" : "COURS CHARGÉ · APPUIE SUR PARLE", 6000);
+}
+
+function dispatch(event) { state = reduce(state, event); paint(); if (["TEXT_CHANGED", "VOICE_CHANGED", "SPEED_CHANGED"].includes(event.type)) scheduleSave(); }
 function valid(job) { return synthesis === job && job.key === audioKey(state); }
 function formatTime(value) {
   const n = Math.max(0, Math.floor(Number(value) || 0));
@@ -72,6 +105,9 @@ function paint() {
   $("key-mp3").textContent = exportJob ? exportJob.stage === "encoding" ? `MP3 ${exportJob.pct} %` : `AUDIO ${audioPct} %` : "⬇ MP3";
   $("key-pdf").disabled = pdfBusy;
   const pages = documentInfo.pages;
+  $("share-open").hidden = !hasSpeakableContent(state.text) && !createdShares().length;
+  $("share-open").textContent = hasSpeakableContent(state.text) ? "PARTAGER" : "MES LIENS";
+  $("review-open").hidden = !hasSpeakableContent(state.text);
   const cleaning = documentInfo.cleaning;
   $("cleanup-open").hidden = !cleaning;
   $("cleanup-open").textContent = cleaning?.removed.length ? "NETTOYÉ" : "NETTOYER";
@@ -110,18 +146,21 @@ function resetReader() {
 function appendWords(text, duration, i, pause = { before: 0, after: 0 }) {
   if (timeline.length) elapsed += 0.15;
   // Les morceaux suivent les lignes : un titre de chapitre garde sa propre ligne.
-  if (spans.length && index.text[index.chunks[i]?.start - 1] === "\n") reader.append("\n");
+  if (timeline.length < 500 && spans.length && index.text[index.chunks[i]?.start - 1] === "\n") reader.append("\n");
   // Le silence d'un titre fait partie du morceau ; les mots ne s'y étalent pas.
   const speech = Math.max(0, duration - pause.before - pause.after);
   elapsed += pause.before;
   for (const item of wordTimeline([text], [speech])) {
     timeline.push({ ...item, start: item.start + elapsed, end: item.end + elapsed });
-    const span = document.createElement("span"); span.className = "w"; span.textContent = item.word;
-    reader.append(span, " "); spans.push(span);
+    if (timeline.length <= 500) {
+      const span = document.createElement("span"); span.className = "w"; span.textContent = item.word;
+      reader.append(span, " "); spans[timeline.length - 1] = span;
+    }
   }
   elapsed += speech + pause.after;
 }
 player.onTime((time) => {
+  if (courseId && playbackActive && Date.now() - lastSavedAt > 2000) { lastSavedAt = Date.now(); void persistCourse(); }
   let lo = 0, hi = timeline.length - 1, found = -1;
   while (lo <= hi) {
     const mid = (lo + hi) >> 1;
@@ -129,6 +168,13 @@ player.onTime((time) => {
   }
   if (found !== highlighted) {
     spans[highlighted]?.classList.remove("now"); highlighted = found;
+    if (found >= 0 && !spans[found]) {
+      reader.replaceChildren(); spans = [];
+      for (let i = Math.max(0, found - 100); i < Math.min(timeline.length, found + 300); i++) {
+        const word = document.createElement("span"); word.className = "w"; word.textContent = timeline[i].word;
+        spans[i] = word; reader.append(word, " ");
+      }
+    }
     const span = spans[found];
     if (span) {
       span.classList.add("now");
@@ -137,6 +183,7 @@ player.onTime((time) => {
   }
   paintPosition();
 });
+player.onError(() => { playbackActive = false; dispatch({ type: "ERROR", kind: "other" }); });
 player.onLevel((level) => [...$("meter").children].forEach((bar, i) => {
   const hot = level > i / 12;
   bar.classList.toggle("hot", hot);
@@ -176,26 +223,38 @@ function preload() {
       if (!synthesis) dispatch(hasSpeakableContent(state.text) && error.kind !== "cancelled" ? { type: "ERROR", kind: error.kind } : { type: "STOP" });
     });
 }
+function currentAudioStore() {
+  if (!courseId) return;
+  if (courseStorage?.id !== courseId) courseStorage = { id: courseId, store: courseAudioStore(courseId, error => { storageWarning = error.message; $("library-state").textContent = storageWarning; }) };
+  return courseStorage.store;
+}
 function ensureSynthesis() {
   const key = audioKey(state);
   if (synthesis?.key === key) return synthesis;
   const chunks = splitIntoChunks(state.text);
-  const job = { key, chunks, durations: [], complete: false, controller: new AbortController(), promise: null, completedChars: 0, totalChars: chunks.reduce((sum, chunk) => sum + chunk.length, 0) };
+  const job = { key, chunks, prepared: [], durations: [], complete: false, controller: new AbortController(), promise: null, completedChars: 0, totalChars: chunks.reduce((sum, chunk) => sum + chunk.length, 0) };
   synthesis = job;
   resetReader(); player.stop(); player.pause();
+  if (restoreOffset) pendingNavigation = { time: 0, offset: restoreOffset, resume: false };
   if (state.audio?.key === key && state.audio.wav) {
     const details = audioDetails?.key === key ? audioDetails : { chunks: [state.text], durations: [wavDuration(state.audio.wav)], pauses: [] };
     job.chunks = details.chunks; job.durations = details.durations.slice(); job.complete = true;
     job.completedChars = job.totalChars;
     index = buildReadingIndex(state.text, job.chunks, documentInfo.chapters);
     job.chunks.forEach((chunk, i) => appendWords(chunk, job.durations[i], i, details.pauses?.[i]));
-    player.load([state.audio.wav]);
-    job.promise = Promise.resolve({ wav: state.audio.wav, chunks: job.chunks, durations: job.durations });
+    job.loading = player.load([state.audio.wav]);
+    job.promise = job.loading.then(() => ({ wav: state.audio.wav, chunks: job.chunks, durations: job.durations }));
     return job;
   }
   dispatch({ type: "SYNTH_STARTED" });
   const input = { text: state.text, voice: state.voice, speed: state.speed, titles: documentInfo.titles ?? [] };
   job.promise = tts.synthesize(input, {
+    blob: true,
+    audioStore: {
+      get: key => currentAudioStore()?.get(key),
+      put: (key, wav) => currentAudioStore()?.put(key, wav),
+    },
+    onPrepared(key, blob) { if (valid(job)) job.prepared.push({ key, blob }); },
     onProgress(pct) { if (valid(job) && !player.isPlaying()) dispatch({ type: "DOWNLOAD_PROGRESS", pct }); },
     onChunk(wav, i, _total, pause) {
       if (!valid(job)) return;
@@ -247,6 +306,7 @@ async function togglePlayback() {
   playbackActive = true; paused = false; note = null;
   if (pendingNavigation) pendingNavigation.resume = true;
   await ready;
+  await job.loading;
   if (!valid(job)) return;
   if (pendingNavigation) applyPending();
   else {
@@ -263,6 +323,7 @@ function applyPending() {
   else result = navigationTarget(index, { unit: "seconds", amount: target.time }, 0, job.durations, job.complete);
   if (result.pending) { paint(); return; }
   pendingNavigation = null;
+  restoreOffset = 0;
   player.seek(result.time);
   paused = !target.resume; playbackActive = true;
   if (target.resume) player.resume();
@@ -279,6 +340,7 @@ async function navigate(command, { resume } = {}) {
   pendingNavigation = { time: result.time, offset: result.offset, resume: shouldResume };
   note = null;
   await ready;
+  await job.loading;
   if (valid(job)) applyPending();
 }
 function commandAction(command, resume) {
@@ -329,18 +391,27 @@ async function importDocument(file) {
   const format = formatOf(file);
   if (!format) { message(/\.ppt$/i.test(file.name) ? "ENREGISTRE-LE EN .PPTX" : "CHOISIS UN PDF OU UN PPTX"); return; }
   if (file.size > MAX_FILE_BYTES) { message("FICHIER TROP LOURD · 100 MO MAX"); return; }
+  void persistCourse();
   cancelWork({ cancelPreload: true });
   const version = revision, job = new AbortController(); importJob = job; pdfBusy = true; paint();
   try {
     const options = { signal: job.signal };
-    const document = format === "pptx"
+    let document = format === "pptx"
       ? await (await import("./pptx.js")).extractPptxDocument(file, options)
       : await (await import("./pdf.js")).extractPdfDocument(file, options);
     if (version !== revision) return;
+    if (format === "pdf" && document.scannedPages?.length) {
+      const { reviewDocument } = await import("./document-review.js");
+      const reviewed = await reviewDocument({ text: document.text, file, scannedPages: document.scannedPages, signal: job.signal, extract: options => import("./pdf.js").then(m => m.extractPdfDocument(file, options)) });
+      if (version !== revision) return;
+      if (reviewed === null) { pdfBusy = false; paint(); return; }
+      document = { ...document, text: reviewed, pageMaps: undefined, chapters: [], fragments: [] };
+    }
     pdfBusy = false;
     if (!hasSpeakableContent(document.text)) { dispatch({ type: "PDF_EMPTY", format }); return; }
     tts.clearCache();
-    documentInfo = { name: file.name, chapters: document.chapters, titles: document.titles ?? [] };
+    detachCourse();
+    documentInfo = { name: file.name, sourcePdf: format === "pdf" ? file : null, chapters: document.chapters, titles: document.titles ?? [] };
     documentInfo.cleaning = {
       fullText: document.text, fullChapters: document.chapters,
       suggestions: repeatedNoise(document.fragments ?? [], document.pageCount ?? 0), removed: [], reviewed: false,
@@ -410,6 +481,7 @@ $("cleanup-open").addEventListener("click", async () => {
   message(removed.length ? `${removed.length} RÉPÉTITION${removed.length > 1 ? "S" : ""} RETIRÉE${removed.length > 1 ? "S" : ""}` : "NETTOYAGE ANNULÉ · TEXTE RÉTABLI", 5000);
 });
 screen.addEventListener("input", () => {
+  restoreOffset = 0;
   if (synthesis || exportJob || pdfBusy || playbackActive) cancelWork();
   documentInfo = { name: "", chapters: [] };
   dispatch({ type: "TEXT_CHANGED", text: screen.value }); rebuildIndex();
@@ -419,6 +491,8 @@ screen.addEventListener("input", () => {
 speak.addEventListener("click", () => { void togglePlayback(); });
 $("key-mp3").addEventListener("click", () => { void exportMp3(); });
 $("key-clear").addEventListener("click", () => {
+  void persistCourse(); detachCourse();
+  try { localStorage.removeItem("radio-last-course"); } catch {}
   cancelWork({ cancelPreload: true }); screen.value = ""; documentInfo = { name: "", chapters: [] }; audioDetails = null;
   tts.clearCache();
   dispatch({ type: "CLEAR" }); rebuildIndex();
@@ -555,5 +629,64 @@ document.addEventListener("click", (event) => {
   document.querySelector(".machine").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
   screen.focus({ preventScroll: true }); screen.setSelectionRange(0, 0);
 });
-window.addEventListener("pagehide", () => { cancelWork({ cancelPreload: true }); });
+$("library-open").addEventListener("click", async () => {
+  pausePlayback();
+  try {
+    const { openLibrary } = await import("./library-dialog.js");
+    await openLibrary({ canSave: hasSpeakableContent(state.text), open: restoreCourse,
+      save: async () => {
+        const id = courseId ?? crypto.randomUUID();
+        await saveCourse({ id, ...snapshot() }); courseId = id;
+        try { localStorage.setItem("radio-last-course", id); } catch {}
+        $("library-state").textContent = "Enregistrement des passages audio…";
+        let storageError;
+        const store = courseAudioStore(id, error => { storageWarning = error.message; storageError = error; });
+        for (const part of synthesis?.prepared ?? []) await store.put(part.key, await part.blob.arrayBuffer());
+        $("library-state").textContent = storageError?.message ?? "Cours et passages préparés enregistrés sur cet appareil";
+        navigator.storage?.persist?.().catch(() => {});
+      }, removed: id => { if (courseId === id) detachCourse(); } });
+  } catch (error) { message(error.message, 6000); }
+});
+document.addEventListener("visibilitychange", () => { if (document.hidden) void persistCourse(); });
+window.addEventListener("pagehide", () => { void persistCourse(); cancelWork({ cancelPreload: true }); });
 rebuildIndex(); paint();
+if (!incomingShare) {
+  let last; try { last = localStorage.getItem("radio-last-course"); } catch {}
+  const started = revision;
+  if (last) getCourse(last).then(course => { if (course && revision === started && !state.text) restoreCourse(course); }).catch(() => {});
+}
+
+$("review-open").addEventListener("click", async () => {
+  pausePlayback();
+  const version = revision, source = documentInfo;
+  try {
+    const { reviewDocument } = await import("./document-review.js");
+    const text = await reviewDocument({ text: state.text, file: source.sourcePdf,
+      extract: options => import("./pdf.js").then(m => m.extractPdfDocument(source.sourcePdf, options)) });
+    if (text === null || revision !== version || text === state.text) return;
+    cancelWork(); restoreOffset = 0;
+    documentInfo = { name: source.name, sourcePdf: source.sourcePdf, chapters: [] };
+    screen.value = text; dispatch({ type: "TEXT_CHANGED", text }); rebuildIndex(); preload();
+  } catch (error) { message(error.message, 6000); }
+});
+
+async function sharing(fragment) {
+  pausePlayback();
+  try {
+    const { openSharing } = await import("./share-dialog.js");
+    await openSharing({ data: hasSpeakableContent(state.text) ? snapshot() : null, fragment,
+      accept: data => { void persistCourse(); detachCourse(); restoreCourse(data); } });
+  } catch (error) { message(error.message, 6000); }
+}
+$("share-open").addEventListener("click", () => { void sharing(); });
+if (incomingShare) void sharing(incomingShare);
+
+window.addEventListener("hashchange", () => {
+  const fragment = takeIncomingShare();
+  if (!fragment) return;
+  const dialog = $("share-dialog");
+  if (dialog.open) dialog.close();
+  setTimeout(() => { void sharing(fragment); }, 0);
+});
+
+window.addEventListener("storage", event => { if (event.key === "radio-created-shares") paint(); });

@@ -2,8 +2,8 @@ import { parseWav, wavToMp3 } from "./audio.js";
 
 export function exportMp3Audio(wav, { signal, onProgress, kbps = 96 } = {}) {
   signal?.throwIfAborted();
-  if (typeof Worker !== "function") return wavToMp3(wav, kbps, { signal, onProgress });
-  const { samples, sampleRate } = parseWav(wav);
+  if (typeof Worker !== "function") return wav instanceof Blob ? Promise.reject(new Error("Export indisponible dans ce navigateur.")) : wavToMp3(wav, kbps, { signal, onProgress });
+  const { samples, sampleRate } = wav instanceof Blob ? {} : parseWav(wav);
   const url = new URL("./mp3-worker.js", import.meta.url);
   url.search = new URL(import.meta.url).search;
   return new Promise((resolve, reject) => {
@@ -23,8 +23,11 @@ export function exportMp3Audio(wav, { signal, onProgress, kbps = 96 } = {}) {
         // Attendre le chargement des modules avant d’envoyer le premier message.
         // Le WAV d’origine reste disponible pour écouter et réexporter sans synthèse.
         try {
-          const copy = samples.slice();
-          worker.postMessage({ samples: copy, sampleRate, kbps }, [copy.buffer]);
+          if (wav instanceof Blob) worker.postMessage({ blob: wav, kbps });
+          else {
+            const copy = samples.slice();
+            worker.postMessage({ samples: copy, sampleRate, kbps }, [copy.buffer]);
+          }
         } catch (error) { finish(error); }
       } else if (data.type === "progress") onProgress?.(data.pct);
       else if (data.type === "done") finish(null, data.mp3);

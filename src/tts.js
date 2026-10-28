@@ -2,7 +2,7 @@
 // (src/tts-worker.js), recolle les WAV. Le texte ne quitte jamais le navigateur.
 import { splitIntoParts, titlePauses, speedToLengthScale, detectLanguage } from "./text.js";
 import { spokenText } from "./spoken.js";
-import { concatWavsAsync, padWav, wavDuration } from "./audio.js";
+import { concatWavsAsync, concatWavBlobs, parseWav, padWav, wavDuration } from "./audio.js";
 import { createSpeechCache } from "./speech-cache.js";
 
 export const VOICES = { jessica: "fr_FR-upmc-medium", tom: "fr_FR-tom-medium" };
@@ -90,7 +90,7 @@ export function createTts() {
     });
   }
 
-  async function synthesize({ text, voice, speed, titles = [] }, { onProgress, onChunk } = {}) {
+  async function synthesize({ text, voice, speed, titles = [] }, { onProgress, onChunk, onPrepared, audioStore, blob = false } = {}) {
     const lang = detectLanguage(text);
     const voiceId = voiceIdOf(voice, lang);
     const parts = splitIntoParts(text, undefined, titles);
@@ -106,6 +106,7 @@ export function createTts() {
     try {
       const wavs = [];
       const durations = [];
+      let sampleRate;
       let lastYield = performance.now();
       for (let i = 0; i < chunks.length; i++) {
         // Un cours déjà préparé peut produire des centaines de résultats immédiats.
@@ -116,8 +117,8 @@ export function createTts() {
         }
         if (gen !== generation) throw cancelled();
         const message = { type: "synthesize", text: spokenText(chunks[i], lang), voiceId, lengthScale };
-        const cacheKey = JSON.stringify([voiceId, lengthScale, message.text]);
-        let wav = cache.get(cacheKey);
+        const cacheKey = JSON.stringify(["vits-pcm-v1", voiceId, lengthScale, message.text]);
+        let wav = cache.get(cacheKey) ?? await audioStore?.get(cacheKey);
         if (!wav) {
           try {
             wav = await request(message, onProgress);
@@ -132,15 +133,19 @@ export function createTts() {
           cache.put(cacheKey, wav);
         }
         if (gen !== generation) throw cancelled();
+        await audioStore?.put(cacheKey, wav);
+        onPrepared?.(cacheKey, new Blob([wav], { type: "audio/wav" }));
+        if (gen !== generation) throw cancelled();
         wav = padWav(wav, pauses[i].before, pauses[i].after);
-        wavs.push(wav);
+        sampleRate ??= parseWav(wav).sampleRate;
+        wavs.push(blob ? new Blob([wav], { type: "audio/wav" }) : wav);
         durations.push(wavDuration(wav));
         // Copie : le lecteur peut détacher le tampon (decodeAudioData), on garde l'original pour recoller.
-        onChunk?.(wav.slice(0), i, chunks.length, pauses[i]);
+        await onChunk?.(wav.slice(0), i, chunks.length, pauses[i]);
       }
       if (gen !== generation) throw cancelled();
       // Le résultat appartient à l'appelant (qui peut le transférer/détacher).
-      const wav = wavs.length === 1 ? wavs[0].slice(0) : await concatWavsAsync(wavs, { signal: controller.signal });
+      const wav = blob ? concatWavBlobs(wavs, sampleRate) : wavs.length === 1 ? wavs[0].slice(0) : await concatWavsAsync(wavs, { signal: controller.signal });
       if (gen !== generation) throw cancelled();
       return { wav, chunks, durations, pauses, lang };
     } finally {

@@ -41,7 +41,7 @@ export function contentSecurityPolicy(importMapHash) {
     "default-src 'self'",
     `script-src 'self' '${importMapHash}' https://cdn.jsdelivr.net https://static.cloudflareinsights.com`,
     "worker-src 'self' https://cdn.jsdelivr.net",
-    "connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com",
+    "connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev",
     "img-src 'self' data: blob:",
     "style-src 'self' 'unsafe-inline'",
     "font-src 'self'",

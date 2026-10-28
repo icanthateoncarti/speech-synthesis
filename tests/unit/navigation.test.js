@@ -196,6 +196,7 @@ test("pause, réception de la suite, reprise et retour arrière gardent la bonne
   try {
     await player.unlock();
     player.enqueue(wav);
+    await new Promise(resolve => setImmediate(resolve));
     audio.advance(0.515);
     assert.ok(Math.abs(player.pause() - 0.5) < 1e-9);
     const created = audio.context.sources.length;
@@ -204,9 +205,11 @@ test("pause, réception de la suite, reprise et retour arrière gardent la bonne
     assert.equal(audio.context.sources.length, created, "recevoir un morceau pendant la pause ne doit pas jouer");
     assert.equal(player.isPaused(), true);
     player.resume();
+    await new Promise(resolve => setImmediate(resolve));
     audio.advance(5.265);
     assert.ok(Math.abs(player.getTime() - 0.75) < 1e-9);
     player.seek(1.5);
+    await new Promise(resolve => setImmediate(resolve));
     assert.ok(Math.abs(audio.context.sources.at(-1).offset - 0.35) < 1e-9);
     assert.equal(player.seek(-30), 0);
     assert.equal(player.isPlaying(), true);
@@ -228,10 +231,12 @@ test("lecture en continu : l'horloge attend la génération et la fin n'arrive q
   try {
     await player.unlock();
     player.enqueue(wav);
+    await new Promise(resolve => setImmediate(resolve));
     audio.advance(10);
     assert.equal(player.getTime(), 1);
     assert.equal(ended, 0);
     player.enqueue(wav);
+    await new Promise(resolve => setImmediate(resolve));
     audio.advance(11.1);
     assert.ok(Math.abs(player.getTime() - 2.15) < 1e-9);
     assert.equal(ended, 0);
@@ -241,18 +246,20 @@ test("lecture en continu : l'horloge attend la génération et la fin n'arrive q
   } finally { player.stop(); audio.restore(); }
 });
 
-test("un long audio reste chargé en PCM et seule une fenêtre de lecture devient Float32", async () => {
+test("un long audio reste stocké en blobs et seule une fenêtre de lecture devient Float32", async () => {
   const audio = fakeAudio();
   const wav = encodeWav(new Int16Array(22050), 22050);
   const player = createPlayer();
   try {
-    player.load(Array.from({ length: 100 }, () => wav));
+    await player.load(Array.from({ length: 100 }, () => wav));
     assert.equal(player.isPaused(), true);
     await player.unlock();
     assert.equal(audio.context.createdBuffers, 0, "load ne doit pas matérialiser tous les AudioBuffers");
     player.play();
+    await new Promise(resolve => setImmediate(resolve));
     assert.ok(audio.context.createdBuffers > 0 && audio.context.createdBuffers < 30);
     player.seek(100);
+    await new Promise(resolve => setImmediate(resolve));
     assert.ok(audio.context.sources.at(-1).at - audio.context.currentTime < 30);
   } finally { player.stop(); audio.restore(); }
 });

@@ -12,3 +12,6 @@ tests/e2e/.chrome-profile/
 docs/security/
 # Journal et état local des notifications Telegram (scripts/annonces-telegram.sh)
 logs/
+
+# Cache de compilation et stockage local Wrangler, jamais publiés.
+.wrangler/

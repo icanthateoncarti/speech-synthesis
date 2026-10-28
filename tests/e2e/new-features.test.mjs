@@ -1,0 +1,100 @@
+import { test, before, after } from 'node:test';
+import assert from 'node:assert/strict';
+import { writeFile, mkdir } from 'node:fs/promises';
+import { startServer, launch, ROOT } from './harness.mjs';
+let server,browser,page;
+before(async()=>{server=await startServer(); ({browser,page}=await launch({profile:'tests/e2e/.chrome-profile/three-features'}));});
+after(async()=>{await browser?.close();await server?.close();});
+test('bibliothèque : préparation, fermeture, reprise et suppression hors connexion', {timeout:180000},async()=>{
+  await page.goto(server.url);
+  await page.waitForSelector('#library-open');
+  await page.evaluate(async()=>{
+    localStorage.removeItem('radio-last-course');
+    const m=await import('/src/library-store.js');for(const c of await m.listCourses()) await m.removeCourse(c.id);
+  });
+  await page.$eval('#screen',el=>{el.value='Bonjour. Ce cours reste disponible sur cet appareil.';el.dispatchEvent(new Event('input'));});
+  await page.click('#library-open'); await page.waitForSelector('#library-dialog[open]'); await page.click('#library-save');
+  await page.waitForFunction(()=>document.querySelector('#library-list').textContent.includes('Bonjour'));
+  await page.click('#library-close'); await page.click('#key-speak');
+  await page.waitForFunction(()=>document.querySelector('#status-left').textContent.includes('LECTURE'),{timeout:120000});
+  await page.waitForFunction(()=>document.querySelector('#key-speak').textContent.includes('PARLE'),{timeout:30000});
+  await page.evaluate(()=>navigator.serviceWorker.ready);
+  const saved=await page.evaluate(async()=>{const m=await import('/src/library-store.js');return {courses:await m.listCourses(),bytes:await m.audioUsage()};});
+  assert.equal(saved.courses.length,1); assert.ok(saved.bytes>1000); assert.ok(saved.courses[0].offset>0);
+  await page.setOfflineMode(true); await page.reload();
+  await page.waitForFunction(()=>document.querySelector('#screen')?.value.includes('Ce cours reste'));
+  await page.click('#key-speak');
+  await page.waitForFunction(()=>document.querySelector('#key-speak').textContent.includes('PAUSE')||document.querySelector('#status-left').textContent==='PRÊT',{timeout:15000});
+  await page.click('#library-open');
+  await page.waitForSelector('#library-list .library-row button:last-child');
+  page.once('dialog',d=>d.accept());await page.click('#library-list .library-row button:last-child');
+  await page.waitForFunction(()=>document.querySelector('#library-list').textContent.includes('Aucun cours'));
+  assert.equal(await page.evaluate(async()=> (await import('/src/library-store.js')).audioUsage()),0);
+  await page.click('#library-close');await page.setOfflineMode(false);
+});
+test('OCR local : scan reconnu, aperçu modifiable, annuler conserve le texte', {timeout:180000},async()=>{
+  await page.goto(server.url);await page.waitForSelector('#key-pdf');
+  const generator=await browser.newPage();
+  await generator.setContent('<canvas width="900" height="250"></canvas>');
+  await generator.evaluate(()=>{const c=document.querySelector('canvas'),x=c.getContext('2d');x.fillStyle='white';x.fillRect(0,0,c.width,c.height);x.fillStyle='black';x.font='36px Arial';x.fillText('Chapitre 1 : Le cours de programmation.',30,90);x.fillText('Les variables contiennent des valeurs.',30,160);});
+  const dir=ROOT+'/tests/e2e/.chrome-profile/fixtures';await mkdir(dir,{recursive:true});
+  const file=dir+'/scan.pdf';await writeFile(file,await generator.pdf());await generator.close();
+  await page.$eval('#screen',el=>{el.value='Texte précédent.';el.dispatchEvent(new Event('input'));});
+  await (await page.$('#pdf-input')).uploadFile(file);
+  await page.waitForSelector('#review-dialog[open]');
+  await page.click('#review-close');assert.equal(await page.$eval('#screen',el=>el.value),'Texte précédent.');
+  await (await page.$('#pdf-input')).uploadFile(file);
+  await page.waitForSelector('#review-dialog[open]');await page.click('#review-ocr');await page.click('#review-extract');
+  try { await page.waitForFunction(()=>document.querySelector('#review-text').value.includes('variables') || document.querySelector('#review-feedback').textContent.startsWith('Extraction impossible'),{timeout:45000}); } catch(error) { console.log('OCR diagnostic',await page.$eval('#review-feedback',el=>el.textContent));throw error; }
+  assert.match(await page.$eval('#review-text',el=>el.value), /variables/, await page.$eval('#review-feedback',el=>el.textContent));
+  await page.$eval('#review-text',el=>{el.value+='\nPhrase corrigée.';el.dispatchEvent(new Event('input'));});
+  await page.click('#review-apply');await page.waitForFunction(()=>document.querySelector('#screen').value.includes('Phrase corrigée.'));
+  assert.match(await page.$eval('#screen',el=>el.value),/programmation/);
+  await page.click('#review-open');await page.$eval('#review-text',el=>el.value='Ne pas appliquer.');await page.click('#review-close');
+  assert.match(await page.$eval('#screen',el=>el.value),/Phrase corrigée/);
+});
+test('bibliothèque : quota, suppression et sauvegarde tardive restent cohérents',async()=>{
+  await page.goto(server.url);await page.waitForSelector('#library-open');
+  const result=await page.evaluate(async()=>{
+    const m=await import('/src/library-store.js');const id=crypto.randomUUID();
+    const course={id,version:1,text:'Cours conservé.',voice:'tom',speed:1,offset:2,name:'Test stockage'};
+    await m.saveCourse(course);const store=m.courseAudioStore(id);
+    await store.put('passage',new Uint8Array([1,2,3]).buffer);
+    const bytes=await m.audioUsage();await m.removeCourse(id);await m.saveCourse(course,{existingOnly:true});
+    const resurrected=await m.getCourse(id);
+    await m.saveCourse(course);
+    const db=await new Promise((resolve,reject)=>{const r=indexedDB.open('speechsynthesi-library',1);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});
+    const setBytes=n=>new Promise((resolve,reject)=>{const tx=db.transaction('meta','readwrite');tx.objectStore('meta').put(n,'bytes');tx.oncomplete=resolve;tx.onabort=reject;});
+    await setBytes(m.AUDIO_BUDGET);let warning='';const full=m.courseAudioStore(id,e=>warning=e.message);await full.put('blocked',new Uint8Array([4,5]).buffer);
+    const blocked=await store.get('blocked');await setBytes(0);db.close();await m.removeCourse(id);
+    return {bytes,resurrected:!!resurrected,blocked:!!blocked,warning};
+  });
+  assert.ok(result.bytes>=3);assert.equal(result.resurrected,false);assert.equal(result.blocked,false);assert.match(result.warning,/200 Mo/);
+});
+test('les liens créés restent accessibles après EFFACE, sans nouveau cours',async()=>{
+  await page.goto(server.url);await page.waitForSelector('#key-clear');
+  await page.evaluate(()=>localStorage.setItem('radio-created-shares',JSON.stringify([{id:'a'.repeat(22),name:'Lien de test local',deletion:'b'.repeat(43),link:'https://example.invalid',expires:Date.now()+60000}])));
+  await page.click('#key-clear');
+  assert.equal(await page.$eval('#share-open',el=>el.textContent),'MES LIENS');
+  await page.click('#share-open');await page.waitForSelector('#share-dialog[open]');
+  assert.equal(await page.$eval('#share-create',el=>el.hidden),true);
+  assert.match(await page.$eval('#share-list',el=>el.textContent),/Lien de test local/);
+  await page.click('#share-close');await page.evaluate(()=>localStorage.removeItem('radio-created-shares'));await page.click('#key-clear');
+});
+test('fermer un travail en cours puis rouvrir ne laisse pas les boutons désactivés',async()=>{
+  await page.goto(server.url);await page.waitForSelector('#library-open');
+  const result=await page.evaluate(async()=>{
+    const {reviewDocument}=await import('/src/document-review.js');
+    const first=reviewDocument({text:'Texte original.',file:{},extract:({signal})=>new Promise((_,reject)=>signal.addEventListener('abort',()=>reject(new DOMException('Annulé','AbortError')),{once:true}))});
+    document.querySelector('#review-extract').click();const busy=document.querySelector('#review-extract').disabled;
+    document.querySelector('#review-close').click();await first;
+    const second=reviewDocument({text:'Texte original.',file:{},extract:async()=>({text:'Texte extrait.'})});
+    const fresh=!document.querySelector('#review-extract').disabled;document.querySelector('#review-close').click();await second;
+    const {openSharing}=await import('/src/share-dialog.js');
+    const data={version:1,text:'Test annulé avant envoi.',voice:'tom',speed:1,name:'Test',offset:0};
+    await openSharing({data});document.querySelector('#share-create').click();const sharingBusy=document.querySelector('#share-create').disabled;
+    document.querySelector('#share-close').click();await openSharing({data});const sharingFresh=!document.querySelector('#share-create').disabled;document.querySelector('#share-close').click();
+    return {busy,fresh,sharingBusy,sharingFresh};
+  });
+  assert.deepEqual(result,{busy:true,fresh:true,sharingBusy:true,sharingFresh:true});
+});

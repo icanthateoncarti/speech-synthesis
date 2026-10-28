@@ -1,4 +1,4 @@
-import { parseWav } from "./audio.js";
+import { parseWav, sliceWavBlob } from "./audio.js";
 
 const GAP_SECONDS = 0.15;
 const LOOK_AHEAD_SECONDS = 30;
@@ -12,7 +12,9 @@ export function createPlayer() {
   let parts = [], records = [], sources = new Set();
   let duration = 0, position = 0, scheduledThrough = 0, revision = 0;
   let sealed = false, running = false, paused = false, ended = false;
+  let scheduling = false;
   let levelCallback = () => {}, timeCallback = () => {}, endedCallback = () => {};
+  let errorCallback = () => {};
 
   function unlock() {
     if (!context) {
@@ -40,7 +42,7 @@ export function createPlayer() {
     if (now <= record.end) return Math.min(duration, record.offset + now - record.start);
     // Le silence prévu compte dans la durée. Une attente de synthèse, elle, ne
     // fait pas défiler le texte ni avancer l'horloge au-delà du son disponible.
-    return Math.min(duration, record.logicalEnd + Math.min(GAP_SECONDS, now - record.end));
+    return Math.min(duration, record.logicalEnd + Math.min(record.gap, now - record.end));
   }
 
   function cancelSources() {
@@ -68,26 +70,31 @@ export function createPlayer() {
     endedCallback();
   }
 
-  function scheduleMore() {
-    if (!running || !context) return;
+  async function scheduleMore() {
+    if (!running || !context || scheduling) return;
+    scheduling = true;
+    const token = revision;
+    try {
     const time = getTime();
     while (scheduledThrough < parts.length) {
       const part = parts[scheduledThrough];
       if (part.end <= position + 1e-6) { scheduledThrough++; continue; }
       if (part.offset > time + LOOK_AHEAD_SECONDS) break;
+      const { samples: pcm, sampleRate } = parseWav(await part.blob.arrayBuffer());
+      if (token !== revision || !running) return;
       scheduledThrough++;
       const trim = Math.max(0, position - part.offset);
       const previous = records.at(-1);
       const start = previous
-        ? Math.max(context.currentTime + START_DELAY_SECONDS, previous.end + GAP_SECONDS)
+        ? Math.max(context.currentTime + START_DELAY_SECONDS, previous.end + (part.gap ?? GAP_SECONDS))
         : context.currentTime + START_DELAY_SECONDS + Math.max(0, part.offset - position);
-      const buffer = context.createBuffer(1, part.pcm.length, part.sampleRate);
+      const buffer = context.createBuffer(1, pcm.length, sampleRate);
       const channel = buffer.getChannelData(0);
-      for (let i = 0; i < part.pcm.length; i++) channel[i] = part.pcm[i] / 32768;
+      for (let i = 0; i < pcm.length; i++) channel[i] = pcm[i] / 32768;
       const source = context.createBufferSource();
       source.buffer = buffer;
       source.connect(analyser);
-      const record = { start, end: start + part.seconds - trim, offset: part.offset + trim, logicalEnd: part.end };
+      const record = { start, end: start + part.seconds - trim, offset: part.offset + trim, logicalEnd: part.end, gap: part.gap ?? GAP_SECONDS };
       records.push(record);
       sources.add(source);
       const generation = revision;
@@ -101,6 +108,8 @@ export function createPlayer() {
       };
       source.start(start, trim);
     }
+    } catch (error) { if (token === revision) { pause(); errorCallback(error); } }
+    finally { scheduling = false; }
   }
 
   function tick() {
@@ -132,7 +141,7 @@ export function createPlayer() {
     const { samples: pcm, sampleRate } = parseWav(wav);
     const seconds = pcm.length / sampleRate;
     const offset = duration + (parts.length ? GAP_SECONDS : 0);
-    parts.push({ pcm, sampleRate, seconds, offset, end: offset + seconds });
+    parts.push({ blob: new Blob([wav], { type: "audio/wav" }), seconds, offset, end: offset + seconds });
     duration = offset + seconds;
     ended = false;
   }
@@ -179,12 +188,20 @@ export function createPlayer() {
     levelCallback(0);
   }
 
-  function load(wavs) {
+  async function load(wavs) {
     stop();
     paused = true;
-    for (const wav of wavs) append(wav);
+    const token = revision;
+    for (const wav of wavs) {
+      if (wav instanceof Blob) {
+        const slices = await sliceWavBlob(wav);
+        if (token !== revision) return;
+        parts.push(...slices); duration = slices.at(-1)?.end ?? 0;
+      } else append(wav);
+    }
     sealed = true;
     timeCallback(0);
+    scheduleMore();
   }
 
   return {
@@ -199,5 +216,6 @@ export function createPlayer() {
     onLevel(cb) { levelCallback = cb; },
     onTime(cb) { timeCallback = cb; },
     onEnded(cb) { endedCallback = cb; },
+    onError(cb) { errorCallback = cb; },
   };
 }

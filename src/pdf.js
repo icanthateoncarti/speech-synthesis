@@ -4,6 +4,8 @@ import { pdfTables, renderPdfTable } from "./pdf-tables.js";
 import { pdfFragments } from "./document-cleanup.js";
 import { MAX_FILE_BYTES, MAX_PAGES, MAX_TEXT_CHARS, throwIfAborted, tooLarge } from "./limits.js";
 
+import { layoutItems } from "./pdf-layout.js";
+
 let library;
 
 // `record(item, start, end)` note où chaque morceau atterrit dans le texte de la
@@ -191,7 +193,7 @@ async function loadPdfJs() {
   return pdfjs;
 }
 
-export async function extractPdfDocument(file, { signal } = {}) {
+export async function extractPdfDocument(file, { signal, layout = "native", ocr = false, lang = "fra", onProgress = () => {} } = {}) {
   if (file.size > MAX_FILE_BYTES) throw tooLarge("fichier trop lourd");
   library ??= loadPdfJs().catch((err) => { library = null; throw err; });
   const pdfjs = await library;
@@ -200,6 +202,8 @@ export async function extractPdfDocument(file, { signal } = {}) {
   // Un nouvel import ou EFFACE arrête vraiment l'extraction en cours.
   const abort = () => { task.destroy(); };
   signal?.addEventListener("abort", abort, { once: true });
+  let recognizer, recognized = 0;
+  const scannedPages = [];
   try {
     const document = await task.promise;
     const pages = [], headings = [];
@@ -221,10 +225,25 @@ export async function extractPdfDocument(file, { signal } = {}) {
       const order = new Map(strings.map((item, index) => [item, index]));
       const spans = new Int32Array(strings.length * 2).fill(-1);
       const tableItems = new Set();
-      const raw = pdfPageText(content.items, structure, headings, (item, start, end) => {
-        const index = order.get(item);
+      const arranged = pdfTables(content.items, structure).length ? content.items : layoutItems(content.items, layout);
+      let raw = pdfPageText(arranged, structure, headings, (item, start, end) => {
+        const index = order.get(item.original ?? item);
         spans[index * 2] = start; spans[index * 2 + 1] = end;
       }, tableItems);
+      const sparse = raw.replace(/\s/g, "").length < 80;
+      const operators = sparse ? await page.getOperatorList() : null;
+      const imageOps = [pdfjs.OPS.paintImageXObject, pdfjs.OPS.paintInlineImageXObject, pdfjs.OPS.paintImageMaskXObject];
+      const scanned = sparse && (!raw.trim() || operators.fnArray.some(op => imageOps.includes(op)));
+      if (scanned) {
+        scannedPages.push(n);
+        if (ocr && recognized < 50) {
+          onProgress(`Reconnaissance de la page ${n}/${document.numPages} sur cet appareil…`);
+          recognizer ??= await (await import("./ocr.js")).createOcr({ lang, signal });
+          const detected = await recognizer.recognize(page);
+          if (detected.trim()) raw = detected;
+          spans.fill(-1); recognized++;
+        } else if (ocr) truncated = true;
+      }
       const normalized = normalizeWithMap(raw);
       let text = normalized.text;
       page.cleanup();
@@ -248,13 +267,13 @@ export async function extractPdfDocument(file, { signal } = {}) {
     // Pour la vue des pages : où tombe chaque caractère de chaque morceau dans le texte final.
     const pageMaps = pages.map((page, index) => ({ offset: pageOffsets[index], length: page.text.length, spans: page.spans, map: page.map }));
     const fragments = pages.flatMap((page, index) => page.fragments.map((fragment) => ({ ...fragment, page: index, start: pageOffsets[index] + fragment.start, end: pageOffsets[index] + fragment.end })));
-    return { text, chapters, pageOffsets, pageMaps, fragments, pageCount: pages.length, titles: headings.map((heading) => normalizeText(heading)), truncated };
+    return { text, scannedPages, recognized, chapters, pageOffsets, pageMaps: recognized ? undefined : pageMaps, fragments, pageCount: pages.length, titles: headings.map((heading) => normalizeText(heading)), truncated };
   } catch (error) {
     throwIfAborted(signal);
     throw error;
   } finally {
     signal?.removeEventListener("abort", abort);
-    await task.destroy();
+    try { await recognizer?.close(); } finally { await task.destroy(); }
   }
 }
 

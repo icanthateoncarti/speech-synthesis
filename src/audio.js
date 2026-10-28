@@ -111,6 +111,31 @@ export function wavDuration(buf) {
   return samples.length / sampleRate;
 }
 
+// Assemble le WAV sans recopier le PCM du cours entier dans un ArrayBuffer.
+export function concatWavBlobs(blobs, sampleRate) {
+  const gap = new Uint8Array(Math.round(sampleRate * SILENCE_MS / 1000) * 2);
+  const bytes = blobs.reduce((sum, blob) => sum + blob.size - 44, 0) + Math.max(0, blobs.length - 1) * gap.length;
+  if (bytes > 0xffffffff - 36) throw new Error("Audio trop long pour un fichier WAV.");
+  const header = new ArrayBuffer(44); writeWavHeader(header, sampleRate, bytes);
+  const parts = [header];
+  blobs.forEach((blob, i) => { if (i) parts.push(gap); parts.push(blob.slice(44)); });
+  return new Blob(parts, { type: "audio/wav" });
+}
+
+export async function sliceWavBlob(blob, seconds = 30) {
+  const header = new DataView(await blob.slice(0, 44).arrayBuffer());
+  if (header.byteLength !== 44 || !Number.isFinite(seconds) || seconds <= 0) throw new Error("Audio invalide");
+  const rate = header.getUint32(24, true), bytes = header.getUint32(40, true);
+  if (!rate || bytes % 2 || bytes !== blob.size - 44 || header.getUint16(22, true) !== 1 || header.getUint16(34, true) !== 16) throw new Error("Audio invalide");
+  const size = Math.max(1, Math.floor(seconds * rate)) * 2, out = [];
+  for (let at = 0; at < bytes; at += size) {
+    const length = Math.min(size, bytes - at), h = new ArrayBuffer(44);
+    writeWavHeader(h, rate, length);
+    out.push({ blob: new Blob([h, blob.slice(44 + at, 44 + at + length)], { type: "audio/wav" }), seconds: length / 2 / rate, offset: at / 2 / rate, end: (at + length) / 2 / rate, gap: 0 });
+  }
+  return out;
+}
+
 export async function wavToMp3(buf, kbps = 96, { signal, onProgress } = {}) {
   const { sampleRate, samples } = parseWav(buf);
   const encoder = createMp3Encoder(samples, sampleRate, Mp3Encoder, kbps);

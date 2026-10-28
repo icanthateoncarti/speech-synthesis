@@ -1,0 +1,1 @@
+Scanned PDF? speechsynthe.si can now recognize its text on your device, in French or English. Review and edit the result before listening. You can also choose a two-column or row-by-row reading order. Your original file stays unchanged.

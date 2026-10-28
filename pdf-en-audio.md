@@ -3,7 +3,7 @@
 > Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/pdf-en-audio/
-Last updated: 2026-10-27
+Last updated: 2026-10-28
 
 ## Glisse ton cours. Écoute-le en sortant.
 
@@ -43,7 +43,7 @@ Utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. Dans C
 
 ### Mon PDF reste-t-il privé ?
 
-Oui : son texte est extrait et lu sur ton appareil. Le fichier et son contenu ne sont pas envoyés à un serveur.
+Oui : son texte est extrait et lu sur ton appareil. Le fichier original reste sur ton appareil. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours.
 
 ### Et pour un PowerPoint ?
 

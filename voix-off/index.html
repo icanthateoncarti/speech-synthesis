@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-a65stAAq54Vy8YEKG6W0UxD8Um0oJ4qU/Gp3UVEgmUE=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-8j1qCMjyAuosucAGzrf4x1Uh7ke3zXZtQo/nLEXkMU4=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Voix off gratuite — crée le MP3 de ta vidéo</title>
   <meta name="description" content="Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.">
@@ -100,42 +100,58 @@
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#ed500d">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=16eff76575">
+  <link rel="stylesheet" href="/styles/machine.css?v=57adbeeeb3">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=16eff76575",
-      "/src/boot.js": "/src/boot.js?v=16eff76575",
-      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=16eff76575",
-      "/src/document-cleanup.js": "/src/document-cleanup.js?v=16eff76575",
-      "/src/limits.js": "/src/limits.js?v=16eff76575",
-      "/src/machine.js": "/src/machine.js?v=16eff76575",
-      "/src/main.js": "/src/main.js?v=16eff76575",
-      "/src/mp3-encode.js": "/src/mp3-encode.js?v=16eff76575",
-      "/src/mp3-export.js": "/src/mp3-export.js?v=16eff76575",
-      "/src/mp3-worker.js": "/src/mp3-worker.js?v=16eff76575",
-      "/src/navigation.js": "/src/navigation.js?v=16eff76575",
-      "/src/pages.js": "/src/pages.js?v=16eff76575",
-      "/src/pdf-tables.js": "/src/pdf-tables.js?v=16eff76575",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=16eff76575",
-      "/src/pdf.js": "/src/pdf.js?v=16eff76575",
-      "/src/player.js": "/src/player.js?v=16eff76575",
-      "/src/pptx.js": "/src/pptx.js?v=16eff76575",
-      "/src/selection.js": "/src/selection.js?v=16eff76575",
-      "/src/shader.js": "/src/shader.js?v=16eff76575",
-      "/src/speech-cache.js": "/src/speech-cache.js?v=16eff76575",
-      "/src/spoken.js": "/src/spoken.js?v=16eff76575",
-      "/src/text-map.js": "/src/text-map.js?v=16eff76575",
-      "/src/text.js": "/src/text.js?v=16eff76575",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=16eff76575",
-      "/src/tts.js": "/src/tts.js?v=16eff76575",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=16eff76575"
+      "/src/audio.js": "/src/audio.js?v=57adbeeeb3",
+      "/src/boot.js": "/src/boot.js?v=57adbeeeb3",
+      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=57adbeeeb3",
+      "/src/document-cleanup.js": "/src/document-cleanup.js?v=57adbeeeb3",
+      "/src/document-review.js": "/src/document-review.js?v=57adbeeeb3",
+      "/src/library-dialog.js": "/src/library-dialog.js?v=57adbeeeb3",
+      "/src/library-store.js": "/src/library-store.js?v=57adbeeeb3",
+      "/src/limits.js": "/src/limits.js?v=57adbeeeb3",
+      "/src/machine.js": "/src/machine.js?v=57adbeeeb3",
+      "/src/main.js": "/src/main.js?v=57adbeeeb3",
+      "/src/mp3-encode.js": "/src/mp3-encode.js?v=57adbeeeb3",
+      "/src/mp3-export.js": "/src/mp3-export.js?v=57adbeeeb3",
+      "/src/mp3-stream.js": "/src/mp3-stream.js?v=57adbeeeb3",
+      "/src/mp3-worker.js": "/src/mp3-worker.js?v=57adbeeeb3",
+      "/src/navigation.js": "/src/navigation.js?v=57adbeeeb3",
+      "/src/ocr-worker.js": "/src/ocr-worker.js?v=57adbeeeb3",
+      "/src/ocr.js": "/src/ocr.js?v=57adbeeeb3",
+      "/src/offline-worker.js": "/src/offline-worker.js?v=57adbeeeb3",
+      "/src/pages.js": "/src/pages.js?v=57adbeeeb3",
+      "/src/pdf-layout.js": "/src/pdf-layout.js?v=57adbeeeb3",
+      "/src/pdf-tables.js": "/src/pdf-tables.js?v=57adbeeeb3",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=57adbeeeb3",
+      "/src/pdf.js": "/src/pdf.js?v=57adbeeeb3",
+      "/src/player.js": "/src/player.js?v=57adbeeeb3",
+      "/src/pptx.js": "/src/pptx.js?v=57adbeeeb3",
+      "/src/selection.js": "/src/selection.js?v=57adbeeeb3",
+      "/src/session-data.js": "/src/session-data.js?v=57adbeeeb3",
+      "/src/shader.js": "/src/shader.js?v=57adbeeeb3",
+      "/src/share-config.js": "/src/share-config.js?v=57adbeeeb3",
+      "/src/share-crypto.js": "/src/share-crypto.js?v=57adbeeeb3",
+      "/src/share-dialog.js": "/src/share-dialog.js?v=57adbeeeb3",
+      "/src/share-location.js": "/src/share-location.js?v=57adbeeeb3",
+      "/src/share.js": "/src/share.js?v=57adbeeeb3",
+      "/src/speech-cache.js": "/src/speech-cache.js?v=57adbeeeb3",
+      "/src/spoken.js": "/src/spoken.js?v=57adbeeeb3",
+      "/src/text-map.js": "/src/text-map.js?v=57adbeeeb3",
+      "/src/text.js": "/src/text.js?v=57adbeeeb3",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=57adbeeeb3",
+      "/src/tts.js": "/src/tts.js?v=57adbeeeb3",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=57adbeeeb3"
     }
   }
   </script>
@@ -187,6 +203,13 @@
               <button type="button" id="commands-toggle" aria-expanded="false" aria-controls="commands-panel">COMMANDES</button>
             </div>
           </div>
+        </div>
+
+        <div class="course-tools">
+          <button type="button" id="library-open" aria-haspopup="dialog">MES COURS</button>
+          <button type="button" id="review-open" aria-haspopup="dialog" hidden>RELIRE LE TEXTE</button>
+          <button type="button" id="share-open" aria-haspopup="dialog" hidden>PARTAGER</button>
+          <span id="library-state" role="status"></span>
         </div>
 
         <div class="deck">
@@ -316,6 +339,41 @@
     </div>
   </dialog>
 
+  <dialog id="review-dialog" class="cleanup-dialog review-dialog" aria-labelledby="review-title">
+    <h2 id="review-title">Relire avant d’écouter</h2>
+    <p id="review-feedback" role="status"></p>
+    <div id="review-pdf-options">
+      <label>Ordre de lecture <select id="review-layout"><option value="native">Ordre du PDF</option><option value="columns">Deux colonnes : gauche puis droite</option><option value="rows">Tableau : ligne par ligne, cellules séparées</option></select></label>
+      <label><input id="review-ocr" type="checkbox"> Reconnaître les pages scannées sur cet appareil (50 pages maximum)</label>
+      <label>Langue des scans <select id="review-lang"><option value="fra">Français</option><option value="eng">Anglais</option></select></label>
+      <p>Le moteur de reconnaissance doit être téléchargé une première fois. Les pages restent sur ton appareil. La reconnaissance peut prendre plusieurs minutes et se tromper.</p>
+      <button id="review-extract" type="button">Extraire à nouveau</button>
+    </div>
+    <label for="review-text">Texte à lire</label>
+    <textarea id="review-text" rows="12" spellcheck="true"></textarea>
+    <p>Appliquer remplace le texte de la radio. Les sélections de pages et le nettoyage précédents seront réinitialisés.</p>
+    <div class="cleanup-actions"><button id="review-apply" type="button">Appliquer le texte</button><button id="review-close" type="button">Fermer</button></div>
+  </dialog>
+  <dialog id="share-dialog" class="cleanup-dialog" aria-labelledby="share-title">
+    <h2 id="share-title">Partager ce cours</h2>
+    <p id="share-feedback" role="status"></p>
+    <p>Créer un lien envoie une copie chiffrée du texte à notre hébergeur pour 7 jours. Toute personne ayant le lien complet peut ouvrir le cours. Partage uniquement du contenu que tu peux transmettre.</p>
+    <button id="share-create" type="button">Créer un lien valable 7 jours</button>
+    <div id="share-result" hidden><label for="share-link">Lien complet</label><input id="share-link" readonly type="text"><button id="share-copy" type="button">Copier</button></div>
+    <button id="share-import" type="button" hidden>Importer ce cours</button>
+    <h3>Liens créés sur cet appareil</h3><div id="share-list"></div>
+    <p>Tu peux supprimer tes liens ici. Effacer les données de ce navigateur retire ce moyen de suppression ; les liens expirent quand même après 7 jours. Un destinataire peut conserver une copie de ton texte.</p>
+    <button id="share-close" type="button">Fermer</button>
+  </dialog>
+  <dialog id="library-dialog" class="cleanup-dialog" aria-labelledby="library-title">
+    <h2 id="library-title">Mes cours</h2>
+    <p>Enregistre le texte et tes réglages sur cet appareil. Ta position et les passages audio préparés seront conservés. Garde l’onglet ouvert pour terminer la préparation ; tu pourras reprendre après une interruption.</p>
+    <p>20 cours et 200 Mo d’audio maximum. Les voix et l’application occupent de la place en plus. Le navigateur peut libérer son stockage : garde aussi le MP3 pour une copie indépendante.</p>
+    <p id="library-feedback" role="status"></p>
+    <div id="library-list"></div>
+    <div class="cleanup-actions"><button type="button" id="library-save">Enregistrer ce cours</button><button type="button" id="library-close">Fermer</button></div>
+  </dialog>
+
   <dialog id="pages-dialog" class="pages-dialog" aria-labelledby="pages-title">
     <div class="pages-bar">
       <div class="pages-heading">
@@ -337,7 +395,7 @@
     <div id="pages-list" class="pages-list"></div>
   </dialog>
 
-  <script type="module" src="/src/boot.js?v=16eff76575"></script>
-  <script type="module" src="/src/main.js?v=16eff76575"></script>
+  <script type="module" src="/src/boot.js?v=57adbeeeb3"></script>
+  <script type="module" src="/src/main.js?v=57adbeeeb3"></script>
 </body>
 </html>

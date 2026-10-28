@@ -11,7 +11,7 @@ const VIEWPORT = { width: 1340, height: 900 };
 const { left, right } = statusLine(initialState());
 const ALLOWED = new Set([
   "speechsynthe.si", "speech", "synthe.si", "Texte en audio",
-  "▶ PARLE", "⬇ MP3", "↑", "IMPORTER", "PDF · PPTX", "EFFACE", "JESSICA", "TOM", "VITESSE",
+  "MES COURS", "▶ PARLE", "⬇ MP3", "↑", "IMPORTER", "PDF · PPTX", "EFFACE", "JESSICA", "TOM", "VITESSE",
   left, right,
 ]);
 

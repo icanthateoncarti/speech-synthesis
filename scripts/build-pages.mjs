@@ -10,6 +10,7 @@ import { HOME, PAGES, PUBLIC_PAGES } from "./pages.mjs";
 import { SITE, absolute, pagePath, markdownPath } from "./site.mjs";
 import { generatedAiFiles } from "./ai-pages.mjs";
 import { ROOT, computeVersion, localModules, stamp } from "./stamp-version.mjs";
+import { offlineWorker } from "./offline.mjs";
 
 const escapeHtml = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
@@ -124,5 +125,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const date = new Date().toISOString().slice(0, 10);
   await writeFile(path.join(ROOT, "sitemap.xml"), sitemap(date));
   for (const [filename, content] of generatedAiFiles(date)) await writeFile(path.join(ROOT, filename), content);
+  await writeFile(path.join(ROOT, "sw.js"), await offlineWorker(ROOT, version));
   console.log(`version ${version} · accueil + ${PAGES.length} pages · sitemap · Markdown et découverte IA`);
 }

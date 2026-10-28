@@ -2,7 +2,7 @@
 
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
-Generated: 2026-10-27
+Generated: 2026-10-28
 
 ---
 <!-- source: https://speechsynthe.si/ -->
@@ -11,7 +11,7 @@ Generated: 2026-10-27
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/
-Last updated: 2026-10-27
+Last updated: 2026-10-28
 
 ## Révise tes cours en les écoutant
 
@@ -31,7 +31,7 @@ Oui : l’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonn
 
 ### Mon texte reste-t-il privé ?
 
-Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus.
+Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus. Seule la création volontaire d’un lien de partage envoie une copie chiffrée du texte, conservée 7 jours.
 
 ### Comment emporter mon cours en MP3 ?
 
@@ -83,7 +83,7 @@ Après l’import, appuie sur NETTOYER et coche les répétitions à retirer. Le
 > Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/pdf-en-audio/
-Last updated: 2026-10-27
+Last updated: 2026-10-28
 
 ## Glisse ton cours. Écoute-le en sortant.
 
@@ -123,7 +123,7 @@ Utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. Dans C
 
 ### Mon PDF reste-t-il privé ?
 
-Oui : son texte est extrait et lu sur ton appareil. Le fichier et son contenu ne sont pas envoyés à un serveur.
+Oui : son texte est extrait et lu sur ton appareil. Le fichier original reste sur ton appareil. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours.
 
 ### Et pour un PowerPoint ?
 
@@ -155,7 +155,7 @@ Jusqu’à 100 Mo par fichier, avec un maximum de 5 000 pages et de 2 millions d
 > Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/text-to-speech/
-Last updated: 2026-10-27
+Last updated: 2026-10-28
 
 ## Colle ton texte. Écoute la suite.
 
@@ -203,7 +203,7 @@ La radio télécharge la voix choisie avant de pouvoir lire ton texte. Le naviga
 > Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
 
 Canonical: https://speechsynthe.si/voix-off/
-Last updated: 2026-10-27
+Last updated: 2026-10-28
 
 ## Exemples de textes
 
@@ -261,7 +261,7 @@ Deux voix par langue, en français et en anglais.
 > Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/message-repondeur/
-Last updated: 2026-10-27
+Last updated: 2026-10-28
 
 ## Exemples de textes
 

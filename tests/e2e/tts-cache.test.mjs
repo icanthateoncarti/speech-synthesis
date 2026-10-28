@@ -5,7 +5,8 @@ import { startServer, launch } from "./harness.mjs";
 let server, browser, page;
 before(async () => {
   server = await startServer(); ({ browser, page } = await launch());
-  await page.goto(`${server.url}/tests/e2e/fixtures/tts.html`);
+  await page.setBypassServiceWorker(true);
+    await page.goto(`${server.url}/tests/e2e/fixtures/tts.html`);
   await page.waitForFunction(() => window.ttsReady);
 });
 
