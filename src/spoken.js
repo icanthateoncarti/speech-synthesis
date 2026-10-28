@@ -86,7 +86,7 @@ const LEXICON_EN = new Map(Object.entries({
   "passé": "pah-say", "problème": "praw-blem", "défi": "day-fee", "étape": "eh-tahp",
   "objectif": "ob-zhek-teef", "objectifs": "ob-zhek-teef", "résoudre": "ray-zood",
   "achevée": "ahsh-vay", "décision": "day-see-zhon",
-  "donné": "daw-nay", "donnée": "daw-nay", "échéance": "eh-shay-ahns", "partie": "par-tee",
+  "donné": "daw-nay", "échéance": "eh-shay-ahns", "partie": "par-tee",
   "gérer": "zheh-ray", "élaborer": "eh-lah-bo-ray", "réaliser": "ray-ah-lee-zay",
   "améliorer": "ah-mel-yaw-ray", "contrôler": "kon-troh-lay", "entreprise": "ahn-trer-preez",
   "récompense": "ray-kom-pahns", "adaptée": "ah-dahp-tay", "ans": "awn",
@@ -109,13 +109,13 @@ const LEXICON_EN = new Map(Object.entries({
   "qualité": "kah-lee-tay", "propriétaire": "pro-pree-eh-tair", "capacité": "kah-pah-see-tay",
   "présent": "preh-zahn", "activité": "ahk-tee-vee-tay", "année": "ah-nay",
   "bien-être": "byan-et-ruh",
-  "passée": "pah-say", "développe": "day-vlawp", "développement": "day-vlawp-mahn",
+  "développe": "day-vlawp", "développement": "day-vlawp-mahn",
   // Mots français des cours anglais, session 6 (2026-10-27), lot 1.
   "accès": "ahk-seh", "acquérir": "ah-kay-reer", "adopté": "ah-dawp-tay", "agréable": "ah-gray-ah-bull",
   "américain": "ah-may-ree-kan", "antérieure": "ahn-tay-ree-ur", "assisté": "ah-siss-tay", "associée": "ah-soh-say",
-  "atténuer": "ah-tay-nway", "autorisé": "oh-toh-ree-zay", "basé": "bah-zay", "basée": "bah-zay",
+  "atténuer": "ah-tay-nway", "autorisé": "oh-toh-ree-zay", "basé": "bah-zay",
   "bâton": "bah-tawn", "célèbre": "say-leb-r", "chaîne": "shen", "chargé": "shar-zhay",
-  "chargée": "shar-zhay", "chronométrer": "kroh-noh-may-tray", "commencé": "koh-mahn-say", "commencée": "koh-mahn-say",
+  "chronométrer": "kroh-noh-may-tray", "commencé": "koh-mahn-say",
   // Mots français des cours anglais, session 6 (2026-10-27), lot 2.
   "complète": "kom-plet", "complètement": "kom-plet-mahn", "comptabilisés": "kon-tah-bee-lee-zay", "confronté": "kon-frawn-tay",
   "conseil": "kon-sell", "cours": "koor", "éthique": "eh-teek", "évolution": "eh-voh-lew-syon",
@@ -134,6 +134,20 @@ const LEXICON_EN = new Map(Object.entries({
   "inadéquation": "ee-nah-day-kwah-syon", "indiquée": "an-dee-kay", "intérêt": "ahn-tay-ray", "inventée": "an-vahn-tay",
   "irrégulières": "ee-ray-goo-lee-air", "isolée": "ee-zoh-lay", "juvénile": "zhoo-vay-neel", "éloge": "eh-lohzh",
   "exécution": "egg-zay-kew-syon", "lancé": "lahn-say", "maîtrise": "may-treez", "mathématiques": "mah-tay-mah-teek",
+  // Mots français des cours anglais, session 7 (2026-10-27), lot 1.
+  "matières": "mah-tee-air", "mémoire": "mem-wahr", "méthodologie": "may-toh-doh-loh-zhee", "néerlandais": "nay-air-lahn-day",
+  "nouveau": "noo-voh", "obsolète": "ob-soh-let", "opportunités": "aw-por-tew-nee-tay", "payé": "peh-yay",
+  "période": "pay-ree-ohd", "pièces": "pee-yes", "plaît": "pleh", "planifié": "plah-nee-fee-yay",
+  "première": "pruh-mee-air", "prénom": "pray-nohm", "prévisions": "pray-vee-zhon", "prévu": "pray-vew",
+  "puéril": "pew-air-eel", "réalisé": "ray-ah-lee-zay", "récompenser": "ray-kom-pahn-say", "rédige": "ray-deezh",
+  // Mots français des cours anglais, session 7 (2026-10-27), lot 2.
+  "réflexion": "ray-flek-syon", "règles": "regl", "répétée": "ray-pay-tay", "répétition": "ray-pay-tee-zhon",
+  "répondre": "ray-pawn-der", "responsabilité": "ress-pawn-sah-bee-lee-tay", "résultat": "ray-zewl-tah", "réussir": "ray-ew-seer",
+  "réussite": "ray-ew-seet", "revenu": "ruh-vuh-nyew", "révolue": "ray-voh-lew", "sécurité": "say-kew-ree-tay",
+  "serrée": "sair-ray", "simultanéité": "see-mewl-tah-nay-ee-tay", "société": "soh-syay-tay", "stratégie": "strah-tay-zhee",
+  "structurées": "strewk-tew-ray", "succès": "suke-say", "supérieur": "sue-pay-ree-ur", "têtu": "tay-tyew",
+  // Mots français des cours anglais, session 7 (2026-10-27), lot 3.
+  "trébucher": "tray-buh-shay", "variées": "vah-ree-yay", "vérité": "vay-ree-tay", "vêtements": "vet-mahn",
 }));
 
 // Pluriel anglais dont le singulier est une entrée française : « parties » ne
@@ -159,7 +173,13 @@ function pronounce(token, previous, next, lang) {
   if (lang === "en") {
     const lower = token.toLocaleLowerCase("en");
     if (ENGLISH_KEEP.has(lower)) return token;
-    return LEXICON_EN.get(lower) ?? (lower.endsWith("s") ? LEXICON_EN.get(lower.slice(0, -1)) : undefined) ?? token;
+    const withoutS = lower.endsWith("s") ? lower.slice(0, -1) : undefined;
+    // Féminin : « basée » se dit comme « basé », « développées » comme « développé ».
+    const masculine = lower.endsWith("ées") ? lower.slice(0, -2) : lower.endsWith("ée") ? lower.slice(0, -1) : undefined;
+    return LEXICON_EN.get(lower)
+      ?? (withoutS === undefined ? undefined : LEXICON_EN.get(withoutS))
+      ?? (masculine === undefined ? undefined : LEXICON_EN.get(masculine))
+      ?? token;
   }
   if (lang !== "fr") return token;
   const lower = token.toLocaleLowerCase("fr");

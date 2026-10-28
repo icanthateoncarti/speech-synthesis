@@ -280,6 +280,45 @@ test("mots français des cours anglais, formes proches", () => {
   assert.equal(spokenText("Les parties prenantes.", "en"), "Les parties prenantes.");
 });
 
+test("mots français des cours anglais, féminins couverts par la règle", () => {
+  assert.equal(spokenText("Basée, chargées et commencée.", "en"),
+    "bah-zay, shar-zhay et koh-mahn-say.");
+  assert.equal(spokenText("Les idées développées.", "en"), "Les ee-day day-vlaw-pay.");
+  assert.equal(spokenText("Une pomme mangée reste intacte.", "en"),
+    "Une pomme mangée reste intacte.");
+});
+
+test("mots français des cours anglais, session 7, lot 1", () => {
+  assert.equal(spokenText("Matières, mémoire, méthodologie et néerlandais.", "en"),
+    "mah-tee-air, mem-wahr, may-toh-doh-loh-zhee et nay-air-lahn-day.");
+  assert.equal(spokenText("Nouveau, obsolète, opportunités et payé.", "en"),
+    "noo-voh, ob-soh-let, aw-por-tew-nee-tay et peh-yay.");
+  assert.equal(spokenText("Période, pièces, plaît et planifié.", "en"),
+    "pay-ree-ohd, pee-yes, pleh et plah-nee-fee-yay.");
+  assert.equal(spokenText("Première, prénom, prévisions et prévu.", "en"),
+    "pruh-mee-air, pray-nohm, pray-vee-zhon et pray-vew.");
+  assert.equal(spokenText("Puéril, réalisé, récompenser et rédige.", "en"),
+    "pew-air-eel, ray-ah-lee-zay, ray-kom-pahn-say et ray-deezh.");
+});
+
+test("mots français des cours anglais, session 7, lot 2", () => {
+  assert.equal(spokenText("Réflexion, règles, répétée et répétition.", "en"),
+    "ray-flek-syon, regl, ray-pay-tay et ray-pay-tee-zhon.");
+  assert.equal(spokenText("Répondre, responsabilité, résultat et réussir.", "en"),
+    "ray-pawn-der, ress-pawn-sah-bee-lee-tay, ray-zewl-tah et ray-ew-seer.");
+  assert.equal(spokenText("Réussite, revenu, révolue et sécurité.", "en"),
+    "ray-ew-seet, ruh-vuh-nyew, ray-voh-lew et say-kew-ree-tay.");
+  assert.equal(spokenText("Serrée, simultanéité, société et stratégie.", "en"),
+    "sair-ray, see-mewl-tah-nay-ee-tay, soh-syay-tay et strah-tay-zhee.");
+  assert.equal(spokenText("Structurées, succès, supérieur et têtu.", "en"),
+    "strewk-tew-ray, suke-say, sue-pay-ree-ur et tay-tyew.");
+});
+
+test("mots français des cours anglais, session 7, lot 3", () => {
+  assert.equal(spokenText("Trébucher, variées, vérité et vêtements.", "en"),
+    "tray-buh-shay, vah-ree-yay, vay-ree-tay et vet-mahn.");
+});
+
 test("mots français des cours anglais, session 6, lot 1", () => {
   assert.equal(spokenText("The accès and acquérir.", "en"), "The ahk-seh and ah-kay-reer.");
   assert.equal(spokenText("Adopté, agréable, américain et antérieure.", "en"),
