@@ -6,7 +6,8 @@
     "test": "node --test \"tests/unit/*.test.js\"",
     "build": "node scripts/build-pages.mjs",
     "stamp": "node scripts/stamp-version.mjs",
-    "test:e2e": "node --test --test-concurrency=1 \"tests/e2e/*.test.mjs\""
+    "test:e2e": "node --test --test-concurrency=1 \"tests/e2e/*.test.mjs\"",
+    "stats": "node scripts/usage-stats.mjs"
   },
   "devDependencies": {
     "@breezystack/lamejs": "1.2.7",
