@@ -20,8 +20,10 @@ function screenGeometry() {
   const scale = Math.max(1, Math.min((innerWidth - 2 * margin) / s.width, (innerHeight - 2 * margin) / s.height));
   const cx = s.left + s.width / 2, cy = s.top + s.height / 2, w = innerWidth / 2, h = innerHeight / 2;
   const border = parseFloat(getComputedStyle(screen).borderTopWidth) || 8, radius = parseFloat(getComputedStyle(screen).borderTopLeftRadius) || 18;
+  // Téléphone : l'écran de la radio est presque aussi large que la fenêtre, on l'étire sur toute la hauteur.
+  const height = innerWidth < 640 ? innerHeight - 2 * margin : s.height * scale;
   return { screen: s, room, scale,
-    target: { inset: "auto", left: `${w - s.width * scale / 2}px`, top: `${h - s.height * scale / 2}px`, width: `${s.width * scale}px`, height: `${s.height * scale}px`, borderWidth: `${border * scale}px`, borderRadius: `${radius * scale}px` },
+    target: { inset: "auto", left: `${w - s.width * scale / 2}px`, top: `${h - height / 2}px`, width: `${s.width * scale}px`, height: `${height}px`, borderWidth: `${border * scale}px`, borderRadius: `${radius * scale}px` },
     frames: [
       { transformOrigin: `${cx - r.left}px ${cy - r.top}px`, transform: "none" },
       { transformOrigin: `${cx - r.left}px ${cy - r.top}px`, transform: `translate(${w - cx}px, ${h - cy}px) scale(${scale})` },
@@ -78,18 +80,18 @@ function zoomOut(dialog) {
   outro = () => { outro = null; ghost.remove(); room.cancel(); document.documentElement.classList.remove("zoomed"); };
   return shrink.finished.then(() => outro?.(), () => {});
 }
-export function reviewDocument({ text, file, scannedPages = [], extract, signal }) {
+export function reviewDocument({ text, file, extract, signal }) {
   closePrevious?.();
   const $ = id => document.getElementById(id);
   const dialog = $("review-dialog"), editor = $("review-text"), feedback = $("review-feedback");
   const apply = $("review-apply"), rebuild = $("review-extract");
   rebuild.disabled = false;
   editor.value = text; editor.maxLength = MAX_TEXT_CHARS;
-  $("review-pdf-options").hidden = !file;
-  $("review-layout").value = "native"; $("review-ocr").checked = false;
-  const scans = scannedPages.length;
-  $("review-pdf-options").open = scans > 0; $("review-lang-row").hidden = true;
-  feedback.textContent = scans ? `${scans} page${scans > 1 ? "s" : ""} sans texte lisible : sûrement des scans (photos de texte). Pour les lire aussi, coche « Lire aussi les pages scannées » plus bas.` : "Vérifie le texte et corrige les mots si besoin. Ton fichier n’est pas modifié.";
+  const settings = $("review-settings"), options = $("review-pdf-options");
+  // Les réglages du PDF restent derrière un bouton : l'écran ne montre que le texte.
+  settings.hidden = !file; options.hidden = true; settings.setAttribute("aria-expanded", "false");
+  $("review-layout").value = "native"; $("review-ocr").checked = false; $("review-lang-row").hidden = true;
+  feedback.textContent = "Tu peux corriger le texte directement.";
   let result = null, controller, active = true;
   const validity = () => { apply.disabled = Boolean(controller) || !hasSpeakableContent(editor.value); };
   return new Promise(resolve => {
@@ -105,11 +107,12 @@ export function reviewDocument({ text, file, scannedPages = [], extract, signal 
       dialog.removeEventListener("close", closed); dialog.removeEventListener("cancel", cancel);
       if (closePrevious === close) closePrevious = null;
       controller?.abort(); signal?.removeEventListener("abort", close);
-      editor.oninput = apply.onclick = rebuild.onclick = $("review-close").onclick = $("review-ocr").onchange = null;
+      editor.oninput = apply.onclick = rebuild.onclick = settings.onclick = $("review-close").onclick = $("review-ocr").onchange = null;
       if (back) back.then(() => resolve(result)); else resolve(result);
     };
     editor.oninput = validity;
     $("review-ocr").onchange = () => { $("review-lang-row").hidden = !$("review-ocr").checked; };
+    settings.onclick = () => { options.hidden = !options.hidden; settings.setAttribute("aria-expanded", String(!options.hidden)); };
     apply.onclick = () => { result = editor.value; close(); };
     $("review-close").onclick = close;
     rebuild.onclick = async () => {
@@ -127,6 +130,7 @@ export function reviewDocument({ text, file, scannedPages = [], extract, signal 
     };
     closePrevious = close;
     dialog.addEventListener("close", closed); dialog.addEventListener("cancel", cancel); signal?.addEventListener("abort", close, { once: true });
-    dialog.showModal(); zoomIn(dialog); validity(); $("review-close").focus({ preventScroll: true });
+    dialog.showModal(); zoomIn(dialog); validity();
+    editor.setSelectionRange(0, 0); editor.scrollTop = 0; $("review-close").focus({ preventScroll: true });
   });
 }

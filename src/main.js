@@ -463,7 +463,7 @@ async function importDocument(file) {
     const scanned = format === "pdf" && document.scannedPages?.length > 0;
     if (scanned) {
       const { reviewDocument } = await import("./document-review.js");
-      const reviewed = await reviewDocument({ text: document.text, file, scannedPages: document.scannedPages, signal: job.signal, extract: options => import("./pdf.js").then(m => m.extractPdfDocument(file, options)) });
+      const reviewed = await reviewDocument({ text: document.text, file, signal: job.signal, extract: options => import("./pdf.js").then(m => m.extractPdfDocument(file, options)) });
       if (version !== revision) return;
       if (reviewed === null) { pdfBusy = false; paint(); return; }
       document = { ...document, text: reviewed, pageMaps: undefined, chapters: [], fragments: [] };

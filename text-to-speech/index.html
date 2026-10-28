@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1jnKJHTHXRRE0ES/Fq+tHrAiX8mT8syH7mjiT2IVUBU=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-w/jPafYNZxvsIwDV/3nZ2Qd29tBHEiGNQmSIeFoxpf0=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Text to speech gratuit — texte en voix, français et anglais</title>
   <meta name="description" content="Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.">
@@ -113,54 +113,54 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=6a799e0a5f">
+  <link rel="stylesheet" href="/styles/machine.css?v=2904a86c93">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=6a799e0a5f",
-      "/src/boot.js": "/src/boot.js?v=6a799e0a5f",
-      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=6a799e0a5f",
-      "/src/document-cleanup.js": "/src/document-cleanup.js?v=6a799e0a5f",
-      "/src/document-review.js": "/src/document-review.js?v=6a799e0a5f",
-      "/src/library-dialog.js": "/src/library-dialog.js?v=6a799e0a5f",
-      "/src/library-store.js": "/src/library-store.js?v=6a799e0a5f",
-      "/src/limits.js": "/src/limits.js?v=6a799e0a5f",
-      "/src/machine.js": "/src/machine.js?v=6a799e0a5f",
-      "/src/main.js": "/src/main.js?v=6a799e0a5f",
-      "/src/mp3-encode.js": "/src/mp3-encode.js?v=6a799e0a5f",
-      "/src/mp3-export.js": "/src/mp3-export.js?v=6a799e0a5f",
-      "/src/mp3-stream.js": "/src/mp3-stream.js?v=6a799e0a5f",
-      "/src/mp3-worker.js": "/src/mp3-worker.js?v=6a799e0a5f",
-      "/src/navigation.js": "/src/navigation.js?v=6a799e0a5f",
-      "/src/ocr-worker.js": "/src/ocr-worker.js?v=6a799e0a5f",
-      "/src/ocr.js": "/src/ocr.js?v=6a799e0a5f",
-      "/src/offline-worker.js": "/src/offline-worker.js?v=6a799e0a5f",
-      "/src/pages.js": "/src/pages.js?v=6a799e0a5f",
-      "/src/pdf-layout.js": "/src/pdf-layout.js?v=6a799e0a5f",
-      "/src/pdf-tables.js": "/src/pdf-tables.js?v=6a799e0a5f",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=6a799e0a5f",
-      "/src/pdf.js": "/src/pdf.js?v=6a799e0a5f",
-      "/src/player.js": "/src/player.js?v=6a799e0a5f",
-      "/src/pptx.js": "/src/pptx.js?v=6a799e0a5f",
-      "/src/selection.js": "/src/selection.js?v=6a799e0a5f",
-      "/src/session-data.js": "/src/session-data.js?v=6a799e0a5f",
-      "/src/shader.js": "/src/shader.js?v=6a799e0a5f",
-      "/src/share-config.js": "/src/share-config.js?v=6a799e0a5f",
-      "/src/share-crypto.js": "/src/share-crypto.js?v=6a799e0a5f",
-      "/src/share-dialog.js": "/src/share-dialog.js?v=6a799e0a5f",
-      "/src/share-location.js": "/src/share-location.js?v=6a799e0a5f",
-      "/src/share.js": "/src/share.js?v=6a799e0a5f",
-      "/src/speech-cache.js": "/src/speech-cache.js?v=6a799e0a5f",
-      "/src/spoken.js": "/src/spoken.js?v=6a799e0a5f",
-      "/src/text-map.js": "/src/text-map.js?v=6a799e0a5f",
-      "/src/text.js": "/src/text.js?v=6a799e0a5f",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=6a799e0a5f",
-      "/src/tts.js": "/src/tts.js?v=6a799e0a5f",
-      "/src/usage.js": "/src/usage.js?v=6a799e0a5f",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=6a799e0a5f"
+      "/src/audio.js": "/src/audio.js?v=2904a86c93",
+      "/src/boot.js": "/src/boot.js?v=2904a86c93",
+      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=2904a86c93",
+      "/src/document-cleanup.js": "/src/document-cleanup.js?v=2904a86c93",
+      "/src/document-review.js": "/src/document-review.js?v=2904a86c93",
+      "/src/library-dialog.js": "/src/library-dialog.js?v=2904a86c93",
+      "/src/library-store.js": "/src/library-store.js?v=2904a86c93",
+      "/src/limits.js": "/src/limits.js?v=2904a86c93",
+      "/src/machine.js": "/src/machine.js?v=2904a86c93",
+      "/src/main.js": "/src/main.js?v=2904a86c93",
+      "/src/mp3-encode.js": "/src/mp3-encode.js?v=2904a86c93",
+      "/src/mp3-export.js": "/src/mp3-export.js?v=2904a86c93",
+      "/src/mp3-stream.js": "/src/mp3-stream.js?v=2904a86c93",
+      "/src/mp3-worker.js": "/src/mp3-worker.js?v=2904a86c93",
+      "/src/navigation.js": "/src/navigation.js?v=2904a86c93",
+      "/src/ocr-worker.js": "/src/ocr-worker.js?v=2904a86c93",
+      "/src/ocr.js": "/src/ocr.js?v=2904a86c93",
+      "/src/offline-worker.js": "/src/offline-worker.js?v=2904a86c93",
+      "/src/pages.js": "/src/pages.js?v=2904a86c93",
+      "/src/pdf-layout.js": "/src/pdf-layout.js?v=2904a86c93",
+      "/src/pdf-tables.js": "/src/pdf-tables.js?v=2904a86c93",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=2904a86c93",
+      "/src/pdf.js": "/src/pdf.js?v=2904a86c93",
+      "/src/player.js": "/src/player.js?v=2904a86c93",
+      "/src/pptx.js": "/src/pptx.js?v=2904a86c93",
+      "/src/selection.js": "/src/selection.js?v=2904a86c93",
+      "/src/session-data.js": "/src/session-data.js?v=2904a86c93",
+      "/src/shader.js": "/src/shader.js?v=2904a86c93",
+      "/src/share-config.js": "/src/share-config.js?v=2904a86c93",
+      "/src/share-crypto.js": "/src/share-crypto.js?v=2904a86c93",
+      "/src/share-dialog.js": "/src/share-dialog.js?v=2904a86c93",
+      "/src/share-location.js": "/src/share-location.js?v=2904a86c93",
+      "/src/share.js": "/src/share.js?v=2904a86c93",
+      "/src/speech-cache.js": "/src/speech-cache.js?v=2904a86c93",
+      "/src/spoken.js": "/src/spoken.js?v=2904a86c93",
+      "/src/text-map.js": "/src/text-map.js?v=2904a86c93",
+      "/src/text.js": "/src/text.js?v=2904a86c93",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=2904a86c93",
+      "/src/tts.js": "/src/tts.js?v=2904a86c93",
+      "/src/usage.js": "/src/usage.js?v=2904a86c93",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=2904a86c93"
     }
   }
   </script>
@@ -341,22 +341,18 @@
   <dialog id="review-dialog" class="review-dialog" aria-labelledby="review-title">
     <div class="review-shade" aria-hidden="true"></div>
     <div class="review-shell" aria-hidden="true"></div>
-    <div class="review-screen"><div class="review-inner">
-    <h2 id="review-title">Relire avant d’écouter</h2>
-    <p id="review-feedback" role="status"></p>
-    <label for="review-text" class="review-label">Texte que la radio va lire <span>· tu peux le corriger ici</span></label>
-    <textarea id="review-text" rows="12" spellcheck="true"></textarea>
-    <details id="review-pdf-options" class="review-help">
-      <summary>Le texte est dans le désordre ou il manque des pages ?</summary>
+    <div class="review-screen">
+    <div class="review-head"><h2 id="review-title">Relire avant d’écouter</h2><p id="review-feedback" role="status"></p></div>
+    <textarea id="review-text" spellcheck="true" aria-label="Texte que la radio va lire, tu peux le corriger"></textarea>
+    <div id="review-pdf-options" class="review-options" hidden>
       <label>Ordre de lecture <select id="review-layout"><option value="native">Comme dans le PDF</option><option value="columns">Deux colonnes : gauche, puis droite</option><option value="rows">Tableau : ligne par ligne</option></select></label>
-      <label><input id="review-ocr" type="checkbox"> Lire aussi les pages scannées (photos de texte), 50 pages maximum</label>
-      <label id="review-lang-row" hidden>Langue de ces pages <select id="review-lang"><option value="fra">Français</option><option value="eng">Anglais</option></select></label>
-      <p>Tout reste sur ton appareil. La première fois, le lecteur de scans se télécharge : compte quelques minutes, et relis le résultat.</p>
-      <button id="review-extract" type="button">Relire le PDF avec ces réglages</button>
-    </details>
+      <label><input id="review-ocr" type="checkbox"> Lire aussi les pages scannées (50 maximum)</label>
+      <label id="review-lang-row" hidden>Langue des scans <select id="review-lang"><option value="fra">Français</option><option value="eng">Anglais</option></select></label>
+      <button id="review-extract" type="button">Relire le PDF</button>
+      <p>Tout reste sur ton appareil. La première fois, la lecture des scans prend quelques minutes.</p>
     </div>
     <div class="review-actions">
-      <p>Remplace le texte de la radio.</p>
+      <button id="review-settings" type="button" aria-expanded="false" aria-controls="review-pdf-options" hidden>Texte en désordre ou incomplet ?</button>
       <button id="review-close" type="button">Annuler</button><button id="review-apply" type="button">Mettre dans la radio</button>
     </div></div>
   </dialog>
@@ -401,7 +397,7 @@
     <div id="pages-list" class="pages-list"></div>
   </dialog>
 
-  <script type="module" src="/src/boot.js?v=6a799e0a5f"></script>
-  <script type="module" src="/src/main.js?v=6a799e0a5f"></script>
+  <script type="module" src="/src/boot.js?v=2904a86c93"></script>
+  <script type="module" src="/src/main.js?v=2904a86c93"></script>
 </body>
 </html>
