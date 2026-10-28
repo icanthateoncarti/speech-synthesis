@@ -73,6 +73,8 @@ test("écran vide et emojis : PARLE et MP3 ne téléchargent aucun modèle", asy
 
 test("effacer pendant le préchargement ne fige pas l'état ; une erreur n'empêche pas le nouvel essai", async () => {
   const p = await browser.newPage();
+  // Sinon le service worker hors ligne sert le vrai tts.js depuis son cache.
+  await p.setBypassServiceWorker(true);
   await p.setRequestInterception(true);
   p.on("request", (req) => {
     if (new URL(req.url()).pathname === "/src/tts.js") {

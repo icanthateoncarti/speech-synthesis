@@ -23,7 +23,7 @@ Oui : l’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonn
 
 ### Mon texte reste-t-il privé ?
 
-Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus. Seule la création volontaire d’un lien de partage envoie une copie chiffrée du texte, conservée 7 jours.
+Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus. Seule la création volontaire d’un lien de partage envoie une copie chiffrée du texte, conservée 7 jours. Le site compte aussi, sans cookie ni identifiant, combien de documents sont importés, écoutés et exportés, jamais ce qu’ils contiennent.
 
 ### Comment emporter mon cours en MP3 ?
 

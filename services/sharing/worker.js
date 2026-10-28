@@ -1,5 +1,7 @@
 const MAX_BODY = 512 * 1024, WEEK = 7 * 86400_000;
 const ID = /^[A-Za-z0-9_-]{22}$/, HASH = /^[a-f0-9]{64}$/;
+// Compteur d'usage : seulement ces noms d'événements, jamais de texte, de fichier ni d'identifiant.
+export const EVENT = /^(?:import-(?:pdf|pdf-scan|pptx)|import-error-(?:pdf|pptx)|listen-(?:text|document)-(?:fr|en)|export-mp3-(?:fr|en)|export-error)$/;
 const hex = bytes => Array.from(new Uint8Array(bytes), b => b.toString(16).padStart(2, "0")).join("");
 export const digest = async value => hex(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value)));
 export async function limitedBody(request) {
@@ -20,6 +22,8 @@ export async function limitedBody(request) {
   for (const part of parts) { data.set(part, offset); offset += part.length; }
   return data;
 }
+// Empreinte de l'IP renouvelée chaque jour : sert aux quotas, jamais conservée au-delà.
+const clientHash = async request => digest((request.headers.get("cf-connecting-ip") || "local") + ":" + Math.floor(Date.now() / 86400_000));
 const response = (body, status = 200, headers = {}) => new Response(body, { status, headers });
 export default {
   async fetch(request, env) {
@@ -27,16 +31,31 @@ export default {
     const allowed = ["https://speechsynthe.si", "https://www.speechsynthe.si"];
     if (env.DEV_ORIGIN) allowed.push(env.DEV_ORIGIN);
     const headers = { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer", "Vary": "Origin", "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'" };
+    const path = new URL(request.url).pathname;
+    // Lecture des compteurs par Jonas uniquement (jeton gardé hors du dépôt).
+    if (path === "/stats") {
+      if (!env.STATS_TOKEN || request.headers.get("authorization") !== "Bearer " + env.STATS_TOKEN) return response("Refused", 403, headers);
+      const result = await env.USAGE.get(env.USAGE.idFromName("usage-v1")).fetch(new Request(request.url));
+      return new Response(result.body, { status: result.status, headers: { ...headers, "Content-Type": "application/json" } });
+    }
     if (!allowed.includes(origin)) return response("Origin refused", 403, headers);
     headers["Access-Control-Allow-Origin"] = origin;
     headers["Access-Control-Expose-Headers"] = "X-Expires-At, Retry-After";
+    if (path === "/events") {
+      if (request.method !== "POST") return response("Method refused", 405, headers);
+      try {
+        const event = (await request.text()).slice(0, 40);
+        if (!EVENT.test(event)) return response("Invalid event", 400, headers);
+        const result = await env.USAGE.get(env.USAGE.idFromName("usage-v1")).fetch(new Request(request.url, { method: "POST", body: event, headers: { "X-Client-Hash": await clientHash(request) } }));
+        return response(null, result.status, headers);
+      } catch { return response("Service unavailable", 503, headers); }
+    }
     if (request.method === "OPTIONS") return response(null, 204, { ...headers, "Access-Control-Allow-Methods": "GET, POST, DELETE", "Access-Control-Allow-Headers": "Content-Type, X-Delete-Hash, Authorization", "Access-Control-Max-Age": "600" });
-    const path = new URL(request.url).pathname;
     if (path !== "/sessions" && !/^\/sessions\/[A-Za-z0-9_-]{22}$/.test(path)) return response("Not found", 404, headers);
     if (!["GET", "POST", "DELETE"].includes(request.method)) return response("Method refused", 405, headers);
     try {
       const forwarded = new Request(request);
-      forwarded.headers.set("X-Client-Hash", await digest((request.headers.get("cf-connecting-ip") || "local") + ":" + Math.floor(Date.now() / 86400_000)));
+      forwarded.headers.set("X-Client-Hash", await clientHash(request));
       const result = await env.SESSIONS.get(env.SESSIONS.idFromName("sessions-v1")).fetch(forwarded);
       const output = new Response(result.body, result);
       for (const [key, value] of Object.entries(headers)) output.headers.set(key, value);
@@ -97,5 +116,33 @@ export class SessionStore {
     this.sql.exec("DELETE FROM sessions WHERE expires <= ?", now);
     this.sql.exec("DELETE FROM limits WHERE expires <= ?", now);
     if ([...this.sql.exec("SELECT (SELECT COUNT(*) FROM sessions) + (SELECT COUNT(*) FROM limits) AS n")][0].n) await this.ctx.storage.setAlarm(now + 3600_000);
+  }
+}
+// Compteurs d'usage par jour et par événement, gardés 400 jours. Aucune ligne ne relie deux événements entre eux.
+export class UsageCounter {
+  constructor(ctx) {
+    this.ctx = ctx; this.sql = ctx.storage.sql;
+    this.sql.exec("CREATE TABLE IF NOT EXISTS usage (day TEXT NOT NULL, event TEXT NOT NULL, n INTEGER NOT NULL, PRIMARY KEY(day, event))");
+    this.sql.exec("CREATE TABLE IF NOT EXISTS limits (id TEXT PRIMARY KEY, n INTEGER NOT NULL, expires INTEGER NOT NULL)");
+  }
+  take(key, max, window, now) { return SessionStore.prototype.take.call(this, key, max, window, now); }
+  async fetch(request) {
+    const now = Date.now(), day = value => new Date(value).toISOString().slice(0, 10);
+    if (request.method === "GET") return response(JSON.stringify([...this.sql.exec("SELECT day, event, n FROM usage WHERE day >= ? ORDER BY day, event", day(now - 90 * 86400_000))]));
+    const ip = request.headers.get("X-Client-Hash"), event = await request.text();
+    if (!ip || !EVENT.test(event)) return response("Refused", 400);
+    if (!await this.ctx.storage.getAlarm()) await this.ctx.storage.setAlarm(now + 86400_000);
+    const counted = this.ctx.storage.transactionSync(() => {
+      if (!this.take("event:" + ip, 60, 3600_000, now) || !this.take("events", 20_000, 86400_000, now)) return false;
+      this.sql.exec("INSERT INTO usage VALUES(?,?,1) ON CONFLICT(day, event) DO UPDATE SET n=n+1", day(now), event);
+      return true;
+    });
+    return response(null, counted ? 204 : 429);
+  }
+  async alarm() {
+    const now = Date.now();
+    this.sql.exec("DELETE FROM limits WHERE expires <= ?", now);
+    this.sql.exec("DELETE FROM usage WHERE day < ?", new Date(now - 400 * 86400_000).toISOString().slice(0, 10));
+    await this.ctx.storage.setAlarm(now + 86400_000);
   }
 }

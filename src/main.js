@@ -13,6 +13,7 @@ import { saveCourse, getCourse, courseAudioStore } from "./library-store.js";
 import { createdShares } from "./share.js";
 import { incomingShare, takeIncomingShare } from "./share-location.js";
 import { sessionData } from "./session-data.js";
+import { countUsage } from "./usage.js";
 
 const $ = (id) => document.getElementById(id);
 const screen = $("screen"), reader = $("reader"), speak = $("key-speak");
@@ -48,7 +49,7 @@ let documentInfo = { name: "", chapters: [] }, index = buildReadingIndex("");
 let playbackActive = false, paused = false, pendingNavigation = null;
 let preloadJob = null, pdfBusy = false, revision = 0, note = null, noteTimer, importJob = null;
 let timeline = [], spans = [], highlighted = -1, elapsed = 0, scrubbing = false, lastPositionPaint = 0;
-let micResume = false, voiceListening = false, dragDepth = 0;
+let listenCounted = false, micResume = false, voiceListening = false, dragDepth = 0;
 let courseId = null, courseName = "", restoreOffset = 0, saveTimer, lastSavedAt = 0, storageWarning = "", courseStorage;
 
 function snapshot() {
@@ -79,7 +80,12 @@ function restoreCourse(value) {
   message(data.offset ? "COURS RETROUVÉ · PARLE POUR REPRENDRE" : "COURS CHARGÉ · APPUIE SUR PARLE", 6000);
 }
 
-function dispatch(event) { state = reduce(state, event); paint(); if (["TEXT_CHANGED", "VOICE_CHANGED", "SPEED_CHANGED"].includes(event.type)) scheduleSave(); }
+function dispatch(event) {
+  state = reduce(state, event); paint();
+  // Une visite qui arrive jusqu'à l'écoute, comptée une fois par chargement de page.
+  if (event.type === "PLAYBACK_STARTED" && !listenCounted) { listenCounted = true; countUsage(`listen-${documentInfo.name ? "document" : "text"}-${detectLanguage(state.text)}`); }
+  if (["TEXT_CHANGED", "VOICE_CHANGED", "SPEED_CHANGED"].includes(event.type)) scheduleSave();
+}
 function valid(job) { return synthesis === job && job.key === audioKey(state); }
 function formatTime(value) {
   const n = Math.max(0, Math.floor(Number(value) || 0));
@@ -403,8 +409,9 @@ async function exportMp3() {
     if (exportJob !== task || task.key !== audioKey(state)) return;
     dispatch({ type: "MP3_READY", key: task.key, mp3 });
     download(mp3, task.voice);
+    countUsage(`export-mp3-${detectLanguage(state.text)}`);
   } catch (error) {
-    if (exportJob === task && error.kind !== "cancelled" && error.name !== "AbortError") dispatch({ type: "ERROR", kind: error.kind });
+    if (exportJob === task && error.kind !== "cancelled" && error.name !== "AbortError") { dispatch({ type: "ERROR", kind: error.kind }); countUsage("export-error"); }
   } finally { if (exportJob === task) { exportJob = null; paint(); } }
 }
 
@@ -426,7 +433,8 @@ async function importDocument(file) {
       ? await (await import("./pptx.js")).extractPptxDocument(file, options)
       : await (await import("./pdf.js")).extractPdfDocument(file, options);
     if (version !== revision) return;
-    if (format === "pdf" && document.scannedPages?.length) {
+    const scanned = format === "pdf" && document.scannedPages?.length > 0;
+    if (scanned) {
       const { reviewDocument } = await import("./document-review.js");
       const reviewed = await reviewDocument({ text: document.text, file, scannedPages: document.scannedPages, signal: job.signal, extract: options => import("./pdf.js").then(m => m.extractPdfDocument(file, options)) });
       if (version !== revision) return;
@@ -434,7 +442,7 @@ async function importDocument(file) {
       document = { ...document, text: reviewed, pageMaps: undefined, chapters: [], fragments: [] };
     }
     pdfBusy = false;
-    if (!hasSpeakableContent(document.text)) { dispatch({ type: "PDF_EMPTY", format }); return; }
+    if (!hasSpeakableContent(document.text)) { dispatch({ type: "PDF_EMPTY", format }); countUsage(`import-error-${format}`); return; }
     tts.clearCache();
     detachCourse();
     documentInfo = { name: file.name, sourcePdf: format === "pdf" ? file : null, chapters: document.chapters, titles: document.titles ?? [] };
@@ -449,10 +457,12 @@ async function importDocument(file) {
     screen.value = document.text; screen.setSelectionRange(0, 0); screen.scrollTop = 0;
     dispatch({ type: "TEXT_CHANGED", text: document.text }); rebuildIndex();
     screen.focus({ preventScroll: true }); preload();
+    countUsage(`import-${scanned ? "pdf-scan" : format}`);
     if (document.truncated) message("TEXTE COUPÉ À 2 MILLIONS DE CARACTÈRES", 8000);
   } catch (error) {
     if (version !== revision || error.name === "AbortError") return;
     pdfBusy = false;
+    countUsage(`import-error-${format}`);
     if (error.name === "TooLargeError") { message("FICHIER TROP VOLUMINEUX", 6000); return; }
     dispatch({ type: "PDF_ERROR", format, password: error.name === "PasswordException" });
   } finally {

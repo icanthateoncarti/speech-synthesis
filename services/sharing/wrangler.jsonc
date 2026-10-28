@@ -4,6 +4,6 @@
   "compatibility_date": "2026-10-01",
   "workers_dev": true,
   "observability": { "enabled": false },
-  "durable_objects": { "bindings": [{ "name": "SESSIONS", "class_name": "SessionStore" }] },
-  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["SessionStore"] }]
+  "durable_objects": { "bindings": [{ "name": "SESSIONS", "class_name": "SessionStore" }, { "name": "USAGE", "class_name": "UsageCounter" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["SessionStore"] }, { "tag": "v2", "new_sqlite_classes": ["UsageCounter"] }]
 }
