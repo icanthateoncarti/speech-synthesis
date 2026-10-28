@@ -161,6 +161,8 @@ test("preload d'une voix déjà en cache : aucune requête vers huggingface.co",
     seen.push(req.url());
     req.continue();
   };
+  // Sinon le service worker hors ligne sert onnxruntime depuis son cache et le témoin ne voit rien.
+  await page.setBypassServiceWorker(true);
   await page.setRequestInterception(true);
   page.on("request", onRequest);
   try {
@@ -180,6 +182,7 @@ test("preload d'une voix déjà en cache : aucune requête vers huggingface.co",
     assert.ok(seen.some((u) => u.includes("onnxruntime-web")), "requêtes du worker invisibles : test sans valeur");
   } finally {
     page.off("request", onRequest);
+    await page.setBypassServiceWorker(false);
     await page.setRequestInterception(false);
   }
 });
