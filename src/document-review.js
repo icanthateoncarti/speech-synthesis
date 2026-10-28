@@ -1,7 +1,8 @@
 import { MAX_TEXT_CHARS } from "./limits.js";
 import { hasSpeakableContent } from "./text.js";
+import { createTypewriter } from "./typewriter.js";
 
-let closePrevious;
+let closePrevious, typewriter;
 // On zoome dans l'écran de la radio : la radio grossit vers son écran pendant qu'un cadre d'écran vide
 // grandit jusqu'à la fenêtre, en laissant voir l'orange autour, assombri ; le contenu apparaît ensuite.
 // À la fermeture, le cadre vide rétrécit dans la radio (la vraie fenêtre est déjà fermée : focus et
@@ -41,7 +42,7 @@ function zoomIn(dialog) {
   outro?.();
   const g = screenGeometry();
   place(dialog, g?.target);
-  if (!g) return;
+  if (!g) return Promise.resolve();
   const shell = dialog.querySelector(".review-shell"), panel = dialog.querySelector(".review-screen");
   document.documentElement.classList.add("zoomed");
   dialog.dataset.entering = "";
@@ -59,7 +60,7 @@ function zoomIn(dialog) {
   addEventListener("resize", zoom.refit);
   dialog.querySelector(".review-shade").animate({ opacity: [0, 1] }, { duration: ZOOM_MS, easing: "ease-out" });
   const grow = shell.animate({ transform: [onScreen(g.screen, shell), "none"] }, { duration: ZOOM_MS, easing: EASE });
-  grow.finished.then(() => {
+  return grow.finished.then(() => {
     delete dialog.dataset.entering;
     panel.animate({ opacity: [0, 1] }, { duration: 180, easing: "ease-out" });
   }, () => delete dialog.dataset.entering);
@@ -86,6 +87,7 @@ export function reviewDocument({ text, file, extract, signal }) {
   const dialog = $("review-dialog"), editor = $("review-text"), feedback = $("review-feedback");
   const apply = $("review-apply"), rebuild = $("review-extract");
   rebuild.disabled = false;
+  typewriter ??= createTypewriter(editor); typewriter.stop();
   editor.value = text; editor.maxLength = MAX_TEXT_CHARS;
   const settings = $("review-settings"), options = $("review-pdf-options");
   // Les réglages du PDF restent derrière un bouton : l'écran ne montre que le texte.
@@ -103,6 +105,7 @@ export function reviewDocument({ text, file, extract, signal }) {
       if (!active) return;
       active = false;
       // Fermée sans passer par close() : on revient à la radio sans animation.
+      typewriter.finish();
       if (zoom) { removeEventListener("resize", zoom.refit); zoom.room.cancel(); zoom = null; document.documentElement.classList.remove("zoomed"); }
       dialog.removeEventListener("close", closed); dialog.removeEventListener("cancel", cancel);
       if (closePrevious === close) closePrevious = null;
@@ -113,10 +116,11 @@ export function reviewDocument({ text, file, extract, signal }) {
     editor.oninput = validity;
     $("review-ocr").onchange = () => { $("review-lang-row").hidden = !$("review-ocr").checked; };
     settings.onclick = () => { options.hidden = !options.hidden; settings.setAttribute("aria-expanded", String(!options.hidden)); };
-    apply.onclick = () => { result = editor.value; close(); };
+    apply.onclick = () => { typewriter.finish(); result = editor.value; close(); };
     $("review-close").onclick = close;
     rebuild.onclick = async () => {
       if (controller) return;
+      typewriter.finish();
       controller = new AbortController(); rebuild.disabled = true; validity();
       feedback.textContent = "Lecture du PDF en cours… « Annuler » l’arrête.";
       try {
@@ -130,7 +134,9 @@ export function reviewDocument({ text, file, extract, signal }) {
     };
     closePrevious = close;
     dialog.addEventListener("close", closed); dialog.addEventListener("cancel", cancel); signal?.addEventListener("abort", close, { once: true });
-    dialog.showModal(); zoomIn(dialog); validity();
+    dialog.showModal(); validity();
     editor.setSelectionRange(0, 0); editor.scrollTop = 0; $("review-close").focus({ preventScroll: true });
+    // Comme sur la radio : une fois l'écran agrandi, le texte s'y écrit très vite.
+    zoomIn(dialog).then(() => { if (active && editor.value === text) typewriter.type(text); });
   });
 }

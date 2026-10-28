@@ -14,6 +14,7 @@ import { createdShares } from "./share.js";
 import { incomingShare, takeIncomingShare } from "./share-location.js";
 import { sessionData } from "./session-data.js";
 import { countUsage } from "./usage.js";
+import { createTypewriter } from "./typewriter.js";
 
 const $ = (id) => document.getElementById(id);
 const screen = $("screen"), reader = $("reader"), speak = $("key-speak");
@@ -67,32 +68,8 @@ async function persistCourse() {
 }
 function scheduleSave() { if (courseId) { clearTimeout(saveTimer); saveTimer = setTimeout(persistCourse, 700); } }
 function detachCourse() { clearTimeout(saveTimer); storageWarning = ""; courseStorage = null; courseId = null; courseName = ""; restoreOffset = 0; $("library-state").textContent = ""; }
-// Le texte arrive sur l'écran comme tapé très vite : seulement la partie visible, puis tout le texte.
-// L'état a déjà le texte complet ; seul l'affichage suit. Une touche ou un clic termine tout de suite.
-let typing = null;
-function typeOnScreen(text) {
-  typing?.done();
-  const show = () => { screen.value = text; screen.setSelectionRange(0, 0); screen.scrollTop = 0; };
-  if (!text || matchMedia("(prefers-reduced-motion: reduce)").matches) { show(); return; }
-  // ~ ce qui tient sur l'écran ; la suite arrive d'un coup, hors de vue.
-  const visible = Math.min(text.length, 520), duration = Math.min(650, 150 + visible * 0.9), start = performance.now();
-  let shown = "";
-  const job = {
-    frame: 0,
-    done() { stopTyping(); if (screen.value === shown) show(); },
-  };
-  const step = now => {
-    if (screen.value !== shown) { stopTyping(); return; } // l'écran a été changé ailleurs
-    // L'horodatage d'une image peut précéder start : on borne à [0, 1].
-    const t = Math.min(1, Math.max(0, (now - start) / duration));
-    if (t === 1) { job.done(); return; }
-    shown = text.slice(0, Math.round(visible * t)); screen.value = shown;
-    job.frame = requestAnimationFrame(step);
-  };
-  typing = job; screen.dataset.typing = ""; screen.value = ""; screen.scrollTop = 0; job.frame = requestAnimationFrame(step);
-}
-function stopTyping() { if (typing) { cancelAnimationFrame(typing.frame); typing = null; delete screen.dataset.typing; } }
-for (const type of ["keydown", "pointerdown"]) screen.addEventListener(type, () => typing?.done());
+// Le texte arrive sur l'écran comme tapé très vite ; l'état a déjà le texte complet, seul l'affichage suit.
+const { type: typeOnScreen, stop: stopTyping } = createTypewriter(screen);
 
 function restoreCourse(value) {
   const data = sessionData(value);
