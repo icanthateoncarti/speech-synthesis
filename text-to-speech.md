@@ -3,7 +3,7 @@
 > Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/text-to-speech/
-Last updated: 2026-10-28
+Last updated: 2026-10-29
 
 ## Colle ton texte. Écoute la suite.
 
@@ -15,27 +15,47 @@ Last updated: 2026-10-28
 
 Un cours à réviser ou un article à écouter : la radio lit ton texte sans le résumer. Tu peux ajuster le rythme, puis garder le MP3 pour l’écouter quand tu sors.
 
+[Consulter le mode d’emploi](https://speechsynthe.si/text-to-speech/#mode-emploi)
+
 ## Avant d’appuyer sur lecture
 
-### Le text to speech, c’est quoi ?
+### Est-ce gratuit, même pour télécharger le MP3 ?
 
-C’est un outil qui lit un texte à voix haute, sans le résumer ni le reformuler. Colle le tien dans l’écran, puis appuie sur PARLE.
+Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement.
 
-### Faut-il payer ou créer un compte ?
+### Le texte est-il modifié avant d’être lu ?
 
-Non : l’écoute et le téléchargement MP3 sont gratuits, sans inscription. Ton appareil prépare la voix directement dans le navigateur.
+Il n’est ni résumé ni reformulé. La radio adapte à l’oral certains nombres, symboles et mots, et marque des pauses entre les titres ou les éléments d’une liste. Le texte affiché reste celui que tu as saisi.
 
-### Quelles voix sont disponibles ?
+### Mon document reste-t-il privé ?
 
-Deux voix par langue, en français et en anglais.
+Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours.
 
-### Comment télécharger le MP3 ?
+### Pourquoi la préparation de l’audio prend-elle du temps ?
 
-Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation du fichier.
+La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache.
 
-### Pourquoi ce temps de chargement ?
+### Puis-je écouter mon cours sans connexion ?
 
-La radio télécharge la voix choisie avant de pouvoir lire ton texte. Le navigateur la conserve ensuite en cache, si l’espace disponible le permet, pour éviter de la télécharger à nouveau.
+Oui, une fois le MP3 téléchargé, tu peux l’écouter sans connexion dans ton lecteur audio habituel. Dans la radio, un cours enregistré peut aussi rejouer hors connexion ses passages déjà préparés, tant que le navigateur les conserve. Pour emporter un cours entier, garde le MP3.
+
+## Mode d’emploi
+
+### Choisir la voix et la vitesse
+
+Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3.
+
+### Retrouver un passage
+
+Pendant l’écoute, utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. COMMANDES accepte aussi une instruction écrite comme « reviens 3 phrases en arrière ». PARLE devient PAUSE pendant la lecture, puis REPRENDRE.
+
+### Télécharger le MP3
+
+Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué.
+
+### Enregistrer ou partager un cours
+
+Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglages et ta position sur cet appareil. PARTAGER crée un lien valable 7 jours ; la personne qui l’ouvre reçoit le texte et les réglages, puis prépare l’audio sur son appareil. La bibliothèque accepte 20 cours et jusqu’à 200 Mo d’audio préparé ; elle ne se synchronise pas entre tes appareils.
 
 ## Related
 

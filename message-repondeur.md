@@ -3,7 +3,7 @@
 > Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/message-repondeur/
-Last updated: 2026-10-28
+Last updated: 2026-10-29
 
 ## Exemples de textes
 
@@ -37,27 +37,39 @@ Last updated: 2026-10-28
 
 Congés, nouveaux horaires ou indisponibilité : adapte simplement ton texte. Tu peux réécouter le message et télécharger une nouvelle version gratuitement.
 
+[Consulter le mode d’emploi](https://speechsynthe.si/message-repondeur/#mode-emploi)
+
 ## Avant d’appuyer sur lecture
 
-### Comment préparer mon message ?
+### Le MP3 fonctionne-t-il avec ma messagerie ?
 
-Charge un exemple ou écris ton annonce dans l’écran. Remplace les passages entre crochets, écoute le résultat, puis télécharge le MP3.
+Cela dépend de ton opérateur ou de ton standard. Vérifie qu’il accepte l’import d’un fichier audio et quels formats il demande. S’il impose un enregistrement au micro, tu ne pourras pas y ajouter directement le MP3.
 
-### Ma messagerie accepte-t-elle les MP3 ?
+### Est-ce gratuit, même pour télécharger le MP3 ?
 
-Cela dépend de ton opérateur ou de ton standard : vérifie si ses réglages proposent l’import d’un fichier audio. Si elle impose un enregistrement au micro, le MP3 ne pourra pas être ajouté directement.
+Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement.
 
-### Quelles voix sont disponibles ?
+### Dois-je enregistrer ma voix ?
 
-Deux voix par langue, en français et en anglais.
+Non. La radio lit le texte avec une des voix proposées, en français ou en anglais. Elle ne reproduit pas ta voix.
 
-### Comment faire comprendre un numéro ou des horaires ?
+## Mode d’emploi
 
-Sépare les groupes de chiffres par des espaces et ajoute de la ponctuation pour les pauses. Écoute ton annonce avant de la télécharger et ralentis la voix si nécessaire.
+### Personnaliser le message
 
-### Est-ce gratuit aussi pour une entreprise ?
+Charge un exemple ou écris ton annonce dans l’écran. Remplace les passages entre crochets par tes informations et vérifie les noms, les numéros et les horaires avant l’export.
 
-L’outil est gratuit et sans inscription. Les crédits et les licences des voix sont indiqués en bas de page.
+### Faire lire les numéros et les horaires
+
+Sépare les groupes de chiffres par des espaces et ajoute de la ponctuation pour les pauses. Écoute le résultat et ralentis la voix si nécessaire.
+
+### Choisir la voix et la vitesse
+
+Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3.
+
+### Télécharger le MP3
+
+Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué.
 
 ## Related
 

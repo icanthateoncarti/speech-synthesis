@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-qmPrP9OxZ5uhcnl0vdvflTGrEwFFdr50eU6jePtUeEQ=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gD6DkgkY44HqaeFqC5BBXDGAUVL2sJ4dvkOJL2Nehx0=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Voix off gratuite — crée le MP3 de ta vidéo</title>
   <meta name="description" content="Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.">
@@ -63,34 +63,26 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Comment créer la voix off de ma vidéo ?",
+      "name": "Est-ce gratuit, même pour télécharger le MP3 ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Colle ton script dans l’écran, choisis la voix et la vitesse, puis écoute avec PARLE. Quand le résultat te convient, télécharge le MP3."
+        "text": "Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement."
       }
     },
     {
       "@type": "Question",
-      "name": "Comment ajouter la voix à mon montage ?",
+      "name": "Puis-je utiliser ma propre voix ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Importe le MP3 comme une piste audio dans ton logiciel de montage. Ajuste ensuite sa position et son volume pour l’accorder aux images."
+        "text": "Non. La radio propose deux voix par langue, en français et en anglais ; elle ne clone pas ta voix."
       }
     },
     {
       "@type": "Question",
-      "name": "Comment rendre mon script agréable à écouter ?",
+      "name": "Mon script est-il envoyé à un service de synthèse vocale ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Écris comme tu parles, avec des phrases courtes et une idée à la fois. Écoute un premier essai pour repérer les passages à raccourcir ou à ponctuer."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Quelles voix sont disponibles ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Deux voix par langue, en français et en anglais."
+        "text": "Non. La voix est préparée dans ton navigateur, sur ton appareil. Si tu choisis de partager une session, une copie chiffrée du texte est hébergée pendant 7 jours."
       }
     }
   ]
@@ -105,55 +97,55 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=5283650034">
+  <link rel="stylesheet" href="/styles/machine.css?v=7b740af379">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=5283650034",
-      "/src/boot.js": "/src/boot.js?v=5283650034",
-      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=5283650034",
-      "/src/document-cleanup.js": "/src/document-cleanup.js?v=5283650034",
-      "/src/document-review.js": "/src/document-review.js?v=5283650034",
-      "/src/library-dialog.js": "/src/library-dialog.js?v=5283650034",
-      "/src/library-store.js": "/src/library-store.js?v=5283650034",
-      "/src/limits.js": "/src/limits.js?v=5283650034",
-      "/src/machine.js": "/src/machine.js?v=5283650034",
-      "/src/main.js": "/src/main.js?v=5283650034",
-      "/src/mp3-encode.js": "/src/mp3-encode.js?v=5283650034",
-      "/src/mp3-export.js": "/src/mp3-export.js?v=5283650034",
-      "/src/mp3-stream.js": "/src/mp3-stream.js?v=5283650034",
-      "/src/mp3-worker.js": "/src/mp3-worker.js?v=5283650034",
-      "/src/navigation.js": "/src/navigation.js?v=5283650034",
-      "/src/ocr-worker.js": "/src/ocr-worker.js?v=5283650034",
-      "/src/ocr.js": "/src/ocr.js?v=5283650034",
-      "/src/offline-worker.js": "/src/offline-worker.js?v=5283650034",
-      "/src/pages.js": "/src/pages.js?v=5283650034",
-      "/src/pdf-layout.js": "/src/pdf-layout.js?v=5283650034",
-      "/src/pdf-tables.js": "/src/pdf-tables.js?v=5283650034",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=5283650034",
-      "/src/pdf.js": "/src/pdf.js?v=5283650034",
-      "/src/player.js": "/src/player.js?v=5283650034",
-      "/src/pptx.js": "/src/pptx.js?v=5283650034",
-      "/src/selection.js": "/src/selection.js?v=5283650034",
-      "/src/session-data.js": "/src/session-data.js?v=5283650034",
-      "/src/shader.js": "/src/shader.js?v=5283650034",
-      "/src/share-config.js": "/src/share-config.js?v=5283650034",
-      "/src/share-crypto.js": "/src/share-crypto.js?v=5283650034",
-      "/src/share-dialog.js": "/src/share-dialog.js?v=5283650034",
-      "/src/share-location.js": "/src/share-location.js?v=5283650034",
-      "/src/share.js": "/src/share.js?v=5283650034",
-      "/src/speech-cache.js": "/src/speech-cache.js?v=5283650034",
-      "/src/spoken.js": "/src/spoken.js?v=5283650034",
-      "/src/text-map.js": "/src/text-map.js?v=5283650034",
-      "/src/text.js": "/src/text.js?v=5283650034",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=5283650034",
-      "/src/tts.js": "/src/tts.js?v=5283650034",
-      "/src/typewriter.js": "/src/typewriter.js?v=5283650034",
-      "/src/usage.js": "/src/usage.js?v=5283650034",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=5283650034"
+      "/src/audio.js": "/src/audio.js?v=7b740af379",
+      "/src/boot.js": "/src/boot.js?v=7b740af379",
+      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=7b740af379",
+      "/src/document-cleanup.js": "/src/document-cleanup.js?v=7b740af379",
+      "/src/document-review.js": "/src/document-review.js?v=7b740af379",
+      "/src/library-dialog.js": "/src/library-dialog.js?v=7b740af379",
+      "/src/library-store.js": "/src/library-store.js?v=7b740af379",
+      "/src/limits.js": "/src/limits.js?v=7b740af379",
+      "/src/machine.js": "/src/machine.js?v=7b740af379",
+      "/src/main.js": "/src/main.js?v=7b740af379",
+      "/src/mp3-encode.js": "/src/mp3-encode.js?v=7b740af379",
+      "/src/mp3-export.js": "/src/mp3-export.js?v=7b740af379",
+      "/src/mp3-stream.js": "/src/mp3-stream.js?v=7b740af379",
+      "/src/mp3-worker.js": "/src/mp3-worker.js?v=7b740af379",
+      "/src/navigation.js": "/src/navigation.js?v=7b740af379",
+      "/src/ocr-worker.js": "/src/ocr-worker.js?v=7b740af379",
+      "/src/ocr.js": "/src/ocr.js?v=7b740af379",
+      "/src/offline-worker.js": "/src/offline-worker.js?v=7b740af379",
+      "/src/pages.js": "/src/pages.js?v=7b740af379",
+      "/src/pdf-layout.js": "/src/pdf-layout.js?v=7b740af379",
+      "/src/pdf-tables.js": "/src/pdf-tables.js?v=7b740af379",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=7b740af379",
+      "/src/pdf.js": "/src/pdf.js?v=7b740af379",
+      "/src/player.js": "/src/player.js?v=7b740af379",
+      "/src/pptx.js": "/src/pptx.js?v=7b740af379",
+      "/src/selection.js": "/src/selection.js?v=7b740af379",
+      "/src/session-data.js": "/src/session-data.js?v=7b740af379",
+      "/src/shader.js": "/src/shader.js?v=7b740af379",
+      "/src/share-config.js": "/src/share-config.js?v=7b740af379",
+      "/src/share-crypto.js": "/src/share-crypto.js?v=7b740af379",
+      "/src/share-dialog.js": "/src/share-dialog.js?v=7b740af379",
+      "/src/share-location.js": "/src/share-location.js?v=7b740af379",
+      "/src/share.js": "/src/share.js?v=7b740af379",
+      "/src/speech-cache.js": "/src/speech-cache.js?v=7b740af379",
+      "/src/spoken.js": "/src/spoken.js?v=7b740af379",
+      "/src/text-map.js": "/src/text-map.js?v=7b740af379",
+      "/src/text.js": "/src/text.js?v=7b740af379",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=7b740af379",
+      "/src/tts.js": "/src/tts.js?v=7b740af379",
+      "/src/typewriter.js": "/src/typewriter.js?v=7b740af379",
+      "/src/usage.js": "/src/usage.js?v=7b740af379",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=7b740af379"
     }
   }
   </script>
@@ -299,25 +291,42 @@
     </ol>
     <h3>Trouve le rythme de ta vidéo</h3>
     <p>Une phrase sonne trop longue ? Raccourcis-la et écoute à nouveau. Chaque essai est gratuit, et ton script reste sur ton appareil.</p>
+    <p class="manual-link"><a href="#mode-emploi">Consulter le mode d’emploi</a></p>
   </section>
 
   <section class="faq" id="faq" aria-labelledby="faq-title">
     <h2 id="faq-title">Avant d’appuyer sur lecture</h2>
     <details>
-      <summary>Comment créer la voix off de ma vidéo ?</summary>
-      <p class="answer">Colle ton script dans l’écran, choisis la voix et la vitesse, puis écoute avec PARLE. Quand le résultat te convient, télécharge le MP3.</p>
+      <summary>Est-ce gratuit, même pour télécharger le MP3 ?</summary>
+      <p class="answer">Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement.</p>
     </details>
     <details>
-      <summary>Comment ajouter la voix à mon montage ?</summary>
-      <p class="answer">Importe le MP3 comme une piste audio dans ton logiciel de montage. Ajuste ensuite sa position et son volume pour l’accorder aux images.</p>
+      <summary>Puis-je utiliser ma propre voix ?</summary>
+      <p class="answer">Non. La radio propose deux voix par langue, en français et en anglais ; elle ne clone pas ta voix.</p>
     </details>
     <details>
-      <summary>Comment rendre mon script agréable à écouter ?</summary>
-      <p class="answer">Écris comme tu parles, avec des phrases courtes et une idée à la fois. Écoute un premier essai pour repérer les passages à raccourcir ou à ponctuer.</p>
+      <summary>Mon script est-il envoyé à un service de synthèse vocale ?</summary>
+      <p class="answer">Non. La voix est préparée dans ton navigateur, sur ton appareil. Si tu choisis de partager une session, une copie chiffrée du texte est hébergée pendant 7 jours.</p>
+    </details>
+  </section>
+
+  <section class="manual" id="mode-emploi" aria-labelledby="manual-title">
+    <h2 id="manual-title">Mode d’emploi</h2>
+    <details>
+      <summary>Préparer un script à écouter</summary>
+      <p class="answer">Écris comme tu parles, avec des phrases courtes et une idée à la fois. Fais un essai pour repérer les mots mal prononcés et les phrases qui manquent de pauses, puis ajuste le texte.</p>
     </details>
     <details>
-      <summary>Quelles voix sont disponibles ?</summary>
-      <p class="answer">Deux voix par langue, en français et en anglais.</p>
+      <summary>Choisir la voix et la vitesse</summary>
+      <p class="answer">Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3.</p>
+    </details>
+    <details>
+      <summary>Télécharger le MP3</summary>
+      <p class="answer">Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué.</p>
+    </details>
+    <details>
+      <summary>Ajouter la voix au montage</summary>
+      <p class="answer">Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa position et son volume pour l’accorder aux images.</p>
     </details>
   </section>
 
@@ -405,7 +414,7 @@
     <div id="pages-list" class="pages-list"></div>
   </dialog>
 
-  <script type="module" src="/src/boot.js?v=5283650034"></script>
-  <script type="module" src="/src/main.js?v=5283650034"></script>
+  <script type="module" src="/src/boot.js?v=7b740af379"></script>
+  <script type="module" src="/src/main.js?v=7b740af379"></script>
 </body>
 </html>

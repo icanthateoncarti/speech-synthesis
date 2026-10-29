@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-qmPrP9OxZ5uhcnl0vdvflTGrEwFFdr50eU6jePtUeEQ=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gD6DkgkY44HqaeFqC5BBXDGAUVL2sJ4dvkOJL2Nehx0=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Texte en audio gratuit — écoute tes textes, PDF et PowerPoint</title>
   <meta name="description" content="Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.">
@@ -66,55 +66,7 @@
       "name": "Est-ce gratuit, même pour télécharger le MP3 ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Oui : l’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement. Colle ton texte ou importe un document pour commencer."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Mon texte reste-t-il privé ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus. Seule la création volontaire d’un lien de partage envoie une copie chiffrée du texte, conservée 7 jours. Le site compte aussi, sans cookie ni identifiant, combien de documents sont importés, écoutés et exportés, jamais ce qu’ils contiennent."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Comment emporter mon cours en MP3 ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Choisis la voix et la vitesse, puis appuie sur MP3 et garde l’onglet ouvert pendant la préparation. Une fois téléchargé, le fichier peut être écouté sans connexion, en marchant ou dans les transports."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Comment écouter un PDF ou un PowerPoint ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Glisse ton PDF ou ton PowerPoint sur la radio, ou utilise IMPORTER, puis appuie sur PARLE. Pour un PDF, PAGES permet de choisir les passages à lire. Le fichier doit contenir du texte sélectionnable et une présentation PowerPoint doit être au format PPTX."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Quelles voix sont disponibles ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Deux voix par langue, en français et en anglais."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Puis-je accélérer ou ralentir la voix ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Oui : déplace le curseur VITESSE entre 0,7× et 1,5×. Ce réglage s’applique aussi au MP3."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Pourquoi ce temps de chargement ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "La radio doit d’abord télécharger la voix choisie. Elle reste ensuite en cache si ton navigateur dispose d’assez d’espace ; le temps de préparation dépend aussi de ton appareil et de la longueur du texte."
+        "text": "Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement."
       }
     },
     {
@@ -122,31 +74,39 @@
       "name": "Est-ce que mon cours est résumé ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Non : la radio lit le texte extrait de ton document, sans le résumer ni le reformuler. Si tu sélectionnes des passages dans PAGES, seuls ces passages sont lus."
+        "text": "Non. La radio lit le texte extrait de ton document, sans le résumer ni le reformuler : un long cours peut donc donner plusieurs heures d’audio. Tu peux choisir les passages à écouter et retirer les répétitions."
       }
     },
     {
       "@type": "Question",
-      "name": "Pourquoi l’audio est-il si long ?",
+      "name": "Mon document reste-t-il privé ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "La radio prend le temps de lire le texte du cours, y compris ses explications et ses exemples. Tu peux accélérer la voix ou sélectionner seulement les passages à réviser dans un PDF."
+        "text": "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
       }
     },
     {
       "@type": "Question",
-      "name": "Et si mon cours est en anglais ?",
+      "name": "Est-ce que ça fonctionne avec un PDF scanné ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "La langue du texte est détectée automatiquement : un cours en anglais est lu avec une voix anglaise. Le texte n’est pas traduit."
+        "text": "Oui, la radio peut reconnaître le texte des pages scannées, en français ou en anglais, jusqu’à 50 pages par import. Cette étape peut prendre plusieurs minutes et se tromper sur les mots ou les nombres : vérifie le texte avant de l’écouter."
       }
     },
     {
       "@type": "Question",
-      "name": "Comment enlever les en-têtes qui se répètent ?",
+      "name": "Pourquoi la préparation de l’audio prend-elle du temps ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Après l’import, appuie sur NETTOYER et coche les répétitions à retirer. Les repères comme « Chapitre 1 » sont conservés, et tu peux tout rétablir. Le nettoyage s’applique à la lecture et au MP3, sans modifier ton fichier."
+        "text": "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Puis-je écouter mon cours sans connexion ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, une fois le MP3 téléchargé, tu peux l’écouter sans connexion dans ton lecteur audio habituel. Dans la radio, un cours enregistré peut aussi rejouer hors connexion ses passages déjà préparés, tant que le navigateur les conserve. Pour emporter un cours entier, garde le MP3."
       }
     }
   ]
@@ -161,55 +121,55 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=5283650034">
+  <link rel="stylesheet" href="/styles/machine.css?v=7b740af379">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=5283650034",
-      "/src/boot.js": "/src/boot.js?v=5283650034",
-      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=5283650034",
-      "/src/document-cleanup.js": "/src/document-cleanup.js?v=5283650034",
-      "/src/document-review.js": "/src/document-review.js?v=5283650034",
-      "/src/library-dialog.js": "/src/library-dialog.js?v=5283650034",
-      "/src/library-store.js": "/src/library-store.js?v=5283650034",
-      "/src/limits.js": "/src/limits.js?v=5283650034",
-      "/src/machine.js": "/src/machine.js?v=5283650034",
-      "/src/main.js": "/src/main.js?v=5283650034",
-      "/src/mp3-encode.js": "/src/mp3-encode.js?v=5283650034",
-      "/src/mp3-export.js": "/src/mp3-export.js?v=5283650034",
-      "/src/mp3-stream.js": "/src/mp3-stream.js?v=5283650034",
-      "/src/mp3-worker.js": "/src/mp3-worker.js?v=5283650034",
-      "/src/navigation.js": "/src/navigation.js?v=5283650034",
-      "/src/ocr-worker.js": "/src/ocr-worker.js?v=5283650034",
-      "/src/ocr.js": "/src/ocr.js?v=5283650034",
-      "/src/offline-worker.js": "/src/offline-worker.js?v=5283650034",
-      "/src/pages.js": "/src/pages.js?v=5283650034",
-      "/src/pdf-layout.js": "/src/pdf-layout.js?v=5283650034",
-      "/src/pdf-tables.js": "/src/pdf-tables.js?v=5283650034",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=5283650034",
-      "/src/pdf.js": "/src/pdf.js?v=5283650034",
-      "/src/player.js": "/src/player.js?v=5283650034",
-      "/src/pptx.js": "/src/pptx.js?v=5283650034",
-      "/src/selection.js": "/src/selection.js?v=5283650034",
-      "/src/session-data.js": "/src/session-data.js?v=5283650034",
-      "/src/shader.js": "/src/shader.js?v=5283650034",
-      "/src/share-config.js": "/src/share-config.js?v=5283650034",
-      "/src/share-crypto.js": "/src/share-crypto.js?v=5283650034",
-      "/src/share-dialog.js": "/src/share-dialog.js?v=5283650034",
-      "/src/share-location.js": "/src/share-location.js?v=5283650034",
-      "/src/share.js": "/src/share.js?v=5283650034",
-      "/src/speech-cache.js": "/src/speech-cache.js?v=5283650034",
-      "/src/spoken.js": "/src/spoken.js?v=5283650034",
-      "/src/text-map.js": "/src/text-map.js?v=5283650034",
-      "/src/text.js": "/src/text.js?v=5283650034",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=5283650034",
-      "/src/tts.js": "/src/tts.js?v=5283650034",
-      "/src/typewriter.js": "/src/typewriter.js?v=5283650034",
-      "/src/usage.js": "/src/usage.js?v=5283650034",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=5283650034"
+      "/src/audio.js": "/src/audio.js?v=7b740af379",
+      "/src/boot.js": "/src/boot.js?v=7b740af379",
+      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=7b740af379",
+      "/src/document-cleanup.js": "/src/document-cleanup.js?v=7b740af379",
+      "/src/document-review.js": "/src/document-review.js?v=7b740af379",
+      "/src/library-dialog.js": "/src/library-dialog.js?v=7b740af379",
+      "/src/library-store.js": "/src/library-store.js?v=7b740af379",
+      "/src/limits.js": "/src/limits.js?v=7b740af379",
+      "/src/machine.js": "/src/machine.js?v=7b740af379",
+      "/src/main.js": "/src/main.js?v=7b740af379",
+      "/src/mp3-encode.js": "/src/mp3-encode.js?v=7b740af379",
+      "/src/mp3-export.js": "/src/mp3-export.js?v=7b740af379",
+      "/src/mp3-stream.js": "/src/mp3-stream.js?v=7b740af379",
+      "/src/mp3-worker.js": "/src/mp3-worker.js?v=7b740af379",
+      "/src/navigation.js": "/src/navigation.js?v=7b740af379",
+      "/src/ocr-worker.js": "/src/ocr-worker.js?v=7b740af379",
+      "/src/ocr.js": "/src/ocr.js?v=7b740af379",
+      "/src/offline-worker.js": "/src/offline-worker.js?v=7b740af379",
+      "/src/pages.js": "/src/pages.js?v=7b740af379",
+      "/src/pdf-layout.js": "/src/pdf-layout.js?v=7b740af379",
+      "/src/pdf-tables.js": "/src/pdf-tables.js?v=7b740af379",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=7b740af379",
+      "/src/pdf.js": "/src/pdf.js?v=7b740af379",
+      "/src/player.js": "/src/player.js?v=7b740af379",
+      "/src/pptx.js": "/src/pptx.js?v=7b740af379",
+      "/src/selection.js": "/src/selection.js?v=7b740af379",
+      "/src/session-data.js": "/src/session-data.js?v=7b740af379",
+      "/src/shader.js": "/src/shader.js?v=7b740af379",
+      "/src/share-config.js": "/src/share-config.js?v=7b740af379",
+      "/src/share-crypto.js": "/src/share-crypto.js?v=7b740af379",
+      "/src/share-dialog.js": "/src/share-dialog.js?v=7b740af379",
+      "/src/share-location.js": "/src/share-location.js?v=7b740af379",
+      "/src/share.js": "/src/share.js?v=7b740af379",
+      "/src/speech-cache.js": "/src/speech-cache.js?v=7b740af379",
+      "/src/spoken.js": "/src/spoken.js?v=7b740af379",
+      "/src/text-map.js": "/src/text-map.js?v=7b740af379",
+      "/src/text.js": "/src/text.js?v=7b740af379",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=7b740af379",
+      "/src/tts.js": "/src/tts.js?v=7b740af379",
+      "/src/typewriter.js": "/src/typewriter.js?v=7b740af379",
+      "/src/usage.js": "/src/usage.js?v=7b740af379",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=7b740af379"
     }
   }
   </script>
@@ -336,53 +296,66 @@
     </ol>
     <h3>Ton cours, sans résumé automatique</h3>
     <p>La radio lit le texte de ton cours sans le résumer : les explications et les exemples restent dans la lecture. Un long cours peut donc donner un long audio ; pour cibler tes révisions, sélectionne des passages dans PAGES avant de télécharger le MP3. C’est gratuit et sans compte, et tes documents restent sur ton appareil.</p>
+    <p class="manual-link"><a href="#mode-emploi">Consulter le mode d’emploi</a></p>
   </section>
 
   <section class="faq" id="faq" aria-labelledby="faq-title">
     <h2 id="faq-title">Avant d’appuyer sur lecture</h2>
     <details>
       <summary>Est-ce gratuit, même pour télécharger le MP3 ?</summary>
-      <p class="answer">Oui : l’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement. Colle ton texte ou importe un document pour commencer.</p>
-    </details>
-    <details>
-      <summary>Mon texte reste-t-il privé ?</summary>
-      <p class="answer">Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus. Seule la création volontaire d’un lien de partage envoie une copie chiffrée du texte, conservée 7 jours. Le site compte aussi, sans cookie ni identifiant, combien de documents sont importés, écoutés et exportés, jamais ce qu’ils contiennent.</p>
-    </details>
-    <details>
-      <summary>Comment emporter mon cours en MP3 ?</summary>
-      <p class="answer">Choisis la voix et la vitesse, puis appuie sur MP3 et garde l’onglet ouvert pendant la préparation. Une fois téléchargé, le fichier peut être écouté sans connexion, en marchant ou dans les transports.</p>
-    </details>
-    <details>
-      <summary>Comment écouter un PDF ou un PowerPoint ?</summary>
-      <p class="answer">Glisse ton PDF ou ton PowerPoint sur la radio, ou utilise IMPORTER, puis appuie sur PARLE. Pour un PDF, PAGES permet de choisir les passages à lire. Le fichier doit contenir du texte sélectionnable et une présentation PowerPoint doit être au format PPTX.</p>
-    </details>
-    <details>
-      <summary>Quelles voix sont disponibles ?</summary>
-      <p class="answer">Deux voix par langue, en français et en anglais.</p>
-    </details>
-    <details>
-      <summary>Puis-je accélérer ou ralentir la voix ?</summary>
-      <p class="answer">Oui : déplace le curseur VITESSE entre 0,7× et 1,5×. Ce réglage s’applique aussi au MP3.</p>
-    </details>
-    <details>
-      <summary>Pourquoi ce temps de chargement ?</summary>
-      <p class="answer">La radio doit d’abord télécharger la voix choisie. Elle reste ensuite en cache si ton navigateur dispose d’assez d’espace ; le temps de préparation dépend aussi de ton appareil et de la longueur du texte.</p>
+      <p class="answer">Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement.</p>
     </details>
     <details>
       <summary>Est-ce que mon cours est résumé ?</summary>
-      <p class="answer">Non : la radio lit le texte extrait de ton document, sans le résumer ni le reformuler. Si tu sélectionnes des passages dans PAGES, seuls ces passages sont lus.</p>
+      <p class="answer">Non. La radio lit le texte extrait de ton document, sans le résumer ni le reformuler : un long cours peut donc donner plusieurs heures d’audio. Tu peux choisir les passages à écouter et retirer les répétitions.</p>
     </details>
     <details>
-      <summary>Pourquoi l’audio est-il si long ?</summary>
-      <p class="answer">La radio prend le temps de lire le texte du cours, y compris ses explications et ses exemples. Tu peux accélérer la voix ou sélectionner seulement les passages à réviser dans un PDF.</p>
+      <summary>Mon document reste-t-il privé ?</summary>
+      <p class="answer">Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours.</p>
     </details>
     <details>
-      <summary>Et si mon cours est en anglais ?</summary>
-      <p class="answer">La langue du texte est détectée automatiquement : un cours en anglais est lu avec une voix anglaise. Le texte n’est pas traduit.</p>
+      <summary>Est-ce que ça fonctionne avec un PDF scanné ?</summary>
+      <p class="answer">Oui, la radio peut reconnaître le texte des pages scannées, en français ou en anglais, jusqu’à 50 pages par import. Cette étape peut prendre plusieurs minutes et se tromper sur les mots ou les nombres : vérifie le texte avant de l’écouter.</p>
     </details>
     <details>
-      <summary>Comment enlever les en-têtes qui se répètent ?</summary>
-      <p class="answer">Après l’import, appuie sur NETTOYER et coche les répétitions à retirer. Les repères comme « Chapitre 1 » sont conservés, et tu peux tout rétablir. Le nettoyage s’applique à la lecture et au MP3, sans modifier ton fichier.</p>
+      <summary>Pourquoi la préparation de l’audio prend-elle du temps ?</summary>
+      <p class="answer">La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache.</p>
+    </details>
+    <details>
+      <summary>Puis-je écouter mon cours sans connexion ?</summary>
+      <p class="answer">Oui, une fois le MP3 téléchargé, tu peux l’écouter sans connexion dans ton lecteur audio habituel. Dans la radio, un cours enregistré peut aussi rejouer hors connexion ses passages déjà préparés, tant que le navigateur les conserve. Pour emporter un cours entier, garde le MP3.</p>
+    </details>
+  </section>
+
+  <section class="manual" id="mode-emploi" aria-labelledby="manual-title">
+    <h2 id="manual-title">Mode d’emploi</h2>
+    <details>
+      <summary>Importer un PDF ou un PowerPoint</summary>
+      <p class="answer">Dépose un PDF ou un fichier PPTX sur la radio, ou utilise IMPORTER. Pour un ancien fichier PPT, enregistre-le d’abord en PPTX. Limites : 100 Mo par fichier, 5 000 pages PDF et 2 millions de caractères extraits ; la reconnaissance des scans est limitée à 50 pages. Sur téléphone, commence par un extrait court.</p>
+    </details>
+    <details>
+      <summary>Choisir la voix et la vitesse</summary>
+      <p class="answer">Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3.</p>
+    </details>
+    <details>
+      <summary>Choisir et nettoyer les passages</summary>
+      <p class="answer">Pour un PDF avec du texte sélectionnable, PAGES permet de marquer les passages à lire ou à sauter. Après l’import, NETTOYER propose les en-têtes et pieds de page répétés : coche ceux à retirer, puis applique. Les chapitres numérotés sont protégés et tu peux rétablir le texte original ; ton fichier n’est pas modifié.</p>
+    </details>
+    <details>
+      <summary>Lire un scan ou corriger l’ordre du texte</summary>
+      <p class="answer">Dans la relecture, ouvre « Texte en désordre ou incomplet ? ». Pour un scan, coche « Lire aussi les pages scannées », choisis la langue, puis « Relire le PDF ». Pour des colonnes ou un tableau, change l’ordre de lecture avant de relire le PDF. Corrige le résultat si nécessaire, puis valide avec « Mettre dans la radio » ; cela réinitialise les sélections et le nettoyage précédents.</p>
+    </details>
+    <details>
+      <summary>Retrouver un passage</summary>
+      <p class="answer">Pendant l’écoute, utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. COMMANDES accepte aussi une instruction écrite comme « reviens 3 phrases en arrière ». PARLE devient PAUSE pendant la lecture, puis REPRENDRE.</p>
+    </details>
+    <details>
+      <summary>Télécharger le MP3</summary>
+      <p class="answer">Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué.</p>
+    </details>
+    <details>
+      <summary>Enregistrer ou partager un cours</summary>
+      <p class="answer">Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglages et ta position sur cet appareil. PARTAGER crée un lien valable 7 jours ; la personne qui l’ouvre reçoit le texte et les réglages, puis prépare l’audio sur son appareil. La bibliothèque accepte 20 cours et jusqu’à 200 Mo d’audio préparé ; elle ne se synchronise pas entre tes appareils.</p>
     </details>
   </section>
 
@@ -470,7 +443,7 @@
     <div id="pages-list" class="pages-list"></div>
   </dialog>
 
-  <script type="module" src="/src/boot.js?v=5283650034"></script>
-  <script type="module" src="/src/main.js?v=5283650034"></script>
+  <script type="module" src="/src/boot.js?v=7b740af379"></script>
+  <script type="module" src="/src/main.js?v=7b740af379"></script>
 </body>
 </html>

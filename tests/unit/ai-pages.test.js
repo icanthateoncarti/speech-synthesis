@@ -59,7 +59,7 @@ test("le même contenu source alimente le Markdown, le recueil et les données s
     assert.ok(files.get("llms-full.txt").includes(md));
     assert.ok(md.startsWith(`# ${page.title}\n`));
     assert.ok(md.includes(`Canonical: ${absolute(pagePath(page))}`));
-    for (const text of [page.description, ...page.guide.steps, page.guide.why, ...page.faq.flat(), ...(page.examples ?? []).flat()]) assert.ok(md.includes(escapeMarkdown(text)), text);
+    for (const text of [page.description, ...page.guide.steps, page.guide.why, ...page.faq.flat(), ...(page.manual ?? []).flat(), ...(page.examples ?? []).flat()]) assert.ok(md.includes(escapeMarkdown(text)), text);
     const html = renderPage(template, page);
     const ld = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
     assert.deepEqual(ld.find((data) => data["@type"] === "FAQPage").mainEntity.map((q) => [q.name, q.acceptedAnswer.text]), page.faq);

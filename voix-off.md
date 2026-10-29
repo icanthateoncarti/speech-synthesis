@@ -3,7 +3,7 @@
 > Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
 
 Canonical: https://speechsynthe.si/voix-off/
-Last updated: 2026-10-28
+Last updated: 2026-10-29
 
 ## Exemples de textes
 
@@ -29,23 +29,39 @@ Last updated: 2026-10-28
 
 Une phrase sonne trop longue ? Raccourcis-la et écoute à nouveau. Chaque essai est gratuit, et ton script reste sur ton appareil.
 
+[Consulter le mode d’emploi](https://speechsynthe.si/voix-off/#mode-emploi)
+
 ## Avant d’appuyer sur lecture
 
-### Comment créer la voix off de ma vidéo ?
+### Est-ce gratuit, même pour télécharger le MP3 ?
 
-Colle ton script dans l’écran, choisis la voix et la vitesse, puis écoute avec PARLE. Quand le résultat te convient, télécharge le MP3.
+Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement.
 
-### Comment ajouter la voix à mon montage ?
+### Puis-je utiliser ma propre voix ?
 
-Importe le MP3 comme une piste audio dans ton logiciel de montage. Ajuste ensuite sa position et son volume pour l’accorder aux images.
+Non. La radio propose deux voix par langue, en français et en anglais ; elle ne clone pas ta voix.
 
-### Comment rendre mon script agréable à écouter ?
+### Mon script est-il envoyé à un service de synthèse vocale ?
 
-Écris comme tu parles, avec des phrases courtes et une idée à la fois. Écoute un premier essai pour repérer les passages à raccourcir ou à ponctuer.
+Non. La voix est préparée dans ton navigateur, sur ton appareil. Si tu choisis de partager une session, une copie chiffrée du texte est hébergée pendant 7 jours.
 
-### Quelles voix sont disponibles ?
+## Mode d’emploi
 
-Deux voix par langue, en français et en anglais.
+### Préparer un script à écouter
+
+Écris comme tu parles, avec des phrases courtes et une idée à la fois. Fais un essai pour repérer les mots mal prononcés et les phrases qui manquent de pauses, puis ajuste le texte.
+
+### Choisir la voix et la vitesse
+
+Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3.
+
+### Télécharger le MP3
+
+Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué.
+
+### Ajouter la voix au montage
+
+Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa position et son volume pour l’accorder aux images.
 
 ## Related
 

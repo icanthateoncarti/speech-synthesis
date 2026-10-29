@@ -62,12 +62,24 @@ ${guide.steps.map((step) => `      <li>${escapeHtml(step)}</li>`).join("\n")}
     </ol>
     <h3>${escapeHtml(guide.whyTitle)}</h3>
     <p>${escapeHtml(guide.why)}</p>
+    <p class="manual-link"><a href="#mode-emploi">Consulter le mode d’emploi</a></p>
+  </section>`;
+}
+
+function manualSection(manual = []) {
+  return `<section class="manual" id="mode-emploi" aria-labelledby="manual-title">
+    <h2 id="manual-title">Mode d’emploi</h2>
+${manual.map(([title, text]) => `    <details>
+      <summary>${escapeHtml(title)}</summary>
+      <p class="answer">${escapeHtml(text)}</p>
+    </details>`).join("\n")}
   </section>`;
 }
 
 export function renderPage(home, page) {
   const url = absolute(pagePath(page));
   let html = home.replace(/<section class="examples"[\s\S]*?<\/section>\s*/g, "");
+  html = html.replace(/<section class="manual"[\s\S]*?<\/section>\s*/g, "");
   html = replaceOnce(html, /<title>[^<]*<\/title>/, `<title>${escapeHtml(page.title)}</title>`);
   html = replaceOnce(html, /<meta name="description" content="[^"]*">/, `<meta name="description" content="${escapeHtml(page.description)}">`);
   html = replaceOnce(html, /<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${escapeHtml(page.description)}">`);
@@ -77,7 +89,7 @@ export function renderPage(home, page) {
   html = replaceOnce(html, /<h1 class="model" id="model">[^<]*<\/h1>/, `<h1 class="model" id="model">${escapeHtml(page.h1)}</h1>`);
   html = replaceOnce(html, /<script type="application\/ld\+json">\s*\{\s*"@context": "https:\/\/schema\.org",\s*"@type": "FAQPage"[\s\S]*?<\/script>/, faqJsonLd(page.faq));
   html = replaceOnce(html, /<section class="guide"[\s\S]*?<\/section>/, (page.examples ? examplesSection(page.examples) : "") + guideSection(page.guide));
-  html = replaceOnce(html, /<section class="faq"[\s\S]*?<\/section>/, faqSection(page.faq));
+  html = replaceOnce(html, /<section class="faq"[\s\S]*?<\/section>/, faqSection(page.faq) + "\n\n  " + manualSection(page.manual));
   html = replaceOnce(html, /<nav class="usages"[\s\S]*?<\/nav>/, `<nav class="usages" aria-label="Autres usages">\n${PUBLIC_PAGES.map((other) => `      <a href="${pagePath(other)}"${other.slug === page.slug ? ' aria-current="page"' : ""}>${escapeHtml(other.h1)}</a>`).join("\n")}\n    </nav>`);
   html = replaceOnce(html, /<meta property="og:site_name" content="[^"]*">/, `<meta property="og:site_name" content="${escapeHtml(SITE.name)}">`);
   html = html.replace(/href="https:\/\/github\.com\/[^"/]+\/[^"/]+\/issues"/, `href="${escapeHtml(SITE.contact)}"`);

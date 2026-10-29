@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-qmPrP9OxZ5uhcnl0vdvflTGrEwFFdr50eU6jePtUeEQ=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gD6DkgkY44HqaeFqC5BBXDGAUVL2sJ4dvkOJL2Nehx0=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Text to speech gratuit — texte en voix, français et anglais</title>
   <meta name="description" content="Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.">
@@ -63,42 +63,42 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Le text to speech, c’est quoi ?",
+      "name": "Est-ce gratuit, même pour télécharger le MP3 ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "C’est un outil qui lit un texte à voix haute, sans le résumer ni le reformuler. Colle le tien dans l’écran, puis appuie sur PARLE."
+        "text": "Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement."
       }
     },
     {
       "@type": "Question",
-      "name": "Faut-il payer ou créer un compte ?",
+      "name": "Le texte est-il modifié avant d’être lu ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Non : l’écoute et le téléchargement MP3 sont gratuits, sans inscription. Ton appareil prépare la voix directement dans le navigateur."
+        "text": "Il n’est ni résumé ni reformulé. La radio adapte à l’oral certains nombres, symboles et mots, et marque des pauses entre les titres ou les éléments d’une liste. Le texte affiché reste celui que tu as saisi."
       }
     },
     {
       "@type": "Question",
-      "name": "Quelles voix sont disponibles ?",
+      "name": "Mon document reste-t-il privé ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Deux voix par langue, en français et en anglais."
+        "text": "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
       }
     },
     {
       "@type": "Question",
-      "name": "Comment télécharger le MP3 ?",
+      "name": "Pourquoi la préparation de l’audio prend-elle du temps ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation du fichier."
+        "text": "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
       }
     },
     {
       "@type": "Question",
-      "name": "Pourquoi ce temps de chargement ?",
+      "name": "Puis-je écouter mon cours sans connexion ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "La radio télécharge la voix choisie avant de pouvoir lire ton texte. Le navigateur la conserve ensuite en cache, si l’espace disponible le permet, pour éviter de la télécharger à nouveau."
+        "text": "Oui, une fois le MP3 téléchargé, tu peux l’écouter sans connexion dans ton lecteur audio habituel. Dans la radio, un cours enregistré peut aussi rejouer hors connexion ses passages déjà préparés, tant que le navigateur les conserve. Pour emporter un cours entier, garde le MP3."
       }
     }
   ]
@@ -113,55 +113,55 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=5283650034">
+  <link rel="stylesheet" href="/styles/machine.css?v=7b740af379">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=5283650034",
-      "/src/boot.js": "/src/boot.js?v=5283650034",
-      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=5283650034",
-      "/src/document-cleanup.js": "/src/document-cleanup.js?v=5283650034",
-      "/src/document-review.js": "/src/document-review.js?v=5283650034",
-      "/src/library-dialog.js": "/src/library-dialog.js?v=5283650034",
-      "/src/library-store.js": "/src/library-store.js?v=5283650034",
-      "/src/limits.js": "/src/limits.js?v=5283650034",
-      "/src/machine.js": "/src/machine.js?v=5283650034",
-      "/src/main.js": "/src/main.js?v=5283650034",
-      "/src/mp3-encode.js": "/src/mp3-encode.js?v=5283650034",
-      "/src/mp3-export.js": "/src/mp3-export.js?v=5283650034",
-      "/src/mp3-stream.js": "/src/mp3-stream.js?v=5283650034",
-      "/src/mp3-worker.js": "/src/mp3-worker.js?v=5283650034",
-      "/src/navigation.js": "/src/navigation.js?v=5283650034",
-      "/src/ocr-worker.js": "/src/ocr-worker.js?v=5283650034",
-      "/src/ocr.js": "/src/ocr.js?v=5283650034",
-      "/src/offline-worker.js": "/src/offline-worker.js?v=5283650034",
-      "/src/pages.js": "/src/pages.js?v=5283650034",
-      "/src/pdf-layout.js": "/src/pdf-layout.js?v=5283650034",
-      "/src/pdf-tables.js": "/src/pdf-tables.js?v=5283650034",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=5283650034",
-      "/src/pdf.js": "/src/pdf.js?v=5283650034",
-      "/src/player.js": "/src/player.js?v=5283650034",
-      "/src/pptx.js": "/src/pptx.js?v=5283650034",
-      "/src/selection.js": "/src/selection.js?v=5283650034",
-      "/src/session-data.js": "/src/session-data.js?v=5283650034",
-      "/src/shader.js": "/src/shader.js?v=5283650034",
-      "/src/share-config.js": "/src/share-config.js?v=5283650034",
-      "/src/share-crypto.js": "/src/share-crypto.js?v=5283650034",
-      "/src/share-dialog.js": "/src/share-dialog.js?v=5283650034",
-      "/src/share-location.js": "/src/share-location.js?v=5283650034",
-      "/src/share.js": "/src/share.js?v=5283650034",
-      "/src/speech-cache.js": "/src/speech-cache.js?v=5283650034",
-      "/src/spoken.js": "/src/spoken.js?v=5283650034",
-      "/src/text-map.js": "/src/text-map.js?v=5283650034",
-      "/src/text.js": "/src/text.js?v=5283650034",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=5283650034",
-      "/src/tts.js": "/src/tts.js?v=5283650034",
-      "/src/typewriter.js": "/src/typewriter.js?v=5283650034",
-      "/src/usage.js": "/src/usage.js?v=5283650034",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=5283650034"
+      "/src/audio.js": "/src/audio.js?v=7b740af379",
+      "/src/boot.js": "/src/boot.js?v=7b740af379",
+      "/src/cleanup-dialog.js": "/src/cleanup-dialog.js?v=7b740af379",
+      "/src/document-cleanup.js": "/src/document-cleanup.js?v=7b740af379",
+      "/src/document-review.js": "/src/document-review.js?v=7b740af379",
+      "/src/library-dialog.js": "/src/library-dialog.js?v=7b740af379",
+      "/src/library-store.js": "/src/library-store.js?v=7b740af379",
+      "/src/limits.js": "/src/limits.js?v=7b740af379",
+      "/src/machine.js": "/src/machine.js?v=7b740af379",
+      "/src/main.js": "/src/main.js?v=7b740af379",
+      "/src/mp3-encode.js": "/src/mp3-encode.js?v=7b740af379",
+      "/src/mp3-export.js": "/src/mp3-export.js?v=7b740af379",
+      "/src/mp3-stream.js": "/src/mp3-stream.js?v=7b740af379",
+      "/src/mp3-worker.js": "/src/mp3-worker.js?v=7b740af379",
+      "/src/navigation.js": "/src/navigation.js?v=7b740af379",
+      "/src/ocr-worker.js": "/src/ocr-worker.js?v=7b740af379",
+      "/src/ocr.js": "/src/ocr.js?v=7b740af379",
+      "/src/offline-worker.js": "/src/offline-worker.js?v=7b740af379",
+      "/src/pages.js": "/src/pages.js?v=7b740af379",
+      "/src/pdf-layout.js": "/src/pdf-layout.js?v=7b740af379",
+      "/src/pdf-tables.js": "/src/pdf-tables.js?v=7b740af379",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=7b740af379",
+      "/src/pdf.js": "/src/pdf.js?v=7b740af379",
+      "/src/player.js": "/src/player.js?v=7b740af379",
+      "/src/pptx.js": "/src/pptx.js?v=7b740af379",
+      "/src/selection.js": "/src/selection.js?v=7b740af379",
+      "/src/session-data.js": "/src/session-data.js?v=7b740af379",
+      "/src/shader.js": "/src/shader.js?v=7b740af379",
+      "/src/share-config.js": "/src/share-config.js?v=7b740af379",
+      "/src/share-crypto.js": "/src/share-crypto.js?v=7b740af379",
+      "/src/share-dialog.js": "/src/share-dialog.js?v=7b740af379",
+      "/src/share-location.js": "/src/share-location.js?v=7b740af379",
+      "/src/share.js": "/src/share.js?v=7b740af379",
+      "/src/speech-cache.js": "/src/speech-cache.js?v=7b740af379",
+      "/src/spoken.js": "/src/spoken.js?v=7b740af379",
+      "/src/text-map.js": "/src/text-map.js?v=7b740af379",
+      "/src/text.js": "/src/text.js?v=7b740af379",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=7b740af379",
+      "/src/tts.js": "/src/tts.js?v=7b740af379",
+      "/src/typewriter.js": "/src/typewriter.js?v=7b740af379",
+      "/src/usage.js": "/src/usage.js?v=7b740af379",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=7b740af379"
     }
   }
   </script>
@@ -288,29 +288,50 @@
     </ol>
     <h3>Écouter, corriger, recommencer</h3>
     <p>Un cours à réviser ou un article à écouter : la radio lit ton texte sans le résumer. Tu peux ajuster le rythme, puis garder le MP3 pour l’écouter quand tu sors.</p>
+    <p class="manual-link"><a href="#mode-emploi">Consulter le mode d’emploi</a></p>
   </section>
 
   <section class="faq" id="faq" aria-labelledby="faq-title">
     <h2 id="faq-title">Avant d’appuyer sur lecture</h2>
     <details>
-      <summary>Le text to speech, c’est quoi ?</summary>
-      <p class="answer">C’est un outil qui lit un texte à voix haute, sans le résumer ni le reformuler. Colle le tien dans l’écran, puis appuie sur PARLE.</p>
+      <summary>Est-ce gratuit, même pour télécharger le MP3 ?</summary>
+      <p class="answer">Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement.</p>
     </details>
     <details>
-      <summary>Faut-il payer ou créer un compte ?</summary>
-      <p class="answer">Non : l’écoute et le téléchargement MP3 sont gratuits, sans inscription. Ton appareil prépare la voix directement dans le navigateur.</p>
+      <summary>Le texte est-il modifié avant d’être lu ?</summary>
+      <p class="answer">Il n’est ni résumé ni reformulé. La radio adapte à l’oral certains nombres, symboles et mots, et marque des pauses entre les titres ou les éléments d’une liste. Le texte affiché reste celui que tu as saisi.</p>
     </details>
     <details>
-      <summary>Quelles voix sont disponibles ?</summary>
-      <p class="answer">Deux voix par langue, en français et en anglais.</p>
+      <summary>Mon document reste-t-il privé ?</summary>
+      <p class="answer">Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours.</p>
     </details>
     <details>
-      <summary>Comment télécharger le MP3 ?</summary>
-      <p class="answer">Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation du fichier.</p>
+      <summary>Pourquoi la préparation de l’audio prend-elle du temps ?</summary>
+      <p class="answer">La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache.</p>
     </details>
     <details>
-      <summary>Pourquoi ce temps de chargement ?</summary>
-      <p class="answer">La radio télécharge la voix choisie avant de pouvoir lire ton texte. Le navigateur la conserve ensuite en cache, si l’espace disponible le permet, pour éviter de la télécharger à nouveau.</p>
+      <summary>Puis-je écouter mon cours sans connexion ?</summary>
+      <p class="answer">Oui, une fois le MP3 téléchargé, tu peux l’écouter sans connexion dans ton lecteur audio habituel. Dans la radio, un cours enregistré peut aussi rejouer hors connexion ses passages déjà préparés, tant que le navigateur les conserve. Pour emporter un cours entier, garde le MP3.</p>
+    </details>
+  </section>
+
+  <section class="manual" id="mode-emploi" aria-labelledby="manual-title">
+    <h2 id="manual-title">Mode d’emploi</h2>
+    <details>
+      <summary>Choisir la voix et la vitesse</summary>
+      <p class="answer">Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3.</p>
+    </details>
+    <details>
+      <summary>Retrouver un passage</summary>
+      <p class="answer">Pendant l’écoute, utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. COMMANDES accepte aussi une instruction écrite comme « reviens 3 phrases en arrière ». PARLE devient PAUSE pendant la lecture, puis REPRENDRE.</p>
+    </details>
+    <details>
+      <summary>Télécharger le MP3</summary>
+      <p class="answer">Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué.</p>
+    </details>
+    <details>
+      <summary>Enregistrer ou partager un cours</summary>
+      <p class="answer">Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglages et ta position sur cet appareil. PARTAGER crée un lien valable 7 jours ; la personne qui l’ouvre reçoit le texte et les réglages, puis prépare l’audio sur son appareil. La bibliothèque accepte 20 cours et jusqu’à 200 Mo d’audio préparé ; elle ne se synchronise pas entre tes appareils.</p>
     </details>
   </section>
 
@@ -398,7 +419,7 @@
     <div id="pages-list" class="pages-list"></div>
   </dialog>
 
-  <script type="module" src="/src/boot.js?v=5283650034"></script>
-  <script type="module" src="/src/main.js?v=5283650034"></script>
+  <script type="module" src="/src/boot.js?v=7b740af379"></script>
+  <script type="module" src="/src/main.js?v=7b740af379"></script>
 </body>
 </html>

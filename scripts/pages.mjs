@@ -5,119 +5,271 @@
 // « powerpoint en audio » et « écouter ses cours » ≈ 0 : pas de page dédiée.
 // Chaque page reprend la machine de index.html ; seuls les textes changent.
 
+// FAQ : doutes, attentes et limites. Mode d’emploi : gestes et réglages.
+// Les deux rubriques sont générées en HTML et Markdown ; seule la FAQ alimente FAQPage.
 export const PAGES = [
   {
-    slug: "pdf-en-audio",
-    title: "PDF en audio gratuit — écoute tes documents ou garde le MP3",
-    guide: {
-      title: "Glisse ton cours. Écoute-le en sortant.",
-      steps: [
+    "slug": "pdf-en-audio",
+    "title": "PDF en audio gratuit — écoute tes documents ou garde le MP3",
+    "guide": {
+      "title": "Glisse ton cours. Écoute-le en sortant.",
+      "steps": [
         "Appuie sur IMPORTER pour ouvrir ton PDF ou ton PowerPoint. Tu peux aussi le déposer sur la radio.",
         "Pour un PDF, ouvre PAGES et sélectionne les passages à lire ou à sauter. Choisis ensuite la voix et la vitesse.",
-        "Appuie sur PARLE pour écouter, ou sur MP3 pour emporter ton cours et l’écouter sans connexion.",
+        "Appuie sur PARLE pour écouter, ou sur MP3 pour emporter ton cours et l’écouter sans connexion."
       ],
-      whyTitle: "Le texte de ton cours, sans résumé",
-      why: "La radio lit le texte extrait de ton cours sans le résumer : elle garde ses explications et ses exemples. Un cours long peut donc donner plusieurs heures d’écoute. Pour cibler tes révisions, choisis les passages dans PAGES, puis garde le MP3 pour les écouter en marchant ou dans les transports.",
+      "whyTitle": "Le texte de ton cours, sans résumé",
+      "why": "La radio lit le texte extrait de ton cours sans le résumer : elle garde ses explications et ses exemples. Un cours long peut donc donner plusieurs heures d’écoute. Pour cibler tes révisions, choisis les passages dans PAGES, puis garde le MP3 pour les écouter en marchant ou dans les transports."
     },
-    description: "Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.",
-    h1: "PDF en audio",
-    faq: [
-      ["Est-ce que mon cours est résumé ?", "Non : la radio lit le texte extrait du PDF ou du PowerPoint, sans le résumer ni le reformuler. Pour un PDF, tu peux choisir toi-même les passages à lire dans PAGES."],
-      ["Et si le cours est en anglais ?", "La radio détecte la langue du texte et utilise une voix anglaise. Elle lit le cours dans sa langue d’origine, sans le traduire."],
-      ["Comment enlever les en-têtes qui se répètent ?", "Après l’import, appuie sur NETTOYER et coche les répétitions à retirer. Les repères comme « Chapitre 1 » sont conservés, et tu peux tout rétablir. Le nettoyage s’applique à la lecture et au MP3, sans modifier ton fichier."],
-      ["Comment écouter mon PDF ?", "Appuie sur IMPORTER, choisis ton PDF, puis appuie sur PARLE. Tu peux aussi déposer le fichier sur la radio."],
-      ["Comment garder mon PDF en MP3 ?", "Importe ton PDF, règle la voix et la vitesse, puis appuie sur MP3. Le fichier audio reprend les passages sélectionnés dans PAGES et peut s’écouter sans connexion une fois téléchargé."],
-      ["Comment retrouver un passage pendant la lecture ?", "Utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. Dans COMMANDES, tu peux aussi écrire « reviens 3 phrases en arrière »."],
-      ["Mon PDF reste-t-il privé ?", "Oui : son texte est extrait et lu sur ton appareil. Le fichier original reste sur ton appareil. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours."],
-      ["Et pour un PowerPoint ?", "Importe une présentation au format .pptx : chaque diapositive devient un chapitre. Pour un ancien fichier .ppt, enregistre-le d’abord en .pptx."],
-      ["Quelles voix sont disponibles ?", "Deux voix par langue, en français et en anglais."],
-      ["Pourquoi mon PDF ne se lit-il pas ?", "La radio a besoin de texte sélectionnable : un PDF composé uniquement de scans ou de photos ne suffit pas. Les tableaux et les mises en page complexes peuvent aussi perturber l’ordre de lecture."],
-      ["Quelle taille de fichier puis-je importer ?", "Jusqu’à 100 Mo par fichier, avec un maximum de 5 000 pages et de 2 millions de caractères extraits. Sur téléphone, commence par un document court : le temps de préparation dépend de ton appareil."],
+    "description": "Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.",
+    "h1": "PDF en audio",
+    "faq": [
+      [
+        "Est-ce que mon cours est résumé ?",
+        "Non. La radio lit le texte extrait de ton document, sans le résumer ni le reformuler : un long cours peut donc donner plusieurs heures d’audio. Tu peux choisir les passages à écouter et retirer les répétitions."
+      ],
+      [
+        "Est-ce que ça fonctionne avec un PDF scanné ?",
+        "Oui, la radio peut reconnaître le texte des pages scannées, en français ou en anglais, jusqu’à 50 pages par import. Cette étape peut prendre plusieurs minutes et se tromper sur les mots ou les nombres : vérifie le texte avant de l’écouter."
+      ],
+      [
+        "Les schémas et les tableaux sont-ils lus aussi ?",
+        "La radio lit le texte qu’elle peut extraire ; elle ne décrit pas les schémas ni les images. L’ordre de lecture d’un tableau ou d’une page à plusieurs colonnes peut être incorrect. Vérifie l’aperçu et garde le PDF à côté pour les informations visuelles."
+      ],
+      [
+        "Mon document reste-t-il privé ?",
+        "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
+      ],
+      [
+        "Pourquoi la préparation de l’audio prend-elle du temps ?",
+        "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
+      ],
+      [
+        "Puis-je écouter mon cours sans connexion ?",
+        "Oui, une fois le MP3 téléchargé, tu peux l’écouter sans connexion dans ton lecteur audio habituel. Dans la radio, un cours enregistré peut aussi rejouer hors connexion ses passages déjà préparés, tant que le navigateur les conserve. Pour emporter un cours entier, garde le MP3."
+      ]
     ],
+    "manual": [
+      [
+        "Importer un PDF ou un PowerPoint",
+        "Dépose un PDF ou un fichier PPTX sur la radio, ou utilise IMPORTER. Pour un ancien fichier PPT, enregistre-le d’abord en PPTX. Limites : 100 Mo par fichier, 5 000 pages PDF et 2 millions de caractères extraits ; la reconnaissance des scans est limitée à 50 pages. Sur téléphone, commence par un extrait court."
+      ],
+      [
+        "Choisir et nettoyer les passages",
+        "Pour un PDF avec du texte sélectionnable, PAGES permet de marquer les passages à lire ou à sauter. Après l’import, NETTOYER propose les en-têtes et pieds de page répétés : coche ceux à retirer, puis applique. Les chapitres numérotés sont protégés et tu peux rétablir le texte original ; ton fichier n’est pas modifié."
+      ],
+      [
+        "Lire un scan ou corriger l’ordre du texte",
+        "Dans la relecture, ouvre « Texte en désordre ou incomplet ? ». Pour un scan, coche « Lire aussi les pages scannées », choisis la langue, puis « Relire le PDF ». Pour des colonnes ou un tableau, change l’ordre de lecture avant de relire le PDF. Corrige le résultat si nécessaire, puis valide avec « Mettre dans la radio » ; cela réinitialise les sélections et le nettoyage précédents."
+      ],
+      [
+        "Choisir la voix et la vitesse",
+        "Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3."
+      ],
+      [
+        "Retrouver un passage",
+        "Pendant l’écoute, utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. COMMANDES accepte aussi une instruction écrite comme « reviens 3 phrases en arrière ». PARLE devient PAUSE pendant la lecture, puis REPRENDRE."
+      ],
+      [
+        "Télécharger le MP3",
+        "Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué."
+      ],
+      [
+        "Enregistrer ou partager un cours",
+        "Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglages et ta position sur cet appareil. PARTAGER crée un lien valable 7 jours ; la personne qui l’ouvre reçoit le texte et les réglages, puis prépare l’audio sur son appareil. La bibliothèque accepte 20 cours et jusqu’à 200 Mo d’audio préparé ; elle ne se synchronise pas entre tes appareils."
+      ]
+    ]
   },
   {
-    slug: "text-to-speech",
-    title: "Text to speech gratuit — texte en voix, français et anglais",
-    guide: {
-      title: "Colle ton texte. Écoute la suite.",
-      steps: [
+    "slug": "text-to-speech",
+    "title": "Text to speech gratuit — texte en voix, français et anglais",
+    "guide": {
+      "title": "Colle ton texte. Écoute la suite.",
+      "steps": [
         "Colle ou écris ton texte dans l’écran de la radio.",
         "Choisis une voix avec le bouton rotatif et règle la vitesse.",
-        "Appuie sur PARLE pour écouter, ou sur MP3 pour garder l’audio.",
+        "Appuie sur PARLE pour écouter, ou sur MP3 pour garder l’audio."
       ],
-      whyTitle: "Écouter, corriger, recommencer",
-      why: "Un cours à réviser ou un article à écouter : la radio lit ton texte sans le résumer. Tu peux ajuster le rythme, puis garder le MP3 pour l’écouter quand tu sors.",
+      "whyTitle": "Écouter, corriger, recommencer",
+      "why": "Un cours à réviser ou un article à écouter : la radio lit ton texte sans le résumer. Tu peux ajuster le rythme, puis garder le MP3 pour l’écouter quand tu sors."
     },
-    description: "Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.",
-    h1: "Text to speech",
-    faq: [
-      ["Le text to speech, c’est quoi ?", "C’est un outil qui lit un texte à voix haute, sans le résumer ni le reformuler. Colle le tien dans l’écran, puis appuie sur PARLE."],
-      ["Faut-il payer ou créer un compte ?", "Non : l’écoute et le téléchargement MP3 sont gratuits, sans inscription. Ton appareil prépare la voix directement dans le navigateur."],
-      ["Quelles voix sont disponibles ?", "Deux voix par langue, en français et en anglais."],
-      ["Comment télécharger le MP3 ?", "Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation du fichier."],
-      ["Pourquoi ce temps de chargement ?", "La radio télécharge la voix choisie avant de pouvoir lire ton texte. Le navigateur la conserve ensuite en cache, si l’espace disponible le permet, pour éviter de la télécharger à nouveau."],
+    "description": "Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.",
+    "h1": "Text to speech",
+    "faq": [
+      [
+        "Est-ce gratuit, même pour télécharger le MP3 ?",
+        "Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement."
+      ],
+      [
+        "Le texte est-il modifié avant d’être lu ?",
+        "Il n’est ni résumé ni reformulé. La radio adapte à l’oral certains nombres, symboles et mots, et marque des pauses entre les titres ou les éléments d’une liste. Le texte affiché reste celui que tu as saisi."
+      ],
+      [
+        "Mon document reste-t-il privé ?",
+        "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
+      ],
+      [
+        "Pourquoi la préparation de l’audio prend-elle du temps ?",
+        "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
+      ],
+      [
+        "Puis-je écouter mon cours sans connexion ?",
+        "Oui, une fois le MP3 téléchargé, tu peux l’écouter sans connexion dans ton lecteur audio habituel. Dans la radio, un cours enregistré peut aussi rejouer hors connexion ses passages déjà préparés, tant que le navigateur les conserve. Pour emporter un cours entier, garde le MP3."
+      ]
     ],
+    "manual": [
+      [
+        "Choisir la voix et la vitesse",
+        "Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3."
+      ],
+      [
+        "Retrouver un passage",
+        "Pendant l’écoute, utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. COMMANDES accepte aussi une instruction écrite comme « reviens 3 phrases en arrière ». PARLE devient PAUSE pendant la lecture, puis REPRENDRE."
+      ],
+      [
+        "Télécharger le MP3",
+        "Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué."
+      ],
+      [
+        "Enregistrer ou partager un cours",
+        "Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglages et ta position sur cet appareil. PARTAGER crée un lien valable 7 jours ; la personne qui l’ouvre reçoit le texte et les réglages, puis prépare l’audio sur son appareil. La bibliothèque accepte 20 cours et jusqu’à 200 Mo d’audio préparé ; elle ne se synchronise pas entre tes appareils."
+      ]
+    ]
   },
   {
-    slug: "voix-off",
-    title: "Voix off gratuite — crée le MP3 de ta vidéo",
-    guide: {
-      title: "Ton script devient une voix off",
-      steps: [
+    "slug": "voix-off",
+    "title": "Voix off gratuite — crée le MP3 de ta vidéo",
+    "guide": {
+      "title": "Ton script devient une voix off",
+      "steps": [
         "Écris ton script dans l’écran ou charge un exemple ci-dessous.",
         "Choisis une voix et une vitesse, puis appuie sur PARLE pour écouter le résultat.",
-        "Ajuste ton texte si besoin, télécharge le MP3 et ajoute-le à ton montage.",
+        "Ajuste ton texte si besoin, télécharge le MP3 et ajoute-le à ton montage."
       ],
-      whyTitle: "Trouve le rythme de ta vidéo",
-      why: "Une phrase sonne trop longue ? Raccourcis-la et écoute à nouveau. Chaque essai est gratuit, et ton script reste sur ton appareil.",
+      "whyTitle": "Trouve le rythme de ta vidéo",
+      "why": "Une phrase sonne trop longue ? Raccourcis-la et écoute à nouveau. Chaque essai est gratuit, et ton script reste sur ton appareil."
     },
-    description: "Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.",
-    h1: "Voix off",
-    examples: [
-      ["Introduction de tuto", "Aujourd’hui, on transforme un document en audio. Je te montre comment choisir les passages à écouter, puis télécharger le résultat."],
-      ["Présentation de recette", "Une poêle, quelques légumes et vingt minutes devant toi. Voici une recette simple pour ce soir."],
-      ["Présentation de produit", "Voici notre nouvelle collection. On te présente les coupes, les couleurs et les détails pour t’aider à choisir."],
+    "description": "Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.",
+    "h1": "Voix off",
+    "examples": [
+      [
+        "Introduction de tuto",
+        "Aujourd’hui, on transforme un document en audio. Je te montre comment choisir les passages à écouter, puis télécharger le résultat."
+      ],
+      [
+        "Présentation de recette",
+        "Une poêle, quelques légumes et vingt minutes devant toi. Voici une recette simple pour ce soir."
+      ],
+      [
+        "Présentation de produit",
+        "Voici notre nouvelle collection. On te présente les coupes, les couleurs et les détails pour t’aider à choisir."
+      ]
     ],
-    faq: [
-      ["Comment créer la voix off de ma vidéo ?", "Colle ton script dans l’écran, choisis la voix et la vitesse, puis écoute avec PARLE. Quand le résultat te convient, télécharge le MP3."],
-      ["Comment ajouter la voix à mon montage ?", "Importe le MP3 comme une piste audio dans ton logiciel de montage. Ajuste ensuite sa position et son volume pour l’accorder aux images."],
-      ["Comment rendre mon script agréable à écouter ?", "Écris comme tu parles, avec des phrases courtes et une idée à la fois. Écoute un premier essai pour repérer les passages à raccourcir ou à ponctuer."],
-      ["Quelles voix sont disponibles ?", "Deux voix par langue, en français et en anglais."],
+    "faq": [
+      [
+        "Est-ce gratuit, même pour télécharger le MP3 ?",
+        "Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement."
+      ],
+      [
+        "Puis-je utiliser ma propre voix ?",
+        "Non. La radio propose deux voix par langue, en français et en anglais ; elle ne clone pas ta voix."
+      ],
+      [
+        "Mon script est-il envoyé à un service de synthèse vocale ?",
+        "Non. La voix est préparée dans ton navigateur, sur ton appareil. Si tu choisis de partager une session, une copie chiffrée du texte est hébergée pendant 7 jours."
+      ]
     ],
+    "manual": [
+      [
+        "Préparer un script à écouter",
+        "Écris comme tu parles, avec des phrases courtes et une idée à la fois. Fais un essai pour repérer les mots mal prononcés et les phrases qui manquent de pauses, puis ajuste le texte."
+      ],
+      [
+        "Choisir la voix et la vitesse",
+        "Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3."
+      ],
+      [
+        "Télécharger le MP3",
+        "Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué."
+      ],
+      [
+        "Ajouter la voix au montage",
+        "Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa position et son volume pour l’accorder aux images."
+      ]
+    ]
   },
   {
-    slug: "message-repondeur",
-    title: "Message de répondeur — crée ton MP3 sans t’enregistrer",
-    guide: {
-      title: "Un message clair, sans passer au micro",
-      steps: [
+    "slug": "message-repondeur",
+    "title": "Message de répondeur — crée ton MP3 sans t’enregistrer",
+    "guide": {
+      "title": "Un message clair, sans passer au micro",
+      "steps": [
         "Choisis un exemple ci-dessous et remplace les noms, dates et horaires par les tiens.",
         "Écoute avec PARLE. Ajuste la vitesse pour que chaque numéro soit facile à comprendre.",
-        "Télécharge le MP3, puis ajoute-le à ta messagerie si elle accepte les fichiers audio.",
+        "Télécharge le MP3, puis ajoute-le à ta messagerie si elle accepte les fichiers audio."
       ],
-      whyTitle: "Change ton annonce quand tes horaires changent",
-      why: "Congés, nouveaux horaires ou indisponibilité : adapte simplement ton texte. Tu peux réécouter le message et télécharger une nouvelle version gratuitement.",
+      "whyTitle": "Change ton annonce quand tes horaires changent",
+      "why": "Congés, nouveaux horaires ou indisponibilité : adapte simplement ton texte. Tu peux réécouter le message et télécharger une nouvelle version gratuitement."
     },
-    description: "Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.",
-    h1: "Message de répondeur",
-    examples: [
-      ["Pro, simple", "Bonjour, vous êtes bien sur la messagerie de [ton nom]. Je ne peux pas vous répondre pour le moment. Laissez-moi votre nom, votre numéro et l'objet de votre appel, je vous rappelle dès que possible. Merci et bonne journée."],
-      ["Entreprise, avec horaires", "Bonjour et merci de votre appel. Nos bureaux sont ouverts du lundi au vendredi, de 9 heures à 18 heures. Laissez-nous un message avec vos coordonnées, nous vous rappellerons rapidement."],
-      ["Absence ou vacances", "Bonjour, je suis absent jusqu'au [date]. Pour toute urgence, contactez [nom] au [numéro]. Sinon, laissez-moi un message, je vous rappelle à mon retour."],
-      ["Perso", "Salut, c'est [ton prénom] ! Je ne suis pas dispo pour l'instant. Laisse-moi un message et je te rappelle vite."],
-      ["Avec une pointe d'humour", "Bonjour, vous êtes bien chez [ton prénom]. Je suis en train de chercher mon téléphone, qui sonne quelque part sous un coussin. Laissez un message, je le retrouverai avant ce soir."],
+    "description": "Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.",
+    "h1": "Message de répondeur",
+    "examples": [
+      [
+        "Pro, simple",
+        "Bonjour, vous êtes bien sur la messagerie de [ton nom]. Je ne peux pas vous répondre pour le moment. Laissez-moi votre nom, votre numéro et l'objet de votre appel, je vous rappelle dès que possible. Merci et bonne journée."
+      ],
+      [
+        "Entreprise, avec horaires",
+        "Bonjour et merci de votre appel. Nos bureaux sont ouverts du lundi au vendredi, de 9 heures à 18 heures. Laissez-nous un message avec vos coordonnées, nous vous rappellerons rapidement."
+      ],
+      [
+        "Absence ou vacances",
+        "Bonjour, je suis absent jusqu'au [date]. Pour toute urgence, contactez [nom] au [numéro]. Sinon, laissez-moi un message, je vous rappelle à mon retour."
+      ],
+      [
+        "Perso",
+        "Salut, c'est [ton prénom] ! Je ne suis pas dispo pour l'instant. Laisse-moi un message et je te rappelle vite."
+      ],
+      [
+        "Avec une pointe d'humour",
+        "Bonjour, vous êtes bien chez [ton prénom]. Je suis en train de chercher mon téléphone, qui sonne quelque part sous un coussin. Laissez un message, je le retrouverai avant ce soir."
+      ]
     ],
-    faq: [
-      ["Comment préparer mon message ?", "Charge un exemple ou écris ton annonce dans l’écran. Remplace les passages entre crochets, écoute le résultat, puis télécharge le MP3."],
-      ["Ma messagerie accepte-t-elle les MP3 ?", "Cela dépend de ton opérateur ou de ton standard : vérifie si ses réglages proposent l’import d’un fichier audio. Si elle impose un enregistrement au micro, le MP3 ne pourra pas être ajouté directement."],
-      ["Quelles voix sont disponibles ?", "Deux voix par langue, en français et en anglais."],
-      ["Comment faire comprendre un numéro ou des horaires ?", "Sépare les groupes de chiffres par des espaces et ajoute de la ponctuation pour les pauses. Écoute ton annonce avant de la télécharger et ralentis la voix si nécessaire."],
-      ["Est-ce gratuit aussi pour une entreprise ?", "L’outil est gratuit et sans inscription. Les crédits et les licences des voix sont indiqués en bas de page."],
+    "faq": [
+      [
+        "Le MP3 fonctionne-t-il avec ma messagerie ?",
+        "Cela dépend de ton opérateur ou de ton standard. Vérifie qu’il accepte l’import d’un fichier audio et quels formats il demande. S’il impose un enregistrement au micro, tu ne pourras pas y ajouter directement le MP3."
+      ],
+      [
+        "Est-ce gratuit, même pour télécharger le MP3 ?",
+        "Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement."
+      ],
+      [
+        "Dois-je enregistrer ma voix ?",
+        "Non. La radio lit le texte avec une des voix proposées, en français ou en anglais. Elle ne reproduit pas ta voix."
+      ]
     ],
-  },
+    "manual": [
+      [
+        "Personnaliser le message",
+        "Charge un exemple ou écris ton annonce dans l’écran. Remplace les passages entre crochets par tes informations et vérifie les noms, les numéros et les horaires avant l’export."
+      ],
+      [
+        "Faire lire les numéros et les horaires",
+        "Sépare les groupes de chiffres par des espaces et ajoute de la ponctuation pour les pauses. Écoute le résultat et ralentis la voix si nécessaire."
+      ],
+      [
+        "Choisir la voix et la vitesse",
+        "Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3."
+      ],
+      [
+        "Télécharger le MP3",
+        "Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué."
+      ]
+    ]
+  }
 ];
 
-// Source commune de l’accueil HTML et Markdown. Ne pas éditer ses textes dans index.html.
 export const HOME = {
   "slug": "",
   "title": "Texte en audio gratuit — écoute tes textes, PDF et PowerPoint",
@@ -136,47 +288,57 @@ export const HOME = {
   "faq": [
     [
       "Est-ce gratuit, même pour télécharger le MP3 ?",
-      "Oui : l’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement. Colle ton texte ou importe un document pour commencer."
-    ],
-    [
-      "Mon texte reste-t-il privé ?",
-      "Oui : ton texte et tes documents sont traités sur ton appareil. Ils ne sont pas envoyés à un serveur pour être lus. Seule la création volontaire d’un lien de partage envoie une copie chiffrée du texte, conservée 7 jours. Le site compte aussi, sans cookie ni identifiant, combien de documents sont importés, écoutés et exportés, jamais ce qu’ils contiennent."
-    ],
-    [
-      "Comment emporter mon cours en MP3 ?",
-      "Choisis la voix et la vitesse, puis appuie sur MP3 et garde l’onglet ouvert pendant la préparation. Une fois téléchargé, le fichier peut être écouté sans connexion, en marchant ou dans les transports."
-    ],
-    [
-      "Comment écouter un PDF ou un PowerPoint ?",
-      "Glisse ton PDF ou ton PowerPoint sur la radio, ou utilise IMPORTER, puis appuie sur PARLE. Pour un PDF, PAGES permet de choisir les passages à lire. Le fichier doit contenir du texte sélectionnable et une présentation PowerPoint doit être au format PPTX."
-    ],
-    [
-      "Quelles voix sont disponibles ?",
-      "Deux voix par langue, en français et en anglais."
-    ],
-    [
-      "Puis-je accélérer ou ralentir la voix ?",
-      "Oui : déplace le curseur VITESSE entre 0,7× et 1,5×. Ce réglage s’applique aussi au MP3."
-    ],
-    [
-      "Pourquoi ce temps de chargement ?",
-      "La radio doit d’abord télécharger la voix choisie. Elle reste ensuite en cache si ton navigateur dispose d’assez d’espace ; le temps de préparation dépend aussi de ton appareil et de la longueur du texte."
+      "Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement."
     ],
     [
       "Est-ce que mon cours est résumé ?",
-      "Non : la radio lit le texte extrait de ton document, sans le résumer ni le reformuler. Si tu sélectionnes des passages dans PAGES, seuls ces passages sont lus."
+      "Non. La radio lit le texte extrait de ton document, sans le résumer ni le reformuler : un long cours peut donc donner plusieurs heures d’audio. Tu peux choisir les passages à écouter et retirer les répétitions."
     ],
     [
-      "Pourquoi l’audio est-il si long ?",
-      "La radio prend le temps de lire le texte du cours, y compris ses explications et ses exemples. Tu peux accélérer la voix ou sélectionner seulement les passages à réviser dans un PDF."
+      "Mon document reste-t-il privé ?",
+      "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
     ],
     [
-      "Et si mon cours est en anglais ?",
-      "La langue du texte est détectée automatiquement : un cours en anglais est lu avec une voix anglaise. Le texte n’est pas traduit."
+      "Est-ce que ça fonctionne avec un PDF scanné ?",
+      "Oui, la radio peut reconnaître le texte des pages scannées, en français ou en anglais, jusqu’à 50 pages par import. Cette étape peut prendre plusieurs minutes et se tromper sur les mots ou les nombres : vérifie le texte avant de l’écouter."
     ],
     [
-      "Comment enlever les en-têtes qui se répètent ?",
-      "Après l’import, appuie sur NETTOYER et coche les répétitions à retirer. Les repères comme « Chapitre 1 » sont conservés, et tu peux tout rétablir. Le nettoyage s’applique à la lecture et au MP3, sans modifier ton fichier."
+      "Pourquoi la préparation de l’audio prend-elle du temps ?",
+      "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
+    ],
+    [
+      "Puis-je écouter mon cours sans connexion ?",
+      "Oui, une fois le MP3 téléchargé, tu peux l’écouter sans connexion dans ton lecteur audio habituel. Dans la radio, un cours enregistré peut aussi rejouer hors connexion ses passages déjà préparés, tant que le navigateur les conserve. Pour emporter un cours entier, garde le MP3."
+    ]
+  ],
+  "manual": [
+    [
+      "Importer un PDF ou un PowerPoint",
+      "Dépose un PDF ou un fichier PPTX sur la radio, ou utilise IMPORTER. Pour un ancien fichier PPT, enregistre-le d’abord en PPTX. Limites : 100 Mo par fichier, 5 000 pages PDF et 2 millions de caractères extraits ; la reconnaissance des scans est limitée à 50 pages. Sur téléphone, commence par un extrait court."
+    ],
+    [
+      "Choisir la voix et la vitesse",
+      "Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3."
+    ],
+    [
+      "Choisir et nettoyer les passages",
+      "Pour un PDF avec du texte sélectionnable, PAGES permet de marquer les passages à lire ou à sauter. Après l’import, NETTOYER propose les en-têtes et pieds de page répétés : coche ceux à retirer, puis applique. Les chapitres numérotés sont protégés et tu peux rétablir le texte original ; ton fichier n’est pas modifié."
+    ],
+    [
+      "Lire un scan ou corriger l’ordre du texte",
+      "Dans la relecture, ouvre « Texte en désordre ou incomplet ? ». Pour un scan, coche « Lire aussi les pages scannées », choisis la langue, puis « Relire le PDF ». Pour des colonnes ou un tableau, change l’ordre de lecture avant de relire le PDF. Corrige le résultat si nécessaire, puis valide avec « Mettre dans la radio » ; cela réinitialise les sélections et le nettoyage précédents."
+    ],
+    [
+      "Retrouver un passage",
+      "Pendant l’écoute, utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. COMMANDES accepte aussi une instruction écrite comme « reviens 3 phrases en arrière ». PARLE devient PAUSE pendant la lecture, puis REPRENDRE."
+    ],
+    [
+      "Télécharger le MP3",
+      "Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué."
+    ],
+    [
+      "Enregistrer ou partager un cours",
+      "Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglages et ta position sur cet appareil. PARTAGER crée un lien valable 7 jours ; la personne qui l’ouvre reçoit le texte et les réglages, puis prépare l’audio sur son appareil. La bibliothèque accepte 20 cours et jusqu’à 200 Mo d’audio préparé ; elle ne se synchronise pas entre tes appareils."
     ]
   ]
 };

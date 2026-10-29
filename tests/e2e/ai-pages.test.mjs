@@ -20,7 +20,7 @@ test("les cinq pages annoncent un Markdown accessible contenant le même guide e
       summary: document.querySelector('meta[name="ai-summary"]')?.content,
       alternate: document.querySelector('link[rel="alternate"][type="text/markdown"]')?.href,
       described: [...document.querySelectorAll('link[rel="describedby"]')].map((el) => el.href),
-      guide: [...document.querySelectorAll('.guide h2, .guide h3, .guide li, .guide p')].map((el) => el.textContent.trim()),
+      guide: [...document.querySelectorAll('.guide h2, .guide h3, .guide li, .guide p, .manual h2, .manual summary, .manual .answer')].map((el) => el.textContent.trim()),
       faq: [...document.querySelectorAll('#faq summary, #faq .answer')].map((el) => el.textContent.trim()),
       examples: [...document.querySelectorAll('.example h3, .example blockquote')].map((el) => el.textContent.trim()),
     }));

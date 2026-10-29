@@ -16,8 +16,10 @@ export function renderMarkdown(page, date) {
     for (const [label, text] of page.examples) lines.push(`### ${escapeMarkdown(label)}`, "", `> ${escapeMarkdown(text)}`, "");
   }
   const { guide } = page;
-  lines.push(`## ${escapeMarkdown(guide.title)}`, "", ...guide.steps.map((step, i) => `${i + 1}. ${escapeMarkdown(step)}`), "", `### ${escapeMarkdown(guide.whyTitle)}`, "", escapeMarkdown(guide.why), "", "## Avant d’appuyer sur lecture", "");
+  lines.push(`## ${escapeMarkdown(guide.title)}`, "", ...guide.steps.map((step, i) => `${i + 1}. ${escapeMarkdown(step)}`), "", `### ${escapeMarkdown(guide.whyTitle)}`, "", escapeMarkdown(guide.why), "", link("Consulter le mode d’emploi", absolute(pagePath(page)) + "#mode-emploi"), "", "## Avant d’appuyer sur lecture", "");
   for (const [question, answer] of page.faq) lines.push(`### ${escapeMarkdown(question)}`, "", escapeMarkdown(answer), "");
+  lines.push("## Mode d’emploi", "");
+  for (const [title, text] of page.manual ?? []) lines.push(`### ${escapeMarkdown(title)}`, "", escapeMarkdown(text), "");
   lines.push("## Related", "", ...PUBLIC_PAGES.filter((other) => other.slug !== page.slug).map((other) => `- ${link(other.h1, absolute(pagePath(other)))}`), "");
   return lines.join("\n");
 }

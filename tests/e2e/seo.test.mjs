@@ -4,16 +4,11 @@ import { startServer, launch } from "./harness.mjs";
 
 const QUESTIONS = [
   "Est-ce gratuit, même pour télécharger le MP3 ?",
-  "Mon texte reste-t-il privé ?",
-  "Comment emporter mon cours en MP3 ?",
-  "Comment écouter un PDF ou un PowerPoint ?",
-  "Quelles voix sont disponibles ?",
-  "Puis-je accélérer ou ralentir la voix ?",
-  "Pourquoi ce temps de chargement ?",
   "Est-ce que mon cours est résumé ?",
-  "Pourquoi l’audio est-il si long ?",
-  "Et si mon cours est en anglais ?",
-  "Comment enlever les en-têtes qui se répètent ?"
+  "Mon document reste-t-il privé ?",
+  "Est-ce que ça fonctionne avec un PDF scanné ?",
+  "Pourquoi la préparation de l’audio prend-elle du temps ?",
+  "Puis-je écouter mon cours sans connexion ?"
 ];
 
 let server, browser, page;

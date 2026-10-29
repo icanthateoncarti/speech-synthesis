@@ -3,7 +3,7 @@
 > Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/pdf-en-audio/
-Last updated: 2026-10-28
+Last updated: 2026-10-29
 
 ## Glisse ton cours. Écoute-le en sortant.
 
@@ -15,51 +15,63 @@ Last updated: 2026-10-28
 
 La radio lit le texte extrait de ton cours sans le résumer : elle garde ses explications et ses exemples. Un cours long peut donc donner plusieurs heures d’écoute. Pour cibler tes révisions, choisis les passages dans PAGES, puis garde le MP3 pour les écouter en marchant ou dans les transports.
 
+[Consulter le mode d’emploi](https://speechsynthe.si/pdf-en-audio/#mode-emploi)
+
 ## Avant d’appuyer sur lecture
 
 ### Est-ce que mon cours est résumé ?
 
-Non : la radio lit le texte extrait du PDF ou du PowerPoint, sans le résumer ni le reformuler. Pour un PDF, tu peux choisir toi-même les passages à lire dans PAGES.
+Non. La radio lit le texte extrait de ton document, sans le résumer ni le reformuler : un long cours peut donc donner plusieurs heures d’audio. Tu peux choisir les passages à écouter et retirer les répétitions.
 
-### Et si le cours est en anglais ?
+### Est-ce que ça fonctionne avec un PDF scanné ?
 
-La radio détecte la langue du texte et utilise une voix anglaise. Elle lit le cours dans sa langue d’origine, sans le traduire.
+Oui, la radio peut reconnaître le texte des pages scannées, en français ou en anglais, jusqu’à 50 pages par import. Cette étape peut prendre plusieurs minutes et se tromper sur les mots ou les nombres : vérifie le texte avant de l’écouter.
 
-### Comment enlever les en-têtes qui se répètent ?
+### Les schémas et les tableaux sont-ils lus aussi ?
 
-Après l’import, appuie sur NETTOYER et coche les répétitions à retirer. Les repères comme « Chapitre 1 » sont conservés, et tu peux tout rétablir. Le nettoyage s’applique à la lecture et au MP3, sans modifier ton fichier.
+La radio lit le texte qu’elle peut extraire ; elle ne décrit pas les schémas ni les images. L’ordre de lecture d’un tableau ou d’une page à plusieurs colonnes peut être incorrect. Vérifie l’aperçu et garde le PDF à côté pour les informations visuelles.
 
-### Comment écouter mon PDF ?
+### Mon document reste-t-il privé ?
 
-Appuie sur IMPORTER, choisis ton PDF, puis appuie sur PARLE. Tu peux aussi déposer le fichier sur la radio.
+Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours.
 
-### Comment garder mon PDF en MP3 ?
+### Pourquoi la préparation de l’audio prend-elle du temps ?
 
-Importe ton PDF, règle la voix et la vitesse, puis appuie sur MP3. Le fichier audio reprend les passages sélectionnés dans PAGES et peut s’écouter sans connexion une fois téléchargé.
+La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache.
 
-### Comment retrouver un passage pendant la lecture ?
+### Puis-je écouter mon cours sans connexion ?
 
-Utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. Dans COMMANDES, tu peux aussi écrire « reviens 3 phrases en arrière ».
+Oui, une fois le MP3 téléchargé, tu peux l’écouter sans connexion dans ton lecteur audio habituel. Dans la radio, un cours enregistré peut aussi rejouer hors connexion ses passages déjà préparés, tant que le navigateur les conserve. Pour emporter un cours entier, garde le MP3.
 
-### Mon PDF reste-t-il privé ?
+## Mode d’emploi
 
-Oui : son texte est extrait et lu sur ton appareil. Le fichier original reste sur ton appareil. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours.
+### Importer un PDF ou un PowerPoint
 
-### Et pour un PowerPoint ?
+Dépose un PDF ou un fichier PPTX sur la radio, ou utilise IMPORTER. Pour un ancien fichier PPT, enregistre-le d’abord en PPTX. Limites : 100 Mo par fichier, 5 000 pages PDF et 2 millions de caractères extraits ; la reconnaissance des scans est limitée à 50 pages. Sur téléphone, commence par un extrait court.
 
-Importe une présentation au format .pptx : chaque diapositive devient un chapitre. Pour un ancien fichier .ppt, enregistre-le d’abord en .pptx.
+### Choisir et nettoyer les passages
 
-### Quelles voix sont disponibles ?
+Pour un PDF avec du texte sélectionnable, PAGES permet de marquer les passages à lire ou à sauter. Après l’import, NETTOYER propose les en-têtes et pieds de page répétés : coche ceux à retirer, puis applique. Les chapitres numérotés sont protégés et tu peux rétablir le texte original ; ton fichier n’est pas modifié.
 
-Deux voix par langue, en français et en anglais.
+### Lire un scan ou corriger l’ordre du texte
 
-### Pourquoi mon PDF ne se lit-il pas ?
+Dans la relecture, ouvre « Texte en désordre ou incomplet ? ». Pour un scan, coche « Lire aussi les pages scannées », choisis la langue, puis « Relire le PDF ». Pour des colonnes ou un tableau, change l’ordre de lecture avant de relire le PDF. Corrige le résultat si nécessaire, puis valide avec « Mettre dans la radio » ; cela réinitialise les sélections et le nettoyage précédents.
 
-La radio a besoin de texte sélectionnable : un PDF composé uniquement de scans ou de photos ne suffit pas. Les tableaux et les mises en page complexes peuvent aussi perturber l’ordre de lecture.
+### Choisir la voix et la vitesse
 
-### Quelle taille de fichier puis-je importer ?
+Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3.
 
-Jusqu’à 100 Mo par fichier, avec un maximum de 5 000 pages et de 2 millions de caractères extraits. Sur téléphone, commence par un document court : le temps de préparation dépend de ton appareil.
+### Retrouver un passage
+
+Pendant l’écoute, utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. COMMANDES accepte aussi une instruction écrite comme « reviens 3 phrases en arrière ». PARLE devient PAUSE pendant la lecture, puis REPRENDRE.
+
+### Télécharger le MP3
+
+Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué.
+
+### Enregistrer ou partager un cours
+
+Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglages et ta position sur cet appareil. PARTAGER crée un lien valable 7 jours ; la personne qui l’ouvre reçoit le texte et les réglages, puis prépare l’audio sur son appareil. La bibliothèque accepte 20 cours et jusqu’à 200 Mo d’audio préparé ; elle ne se synchronise pas entre tes appareils.
 
 ## Related
 

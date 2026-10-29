@@ -348,19 +348,19 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
   .commands-panel input, .commands-panel select, .commands-panel button { padding: 8px; font-size: 11px; }
 }
 
-.faq { width: min(720px, calc(100% - 64px)); margin: 0 auto; padding: 72px 0 24px; }
-.faq h2 { margin: 0 0 22px; font: 600 12px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: #6b6a64; }
-.faq details { border-top: 1px solid #c4c0b6; }
-.faq details:last-child { border-bottom: 1px solid #c4c0b6; }
-.faq summary {
+.faq, .manual { width: min(720px, calc(100% - 64px)); margin: 0 auto; padding: 72px 0 24px; }
+.faq h2, .manual h2 { margin: 0 0 22px; font: 600 12px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: #6b6a64; }
+.faq details, .manual details { border-top: 1px solid #c4c0b6; }
+.faq details:last-child, .manual details:last-child { border-bottom: 1px solid #c4c0b6; }
+.faq summary, .manual summary {
   list-style: none; cursor: pointer; padding: 16px 36px 16px 0; position: relative;
   font: 800 18px/1.35 Archivo, system-ui, sans-serif; color: #1b1b1b;
 }
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; position: absolute; right: 4px; top: 14px; font: 600 20px var(--mono); color: var(--orange); }
-.faq details[open] summary::after { content: "−"; }
-.faq summary:focus-visible { outline: 3px solid #1d4fd8; outline-offset: 2px; }
-.faq .answer { margin: 0; padding: 0 36px 20px 0; font: 400 16px/1.65 Archivo, system-ui, sans-serif; color: #33322e; }
+.faq summary::-webkit-details-marker, .manual summary::-webkit-details-marker { display: none; }
+.faq summary::after, .manual summary::after { content: "+"; position: absolute; right: 4px; top: 14px; font: 600 20px var(--mono); color: var(--orange); }
+.faq details[open] summary::after, .manual details[open] summary::after { content: "−"; }
+.faq summary:focus-visible, .manual summary:focus-visible { outline: 3px solid #1d4fd8; outline-offset: 2px; }
+.faq .answer, .manual .answer { margin: 0; padding: 0 36px 20px 0; font: 400 16px/1.65 Archivo, system-ui, sans-serif; color: #33322e; }
 .credits { width: min(720px, calc(100% - 64px)); margin: 0 auto; padding: 28px 0 48px; font: 500 12px/1.7 var(--mono); color: #6b6a64; }
 .credits p { margin: 0 0 6px; }
 .usages { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0 0 18px; padding-bottom: 18px; border-bottom: 1px solid #c9c6bd; }
@@ -390,9 +390,9 @@ body { margin: 0; background: var(--room); color: #1b1b1b; font-family: Archivo,
 .example button:focus-visible { outline: 3px solid #1d4fd8; outline-offset: 2px; }
 .credits a { color: #1b1b1b; text-underline-offset: 3px; }
 @media (max-width: 600px) {
-  .faq, .credits, .examples, .guide { width: calc(100% - 32px); }
-  .faq, .examples, .guide { padding-top: 48px; }
-  .faq summary { font-size: 16px; min-height: 44px; }
+  .faq, .manual, .credits, .examples, .guide { width: calc(100% - 32px); }
+  .faq, .manual, .examples, .guide { padding-top: 48px; }
+  .faq summary, .manual summary { font-size: 16px; min-height: 44px; }
 }
 
 /* ================= Vue des pages d'un PDF (surligner ce qu'il faut lire) ================= */
@@ -554,3 +554,10 @@ html.zoomed { overflow: hidden; }
 }
 
 #share-result input { width: 100%; box-sizing: border-box; min-height: 44px; font-size: 16px; }
+
+/* Les gestes détaillés restent dans une rubrique distincte de la FAQ. */
+.guide .manual-link { margin-top: 16px; }
+.manual-link a { color: #1d4fd8; text-underline-offset: 3px; }
+.manual-link a:focus-visible { outline: 3px solid #1d4fd8; outline-offset: 3px; }
+.manual summary { font-weight: 600; }
+.manual { scroll-margin-top: 24px; }
