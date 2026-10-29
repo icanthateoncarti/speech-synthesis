@@ -33,7 +33,7 @@ Le texte affiché ici est celui qui sera lu. Une vérification rapide évite d�
 
 ## 3. Enlève ce qui coupe le fil du cours
 
-Un nom d’école ou une année scolaire répétés sur chaque page deviennent vite pénibles à entendre. NETTOYER propose les répétitions repérées : coche celles à retirer, puis applique. Tu gardes le contrôle et tu peux rétablir le texte original. Les chapitres numérotés sont protégés.
+Un nom d’école ou une année scolaire répétés sur chaque page deviennent vite pénibles à entendre. Quand la radio repère ces répétitions, le bouton NETTOYER apparaît : un clic les retire, un second les remet. Les chapitres numérotés sont protégés.
 
 Avec un PDF au texte sélectionnable, PAGES permet aussi de choisir les passages à lire ou à sauter. Tu peux ainsi laisser de côté une page de garde ou un sommaire. L’objectif est de retirer le bruit autour du cours, sans perdre les titres qui t’aident à te repérer. Ton fichier d’origine reste intact.
 

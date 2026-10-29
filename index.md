@@ -55,7 +55,7 @@ Deux voix par langue, en français et en anglais. La langue est détectée dans 
 
 ### Choisir et nettoyer les passages
 
-Pour un PDF avec du texte sélectionnable, PAGES permet de marquer les passages à lire ou à sauter. Après l’import, NETTOYER propose les en-têtes et pieds de page répétés : coche ceux à retirer, puis applique. Les chapitres numérotés sont protégés et tu peux rétablir le texte original ; ton fichier n’est pas modifié.
+Pour un PDF avec du texte sélectionnable, PAGES permet de marquer les passages à lire ou à sauter. Après l’import, si des en-têtes ou pieds de page se répètent, le bouton NETTOYER apparaît : un clic les retire, un second les remet. Les chapitres numérotés sont protégés ; ton fichier n’est pas modifié.
 
 ### Lire un scan ou corriger l’ordre du texte
 
