@@ -69,3 +69,4 @@ Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa pos
 - [PDF en audio](https://speechsynthe.si/pdf-en-audio/)
 - [Text to speech](https://speechsynthe.si/text-to-speech/)
 - [Message de répondeur](https://speechsynthe.si/message-repondeur/)
+- [Comment écouter ses cours PDF ou PowerPoint pour réviser](https://speechsynthe.si/ecouter-ses-cours/)

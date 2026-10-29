@@ -10,6 +10,7 @@ import { HOME, PAGES, PUBLIC_PAGES } from "./pages.mjs";
 import { SITE, absolute, pagePath, markdownPath } from "./site.mjs";
 import { generatedAiFiles } from "./ai-pages.mjs";
 import { ROOT, computeVersion, localModules, stamp } from "./stamp-version.mjs";
+import { renderArticle } from "./article-page.mjs";
 import { offlineWorker } from "./offline.mjs";
 
 const escapeHtml = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -77,6 +78,7 @@ ${manual.map(([title, text]) => `    <details>
 }
 
 export function renderPage(home, page) {
+  if (page.kind === "article") return renderArticle(page, /machine\.css\?v=([a-f0-9]+)/.exec(home)?.[1] ?? "");
   const url = absolute(pagePath(page));
   let html = home.replace(/<section class="examples"[\s\S]*?<\/section>\s*/g, "");
   html = html.replace(/<section class="manual"[\s\S]*?<\/section>\s*/g, "");
@@ -90,7 +92,7 @@ export function renderPage(home, page) {
   html = replaceOnce(html, /<script type="application\/ld\+json">\s*\{\s*"@context": "https:\/\/schema\.org",\s*"@type": "FAQPage"[\s\S]*?<\/script>/, faqJsonLd(page.faq));
   html = replaceOnce(html, /<section class="guide"[\s\S]*?<\/section>/, (page.examples ? examplesSection(page.examples) : "") + guideSection(page.guide));
   html = replaceOnce(html, /<section class="faq"[\s\S]*?<\/section>/, faqSection(page.faq) + "\n\n  " + manualSection(page.manual));
-  html = replaceOnce(html, /<nav class="usages"[\s\S]*?<\/nav>/, `<nav class="usages" aria-label="Autres usages">\n${PUBLIC_PAGES.map((other) => `      <a href="${pagePath(other)}"${other.slug === page.slug ? ' aria-current="page"' : ""}>${escapeHtml(other.h1)}</a>`).join("\n")}\n    </nav>`);
+  html = replaceOnce(html, /<nav class="usages"[\s\S]*?<\/nav>/, `<nav class="usages" aria-label="Autres usages">\n${PUBLIC_PAGES.map((other) => `      <a href="${pagePath(other)}"${other.slug === page.slug ? ' aria-current="page"' : ""}>${escapeHtml(other.navLabel ?? other.h1)}</a>`).join("\n")}\n    </nav>`);
   html = replaceOnce(html, /<meta property="og:site_name" content="[^"]*">/, `<meta property="og:site_name" content="${escapeHtml(SITE.name)}">`);
   html = html.replace(/href="https:\/\/github\.com\/[^"/]+\/[^"/]+\/issues"/, `href="${escapeHtml(SITE.contact)}"`);
   // Regénérés, jamais accumulés lors d’un second build.
@@ -130,7 +132,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const version = await computeVersion();
   const home = stamp(renderPage(await readFile(index, "utf8"), HOME), version, await localModules());
   await writeFile(index, home);
-  for (const page of PAGES) {
+  for (const page of PUBLIC_PAGES.filter(page => page.slug)) {
     await mkdir(path.join(ROOT, page.slug), { recursive: true });
     await writeFile(path.join(ROOT, page.slug, "index.html"), renderPage(home, page));
   }
@@ -138,5 +140,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   await writeFile(path.join(ROOT, "sitemap.xml"), sitemap(date));
   for (const [filename, content] of generatedAiFiles(date)) await writeFile(path.join(ROOT, filename), content);
   await writeFile(path.join(ROOT, "sw.js"), await offlineWorker(ROOT, version));
-  console.log(`version ${version} · accueil + ${PAGES.length} pages · sitemap · Markdown et découverte IA`);
+  console.log(`version ${version} · accueil + ${PUBLIC_PAGES.length - 1} pages · sitemap · Markdown et découverte IA`);
 }

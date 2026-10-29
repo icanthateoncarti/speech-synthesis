@@ -79,3 +79,4 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 - [Text to speech](https://speechsynthe.si/text-to-speech/)
 - [Voix off](https://speechsynthe.si/voix-off/)
 - [Message de répondeur](https://speechsynthe.si/message-repondeur/)
+- [Comment écouter ses cours PDF ou PowerPoint pour réviser](https://speechsynthe.si/ecouter-ses-cours/)

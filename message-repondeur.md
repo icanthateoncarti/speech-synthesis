@@ -77,3 +77,4 @@ Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pend
 - [PDF en audio](https://speechsynthe.si/pdf-en-audio/)
 - [Text to speech](https://speechsynthe.si/text-to-speech/)
 - [Voix off](https://speechsynthe.si/voix-off/)
+- [Comment écouter ses cours PDF ou PowerPoint pour réviser](https://speechsynthe.si/ecouter-ses-cours/)

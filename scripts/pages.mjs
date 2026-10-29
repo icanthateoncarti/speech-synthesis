@@ -1,3 +1,4 @@
+import { ARTICLES } from "./articles.mjs";
 // Pages par usage, une par recherche qui a du volume (Google Trends France,
 // 12 mois au 2026-10-25, base 100 = « synthèse vocale ») :
 // texte en audio ≈ 1650 (accueil), text to speech ≈ 1940, message répondeur ≈ 320,
@@ -343,4 +344,4 @@ export const HOME = {
   ]
 };
 
-export const PUBLIC_PAGES = [HOME, ...PAGES];
+export const PUBLIC_PAGES = [HOME, ...PAGES, ...ARTICLES];

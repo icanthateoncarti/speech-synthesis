@@ -59,14 +59,22 @@ test("le même contenu source alimente le Markdown, le recueil et les données s
     assert.ok(files.get("llms-full.txt").includes(md));
     assert.ok(md.startsWith(`# ${page.title}\n`));
     assert.ok(md.includes(`Canonical: ${absolute(pagePath(page))}`));
-    for (const text of [page.description, ...page.guide.steps, page.guide.why, ...page.faq.flat(), ...(page.manual ?? []).flat(), ...(page.examples ?? []).flat()]) assert.ok(md.includes(escapeMarkdown(text)), text);
+    for (const text of page.kind === "article" ? [page.description, page.intro, page.premise, ...page.sections.flatMap(s => [s.title, ...s.paragraphs])] : [page.description, ...page.guide.steps, page.guide.why, ...page.faq.flat(), ...(page.manual ?? []).flat(), ...(page.examples ?? []).flat()]) assert.ok(md.includes(escapeMarkdown(text)), text);
     const html = renderPage(template, page);
     const ld = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
+    if (page.kind === "article") {
+      const article = ld.find(data => data["@type"] === "Article");
+      assert.equal(article.headline, page.h1);
+      assert.equal(article.mainEntityOfPage, absolute(pagePath(page)));
+      assert.equal(article.dateModified, page.updated);
+      assert.ok(!ld.some(data => data["@type"] === "FAQPage"));
+    } else {
     assert.deepEqual(ld.find((data) => data["@type"] === "FAQPage").mainEntity.map((q) => [q.name, q.acceptedAnswer.text]), page.faq);
     const website = ld.find((data) => data["@type"] === "WebSite");
     assert.equal(website.name, SITE.name);
     assert.equal(website.url, SITE.url);
     assert.equal(website.description, HOME.description);
+    }
     assert.equal((html.match(/name="ai-summary"/g) ?? []).length, 1);
     assert.ok(html.includes(`href="${absolute(markdownPath(page))}"`));
     for (const [, url] of md.matchAll(/\]\(([^)]+)\)/g)) assert.ok(url.startsWith("https://"));

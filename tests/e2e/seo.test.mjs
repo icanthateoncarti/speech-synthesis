@@ -1,5 +1,6 @@
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
+import { PUBLIC_PAGES } from "../../scripts/pages.mjs";
 import { startServer, launch } from "./harness.mjs";
 
 const QUESTIONS = [
@@ -78,7 +79,7 @@ test("meta, canonical, og:image accessible", async () => {
   assert.match(robots, /Allow: \//);
   assert.match(robots, /Sitemap: https:\/\/speechsynthe\.si\/sitemap\.xml/);
   const sm = await (await fetch(`${server.url}/sitemap.xml`)).text();
-  assert.equal((sm.match(/<loc>/g) || []).length, 5, "accueil + 4 pages par usage");
+  assert.equal((sm.match(/<loc>/g) || []).length, PUBLIC_PAGES.length, "toutes les pages publiques");
   assert.match(sm, /<loc>https:\/\/speechsynthe\.si\/<\/loc>/);
 });
 

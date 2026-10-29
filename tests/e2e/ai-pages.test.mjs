@@ -13,14 +13,14 @@ before(async () => {
 after(async () => { await browser?.close(); await server?.close(); });
 const url = (pathname) => new URL(pathname, server.url).href;
 
-test("les cinq pages annoncent un Markdown accessible contenant le même guide et la même FAQ", { timeout: 60_000 }, async () => {
+test("les pages publiques annoncent un Markdown accessible contenant le même contenu", { timeout: 60_000 }, async () => {
   for (const entry of PUBLIC_PAGES) {
     await page.goto(url(pagePath(entry)), { waitUntil: "load" });
     const signals = await page.evaluate(() => ({
       summary: document.querySelector('meta[name="ai-summary"]')?.content,
       alternate: document.querySelector('link[rel="alternate"][type="text/markdown"]')?.href,
       described: [...document.querySelectorAll('link[rel="describedby"]')].map((el) => el.href),
-      guide: [...document.querySelectorAll('.guide h2, .guide h3, .guide li, .guide p, .manual h2, .manual summary, .manual .answer')].map((el) => el.textContent.trim()),
+      guide: [...document.querySelectorAll('.article-intro, .article-body section h2, .article-body section p, .article-body figcaption, .guide h2, .guide h3, .guide li, .guide p, .manual h2, .manual summary, .manual .answer')].map((el) => el.textContent.trim()),
       faq: [...document.querySelectorAll('#faq summary, #faq .answer')].map((el) => el.textContent.trim()),
       examples: [...document.querySelectorAll('.example h3, .example blockquote')].map((el) => el.textContent.trim()),
     }));

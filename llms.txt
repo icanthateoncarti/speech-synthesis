@@ -14,9 +14,10 @@ Contact : [Signaler un problème](https://github.com/icanthateoncarti/speech-syn
 - [Text to speech](https://speechsynthe.si/text-to-speech.md): Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.
 - [Voix off](https://speechsynthe.si/voix-off.md): Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
 - [Message de répondeur](https://speechsynthe.si/message-repondeur.md): Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.
+- [Comment écouter ses cours PDF ou PowerPoint pour réviser](https://speechsynthe.si/ecouter-ses-cours.md): Un cours à réviser dans le train ou en marchant ? Prépare ton PDF ou PowerPoint, retire les répétitions et emporte le MP3. Exemple et captures à l’appui.
 
 ## Machine-readable
-- [Contenu complet](https://speechsynthe.si/llms-full.txt): les 5 pages réunies.
+- [Contenu complet](https://speechsynthe.si/llms-full.txt): les 6 pages réunies.
 - [Catalogue Markdown](https://speechsynthe.si/markdown-catalog.json): correspondance entre les pages HTML et Markdown.
 - [Sitemap](https://speechsynthe.si/sitemap.xml): pages HTML publiques.
 - [Politique IA](https://speechsynthe.si/ai.txt): permissions, restrictions et attribution.
