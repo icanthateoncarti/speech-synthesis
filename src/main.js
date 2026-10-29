@@ -144,10 +144,11 @@ function paint() {
   $("share-open").hidden = !hasSpeakableContent(state.text) && !createdShares().length;
   $("share-open").textContent = hasSpeakableContent(state.text) ? "PARTAGER" : "MES LIENS";
   $("review-open").hidden = !hasSpeakableContent(state.text);
-  const cleaning = documentInfo.cleaning;
-  $("cleanup-open").hidden = !cleaning;
-  $("cleanup-open").textContent = cleaning?.removed.length ? "NETTOYÉ" : "NETTOYER";
-  $("cleanup-open").setAttribute("aria-label", cleaning?.removed.length ? "Revoir le nettoyage du document" : "Nettoyer le document : retirer les répétitions");
+  const cleaning = documentInfo.cleaning, cleaned = Boolean(cleaning?.removed.length);
+  $("cleanup-open").hidden = !cleaning?.suggestions.length;
+  $("cleanup-open").textContent = cleaned ? "NETTOYÉ" : "NETTOYER";
+  $("cleanup-open").setAttribute("aria-pressed", String(cleaned));
+  $("cleanup-open").title = cleaning?.suggestions.length ? `Répétitions : ${cleaning.suggestions.map((item) => item.text).join(" · ")}` : "";
   $("pages-open").hidden = !pages;
   if (pages) {
     const passages = hasMarks(pages.marks) ? readRanges(pages.fullText.length, pages.marks).length : 0;
@@ -452,7 +453,7 @@ async function importDocument(file) {
     documentInfo = { name: file.name, sourcePdf: format === "pdf" ? file : null, chapters: document.chapters, titles: document.titles ?? [] };
     documentInfo.cleaning = {
       fullText: document.text, fullChapters: document.chapters,
-      suggestions: repeatedNoise(document.fragments ?? [], document.pageCount ?? 0), removed: [], reviewed: false,
+      suggestions: repeatedNoise(document.fragments ?? [], document.pageCount ?? 0), removed: [],
     };
     // PDF : la vue des pages permet de choisir ce qu'il faut lire ou sauter.
     if (format === "pdf" && document.pageMaps) {
@@ -503,14 +504,12 @@ async function openPagesView() {
   }
 }
 $("pages-open").addEventListener("click", () => { void openPagesView(); });
-$("cleanup-open").addEventListener("click", async () => {
+// Un clic retire toutes les répétitions repérées, un second les remet.
+$("cleanup-open").addEventListener("click", () => {
   const source = documentInfo.cleaning;
-  if (!source) return;
+  if (!source?.suggestions.length) return;
   pausePlayback();
-  const { reviewCleanup } = await import("./cleanup-dialog.js");
-  const removed = await reviewCleanup(source);
-  if (documentInfo.cleaning !== source || removed === null) return;
-  source.removed = removed; source.reviewed = true;
+  source.removed = source.removed.length ? [] : source.suggestions.map((item) => item.id);
   const next = documentExcerpt(source, documentInfo.pages?.marks);
   if (next.text !== state.text) {
     cancelWork();
@@ -518,7 +517,8 @@ $("cleanup-open").addEventListener("click", async () => {
     typeOnScreen(next.text);
     dispatch({ type: "TEXT_CHANGED", text: next.text }); rebuildIndex(); preload();
   } else paint();
-  message(removed.length ? `${removed.length} RÉPÉTITION${removed.length > 1 ? "S" : ""} RETIRÉE${removed.length > 1 ? "S" : ""}` : "NETTOYAGE ANNULÉ · TEXTE RÉTABLI", 5000);
+  const count = source.removed.length;
+  message(count ? `${count} RÉPÉTITION${count > 1 ? "S" : ""} RETIRÉE${count > 1 ? "S" : ""}` : "RÉPÉTITIONS REMISES", 5000);
 });
 screen.addEventListener("input", () => {
   restoreOffset = 0;

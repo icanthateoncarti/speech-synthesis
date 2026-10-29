@@ -2,7 +2,7 @@
 
 ## Nettoyage avant écoute
 
-Après l’import d’un PDF ou PPTX, **NETTOYER** propose les lignes courtes répétées au bord d’au moins la moitié des pages/diapositives (au minimum deux). Les numéros de page sont regroupés. Aucune suppression avant validation : les cases permettent de choisir, et **Tout rétablir** annule le nettoyage.
+Après l’import d’un PDF ou PPTX, le bouton **NETTOYER** n’apparaît que si des lignes courtes se répètent au bord d’au moins la moitié des pages/diapositives (au minimum deux). Les numéros de page sont regroupés ; la liste s’affiche au survol du bouton. Aucune suppression sans clic : un clic retire toutes ces répétitions (le bouton devient **NETTOYÉ**), un second les remet.
 
 Les marqueurs numérotés « Chapitre », « Partie », « Section », etc. restent protégés, ainsi que les cellules des tableaux PDF reconnus. Les passages choisis dans PAGES se combinent au nettoyage. La lecture et le MP3 utilisent le texte obtenu ; le fichier original n’est jamais modifié ni envoyé à un serveur.
 
