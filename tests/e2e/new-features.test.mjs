@@ -99,3 +99,11 @@ test('fermer un travail en cours puis rouvrir ne laisse pas les boutons désacti
   });
   assert.deepEqual(result,{busy:true,fresh:true,sharingBusy:true,sharingFresh:true});
 });
+test('/?moi : cet appareil n’est plus compté, la page le confirme et l’adresse reste propre',async()=>{
+  await page.goto(server.url+'/?moi');
+  await page.waitForFunction(()=>document.querySelector('#status-left').textContent==="CET APPAREIL N'EST PLUS COMPTÉ");
+  assert.equal(await page.evaluate(()=>location.search+'|'+localStorage.getItem('radio-moi')),'|1');
+  await page.goto(server.url+'/?moi=0');
+  await page.waitForFunction(()=>document.querySelector('#status-left').textContent==='CET APPAREIL EST DE NOUVEAU COMPTÉ');
+  assert.equal(await page.evaluate(()=>localStorage.getItem('radio-moi')),null);
+});

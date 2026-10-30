@@ -13,7 +13,7 @@ import { saveCourse, getCourse, courseAudioStore } from "./library-store.js";
 import { createdShares } from "./share.js";
 import { incomingShare, takeIncomingShare } from "./share-location.js";
 import { sessionData } from "./session-data.js";
-import { countUsage } from "./usage.js";
+import { countUsage, ownerChange } from "./usage.js";
 import { createTypewriter } from "./typewriter.js";
 
 const $ = (id) => document.getElementById(id);
@@ -690,6 +690,7 @@ $("library-open").addEventListener("click", async () => {
 document.addEventListener("visibilitychange", () => { if (document.hidden) void persistCourse(); });
 window.addEventListener("pagehide", () => { void persistCourse(); cancelWork({ cancelPreload: true }); });
 rebuildIndex(); paint();
+if (ownerChange) message(ownerChange === "on" ? "CET APPAREIL N'EST PLUS COMPTÉ" : "CET APPAREIL EST DE NOUVEAU COMPTÉ", 8000);
 if (!incomingShare) {
   let last; try { last = localStorage.getItem("radio-last-course"); } catch {}
   const started = revision;

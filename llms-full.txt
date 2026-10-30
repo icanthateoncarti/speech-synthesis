@@ -2,7 +2,7 @@
 
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
-Generated: 2026-10-29
+Generated: 2026-10-30
 
 ---
 <!-- source: https://speechsynthe.si/ -->
@@ -11,7 +11,7 @@ Generated: 2026-10-29
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/
-Last updated: 2026-10-29
+Last updated: 2026-10-30
 
 ## Révise tes cours en les écoutant
 
@@ -96,7 +96,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 > Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/pdf-en-audio/
-Last updated: 2026-10-29
+Last updated: 2026-10-30
 
 ## Glisse ton cours. Écoute-le en sortant.
 
@@ -181,7 +181,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 > Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/text-to-speech/
-Last updated: 2026-10-29
+Last updated: 2026-10-30
 
 ## Colle ton texte. Écoute la suite.
 
@@ -250,7 +250,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 > Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
 
 Canonical: https://speechsynthe.si/voix-off/
-Last updated: 2026-10-29
+Last updated: 2026-10-30
 
 ## Exemples de textes
 
@@ -325,7 +325,7 @@ Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa pos
 > Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/message-repondeur/
-Last updated: 2026-10-29
+Last updated: 2026-10-30
 
 ## Exemples de textes
 
@@ -408,7 +408,7 @@ Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pend
 > Un cours à réviser dans le train ou en marchant ? Prépare ton PDF ou PowerPoint, retire les répétitions et emporte le MP3. Exemple et captures à l’appui.
 
 Canonical: https://speechsynthe.si/ecouter-ses-cours/
-Last updated: 2026-10-29
+Last updated: 2026-10-30
 
 Tu as un cours de vingt pages à revoir et un trajet devant toi. Avec speechsynthe.si, tu peux transformer le texte de ton PDF ou PowerPoint en audio, puis télécharger le MP3 pour l’écouter sans connexion. C’est gratuit et sans compte.
 
