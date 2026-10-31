@@ -3,7 +3,7 @@
 > Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/pdf-en-audio/
-Last updated: 2026-10-30
+Last updated: 2026-10-31
 
 ## Glisse ton cours. Écoute-le en sortant.
 
@@ -80,3 +80,4 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 - [Voix off](https://speechsynthe.si/voix-off/)
 - [Message de répondeur](https://speechsynthe.si/message-repondeur/)
 - [Comment écouter ses cours PDF ou PowerPoint pour réviser](https://speechsynthe.si/ecouter-ses-cours/)
+- [Comment convertir un PowerPoint de cours en MP3](https://speechsynthe.si/powerpoint-en-mp3/)

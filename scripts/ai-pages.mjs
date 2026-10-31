@@ -12,11 +12,13 @@ const link = (label, url) => `[${escapeMarkdown(label)}](${url})`;
 export function renderMarkdown(page, date) {
   const lines = [`# ${escapeMarkdown(page.title)}`, "", `> ${escapeMarkdown(page.description)}`, "", `Canonical: ${absolute(pagePath(page))}`, `Last updated: ${date}`, ""];
   if (page.kind === "article") {
-    lines.push(escapeMarkdown(page.intro), "", escapeMarkdown(page.premise), "", "## Essaie avec un petit cours", "", escapeMarkdown(page.sample.description), "", link(page.sample.label, absolute(page.sample.href)), "");
+    lines.push(escapeMarkdown(page.intro), "", escapeMarkdown(page.premise), "");
+    if (page.sample) lines.push("## Essaie avec un petit cours", "", escapeMarkdown(page.sample.description), "", link(page.sample.label, absolute(page.sample.href)), "");
     for (const section of page.sections) {
       lines.push(`## ${escapeMarkdown(section.title)}`, "", ...section.paragraphs.flatMap(text => [escapeMarkdown(text), ""]));
       if (section.figure) lines.push(`![${escapeMarkdown(section.figure.alt)}](${absolute(section.figure.src)})`, "", escapeMarkdown(section.figure.caption), "");
     }
+    if (page.related?.length) lines.push("## À lire aussi", "", ...page.related.map(r => `- ${link(r.label, absolute(r.href))} : ${escapeMarkdown(r.text)}`), "");
     lines.push(link("Écouter mon cours", SITE.url), "", link("Consulter le mode d’emploi", SITE.url + "#mode-emploi"), "");
     return lines.join("\n");
   }

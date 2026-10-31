@@ -3,7 +3,7 @@
 > Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/text-to-speech/
-Last updated: 2026-10-30
+Last updated: 2026-10-31
 
 ## Colle ton texte. Écoute la suite.
 
@@ -64,3 +64,4 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 - [Voix off](https://speechsynthe.si/voix-off/)
 - [Message de répondeur](https://speechsynthe.si/message-repondeur/)
 - [Comment écouter ses cours PDF ou PowerPoint pour réviser](https://speechsynthe.si/ecouter-ses-cours/)
+- [Comment convertir un PowerPoint de cours en MP3](https://speechsynthe.si/powerpoint-en-mp3/)

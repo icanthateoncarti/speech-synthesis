@@ -20,6 +20,16 @@ export function isOwner() {
   try { return localStorage.getItem(OWNER_KEY) === "1"; } catch { return false; }
 }
 
+// Cloudflare Web Analytics : pages vues sans cookie, jamais le texte tapé. Uniquement en production, hors appareils de Jonas.
+export function startAnalytics() {
+  if (location.hostname !== "speechsynthe.si" || isOwner()) return;
+  const beacon = document.createElement("script");
+  beacon.defer = true;
+  beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
+  beacon.dataset.cfBeacon = '{"token": "510ca793cd2d4401b410e4ede7f66bac"}';
+  document.body.append(beacon);
+}
+
 const sent = new Set();
 export function countUsage(event, { once = false } = {}) {
   if (location.hostname !== "speechsynthe.si" || isOwner() || (once && sent.has(event))) return;

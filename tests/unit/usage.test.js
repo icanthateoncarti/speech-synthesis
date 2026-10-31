@@ -42,3 +42,19 @@ test("compteur : le drapeau reste sur l'appareil aux visites suivantes, /?moi=0 
   assert.deepEqual(b.posts, ["export-mp3-fr"]);
   assert.equal(b.store.size, 0);
 });
+
+test("audience : le beacon Cloudflare part en production, jamais sur un appareil de Jonas ni en local", async () => {
+  const appended = [];
+  globalThis.document = { createElement: () => ({ dataset: {} }), body: { append: (el) => appended.push(el) } };
+  const b = browserAt("https://speechsynthe.si/powerpoint-en-mp3/");
+  (await b.load()).startAnalytics();
+  assert.equal(appended.length, 1);
+  assert.match(appended[0].src, /^https:\/\/static\.cloudflareinsights\.com\//);
+  Object.assign(location, { search: "?moi" });
+  (await b.load()).startAnalytics();
+  browserAt("http://127.0.0.1:4173/");
+  const local = await import(`../../src/usage.js?load=${++loads}`);
+  local.startAnalytics();
+  assert.equal(appended.length, 1);
+  delete globalThis.document;
+});

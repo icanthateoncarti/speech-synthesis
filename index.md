@@ -3,7 +3,7 @@
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/
-Last updated: 2026-10-30
+Last updated: 2026-10-31
 
 ## Révise tes cours en les écoutant
 
@@ -80,3 +80,4 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 - [Voix off](https://speechsynthe.si/voix-off/)
 - [Message de répondeur](https://speechsynthe.si/message-repondeur/)
 - [Comment écouter ses cours PDF ou PowerPoint pour réviser](https://speechsynthe.si/ecouter-ses-cours/)
+- [Comment convertir un PowerPoint de cours en MP3](https://speechsynthe.si/powerpoint-en-mp3/)

@@ -3,7 +3,7 @@
 > Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
 
 Canonical: https://speechsynthe.si/voix-off/
-Last updated: 2026-10-30
+Last updated: 2026-10-31
 
 ## Exemples de textes
 
@@ -70,3 +70,4 @@ Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa pos
 - [Text to speech](https://speechsynthe.si/text-to-speech/)
 - [Message de répondeur](https://speechsynthe.si/message-repondeur/)
 - [Comment écouter ses cours PDF ou PowerPoint pour réviser](https://speechsynthe.si/ecouter-ses-cours/)
+- [Comment convertir un PowerPoint de cours en MP3](https://speechsynthe.si/powerpoint-en-mp3/)

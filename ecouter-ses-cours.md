@@ -3,7 +3,7 @@
 > Un cours à réviser dans le train ou en marchant ? Prépare ton PDF ou PowerPoint, retire les répétitions et emporte le MP3. Exemple et captures à l’appui.
 
 Canonical: https://speechsynthe.si/ecouter-ses-cours/
-Last updated: 2026-10-30
+Last updated: 2026-10-31
 
 Tu as un cours de vingt pages à revoir et un trajet devant toi. Avec speechsynthe.si, tu peux transformer le texte de ton PDF ou PowerPoint en audio, puis télécharger le MP3 pour l’écouter sans connexion. C’est gratuit et sans compte.
 
@@ -62,6 +62,11 @@ Les réglages de voix et de vitesse choisis sont utilisés pour l’export. Les 
 Pour une liste de notions, un texte de droit ou une explication rédigée, essaie l’écoute et juge si elle te convient. Pour un schéma, une formule ou un tableau, garde le document à portée de main : entendre des nombres sans leur disposition peut faire perdre le sens.
 
 Les documents sont traités dans ton navigateur. Si tu choisis PARTAGER, une copie chiffrée du texte et des réglages est envoyée pour créer un lien valable sept jours. Toute personne qui possède ce lien peut ouvrir le cours : utilise-le uniquement pour du contenu que tu peux partager.
+
+## À lire aussi
+
+- [Convertir un PowerPoint en MP3](https://speechsynthe.si/powerpoint-en-mp3/) : ce que la radio lit dans un fichier .pptx, et ce qu’elle laisse de côté.
+- [Lire un PDF à voix haute](https://speechsynthe.si/pdf-en-audio/) : pour un cours en PDF, avec le choix des pages et la lecture des pages scannées.
 
 [Écouter mon cours](https://speechsynthe.si/)
 

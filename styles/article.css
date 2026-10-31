@@ -25,6 +25,10 @@
 .article-toc { padding: 22px 0 26px; border-bottom: 1px solid #c8c4b7; }
 .article-toc ol { margin: 0; padding-left: 22px; }
 .article-toc a { display: inline-block; padding: 5px 0; font-size: 16px; }
+.article-related { margin-top: 56px; padding-top: 26px; border-top: 1px solid #c8c4b7; }
+.article-related h2 { font-size: 21px; }
+.article-related ul { margin: 0; padding-left: 22px; font-size: 16px; }
+.article-related li { margin: 8px 0; }
 .article-cta { margin-top: 56px; padding: 32px; background: #071c17; color: #e7e5df; border-radius: 20px; }
 .article-cta a { color: #5effd6; display: block; width: fit-content; font-size: 16px; }
 .article-cta .article-button { background: #5effd6; color: #071c17; padding: 12px 20px; border-radius: 9px; text-decoration: none; font-weight: 700; margin-bottom: 18px; }

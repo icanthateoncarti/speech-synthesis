@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1FGQ6D634n6pOmPk7nii41Iy5g8LzorPBvTwtn+Fk3Y=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-4Llg5RmyBV5P3F2MhffjX4rREcyG/zuWZFRHJnBURuU=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Text to speech gratuit — texte en voix, français et anglais</title>
   <meta name="description" content="Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.">
@@ -113,54 +113,55 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=f5f69520b1">
+  <link rel="stylesheet" href="/styles/machine.css?v=73a6783313">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/audio.js": "/src/audio.js?v=f5f69520b1",
-      "/src/boot.js": "/src/boot.js?v=f5f69520b1",
-      "/src/document-cleanup.js": "/src/document-cleanup.js?v=f5f69520b1",
-      "/src/document-review.js": "/src/document-review.js?v=f5f69520b1",
-      "/src/library-dialog.js": "/src/library-dialog.js?v=f5f69520b1",
-      "/src/library-store.js": "/src/library-store.js?v=f5f69520b1",
-      "/src/limits.js": "/src/limits.js?v=f5f69520b1",
-      "/src/machine.js": "/src/machine.js?v=f5f69520b1",
-      "/src/main.js": "/src/main.js?v=f5f69520b1",
-      "/src/mp3-encode.js": "/src/mp3-encode.js?v=f5f69520b1",
-      "/src/mp3-export.js": "/src/mp3-export.js?v=f5f69520b1",
-      "/src/mp3-stream.js": "/src/mp3-stream.js?v=f5f69520b1",
-      "/src/mp3-worker.js": "/src/mp3-worker.js?v=f5f69520b1",
-      "/src/navigation.js": "/src/navigation.js?v=f5f69520b1",
-      "/src/ocr-worker.js": "/src/ocr-worker.js?v=f5f69520b1",
-      "/src/ocr.js": "/src/ocr.js?v=f5f69520b1",
-      "/src/offline-worker.js": "/src/offline-worker.js?v=f5f69520b1",
-      "/src/pages.js": "/src/pages.js?v=f5f69520b1",
-      "/src/pdf-layout.js": "/src/pdf-layout.js?v=f5f69520b1",
-      "/src/pdf-tables.js": "/src/pdf-tables.js?v=f5f69520b1",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=f5f69520b1",
-      "/src/pdf.js": "/src/pdf.js?v=f5f69520b1",
-      "/src/player.js": "/src/player.js?v=f5f69520b1",
-      "/src/pptx.js": "/src/pptx.js?v=f5f69520b1",
-      "/src/selection.js": "/src/selection.js?v=f5f69520b1",
-      "/src/session-data.js": "/src/session-data.js?v=f5f69520b1",
-      "/src/shader.js": "/src/shader.js?v=f5f69520b1",
-      "/src/share-config.js": "/src/share-config.js?v=f5f69520b1",
-      "/src/share-crypto.js": "/src/share-crypto.js?v=f5f69520b1",
-      "/src/share-dialog.js": "/src/share-dialog.js?v=f5f69520b1",
-      "/src/share-location.js": "/src/share-location.js?v=f5f69520b1",
-      "/src/share.js": "/src/share.js?v=f5f69520b1",
-      "/src/speech-cache.js": "/src/speech-cache.js?v=f5f69520b1",
-      "/src/spoken.js": "/src/spoken.js?v=f5f69520b1",
-      "/src/text-map.js": "/src/text-map.js?v=f5f69520b1",
-      "/src/text.js": "/src/text.js?v=f5f69520b1",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=f5f69520b1",
-      "/src/tts.js": "/src/tts.js?v=f5f69520b1",
-      "/src/typewriter.js": "/src/typewriter.js?v=f5f69520b1",
-      "/src/usage.js": "/src/usage.js?v=f5f69520b1",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=f5f69520b1"
+      "/src/article.js": "/src/article.js?v=73a6783313",
+      "/src/audio.js": "/src/audio.js?v=73a6783313",
+      "/src/boot.js": "/src/boot.js?v=73a6783313",
+      "/src/document-cleanup.js": "/src/document-cleanup.js?v=73a6783313",
+      "/src/document-review.js": "/src/document-review.js?v=73a6783313",
+      "/src/library-dialog.js": "/src/library-dialog.js?v=73a6783313",
+      "/src/library-store.js": "/src/library-store.js?v=73a6783313",
+      "/src/limits.js": "/src/limits.js?v=73a6783313",
+      "/src/machine.js": "/src/machine.js?v=73a6783313",
+      "/src/main.js": "/src/main.js?v=73a6783313",
+      "/src/mp3-encode.js": "/src/mp3-encode.js?v=73a6783313",
+      "/src/mp3-export.js": "/src/mp3-export.js?v=73a6783313",
+      "/src/mp3-stream.js": "/src/mp3-stream.js?v=73a6783313",
+      "/src/mp3-worker.js": "/src/mp3-worker.js?v=73a6783313",
+      "/src/navigation.js": "/src/navigation.js?v=73a6783313",
+      "/src/ocr-worker.js": "/src/ocr-worker.js?v=73a6783313",
+      "/src/ocr.js": "/src/ocr.js?v=73a6783313",
+      "/src/offline-worker.js": "/src/offline-worker.js?v=73a6783313",
+      "/src/pages.js": "/src/pages.js?v=73a6783313",
+      "/src/pdf-layout.js": "/src/pdf-layout.js?v=73a6783313",
+      "/src/pdf-tables.js": "/src/pdf-tables.js?v=73a6783313",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=73a6783313",
+      "/src/pdf.js": "/src/pdf.js?v=73a6783313",
+      "/src/player.js": "/src/player.js?v=73a6783313",
+      "/src/pptx.js": "/src/pptx.js?v=73a6783313",
+      "/src/selection.js": "/src/selection.js?v=73a6783313",
+      "/src/session-data.js": "/src/session-data.js?v=73a6783313",
+      "/src/shader.js": "/src/shader.js?v=73a6783313",
+      "/src/share-config.js": "/src/share-config.js?v=73a6783313",
+      "/src/share-crypto.js": "/src/share-crypto.js?v=73a6783313",
+      "/src/share-dialog.js": "/src/share-dialog.js?v=73a6783313",
+      "/src/share-location.js": "/src/share-location.js?v=73a6783313",
+      "/src/share.js": "/src/share.js?v=73a6783313",
+      "/src/speech-cache.js": "/src/speech-cache.js?v=73a6783313",
+      "/src/spoken.js": "/src/spoken.js?v=73a6783313",
+      "/src/text-map.js": "/src/text-map.js?v=73a6783313",
+      "/src/text.js": "/src/text.js?v=73a6783313",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=73a6783313",
+      "/src/tts.js": "/src/tts.js?v=73a6783313",
+      "/src/typewriter.js": "/src/typewriter.js?v=73a6783313",
+      "/src/usage.js": "/src/usage.js?v=73a6783313",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=73a6783313"
     }
   }
   </script>
@@ -343,6 +344,7 @@
       <a href="/voix-off/">Voix off</a>
       <a href="/message-repondeur/">Message de répondeur</a>
       <a href="/ecouter-ses-cours/">Guide étudiant</a>
+      <a href="/powerpoint-en-mp3/">PowerPoint en MP3</a>
     </nav>
     <p>Voix : <a href="https://github.com/rhasspy/piper">Piper</a>. Jessica : jeu de données UPMC, licence CC BY-SA 4.0. Tom : modèle sous licence AGPLv3. Textes en anglais : Kristin (LibriVox, domaine public) et Joe (CC0).</p>
     <p>Ton texte et tes documents restent sur ton appareil. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
@@ -408,7 +410,7 @@
     <div id="pages-list" class="pages-list"></div>
   </dialog>
 
-  <script type="module" src="/src/boot.js?v=f5f69520b1"></script>
-  <script type="module" src="/src/main.js?v=f5f69520b1"></script>
+  <script type="module" src="/src/boot.js?v=73a6783313"></script>
+  <script type="module" src="/src/main.js?v=73a6783313"></script>
 </body>
 </html>
