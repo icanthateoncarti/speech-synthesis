@@ -87,7 +87,9 @@ function restoreCourse(value) {
 function dispatch(event) {
   state = reduce(state, event); paint();
   // Une visite qui arrive jusqu'à l'écoute, comptée une fois par chargement de page.
-  if (event.type === "PLAYBACK_STARTED" && !listenCounted) { listenCounted = true; countUsage(`listen-${documentInfo.name ? "document" : "text"}-${detectLanguage(state.text)}`); }
+  // Le cours d'exemple est compté à part : il ne doit ni gonfler ni masquer l'écoute d'un vrai cours.
+  if (event.type === "PLAYBACK_STARTED" && documentInfo.example) countUsage(`listen-example-${detectLanguage(state.text)}`, { once: true });
+  else if (event.type === "PLAYBACK_STARTED" && !listenCounted) { listenCounted = true; countUsage(`listen-${documentInfo.name ? "document" : "text"}-${detectLanguage(state.text)}`); }
   if (["TEXT_CHANGED", "VOICE_CHANGED", "SPEED_CHANGED"].includes(event.type)) scheduleSave();
 }
 function valid(job) { return synthesis === job && job.key === audioKey(state); }
@@ -414,7 +416,7 @@ async function exportMp3() {
     if (exportJob !== task || task.key !== audioKey(state)) return;
     dispatch({ type: "MP3_READY", key: task.key, mp3 });
     download(mp3, task.voice);
-    countUsage(`export-mp3-${detectLanguage(state.text)}`);
+    countUsage(documentInfo.example ? "export-mp3-example" : `export-mp3-${detectLanguage(state.text)}`);
   } catch (error) {
     if (exportJob === task && error.kind !== "cancelled" && error.name !== "AbortError") { dispatch({ type: "ERROR", kind: error.kind }); countUsage("export-error"); }
   } finally { if (exportJob === task) { exportJob = null; paint(); } }
@@ -424,7 +426,7 @@ const PPTX_TYPE = "application/vnd.openxmlformats-officedocument.presentationml.
 const formatOf = (file) => /\.pptx$/i.test(file.name) || file.type === PPTX_TYPE ? "pptx"
   : /\.pdf$/i.test(file.name) || file.type === "application/pdf" ? "pdf" : null;
 
-async function importDocument(file) {
+async function importDocument(file, { example = false } = {}) {
   if (!file) return;
   const format = formatOf(file);
   if (!format) { message(/\.ppt$/i.test(file.name) ? "ENREGISTRE-LE EN .PPTX" : "CHOISIS UN PDF OU UN PPTX"); return; }
@@ -450,7 +452,7 @@ async function importDocument(file) {
     if (!hasSpeakableContent(document.text)) { dispatch({ type: "PDF_EMPTY", format }); countUsage(`import-error-${format}`); return; }
     tts.clearCache();
     detachCourse();
-    documentInfo = { name: file.name, sourcePdf: format === "pdf" ? file : null, chapters: document.chapters, titles: document.titles ?? [] };
+    documentInfo = { name: file.name, sourcePdf: format === "pdf" ? file : null, chapters: document.chapters, titles: document.titles ?? [], example };
     documentInfo.cleaning = {
       fullText: document.text, fullChapters: document.chapters,
       suggestions: repeatedNoise(document.fragments ?? [], document.pageCount ?? 0), removed: [],
@@ -462,7 +464,7 @@ async function importDocument(file) {
     typeOnScreen(document.text);
     dispatch({ type: "TEXT_CHANGED", text: document.text }); rebuildIndex();
     screen.focus({ preventScroll: true }); preload();
-    countUsage(`import-${scanned ? "pdf-scan" : format}`);
+    countUsage(example ? "import-example" : `import-${scanned ? "pdf-scan" : format}`);
     if (document.truncated) message("TEXTE COUPÉ À 2 MILLIONS DE CARACTÈRES", 8000);
   } catch (error) {
     if (version !== revision || error.name === "AbortError") return;
@@ -669,6 +671,24 @@ document.addEventListener("click", (event) => {
   document.querySelector(".machine").scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
   screen.focus({ preventScroll: true }); screen.setSelectionRange(0, 0);
 });
+// EXEMPLE : le mini-cours du guide étudiant s'importe comme un fichier, puis la lecture démarre.
+$("key-example")?.addEventListener("click", async (event) => {
+  const key = event.currentTarget, source = key.dataset.example;
+  if (pdfBusy || key.disabled) return;
+  player.unlock().catch(() => {}); // dans le geste (iOS), avant tout await
+  key.disabled = true;
+  const started = revision;
+  try {
+    const response = await fetch(source);
+    if (!response.ok) throw new Error(String(response.status));
+    const file = new File([await response.blob()], source.split("/").pop(), { type: "application/pdf" });
+    if (revision !== started || pdfBusy) return; // autre chose a été lancé entre-temps
+    await importDocument(file, { example: true });
+    if (documentInfo.example && documentInfo.name === file.name && !playbackActive) void togglePlayback();
+  } catch {
+    message("EXEMPLE INDISPONIBLE · RÉESSAIE", 6000);
+  } finally { key.disabled = false; }
+});
 $("library-open").addEventListener("click", async () => {
   pausePlayback();
   try {
@@ -706,7 +726,7 @@ $("review-open").addEventListener("click", async () => {
       extract: options => import("./pdf.js").then(m => m.extractPdfDocument(source.sourcePdf, options)) });
     if (text === null || revision !== version || text === state.text) return;
     cancelWork(); restoreOffset = 0;
-    documentInfo = { name: source.name, sourcePdf: source.sourcePdf, chapters: [] };
+    documentInfo = { name: source.name, sourcePdf: source.sourcePdf, chapters: [], example: source.example };
     typeOnScreen(text); dispatch({ type: "TEXT_CHANGED", text }); rebuildIndex(); preload();
   } catch (error) { message(error.message, 6000); }
 });

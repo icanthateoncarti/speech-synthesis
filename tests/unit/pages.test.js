@@ -12,6 +12,14 @@ test("pages par usage à jour : régénérées depuis index.html actuel (npm run
   }
 });
 
+test("touche EXEMPLE : sur l'accueil et les pages sans exemples de textes seulement", async () => {
+  const home = await readFile(new URL("../../index.html", import.meta.url), "utf8");
+  assert.match(home, /id="key-example"[^\n]*data-example="\/assets\/guides\/cours-exemple-moyenne-mediane\.pdf"/);
+  for (const page of PUBLIC_PAGES.filter(page => page.slug && page.kind !== "article")) {
+    assert.equal(renderPage(home, page).includes('id="key-example"'), !page.examples, page.slug);
+  }
+});
+
 test("sitemap : accueil et toutes les pages", async () => {
   const file = await readFile(new URL("../../sitemap.xml", import.meta.url), "utf8");
   const date = /<lastmod>([^<]+)<\/lastmod>/.exec(file)[1];

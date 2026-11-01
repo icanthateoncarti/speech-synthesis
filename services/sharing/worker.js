@@ -1,7 +1,7 @@
 const MAX_BODY = 512 * 1024, WEEK = 7 * 86400_000;
 const ID = /^[A-Za-z0-9_-]{22}$/, HASH = /^[a-f0-9]{64}$/;
 // Compteur d'usage : seulement ces noms d'événements, jamais de texte, de fichier ni d'identifiant.
-export const EVENT = /^(?:import-(?:pdf|pdf-scan|pptx)|import-error-(?:pdf|pptx)|listen-(?:text|document)-(?:fr|en)|export-mp3-(?:fr|en)|export-error)$/;
+export const EVENT = /^(?:import-(?:pdf|pdf-scan|pptx|example)|import-error-(?:pdf|pptx)|listen-(?:text|document|example)-(?:fr|en)|export-mp3-(?:fr|en|example)|export-error)$/;
 const hex = bytes => Array.from(new Uint8Array(bytes), b => b.toString(16).padStart(2, "0")).join("");
 export const digest = async value => hex(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value)));
 export async function limitedBody(request) {

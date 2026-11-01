@@ -82,6 +82,8 @@ export function renderPage(home, page) {
   const url = absolute(pagePath(page));
   let html = home.replace(/<section class="examples"[\s\S]*?<\/section>\s*/g, "");
   html = html.replace(/<section class="manual"[\s\S]*?<\/section>\s*/g, "");
+  // Les pages qui ont leurs propres exemples de textes n'ont pas la touche du cours d'exemple.
+  if (page.examples) html = html.replace(/\n\s*<button type="button" class="key recessed" id="key-example"[^\n]*<\/button>/, "");
   html = replaceOnce(html, /<title>[^<]*<\/title>/, `<title>${escapeHtml(page.title)}</title>`);
   html = replaceOnce(html, /<meta name="description" content="[^"]*">/, `<meta name="description" content="${escapeHtml(page.description)}">`);
   html = replaceOnce(html, /<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${escapeHtml(page.description)}">`);

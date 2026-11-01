@@ -1,0 +1,1 @@
+No course file on hand? speechsynthe.si now has an EXEMPLE key: one tap loads a 2-page sample lesson on mean and median and starts reading it aloud. Then import your own PDF or PowerPoint the same way. Free, no account.

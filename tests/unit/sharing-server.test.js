@@ -48,6 +48,7 @@ test('compteur d’usage : noms autorisés seulement, quotas, lecture protégée
   const send=(body,origin='https://speechsynthe.si')=>worker.fetch(new Request('https://local/events',{method:'POST',body,headers:{origin,'Content-Type':'text/plain'}}),env);
   try {
     assert.ok(EVENT.test('import-pdf-scan')&&EVENT.test('listen-document-en')&&EVENT.test('export-mp3-fr'));
+    assert.ok(EVENT.test('import-example')&&EVENT.test('listen-example-fr')&&EVENT.test('export-mp3-example'));
     assert.equal(EVENT.test('import-docx'),false);assert.equal(EVENT.test('listen-text-fr\nCours de droit'),false);
     const ok=await send('import-pdf');assert.equal(ok.status,204);assert.equal(ok.headers.get('access-control-allow-origin'),'https://speechsynthe.si');
     assert.equal((await send('mon cours de droit')).status,400);
