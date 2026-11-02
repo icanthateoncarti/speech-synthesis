@@ -73,6 +73,7 @@ Dans les deux cas, l’audio sert mieux la révision si tu l’écoutes par peti
 
 - [Écouter ses cours pour réviser](https://speechsynthe.si/ecouter-ses-cours/) : la méthode pas à pas, avec un petit cours d’exemple en PDF à télécharger.
 - [Lire un PDF à voix haute](https://speechsynthe.si/pdf-en-audio/) : pour un cours en PDF, avec le choix des pages et la lecture des pages scannées.
+- [Lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone/) : choisir les pages du doigt et préparer le MP3 avant de partir.
 
 [Écouter mon cours](https://speechsynthe.si/)
 

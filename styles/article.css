@@ -17,6 +17,7 @@
 .article-body section { margin-top: 64px; scroll-margin-top: 28px; }
 .article-body figure { margin: 30px -24px; }
 .article-body img { display: block; width: 100%; height: auto; border-radius: 16px; }
+.article-body figure.narrow { max-width: 360px; margin-inline: auto; }
 .article-body figcaption { font-size: 14px; line-height: 1.5; color: #615f58; margin: 12px 24px 0; }
 .article-sample { margin: 36px 0; padding: 26px 30px; border: 1px solid #c8c4b7; border-left: 4px solid var(--orange); border-radius: 4px 16px 16px 4px; }
 .article-sample h2, .article-toc h2 { font-size: 21px; }

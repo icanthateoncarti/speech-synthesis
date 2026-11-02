@@ -67,6 +67,7 @@ Les documents sont traités dans ton navigateur. Si tu choisis PARTAGER, une cop
 
 - [Convertir un PowerPoint en MP3](https://speechsynthe.si/powerpoint-en-mp3/) : ce que la radio lit dans un fichier .pptx, et ce qu’elle laisse de côté.
 - [Lire un PDF à voix haute](https://speechsynthe.si/pdf-en-audio/) : pour un cours en PDF, avec le choix des pages et la lecture des pages scannées.
+- [Lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone/) : choisir les pages du doigt et préparer le MP3 avant de partir.
 
 [Écouter mon cours](https://speechsynthe.si/)
 

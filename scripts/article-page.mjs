@@ -5,7 +5,7 @@ const json = (data) => JSON.stringify(data, null, 2).replace(/</g, "\\u003c");
 export function renderArticle(page, version) {
   const url = absolute(pagePath(page));
   const displayDate = new Intl.DateTimeFormat("fr-BE", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(page.updated));
-  const figure = (f) => `<figure><a href="${f.src}" aria-label="Agrandir la capture"><img src="${f.src}" width="${f.width}" height="${f.height}" alt="${esc(f.alt)}" loading="lazy" decoding="async"></a><figcaption>${esc(f.caption)}</figcaption></figure>`;
+  const figure = (f) => `<figure${f.narrow ? ' class="narrow"' : ""}><a href="${f.src}" aria-label="Agrandir la capture"><img src="${f.src}" width="${f.width}" height="${f.height}" alt="${esc(f.alt)}" loading="lazy" decoding="async"></a><figcaption>${esc(f.caption)}</figcaption></figure>`;
   const images = page.sections.filter(s => s.figure).map(s => absolute(s.figure.src));
   const schema = { "@context": "https://schema.org", "@type": "Article", headline: page.h1, description: page.description, mainEntityOfPage: url, datePublished: page.published, dateModified: page.updated, inLanguage: "fr", author: { "@type": "Organization", name: SITE.name, url: SITE.url }, image: images };
   return `<!doctype html>

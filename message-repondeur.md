@@ -79,3 +79,4 @@ Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pend
 - [Voix off](https://speechsynthe.si/voix-off/)
 - [Comment écouter ses cours PDF ou PowerPoint pour réviser](https://speechsynthe.si/ecouter-ses-cours/)
 - [Comment convertir un PowerPoint de cours en MP3](https://speechsynthe.si/powerpoint-en-mp3/)
+- [Comment lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone/)

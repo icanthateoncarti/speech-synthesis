@@ -60,3 +60,29 @@ test('guide PowerPoint : sans fichier d’exemple, liens croisés entre guides e
   await page.waitForSelector('.article-related a[href="/powerpoint-en-mp3/"]');
   assert.deepEqual(errors,[]);
 });
+
+test('guide téléphone : capture étroite sur ordinateur, liens croisés et pied de page', async () => {
+  await page.setJavaScriptEnabled(true);
+  await page.setViewport({width:1280,height:900});
+  const errors=[];
+  page.on('console', msg=>{if(msg.type()==='error') errors.push(msg.text());});
+  await page.goto(server.url+'/pdf-voix-haute-telephone/',{waitUntil:'networkidle0'});
+  assert.match(await page.$eval('h1',el=>el.textContent), /PDF à voix haute sur son téléphone/);
+  // La capture de téléphone, verticale, ne doit pas occuper toute la colonne sur ordinateur.
+  const figure=await page.$eval('figure.narrow img',img=>({width:img.getBoundingClientRect().width,src:img.getAttribute('src')}));
+  assert.ok(figure.width<=360,`capture large de ${figure.width}px`);
+  assert.equal((await fetch(server.url+figure.src)).status,200);
+  for(const href of await page.$$eval('.article-toc a',els=>els.map(el=>el.getAttribute('href')))) assert.ok(await page.$(href));
+  for(const href of await page.$$eval('.article-related a',els=>els.map(el=>el.getAttribute('href')))) assert.equal((await fetch(server.url+href)).status,200);
+  // Les deux autres guides renvoient vers celui-ci.
+  for(const other of ['/ecouter-ses-cours/','/powerpoint-en-mp3/']){
+    await page.goto(server.url+other,{waitUntil:'networkidle0'});
+    assert.ok(await page.$('.article-related a[href="/pdf-voix-haute-telephone/"]'),other);
+  }
+  await page.setViewport({width:375,height:812});
+  await page.goto(server.url+'/pdf-voix-haute-telephone/',{waitUntil:'networkidle0'});
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
+  await page.click('.article-button');
+  assert.ok(await page.$('.usages a[href="/pdf-voix-haute-telephone/"]'));
+  assert.deepEqual(errors,[]);
+});

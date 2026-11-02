@@ -37,6 +37,7 @@ Pages incluses :
 - https://speechsynthe.si/message-repondeur/
 - https://speechsynthe.si/ecouter-ses-cours/
 - https://speechsynthe.si/powerpoint-en-mp3/
+- https://speechsynthe.si/pdf-voix-haute-telephone/
 
 Chemins exclus :
 - https://speechsynthe.si/admin/
