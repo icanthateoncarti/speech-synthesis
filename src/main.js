@@ -9,7 +9,7 @@ import { createVoiceCommands, parseVoiceCommand } from "./voice-commands.js";
 import { MAX_FILE_BYTES } from "./limits.js";
 import { excerpt, hasMarks, readRanges } from "./selection.js";
 import { repeatedNoise, documentExcerpt } from "./document-cleanup.js";
-import { saveCourse, getCourse, courseAudioStore } from "./library-store.js";
+import { saveCourse, getCourse, courseAudioStore, saveDraft, getDraft, clearDraft } from "./library-store.js";
 import { createdShares } from "./share.js";
 import { incomingShare, takeIncomingShare } from "./share-location.js";
 import { sessionData } from "./session-data.js";
@@ -61,17 +61,23 @@ function snapshot() {
 }
 async function persistCourse() {
   clearTimeout(saveTimer);
-  if (!courseId || !hasSpeakableContent(state.text)) return;
+  if (!courseId) return persistDraft();
+  if (!hasSpeakableContent(state.text)) return;
   const id = courseId;
   try { await saveCourse({ id, ...snapshot() }, { existingOnly: true }); if (courseId === id) $("library-state").textContent = storageWarning || "Enregistré sur cet appareil"; }
   catch (error) { $("library-state").textContent = error.message; }
 }
-function scheduleSave() { if (courseId) { clearTimeout(saveTimer); saveTimer = setTimeout(persistCourse, 700); } }
+// Hors bibliothèque, le texte reste en brouillon sur l'appareil ; le cours d'exemple n'en est pas un.
+async function persistDraft() {
+  if (documentInfo.example) return;
+  try { hasSpeakableContent(state.text) ? await saveDraft(snapshot()) : await clearDraft(); } catch {}
+}
+function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(persistCourse, 700); }
 function detachCourse() { clearTimeout(saveTimer); storageWarning = ""; courseStorage = null; courseId = null; courseName = ""; restoreOffset = 0; $("library-state").textContent = ""; }
 // Le texte arrive sur l'écran comme tapé très vite ; l'état a déjà le texte complet, seul l'affichage suit.
 const { type: typeOnScreen, stop: stopTyping } = createTypewriter(screen);
 
-function restoreCourse(value) {
+function restoreCourse(value, { draft = false } = {}) {
   const data = sessionData(value);
   cancelWork({ cancelPreload: true }); tts.clearCache();
   storageWarning = ""; courseStorage = null;
@@ -81,7 +87,7 @@ function restoreCourse(value) {
   dispatch({ type: "TEXT_CHANGED", text: data.text }); dispatch({ type: "VOICE_CHANGED", voice: data.voice }); dispatch({ type: "SPEED_CHANGED", speed: data.speed });
   $("speed").value = String(data.speed); rebuildIndex();
   if (courseId) { try { localStorage.setItem("radio-last-course", courseId); } catch {} }
-  message(data.offset ? "COURS RETROUVÉ · PARLE POUR REPRENDRE" : "COURS CHARGÉ · APPUIE SUR PARLE", 6000);
+  message(draft ? "BROUILLON RETROUVÉ · APPUIE SUR PARLE" : data.offset ? "COURS RETROUVÉ · PARLE POUR REPRENDRE" : "COURS CHARGÉ · APPUIE SUR PARLE", 6000);
 }
 
 function dispatch(event) {
@@ -537,7 +543,8 @@ screen.addEventListener("input", () => {
 speak.addEventListener("click", () => { void togglePlayback(); });
 $("key-mp3").addEventListener("click", () => { void exportMp3(); });
 $("key-clear").addEventListener("click", () => {
-  void persistCourse(); detachCourse();
+  if (courseId) void persistCourse();
+  detachCourse(); clearDraft().catch(() => {});
   try { localStorage.removeItem("radio-last-course"); } catch {}
   cancelWork({ cancelPreload: true }); stopTyping(); screen.value = ""; documentInfo = { name: "", chapters: [] }; audioDetails = null;
   tts.clearCache();
@@ -700,7 +707,7 @@ $("library-open").addEventListener("click", async () => {
     await openLibrary({ canSave: hasSpeakableContent(state.text), open: restoreCourse,
       save: async () => {
         const id = courseId ?? crypto.randomUUID();
-        await saveCourse({ id, ...snapshot() }); courseId = id;
+        await saveCourse({ id, ...snapshot() }); courseId = id; clearDraft().catch(() => {});
         try { localStorage.setItem("radio-last-course", id); } catch {}
         $("library-state").textContent = "Enregistrement des passages audio…";
         let storageError;
@@ -718,7 +725,12 @@ if (ownerChange) message(ownerChange === "on" ? "CET APPAREIL N'EST PLUS COMPTÉ
 if (!incomingShare) {
   let last; try { last = localStorage.getItem("radio-last-course"); } catch {}
   const started = revision;
-  if (last) getCourse(last).then(course => { if (course && revision === started && !state.text) restoreCourse(course); }).catch(() => {});
+  // Le plus récent des deux revient : le dernier cours ouvert ou le brouillon.
+  Promise.all([last ? getCourse(last).catch(() => null) : null, getDraft().catch(() => null)]).then(([course, draft]) => {
+    if (revision !== started || state.text) return;
+    if (draft && !(course?.updatedAt > draft.updatedAt)) { try { restoreCourse(draft, { draft: true }); return; } catch {} }
+    if (course) restoreCourse(course);
+  }).catch(() => {});
 }
 
 $("review-open").addEventListener("click", async () => {

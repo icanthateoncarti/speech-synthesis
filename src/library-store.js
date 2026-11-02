@@ -47,6 +47,16 @@ export async function removeCourse(id) {
   for (const row of rows) { store.delete(row.id); bytes -= row.bytes; }
   meta.put(Math.max(0, bytes), "bytes"); await finished;
 }
+// Brouillon : le dernier texte hors bibliothèque, pour le retrouver après une fermeture d'onglet.
+export async function saveDraft(draft) {
+  const tx = (await db()).transaction("meta", "readwrite"), finished = done(tx);
+  tx.objectStore("meta").put({ ...draft, updatedAt: Date.now() }, "draft"); await finished;
+}
+export async function getDraft() { return request((await db()).transaction("meta").objectStore("meta").get("draft")); }
+export async function clearDraft() {
+  const tx = (await db()).transaction("meta", "readwrite"), finished = done(tx);
+  tx.objectStore("meta").delete("draft"); await finished;
+}
 export async function audioUsage() { return (await request((await db()).transaction("meta").objectStore("meta").get("bytes"))) ?? 0; }
 export function courseAudioStore(course, onError = () => {}) {
   let disabled = false;

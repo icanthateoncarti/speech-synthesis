@@ -100,6 +100,7 @@ export async function launch({
   profile = "tests/e2e/.chrome-profile",
   viewport = { width: 1340, height: 900 },
   reducedMotion = false,
+  drafts = false,
 } = {}) {
   const browser = await puppeteer.launch({
     executablePath: CHROME,
@@ -110,6 +111,16 @@ export async function launch({
   });
   const [first] = await browser.pages();
   const page = first ?? (await browser.newPage());
+  // Les profils de test sont persistants : sans ça, chaque rechargement ramènerait le texte du test précédent.
+  if (!drafts) {
+    const block = p => p.evaluateOnNewDocument(() => {
+      const get = IDBObjectStore.prototype.get;
+      IDBObjectStore.prototype.get = function (key) { return get.call(this, key === "draft" ? "aucun-brouillon-en-test" : key); };
+    });
+    await block(page);
+    const newPage = browser.newPage.bind(browser);
+    browser.newPage = async (...args) => { const p = await newPage(...args); await block(p); return p; };
+  }
   if (reducedMotion) {
     await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);
   }
