@@ -58,7 +58,13 @@ export function pdfTables(items, tree) {
     // doivent rester lisibles : on refuse toute réécriture qui les ferait perdre.
     for (let i = first; i <= last; i++) if (strings[i].str.trim() && !used.has(strings[i])) valid = false;
     if (!valid) continue;
-    const labeled = rows[0].length > 1 && rows[0].every((cell) => cell.header && cell.items.length)
+    // Un vrai en-tête tient en quelques mots. Word balise parfois en TH la première
+    // entrée d’un lexique : la répéter devant chaque ligne rendrait le tableau illisible.
+    const shortLabel = (cell) => {
+      const label = cell.items.map((item) => item.str).join(" ").replace(/\s+/gu, " ").trim();
+      return label.length <= 40 && label.split(" ").length <= 6 && !/[?!]/u.test(label);
+    };
+    const labeled = rows[0].length > 1 && rows[0].every((cell) => cell.header && cell.items.length && shortLabel(cell))
       && rows.every((row) => row.length === rows[0].length && row.every((cell) => cell.colSpan === 1 && cell.rowSpan === 1));
     tables.push({ first, last, rows, labeled });
   }

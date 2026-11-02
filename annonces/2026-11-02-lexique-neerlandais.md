@@ -1,0 +1,1 @@
+Learning Dutch? Paste a Dutch–French vocab list into speechsynthe.si: each Dutch word is now read by a Belgian Dutch voice, and its French translation by a French voice. It also works on vocab tables in your course PDFs.

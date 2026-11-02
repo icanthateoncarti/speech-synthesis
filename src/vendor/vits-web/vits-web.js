@@ -10,6 +10,10 @@ const VOICE_SHA256 = {
   "en_US-kristin-medium.onnx.json": "5681426d4aead22195de70531eeeeddb46493cfaffc5764b2ea3db73428b651c",
   "en_US-joe-medium.onnx": "58afce0321b8d9c46d7cdf9c16500cc55a793b4220212dba6b70fb788b3baf06",
   "en_US-joe-medium.onnx.json": "3d6d5410b3795cb1950595247ef8f06190719e6fdbfa3a2356d8ec368e1aad33",
+  "nl_BE-nathalie-medium.onnx": "49cf48023861f9fd42e13a8632f068fee67d1ce244a6ee38f29595afbf0a6be4",
+  "nl_BE-nathalie-medium.onnx.json": "4704af2736022e910a3f32672480d5530dd39da5c2bcc079f315f604166ff0de",
+  "nl_BE-rdh-medium.onnx": "fb1a9d89ff53dbd510c5d10bd1365c36a5f76249c3ca603076646fd778003db1",
+  "nl_BE-rdh-medium.onnx.json": "65deb256664d22099b0db5bb36d96237a3e32e43885c6ce4ee6811e6c04a8d79",
 };
 async function integrityOk(url, blob) {
   const expected = VOICE_SHA256[url.split("/").at(-1)];

@@ -141,3 +141,13 @@ test("deux tableaux sur une même page : chacun lu une fois, dans l’ordre", ()
   assert.equal(pdfPageText([...first.items, between, ...second.items], tree), "A ; B.\nC ; D.\nEntre les deux.\nE ; F.\nG ; H.");
   assert.equal(pdfTables([...first.items, between, ...second.items], tree).length, 2);
 });
+
+test("première ligne balisée TH mais pleine de phrases : pas répétée devant chaque ligne", () => {
+  // Syllabus Word : la première entrée d’un lexique est balisée TH alors que ce n’est pas un en-tête.
+  const f = simpleTable([
+    ["aantekening, de mv: de aantekeningen Mag ik je aantekeningen bekijken?", "la note Puis-je regarder tes notes ?"],
+    ["blokken (blokte – heeft geblokt)", "étudier beaucoup, bûcher"],
+  ], { roles: [["TH", "TH"], ["TD", "TD"]] });
+  assert.deepEqual(pdfTables(f.items, f.tree).map((table) => table.labeled), [false]);
+  assert.match(pdfPageText(f.items, f.tree), /\nblokken \(blokte – heeft geblokt\) ; étudier beaucoup, bûcher\.$/);
+});

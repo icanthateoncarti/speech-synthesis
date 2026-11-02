@@ -95,6 +95,74 @@ export function detectLanguage(text) {
   return en >= 3 && en > fr * 1.5 ? "en" : "fr";
 }
 
+// Lexique néerlandais–français : chaque moitié de ligne est lue avec la voix de sa langue.
+// « de », « en », « je », « te » existent dans les deux langues et ne comptent pas.
+const NL_WORDS = new Set("het een van is zijn heeft hebben ik jij hij zij wij ze niet met voor op aan naar mag kan wil ook maar dat dit die er om uit bij tot mv geen wat hoe waar wie nog zo of over was werd wordt worden".split(" "));
+const SHARED_NL_FR = new Set(["de", "en"]);
+const NL_SPELLING = /ij|aa|oo|uu|sch|oe/u;
+const FR_ACCENT = /[éèêàçùûîôâ]/u;
+const SEGMENT_SEPARATOR = /\s+(?:[;=:→]|[-–—])\s+|\t+/gu;
+
+// Coupe aux séparateurs hors parenthèses : « blokken (blokte – heeft geblokt) » reste entier.
+function splitOutsideParens(chunk) {
+  let depth = 0, masked = "";
+  for (const char of chunk) {
+    if (char === "(") depth++;
+    masked += depth > 0 ? "_".repeat(char.length) : char;
+    if (char === ")" && depth > 0) depth--;
+  }
+  const pieces = [];
+  let start = 0;
+  for (const match of masked.matchAll(SEGMENT_SEPARATOR)) {
+    pieces.push(chunk.slice(start, match.index));
+    start = match.index + match[0].length;
+  }
+  pieces.push(chunk.slice(start));
+  return pieces;
+}
+
+function languageScores(text) {
+  let nl = 0, fr = 0;
+  const lower = String(text).toLowerCase();
+  for (const word of lower.match(/\p{L}+/gu) ?? []) {
+    if (NL_WORDS.has(word)) nl++;
+    else if (NL_SPELLING.test(word)) nl += 0.5;
+    if (FR_WORDS.has(word) && !SHARED_NL_FR.has(word)) fr++;
+    else if (FR_ACCENT.test(word)) fr += 0.5;
+  }
+  fr += (lower.match(/(?:^|[\s(])[ldjnmsc][’']\p{L}/gu) ?? []).length;
+  return { nl, fr };
+}
+
+export function hasDutch(text) {
+  const { nl, fr } = languageScores(String(text).slice(0, 20_000));
+  return nl >= 5 && nl >= fr * 0.3;
+}
+
+// Découpe un morceau en segments de même langue (« blokken ; bûcher » → nl puis fr).
+export function languageSegments(chunk, fallback = "fr") {
+  const pieces = splitOutsideParens(chunk).map((piece) => piece.trim()).filter((piece) => hasSpeakableContent(piece));
+  const langs = pieces.map((piece) => {
+    const { nl, fr } = languageScores(piece);
+    return nl > fr ? "nl" : fr > nl ? "fr" : null;
+  });
+  // Mot sans indice (« college, het » reconnu, « bachelor » non) : dans un lexique,
+  // les langues alternent, on prend l’inverse du voisin.
+  const other = (lang) => (lang === "nl" ? "fr" : "nl");
+  for (let i = 0; i < langs.length; i++) {
+    if (langs[i]) continue;
+    const prev = langs[i - 1], next = langs.slice(i + 1).find(Boolean);
+    langs[i] = prev ? other(prev) : next ? other(next) : fallback;
+  }
+  const segments = [];
+  pieces.forEach((text, i) => {
+    const last = segments.at(-1);
+    if (last?.lang === langs[i]) last.text += ` ; ${text}`;
+    else segments.push({ text, lang: langs[i] });
+  });
+  return segments;
+}
+
 const TITLE_END = /[.!?…;:,]$/u;
 const BULLET = /^(?:[-–—•*·▪◦]|\d+[.)])\s/u;
 const LIST_MARK = /[•●▪◦‣]/u;

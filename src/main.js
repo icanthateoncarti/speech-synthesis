@@ -1,7 +1,7 @@
 import { initialState, reduce, audioKey, statusLine } from "./machine.js";
 import { createTts } from "./tts.js";
 import { createPlayer } from "./player.js";
-import { hasSpeakableContent, splitIntoChunks, wordTimeline, detectLanguage } from "./text.js";
+import { hasSpeakableContent, splitIntoChunks, wordTimeline, detectLanguage, hasDutch } from "./text.js";
 import { wavDuration } from "./audio.js";
 import { exportMp3Audio } from "./mp3-export.js";
 import { buildReadingIndex, generatedDuration, navigationTarget, timeAtTextOffset, textOffsetAtTime } from "./navigation.js";
@@ -255,7 +255,11 @@ function preload() {
   const relevant = () => preloadJob === job && state.voice === job.voice && detectLanguage(state.text) === job.lang;
   tts.preload(job.voice, { lang, onProgress(pct) {
     if (relevant() && hasSpeakableContent(state.text) && !playbackActive) dispatch({ type: "DOWNLOAD_PROGRESS", pct });
-  } }).then(() => { if (relevant() && !synthesis) dispatch({ type: "STOP" }); })
+  } }).then(() => {
+    if (relevant() && !synthesis) dispatch({ type: "STOP" });
+    // Lexique NL–FR : la voix néerlandaise se télécharge aussi, en silence.
+    if (relevant() && job.lang === "fr" && hasDutch(state.text)) tts.preload(job.voice, { lang: "nl" }).catch(() => {});
+  })
     .catch((error) => {
       if (!relevant()) return;
       preloadJob = null;

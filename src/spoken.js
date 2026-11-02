@@ -189,6 +189,8 @@ function pronounce(token, previous, next, lang) {
 const OPENERS = {
   fr: new Map([["(", "entre parenthèses"], ["[", "entre crochets"], ["«", "entre guillemets"], ["“", "entre guillemets"], ["„", "entre guillemets"], ['"', "entre guillemets"]]),
   en: new Map([["(", "in parentheses"], ["[", "in brackets"], ["«", "in quotes"], ["“", "in quotes"], ["„", "in quotes"], ['"', "in quotes"]]),
+  // Lexique néerlandais : « (blokte – heeft geblokt) » se lit comme une incise, sans annonce.
+  nl: new Map([["(", ""], ["[", ""], ["«", ""], ["“", ""], ["„", ""], ['"', ""]]),
 };
 const ARROWS_EN = [
   [/<->|<=>|[↔⇔⟷⟺]/gu, ", both ways, "],
@@ -246,7 +248,7 @@ export function spokenWords(words, lang = "fr") {
       if (first === '"' && quoted) break;
       if (!openers.has(first)) break;
       if (first === '"') quoted = true;
-      prefix += `, ${openers.get(first)}, `;
+      prefix += openers.get(first) ? `, ${openers.get(first)}, ` : ", ";
       word = word.slice(1);
     }
     if (word.includes('"')) { quoted = false; word = word.replaceAll('"', ","); }
@@ -260,7 +262,7 @@ export function spokenWords(words, lang = "fr") {
     word = word.replace(/[-_.…·•─=*]{3,}/gu, (run) => run === "..." ? run : ",");
     word = word.replace(/[•●▪◦‣]/gu, ",");
     word = word.replace(/\p{L}+(?:-\p{L}+)*/gu, (token) => pronounce(token, words[k - 1], words[k + 1], lang))
-      .replace(/&/g, lang === "en" ? " and " : " et ")
+      .replace(/&/g, lang === "en" ? " and " : lang === "nl" ? " en " : " et ")
       .replace(/^(\d{4})\/(\d{4})/u, "$1, $2");
     if (lang === "fr") {
       word = word.replace(/^1(?:er)(?=$|\P{L})/iu, "premier")

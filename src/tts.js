@@ -1,14 +1,16 @@
 // API de synthèse côté page. Découpe le texte, envoie un morceau à la fois au worker
 // (src/tts-worker.js), recolle les WAV. Le texte ne quitte jamais le navigateur.
-import { splitIntoParts, titlePauses, speedToLengthScale, detectLanguage } from "./text.js";
+import { splitIntoParts, titlePauses, speedToLengthScale, detectLanguage, hasDutch, languageSegments } from "./text.js";
 import { spokenText } from "./spoken.js";
-import { concatWavsAsync, concatWavBlobs, parseWav, padWav, wavDuration } from "./audio.js";
+import { concatWavs, concatWavsAsync, concatWavBlobs, parseWav, padWav, wavDuration } from "./audio.js";
 import { createSpeechCache } from "./speech-cache.js";
 
 export const VOICES = { jessica: "fr_FR-upmc-medium", tom: "fr_FR-tom-medium" };
 // Texte anglais : mêmes positions du bouton, voix anglaises libres de droits
 // (Kristin : LibriVox, domaine public ; Joe : CC0).
 export const ENGLISH_VOICES = { jessica: "en_US-kristin-medium", tom: "en_US-joe-medium" };
+// Néerlandais de Belgique, pour les lexiques NL–FR (rdh : CC0, entraînée de zéro).
+export const DUTCH_VOICES = { jessica: "nl_BE-nathalie-medium", tom: "nl_BE-rdh-medium" };
 
 function ttsError(kind, message) {
   const err = new Error(message);
@@ -17,7 +19,7 @@ function ttsError(kind, message) {
 }
 
 const voiceIdOf = (voice, lang = "fr") => {
-  const voices = lang === "en" ? ENGLISH_VOICES : VOICES;
+  const voices = lang === "en" ? ENGLISH_VOICES : lang === "nl" ? DUTCH_VOICES : VOICES;
   const id = Object.hasOwn(voices, voice) ? voices[voice] : null;
   if (!id) throw ttsError("other", `voix inconnue : ${voice}`);
   return id;
@@ -92,7 +94,8 @@ export function createTts() {
 
   async function synthesize({ text, voice, speed, titles = [] }, { onProgress, onChunk, onPrepared, audioStore, blob = false } = {}) {
     const lang = detectLanguage(text);
-    const voiceId = voiceIdOf(voice, lang);
+    voiceIdOf(voice, lang); // voix inconnue : échoue avant tout travail
+    const bilingual = lang === "fr" && hasDutch(text);
     const parts = splitIntoParts(text, undefined, titles);
     const chunks = parts.map((part) => part.text);
     const pauses = titlePauses(parts);
@@ -116,30 +119,39 @@ export function createTts() {
           lastYield = performance.now();
         }
         if (gen !== generation) throw cancelled();
-        let spoken = spokenText(chunks[i], lang);
-        // Short list labels often have no punctuation in slides. Give the voice
-        // a clear ending as well as the explicit pause added outside the cache.
-        if (parts[i].listStart && !/[.!?…;:,]$/u.test(spoken)) spoken += ".";
-        const message = { type: "synthesize", text: spoken, voiceId, lengthScale };
-        const cacheKey = JSON.stringify(["vits-pcm-v1", voiceId, lengthScale, message.text]);
-        let wav = cache.get(cacheKey) ?? await audioStore?.get(cacheKey);
-        if (!wav) {
-          try {
-            wav = await request(message, onProgress);
-          } catch (error) {
+        // Lexique néerlandais–français : chaque moitié de ligne avec la voix de sa langue.
+        const pieces = bilingual ? languageSegments(chunks[i], lang) : [];
+        const segments = pieces.length ? pieces : [{ text: chunks[i], lang }];
+        const segmentWavs = [];
+        for (let k = 0; k < segments.length; k++) {
+          let spoken = spokenText(segments[k].text, segments[k].lang);
+          // Short list labels often have no punctuation in slides. Give the voice
+          // a clear ending as well as the explicit pause added outside the cache.
+          if (k === segments.length - 1 && parts[i].listStart && !/[.!?…;:,]$/u.test(spoken)) spoken += ".";
+          const segmentVoiceId = voiceIdOf(voice, segments[k].lang);
+          const message = { type: "synthesize", text: spoken, voiceId: segmentVoiceId, lengthScale };
+          const cacheKey = JSON.stringify(["vits-pcm-v1", segmentVoiceId, lengthScale, message.text]);
+          let segmentWav = cache.get(cacheKey) ?? await audioStore?.get(cacheKey);
+          if (!segmentWav) {
+            try {
+              segmentWav = await request(message, onProgress);
+            } catch (error) {
+              if (gen !== generation) throw cancelled();
+              if (error.kind !== "other") throw error;
+              // Une seule reprise du morceau courant après un arrêt du moteur.
+              // Aucun morceau déjà lu n'est rejoué et une erreur réseau reste explicite.
+              segmentWav = await request(message, onProgress);
+            }
             if (gen !== generation) throw cancelled();
-            if (error.kind !== "other") throw error;
-            // Une seule reprise du morceau courant après un arrêt du moteur.
-            // Aucun morceau déjà lu n'est rejoué et une erreur réseau reste explicite.
-            wav = await request(message, onProgress);
+            cache.put(cacheKey, segmentWav);
           }
           if (gen !== generation) throw cancelled();
-          cache.put(cacheKey, wav);
+          await audioStore?.put(cacheKey, segmentWav);
+          onPrepared?.(cacheKey, new Blob([segmentWav], { type: "audio/wav" }));
+          if (gen !== generation) throw cancelled();
+          segmentWavs.push(segmentWav);
         }
-        if (gen !== generation) throw cancelled();
-        await audioStore?.put(cacheKey, wav);
-        onPrepared?.(cacheKey, new Blob([wav], { type: "audio/wav" }));
-        if (gen !== generation) throw cancelled();
+        let wav = segmentWavs.length === 1 ? segmentWavs[0] : concatWavs(segmentWavs);
         wav = padWav(wav, pauses[i].before, pauses[i].after);
         sampleRate ??= parseWav(wav).sampleRate;
         wavs.push(blob ? new Blob([wav], { type: "audio/wav" }) : wav);
