@@ -436,6 +436,15 @@ const PPTX_TYPE = "application/vnd.openxmlformats-officedocument.presentationml.
 const formatOf = (file) => /\.pptx$/i.test(file.name) || file.type === PPTX_TYPE ? "pptx"
   : /\.pdf$/i.test(file.name) || file.type === "application/pdf" ? "pdf" : null;
 
+// Sur téléphone, le nom du fichier et la barre de lecture apparaissent à l'import et poussent
+// PARLE et MP3 sous le bord de l'écran : on défile juste assez pour les garder en vue,
+// sans cacher plus de la moitié du texte importé sur les plus petits écrans.
+function revealSpeakKey() {
+  const text = screen.getBoundingClientRect();
+  const top = Math.min($("key-speak").getBoundingClientRect().bottom - innerHeight + 8, text.top + text.height / 2);
+  if (top > 0) scrollBy({ top, behavior: "instant" });
+}
+
 async function importDocument(file, { example = false } = {}) {
   if (!file) return;
   const format = formatOf(file);
@@ -473,7 +482,7 @@ async function importDocument(file, { example = false } = {}) {
     }
     typeOnScreen(document.text);
     dispatch({ type: "TEXT_CHANGED", text: document.text }); rebuildIndex();
-    screen.focus({ preventScroll: true }); preload();
+    screen.focus({ preventScroll: true }); revealSpeakKey(); preload();
     countUsage(example ? "import-example" : `import-${scanned ? "pdf-scan" : format}`);
     if (document.truncated) message("TEXTE COUPÉ À 2 MILLIONS DE CARACTÈRES", 8000);
   } catch (error) {

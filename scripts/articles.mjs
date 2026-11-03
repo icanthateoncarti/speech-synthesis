@@ -175,7 +175,7 @@ export const ARTICLES = [{
         "Sur un écran tactile, faire glisser le doigt fait défiler les pages et ne surligne rien. Tu peux donc parcourir tout le cours sans marquer un passage par erreur. Si tu ne marques rien, tout le texte est lu. Tu peux surligner seulement le chapitre de demain avec « À lire », ou garder tout le cours et passer la page de garde et la bibliographie en « À sauter ». Appuie ensuite sur « Revenir à la radio ».",
         "Si le nom de l’école ou du cours revient en haut ou en bas de chaque page, la radio le repère et affiche le bouton NETTOYER. Un clic retire ces répétitions, un second les remet. Sur le cours d’exemple, l’écran indique alors « 1 RÉPÉTITION RETIRÉE ». Ton fichier d’origine n’est jamais modifié."
       ],
-      figure: { src: "/assets/guides/radio-telephone.jpg", width: 780, height: 1400, narrow: true, alt: "La radio orange sur un écran de téléphone : le cours d’exemple Moyenne et médiane importé, le premier chapitre à l’écran, les touches PAGES et NETTOYÉ, puis IMPORTER, EXEMPLE et EFFACE.", caption: "Le cours d’exemple sur un écran de téléphone, après un clic sur NETTOYER. Les touches PARLE et MP3 sont juste en dessous : fais défiler la page." }
+      figure: { src: "/assets/guides/radio-telephone.jpg", width: 780, height: 1400, narrow: true, alt: "La radio orange sur un écran de téléphone : le cours d’exemple Moyenne et médiane importé, le premier chapitre à l’écran, les touches PAGES et NETTOYÉ, puis IMPORTER, EXEMPLE et EFFACE.", caption: "Le cours d’exemple sur un écran de téléphone, après un clic sur NETTOYER. Les touches PARLE et MP3 sont juste en dessous." }
     },
     {
       id: "scan", title: "3. Si ton PDF est fait de photos ou de pages scannées",
@@ -187,7 +187,7 @@ export const ARTICLES = [{
     {
       id: "voix", title: "4. Règle la voix, puis écoute un premier passage",
       paragraphs: [
-        "Fais défiler la page jusqu’aux commandes de la radio. La langue est détectée dans le texte : un cours en anglais est lu par une voix anglaise, sans traduction. Il y a deux voix par langue, en français et en anglais. Le bouton rotatif change de voix et le curseur VITESSE règle le débit de 0,7× à 1,5×.",
+        "Les commandes de la radio sont sous l’écran, avec PARLE et MP3 tout en bas. La langue est détectée dans le texte : un cours en anglais est lu par une voix anglaise, sans traduction. Il y a deux voix par langue, en français et en anglais. Le bouton rotatif change de voix et le curseur VITESSE règle le débit de 0,7× à 1,5×.",
         "Appuie sur PARLE. La première fois, la radio télécharge la voix sur ton téléphone : l’écran affiche « CHARGEMENT VOIX » avec un pourcentage. Ensuite, la voix reste dans le cache de ton navigateur. Si ton forfait mobile est limité, fais ce premier essai en wifi.",
         "Pendant l’écoute, les touches de 30 secondes te font reculer ou avancer, et la liste des chapitres, en bas de l’écran, t’emmène directement à une partie du cours. PARLE devient PAUSE, puis REPRENDRE."
       ]
