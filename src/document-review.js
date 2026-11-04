@@ -128,7 +128,7 @@ export function reviewDocument({ text, file, extract, signal }) {
           onProgress: value => { if (active) feedback.textContent = value; } });
         if (!active) return;
         editor.value = doc.text;
-        feedback.textContent = doc.truncated ? "Document limité : 500 pages, 50 pages reconnues ou 2 millions de caractères. Vérifie le texte avant de le mettre dans la radio." : "Nouveau texte prêt. Vérifie surtout les noms, les nombres et les tableaux.";
+        feedback.textContent = doc.truncated ? "Document limité : 5 000 pages, 50 pages reconnues ou 2 millions de caractères. Vérifie le texte avant de le mettre dans la radio." : "Nouveau texte prêt. Vérifie surtout les noms, les nombres et les tableaux.";
       } catch (error) { if (active) feedback.textContent = error.name === "AbortError" ? "Annulé" : "Lecture impossible : " + error.message; }
       finally { controller = null; if (active) { rebuild.disabled = false; validity(); } }
     };

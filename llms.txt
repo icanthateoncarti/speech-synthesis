@@ -17,9 +17,10 @@ Contact : [Signaler un problème](https://github.com/icanthateoncarti/speech-syn
 - [Comment écouter ses cours PDF ou PowerPoint pour réviser](https://speechsynthe.si/ecouter-ses-cours.md): Un cours à réviser dans le train ou en marchant ? Prépare ton PDF ou PowerPoint, retire les répétitions et emporte le MP3. Exemple et captures à l’appui.
 - [Comment convertir un PowerPoint de cours en MP3](https://speechsynthe.si/powerpoint-en-mp3.md): Transforme les diapos de ton cours PowerPoint (.pptx) en MP3 à écouter hors ligne, une diapo par chapitre. Ce que la voix lit, ce qu’elle laisse de côté.
 - [Comment lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone.md): Ton cours PDF lu à voix haute sur ton téléphone, sans installer d’application : choisis les pages du doigt, écoute, puis garde le MP3 pour le trajet.
+- [Comment faire lire à voix haute un PDF scanné](https://speechsynthe.si/pdf-scanne-a-voix-haute.md): Polycopié passé au scanner ou photos de pages : fais reconnaître le texte sur ton appareil, corrige-le, puis écoute ton cours ou garde le MP3.
 
 ## Machine-readable
-- [Contenu complet](https://speechsynthe.si/llms-full.txt): les 8 pages réunies.
+- [Contenu complet](https://speechsynthe.si/llms-full.txt): les 9 pages réunies.
 - [Catalogue Markdown](https://speechsynthe.si/markdown-catalog.json): correspondance entre les pages HTML et Markdown.
 - [Sitemap](https://speechsynthe.si/sitemap.xml): pages HTML publiques.
 - [Politique IA](https://speechsynthe.si/ai.txt): permissions, restrictions et attribution.

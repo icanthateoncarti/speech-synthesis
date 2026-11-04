@@ -1,4 +1,4 @@
-import { normalizeText } from "./text.js";
+import { joinScanLines, normalizeText } from "./text.js";
 import { normalizeWithMap } from "./text-map.js";
 import { pdfTables, renderPdfTable } from "./pdf-tables.js";
 import { pdfFragments } from "./document-cleanup.js";
@@ -240,7 +240,7 @@ export async function extractPdfDocument(file, { signal, layout = "native", ocr 
           onProgress(`Reconnaissance de la page ${n}/${document.numPages} sur cet appareil…`);
           recognizer ??= await (await import("./ocr.js")).createOcr({ lang, signal });
           const detected = await recognizer.recognize(page);
-          if (detected.trim()) raw = detected;
+          if (detected.trim()) raw = joinScanLines(detected);
           spans.fill(-1); recognized++;
         } else if (ocr) truncated = true;
       }

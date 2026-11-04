@@ -11,6 +11,12 @@ export function normalizeText(raw) {
     .trim();
 }
 
+// Le texte reconnu sur un scan garde les retours à la ligne de la page : une ligne
+// qui continue en minuscule est la suite de la même phrase, pas un titre.
+export function joinScanLines(text) {
+  return String(text).replace(/[^\S\n]*\n[^\S\n]*(?=\p{Ll})/gu, " ");
+}
+
 export function hasSpeakableContent(text) {
   return SPEAKABLE.test(text);
 }

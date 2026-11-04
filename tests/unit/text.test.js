@@ -37,3 +37,12 @@ test("wordTimeline enchaîne les morceaux", () => {
   assert.equal(tl[3].end, 1.5);
   for (let i = 1; i < tl.length; i++) assert.ok(tl[i].start >= tl[i - 1].end - 1e-9);
 });
+test("joinScanLines recolle les lignes d'un scan sans perdre titres ni paragraphes", async () => {
+  const { joinScanLines, splitIntoParts } = await import("../../src/text.js");
+  const ocr = "Chapitre 3 — La photosynthèse\n\nElle se déroule dans\nles chloroplastes. Le\nrendement reste faible.\n\nLa phase claire produit de l'ATP.\nGroupe A : 1 284 cm2.";
+  const joined = joinScanLines(ocr);
+  assert.equal(joined, "Chapitre 3 — La photosynthèse\n\nElle se déroule dans les chloroplastes. Le rendement reste faible.\n\nLa phase claire produit de l'ATP.\nGroupe A : 1 284 cm2.");
+  const parts = splitIntoParts(joined);
+  assert.deepEqual(parts.filter((p) => p.title).map((p) => p.text), ["Chapitre 3 — La photosynthèse"]);
+  assert.ok(parts.some((p) => p.text === "Le rendement reste faible."));
+});
