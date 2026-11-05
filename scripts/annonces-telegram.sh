@@ -37,7 +37,18 @@ send() {
   [[ "$response" == *'"ok":true'* ]]
 }
 
-git -C "$REPO" fetch --quiet origin main 2>>"$LOG" || { log "git fetch impossible"; exit 0; }
+# Réseau absent (Mac qui se réveille, Wi-Fi qui tombe) : on ne signale qu'après 3 échecs de suite,
+# et on écrit une ligne quand ça remarche, car le cockpit affiche la dernière ligne du journal.
+FAILS="$COMMON/annonces-telegram.echecs"
+if ! git -C "$REPO" -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=30 fetch --quiet origin main 2>/dev/null; then
+  n=$(( $(cat "$FAILS" 2>/dev/null || echo 0) + 1 )); echo "$n" > "$FAILS"
+  (( n == 3 )) && log "git fetch impossible depuis 3 passages (réseau ou GitHub)"
+  exit 0
+fi
+if [[ -s "$FAILS" ]]; then
+  (( $(cat "$FAILS") >= 3 )) && log "git fetch rétabli"
+  rm -f "$FAILS"
+fi
 
 while IFS= read -r file; do
   [[ "$file" =~ ^annonces/[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+\.md$ ]] || continue
