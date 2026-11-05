@@ -5,6 +5,7 @@ import { startServer, launch } from "./harness.mjs";
 
 const QUESTIONS = [
   "Est-ce gratuit, même pour télécharger le MP3 ?",
+  "Est-ce utile si je suis dys ?",
   "Est-ce que mon cours est résumé ?",
   "Mon document reste-t-il privé ?",
   "Est-ce que ça fonctionne avec un PDF scanné ?",

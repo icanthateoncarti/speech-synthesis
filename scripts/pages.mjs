@@ -292,6 +292,10 @@ export const HOME = {
       "Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement."
     ],
     [
+      "Est-ce utile si je suis dys ?",
+      "Oui. La radio a été créée par un étudiant dys pour réviser en écoutant ses cours. Elle lit à voix haute ton PDF ou ton PowerPoint, à la vitesse que tu choisis, pour t’éviter de déchiffrer de longs textes. Elle ne remplace pas un accompagnement ni des aménagements."
+    ],
+    [
       "Est-ce que mon cours est résumé ?",
       "Non. La radio lit le texte extrait de ton document, sans le résumer ni le reformuler : un long cours peut donc donner plusieurs heures d’audio. Tu peux choisir les passages à écouter et retirer les répétitions."
     ],

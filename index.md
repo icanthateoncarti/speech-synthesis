@@ -3,7 +3,7 @@
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/
-Last updated: 2026-11-04
+Last updated: 2026-11-05
 
 ## Révise tes cours en les écoutant
 
@@ -22,6 +22,10 @@ La radio lit le texte de ton cours sans le résumer : les explications et les ex
 ### Est-ce gratuit, même pour télécharger le MP3 ?
 
 Oui. L’écoute et le téléchargement MP3 sont gratuits, sans compte ni abonnement.
+
+### Est-ce utile si je suis dys ?
+
+Oui. La radio a été créée par un étudiant dys pour réviser en écoutant ses cours. Elle lit à voix haute ton PDF ou ton PowerPoint, à la vitesse que tu choisis, pour t’éviter de déchiffrer de longs textes. Elle ne remplace pas un accompagnement ni des aménagements.
 
 ### Est-ce que mon cours est résumé ?
 
