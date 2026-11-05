@@ -1,3 +1,4 @@
+import "./stream-iteration.js";
 import { joinScanLines, normalizeText } from "./text.js";
 import { normalizeWithMap } from "./text-map.js";
 import { pdfTables, renderPdfTable } from "./pdf-tables.js";
