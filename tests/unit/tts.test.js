@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createTts } from "../../src/tts.js";
+import { createTts, enginePlan } from "../../src/tts.js";
 import { encodeWav, wavDuration } from "../../src/audio.js";
 
 test("listes : même pause dans les passages en direct, le WAV exporté et le cache", async () => {
@@ -46,10 +46,11 @@ test("un moteur interrompu est recréé et seul le morceau courant est repris", 
   };
   try {
     const chunks = [];
-    const result = await createTts().synthesize({ text: "Première phrase. Deuxième phrase. Troisième phrase.", voice: "tom", speed: 1 }, {
+    const result = await createTts({ workers: 1 }).synthesize({ text: "Première phrase. Deuxième phrase. Troisième phrase.", voice: "tom", speed: 1 }, {
       onChunk: (_wav, index) => chunks.push(index),
     });
-    assert.deepEqual(messages, ["Première phrase.", "Deuxième phrase.", "Deuxième phrase.", "Troisième phrase."]);
+    // La phrase suivante part avant la reprise (préparation en avance), mais rien n'est rejoué deux fois.
+    assert.deepEqual(messages, ["Première phrase.", "Deuxième phrase.", "Troisième phrase.", "Deuxième phrase."]);
     assert.deepEqual(chunks, [0, 1, 2]);
     assert.equal(workers.length, 2);
     assert.equal(workers[0].terminated, true);
@@ -111,4 +112,48 @@ test("réutiliser les passages sans confondre voix, vitesse, langue ni pauses de
     await assert.rejects(tts.synthesize(input, { onChunk() { calls++; tts.cancel(); } }), e => e.kind === "cancelled");
     assert.equal(calls, 1, "l’annulation fonctionne aussi sans worker occupé");
   } finally { globalThis.Worker = NativeWorker; }
+});
+
+test("plusieurs moteurs : l'ordre de lecture est gardé et la voix se télécharge une seule fois", async () => {
+  const NativeWorker = globalThis.Worker;
+  const workers = [];
+  globalThis.Worker = class {
+    constructor() { this.messages = []; workers.push(this); }
+    postMessage(message) {
+      this.messages.push(message);
+      // Les réponses arrivent dans le désordre : la phrase la plus longue finit en dernier.
+      const seconds = message.type === "download" ? 0.05 : 0.2 + message.text.length / 2000;
+      const delay = message.type === "download" ? 5 : 40 - message.text.length / 4;
+      setTimeout(() => this.onmessage({ data: { id: message.id, type: "done", wav: encodeWav(new Int16Array(Math.round(22050 * seconds)), 22050) } }), delay);
+    }
+    terminate() {}
+  };
+  try {
+    const tts = createTts({ workers: 3, threads: 2 });
+    const sentences = ["Une phrase bien plus longue que les autres, pour finir après elles.", "Court.", "Moyenne phrase ici.", "Bref.", "Encore une.", "Fin."];
+    const order = [];
+    const promise = tts.synthesize({ text: sentences.join(" "), voice: "jessica", speed: 1 }, { onChunk: (_wav, i) => order.push(i) });
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    assert.equal(workers.length, 1, "voix pas encore en cache : un seul moteur la prépare");
+    const result = await promise;
+    assert.deepEqual(order, [0, 1, 2, 3, 4, 5]);
+    assert.deepEqual(result.chunks, sentences);
+    assert.ok(workers.length > 1 && workers.length <= 3, `moteurs : ${workers.length}`);
+    const sent = workers.flatMap((w) => w.messages);
+    assert.equal(sent.length, sentences.length, "chaque phrase est calculée une fois");
+    assert.ok(sent.every((m) => m.threads === 2));
+    // Même résultat, au même échantillon près, qu'avec un seul moteur.
+    const alone = await createTts({ workers: 1 }).synthesize({ text: sentences.join(" "), voice: "jessica", speed: 1 });
+    assert.deepEqual(result.durations, alone.durations);
+    assert.deepEqual(new Uint8Array(result.wav), new Uint8Array(alone.wav));
+  } finally { globalThis.Worker = NativeWorker; }
+});
+
+test("plan des moteurs selon l'appareil", () => {
+  assert.deepEqual(enginePlan({ cores: 10, isolated: true, memoryGb: 8 }), { workers: 2, threads: 4 });
+  assert.deepEqual(enginePlan({ cores: 10, isolated: false }), { workers: 3, threads: 1 });
+  assert.deepEqual(enginePlan({ cores: 6, isolated: false }), { workers: 2, threads: 1 });
+  assert.deepEqual(enginePlan({ cores: 6, isolated: true, mobile: true }), { workers: 1, threads: 4 }, "iPhone : mémoire inconnue, un seul moteur");
+  assert.deepEqual(enginePlan({ cores: 8, isolated: false, memoryGb: 2 }), { workers: 1, threads: 1 });
+  assert.deepEqual(enginePlan({ cores: 2, isolated: true }), { workers: 1, threads: 2 });
 });

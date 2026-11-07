@@ -1,6 +1,6 @@
 // Worker module : fait tourner vits-web (phonémisation + ONNX) hors du fil de la page.
 // Un message = une tâche ; les tâches passent l'une après l'autre.
-//   reçoit : { id, type: "synthesize", text, voiceId, lengthScale } | { id, type: "download", voiceId }
+//   reçoit : { id, type: "synthesize", text, voiceId, lengthScale, threads } | { id, type: "download", voiceId, threads }
 //   envoie : { id, type: "progress", pct } | { id, type: "done", wav? } | { id, type: "error", kind, message }
 // Les workers ignorent l'import map de la page. Propager la version au moteur
 // évite qu'un worker neuf récupère une ancienne copie depuis le cache HTTP.
@@ -120,6 +120,8 @@ const toPct = (p) => (p?.total > 0 ? Math.min(100, Math.round((p.loaded * 100) /
 
 async function run(msg) {
   const { id, type, voiceId } = msg;
+  // Fils de calcul ONNX, fixés au premier chargement du moteur (page isolée seulement).
+  self.ttsThreads ??= msg.threads;
   const { predict, prepareVoice, PATH_MAP } = await loadEngine();
   if (!(voiceId in PATH_MAP)) throw new Error(`voix inconnue : ${voiceId}`);
   let last = -1;

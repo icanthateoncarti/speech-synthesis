@@ -78,3 +78,14 @@ Licence : MIT (champ `license` du `package.json` ; le dépôt amont n'a pas de f
    - `u` pointe sur la révision `840e38a7e26d813bd6221b78cfbaefa3585b3f71` du dépôt `diffusionstudio/piper-voices` au lieu de la branche mutable `resolve/main`.
    - `VOICE_SHA256` contient l'empreinte SHA-256 des 8 fichiers des 4 voix du site (modèles : empreintes LFS publiées par HuggingFace ; configurations : calculées, empreinte git recoupée avec l'API). `S` refuse un téléchargement dont l'empreinte diffère, avant toute mise en cache ; `f` vérifie aussi un fichier déjà en cache et le remplace s'il est abîmé. Une voix absente de la liste est refusée.
    - Pour ajouter ou mettre à jour une voix : nouvelle révision, nouvelles empreintes, puis `tests/e2e/tts.test.mjs` (« intégrité des voix »).
+
+6. **Nombre de fils de calcul fixé par la page (2026-11-07).**
+
+   ```diff
+   - _.env.wasm.numThreads = globalThis.crossOriginIsolated ? Math.max(1, Math.min(4, …)) : 1;
+   + _.env.wasm.numThreads = globalThis.crossOriginIsolated ? globalThis.ttsThreads ?? Math.max(1, Math.min(4, …)) : 1;
+   ```
+
+   `src/tts.js` lance plusieurs moteurs et répartit les cœurs entre eux (`enginePlan`) ;
+   `src/tts-worker.js` pose `self.ttsThreads` avant le premier chargement. Plusieurs fils
+   exigent une page isolée, que le service worker fournit (`src/offline-worker.js`).

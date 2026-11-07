@@ -279,7 +279,7 @@ async function prepareVoice(voiceId, onProgress) {
       import("https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/wasm/+esm")
     ]);
     _.env.wasm.numThreads = globalThis.crossOriginIsolated
-      ? Math.max(1, Math.min(4, Math.floor((navigator.hardwareConcurrency || 2) / 2))) : 1;
+      ? globalThis.ttsThreads ?? Math.max(1, Math.min(4, Math.floor((navigator.hardwareConcurrency || 2) / 2))) : 1;
     _.env.wasm.wasmPaths = B;
   }
   const [voice] = await Promise.all([voiceSession(voiceId, onProgress), preparePhonemizer()]);

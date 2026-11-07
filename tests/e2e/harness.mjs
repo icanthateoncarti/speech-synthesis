@@ -36,6 +36,8 @@ const PRIVATE = /(^|\/)(\.[^/]*|node_modules|\.chrome-profile)(\/|$)|^\/docs\/se
 
 async function handle(req, res) {
   try {
+    // COI=1 : servir comme le service worker de production (page isolée, voir src/offline-worker.js).
+    if (process.env.COI) { res.setHeader("Cross-Origin-Opener-Policy", "same-origin"); res.setHeader("Cross-Origin-Embedder-Policy", "require-corp"); }
     const { port } = req.socket.address();
     if (![`127.0.0.1:${port}`, `localhost:${port}`].includes(req.headers.host)) {
       res.writeHead(421).end();
@@ -77,9 +79,14 @@ function listen(server, port) {
   });
 }
 
-export async function startServer() {
+// slow : { "/chemin": millisecondes } retarde ces réponses (ex. ralentir l'installation du service worker).
+export async function startServer({ slow = {} } = {}) {
   if (process.env.BASE_URL) return { url: process.env.BASE_URL.replace(/\/$/, ""), close: async () => {} };
-  const server = http.createServer(handle);
+  const server = http.createServer((req, res) => {
+    const wait = slow[new URL(req.url, "http://x").pathname];
+    if (wait) setTimeout(() => handle(req, res), wait);
+    else handle(req, res);
+  });
   try {
     await listen(server, PREFERRED_PORT);
   } catch (err) {
@@ -101,6 +108,7 @@ export async function launch({
   viewport = { width: 1340, height: 900 },
   reducedMotion = false,
   drafts = false,
+  isolationReload = false,
 } = {}) {
   const browser = await puppeteer.launch({
     executablePath: CHROME,
@@ -120,6 +128,15 @@ export async function launch({
     await block(page);
     const newPage = browser.newPage.bind(browser);
     browser.newPage = async (...args) => { const p = await newPage(...args); await block(p); return p; };
+  }
+  // À la première visite, la page se recharge une fois pour être isolée (src/boot.js) :
+  // un rechargement au milieu d'un test le casserait. Chaque onglet se fait passer pour
+  // ce rechargement déjà fait ; seul tests/e2e/isolation.test.mjs le laisse se produire.
+  if (!isolationReload) {
+    const skip = p => p.evaluateOnNewDocument(() => { try { sessionStorage.setItem("radio-isolation", "1"); } catch {} });
+    await skip(page);
+    const newPage = browser.newPage.bind(browser);
+    browser.newPage = async (...args) => { const p = await newPage(...args); await skip(p); return p; };
   }
   if (reducedMotion) {
     await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);

@@ -3,7 +3,7 @@
 > Transforme les diapos de ton cours PowerPoint (.pptx) en MP3 à écouter hors ligne, une diapo par chapitre. Ce que la voix lit, ce qu’elle laisse de côté.
 
 Canonical: https://speechsynthe.si/powerpoint-en-mp3/
-Last updated: 2026-11-05
+Last updated: 2026-11-07
 
 Ton prof a déposé son cours en PowerPoint et tu voudrais le réviser dans le bus ou en marchant. Avec speechsynthe.si, tu importes le fichier .pptx, la radio lit le texte de tes diapos et tu télécharges le MP3. C’est gratuit, sans compte, et ta présentation est lue sur ton appareil.
 
