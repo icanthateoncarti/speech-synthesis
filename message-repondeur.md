@@ -3,7 +3,7 @@
 > Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/message-repondeur/
-Last updated: 2026-11-07
+Last updated: 2026-11-09
 
 ## Exemples de textes
 
@@ -81,3 +81,4 @@ Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pend
 - [Comment convertir un PowerPoint de cours en MP3](https://speechsynthe.si/powerpoint-en-mp3/)
 - [Comment lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone/)
 - [Comment faire lire à voix haute un PDF scanné](https://speechsynthe.si/pdf-scanne-a-voix-haute/)
+- [Combien de temps dure l’écoute d’un cours lu par une voix de synthèse ?](https://speechsynthe.si/temps-lecture-voix-haute/)

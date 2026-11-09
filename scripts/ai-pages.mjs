@@ -16,6 +16,10 @@ export function renderMarkdown(page, date) {
     if (page.sample) lines.push("## Essaie avec un petit cours", "", escapeMarkdown(page.sample.description), "", link(page.sample.label, absolute(page.sample.href)), "");
     for (const section of page.sections) {
       lines.push(`## ${escapeMarkdown(section.title)}`, "", ...section.paragraphs.flatMap(text => [escapeMarkdown(text), ""]));
+      if (section.table) {
+        const row = (cells) => `| ${cells.map(escapeMarkdown).join(" | ")} |`;
+        lines.push(escapeMarkdown(section.table.caption), "", row(section.table.head), `|${section.table.head.map(() => " --- |").join("")}`, ...section.table.rows.map(row), "");
+      }
       if (section.figure) lines.push(`![${escapeMarkdown(section.figure.alt)}](${absolute(section.figure.src)})`, "", escapeMarkdown(section.figure.caption), "");
     }
     if (page.related?.length) lines.push("## À lire aussi", "", ...page.related.map(r => `- ${link(r.label, absolute(r.href))} : ${escapeMarkdown(r.text)}`), "");

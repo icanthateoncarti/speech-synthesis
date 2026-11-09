@@ -108,3 +108,29 @@ test('guide téléphone : capture étroite sur ordinateur, liens croisés et pie
   assert.ok(await page.$('.usages a[href="/pdf-voix-haute-telephone/"]'));
   assert.deepEqual(errors,[]);
 });
+
+test('guide durée d’écoute : tableaux lisibles sur mobile, textes mesurés téléchargeables, liens croisés', async () => {
+  await page.setJavaScriptEnabled(true);
+  await page.setViewport({width:1280,height:900});
+  const errors=[];
+  page.on('console', msg=>{if(msg.type()==='error') errors.push(msg.text());});
+  await page.goto(server.url+'/temps-lecture-voix-haute/',{waitUntil:'networkidle0'});
+  assert.match(await page.$eval('h1',el=>el.textContent), /voix de synthèse/);
+  assert.equal(await page.$eval('.article-toc h2',el=>el.textContent),'Dans cette page');
+  const tables=await page.$$eval('.article-table table',els=>els.map(t=>({caption:t.caption?.textContent,cols:t.querySelectorAll('thead th').length,rows:t.querySelectorAll('tbody tr').length,rowHeads:t.querySelectorAll('tbody th[scope=row]').length})));
+  assert.equal(tables.length,2);
+  for(const t of tables){ assert.ok(t.caption); assert.ok(t.rows>0); assert.equal(t.rowHeads,t.rows); }
+  for(const file of ['texte-mesure-duree.txt','texte-mesure-duree-chiffres.txt']) assert.equal((await fetch(server.url+'/assets/guides/'+file)).status,200);
+  assert.equal(await page.$eval('.article-sample a',a=>a.getAttribute('href')),'/assets/guides/texte-mesure-duree.txt');
+  for(const href of await page.$$eval('.article-toc a',els=>els.map(el=>el.getAttribute('href')))) assert.ok(await page.$(href));
+  for(const href of await page.$$eval('.article-related a',els=>els.map(el=>el.getAttribute('href')))) assert.equal((await fetch(server.url+href)).status,200);
+  await page.goto(server.url+'/ecouter-ses-cours/',{waitUntil:'networkidle0'});
+  assert.ok(await page.$('.article-related a[href="/temps-lecture-voix-haute/"]'));
+  // Sur téléphone, le tableau large défile dans son cadre sans élargir la page.
+  await page.setViewport({width:360,height:740});
+  await page.goto(server.url+'/temps-lecture-voix-haute/',{waitUntil:'networkidle0'});
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
+  await page.click('.article-button');
+  assert.ok(await page.$('.usages a[href="/temps-lecture-voix-haute/"]'));
+  assert.deepEqual(errors,[]);
+});

@@ -19,6 +19,13 @@
 .article-body img { display: block; width: 100%; height: auto; border-radius: 16px; }
 .article-body figure.narrow { max-width: 360px; margin-inline: auto; }
 .article-body figcaption { font-size: 14px; line-height: 1.5; color: #615f58; margin: 12px 24px 0; }
+.article-table { margin: 28px 0; overflow-x: auto; }
+.article-table table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.45; font-variant-numeric: tabular-nums; }
+.article-table caption { text-align: left; font-size: 14px; color: #615f58; padding-bottom: 10px; }
+.article-table th, .article-table td { padding: 9px 12px 9px 0; border-bottom: 1px solid #c8c4b7; text-align: left; vertical-align: top; }
+.article-table thead th { font-weight: 700; border-bottom-width: 2px; }
+.article-table tbody th { font-weight: 600; }
+.article-table td { white-space: nowrap; }
 .article-sample { margin: 36px 0; padding: 26px 30px; border: 1px solid #c8c4b7; border-left: 4px solid var(--orange); border-radius: 4px 16px 16px 4px; }
 .article-sample h2, .article-toc h2 { font-size: 21px; }
 .article-sample p { margin: 0 0 14px; font-size: 16px; }
@@ -45,4 +52,6 @@
   .article-body figure { margin: 28px -10px; }
   .article-body figcaption { margin-inline: 10px; }
   .article-sample, .article-cta { padding: 24px; }
+  .article-table table { font-size: 15px; }
+  .article-table th, .article-table td { padding-right: 9px; }
 }

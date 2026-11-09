@@ -1,0 +1,15 @@
+Exercice corrigé : moyenne, médiane et étendue.
+
+Un professeur relève les notes sur 20 de 11 étudiants à un test de statistique : 8 ; 9,5 ; 11 ; 12 ; 12 ; 13,5 ; 14 ; 14 ; 15 ; 17 ; 19,5.
+
+Première question : calculer la moyenne. On additionne les 11 notes, ce qui donne 145,5. On divise ensuite par 11. La moyenne vaut donc environ 13,23 sur 20, soit 13,2 en arrondissant au dixième.
+
+Deuxième question : trouver la médiane. Les notes sont déjà rangées dans l’ordre croissant. Avec 11 valeurs, la médiane est la 6e valeur, puisqu’il y a 5 notes avant elle et 5 notes après. La médiane vaut donc 13,5 sur 20.
+
+Troisième question : calculer l’étendue. C’est la différence entre la note la plus haute et la note la plus basse : 19,5 moins 8, soit 11,5 points.
+
+Quatrième question : que se passe-t-il si l’étudiant qui a obtenu 8 avait eu 2 ? La somme passe de 145,5 à 139,5. La moyenne tombe à 139,5 divisé par 11, soit environ 12,68, donc 12,7 sur 20. La médiane, elle, ne change pas : la 6e note reste 13,5. L’étendue passe à 17,5 points.
+
+Conclusion : une seule valeur extrême fait baisser la moyenne d’un peu plus d’un demi-point, mais laisse la médiane intacte. Quand une série contient des valeurs très éloignées des autres, la médiane décrit mieux la note typique du groupe.
+
+Pour t’entraîner : reprends la série de départ et remplace la note de 19,5 par 20. Calcule la nouvelle moyenne, la médiane et l’étendue, puis vérifie que la médiane vaut toujours 13,5 et que l’étendue vaut maintenant 12 points.

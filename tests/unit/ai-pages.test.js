@@ -60,6 +60,10 @@ test("le même contenu source alimente le Markdown, le recueil et les données s
     assert.ok(md.startsWith(`# ${page.title}\n`));
     assert.ok(md.includes(`Canonical: ${absolute(pagePath(page))}`));
     for (const text of page.kind === "article" ? [page.description, page.intro, page.premise, ...page.sections.flatMap(s => [s.title, ...s.paragraphs])] : [page.description, ...page.guide.steps, page.guide.why, ...page.faq.flat(), ...(page.manual ?? []).flat(), ...(page.examples ?? []).flat()]) assert.ok(md.includes(escapeMarkdown(text)), text);
+    for (const table of page.kind === "article" ? page.sections.filter(s => s.table).map(s => s.table) : []) {
+      assert.ok(md.includes(escapeMarkdown(table.caption)));
+      for (const row of [table.head, ...table.rows]) assert.ok(md.includes(`| ${row.map(escapeMarkdown).join(" | ")} |`), row.join(" | "));
+    }
     const html = renderPage(template, page);
     const ld = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
     if (page.kind === "article") {

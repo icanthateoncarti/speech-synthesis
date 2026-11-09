@@ -6,6 +6,7 @@ export function renderArticle(page, version) {
   const url = absolute(pagePath(page));
   const displayDate = new Intl.DateTimeFormat("fr-BE", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(page.updated));
   const figure = (f) => `<figure${f.narrow ? ' class="narrow"' : ""}><a href="${f.src}" aria-label="Agrandir la capture"><img src="${f.src}" width="${f.width}" height="${f.height}" alt="${esc(f.alt)}" loading="lazy" decoding="async"></a><figcaption>${esc(f.caption)}</figcaption></figure>`;
+  const table = (t) => `<div class="article-table"><table><caption>${esc(t.caption)}</caption><thead><tr>${t.head.map(h => `<th scope="col">${esc(h)}</th>`).join("")}</tr></thead><tbody>${t.rows.map(([first, ...cells]) => `<tr><th scope="row">${esc(first)}</th>${cells.map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
   const images = page.sections.filter(s => s.figure).map(s => absolute(s.figure.src));
   const schema = { "@context": "https://schema.org", "@type": "Article", headline: page.h1, description: page.description, mainEntityOfPage: url, datePublished: page.published, dateModified: page.updated, inLanguage: "fr", author: { "@type": "Organization", name: SITE.name, url: SITE.url }, image: images };
   return `<!doctype html>
@@ -43,8 +44,8 @@ ${json(schema)}
     <article>
       <header class="article-heading"><p class="article-kicker">LE GUIDE ÉTUDIANT</p><h1>${esc(page.h1)}</h1><p class="article-date">Par speechsynthe.si · <time datetime="${page.updated}">${displayDate}</time></p><p class="article-intro">${esc(page.intro)}</p></header>
       <p>${esc(page.premise)}</p>
-${page.sample ? `      <aside class="article-sample"><h2>Essaie avec un petit cours</h2><p>${esc(page.sample.description)}</p><a href="${page.sample.href}" download>${esc(page.sample.label)} <span aria-hidden="true">↓</span></a></aside>\n` : ""}      <nav class="article-toc" aria-label="Dans ce guide"><h2>Du fichier au MP3</h2><ol>${page.sections.map(s => `<li><a href="#${s.id}">${esc(s.title.replace(/^\d+\. /, ""))}</a></li>`).join("")}</ol></nav>
-${page.sections.map(s => `      <section id="${s.id}"><h2>${esc(s.title)}</h2>${s.paragraphs.map(p => `<p>${esc(p)}</p>`).join("")}${s.figure ? figure(s.figure) : ""}</section>`).join("\n")}
+${page.sample ? `      <aside class="article-sample"><h2>Essaie avec un petit cours</h2><p>${esc(page.sample.description)}</p><a href="${page.sample.href}" download>${esc(page.sample.label)} <span aria-hidden="true">↓</span></a></aside>\n` : ""}      <nav class="article-toc" aria-label="Dans ce guide"><h2>${esc(page.tocTitle ?? "Du fichier au MP3")}</h2><ol>${page.sections.map(s => `<li><a href="#${s.id}">${esc(s.title.replace(/^\d+\. /, ""))}</a></li>`).join("")}</ol></nav>
+${page.sections.map(s => `      <section id="${s.id}"><h2>${esc(s.title)}</h2>${s.paragraphs.map(p => `<p>${esc(p)}</p>`).join("")}${s.table ? table(s.table) : ""}${s.figure ? figure(s.figure) : ""}</section>`).join("\n")}
 ${page.related?.length ? `      <nav class="article-related" aria-label="À lire aussi"><h2>À lire aussi</h2><ul>${page.related.map(r => `<li><a href="${r.href}">${esc(r.label)}</a> : ${esc(r.text)}</li>`).join("")}</ul></nav>\n` : ""}      <aside class="article-cta"><h2>Commence par quelques pages</h2><p>Importe un passage, écoute le résultat et garde les réglages qui te conviennent.</p><a class="article-button" href="/">Écouter mon cours <span aria-hidden="true">→</span></a><a href="/#mode-emploi">Consulter le mode d’emploi</a></aside>
     </article>
   </main>

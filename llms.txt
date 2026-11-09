@@ -18,9 +18,10 @@ Contact : [Signaler un problème](https://github.com/icanthateoncarti/speech-syn
 - [Comment convertir un PowerPoint de cours en MP3](https://speechsynthe.si/powerpoint-en-mp3.md): Transforme les diapos de ton cours PowerPoint (.pptx) en MP3 à écouter hors ligne, une diapo par chapitre. Ce que la voix lit, ce qu’elle laisse de côté.
 - [Comment lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone.md): Ton cours PDF lu à voix haute sur ton téléphone, sans installer d’application : choisis les pages du doigt, écoute, puis garde le MP3 pour le trajet.
 - [Comment faire lire à voix haute un PDF scanné](https://speechsynthe.si/pdf-scanne-a-voix-haute.md): Polycopié passé au scanner ou photos de pages : fais reconnaître le texte sur ton appareil, corrige-le, puis écoute ton cours ou garde le MP3.
+- [Combien de temps dure l’écoute d’un cours lu par une voix de synthèse ?](https://speechsynthe.si/temps-lecture-voix-haute.md): Mesuré sur un cours de 669 mots : 188 mots par minute avec la voix Jessica, 175 avec Tom. Durées de 1 000 à 10 000 mots et effet de la vitesse.
 
 ## Machine-readable
-- [Contenu complet](https://speechsynthe.si/llms-full.txt): les 9 pages réunies.
+- [Contenu complet](https://speechsynthe.si/llms-full.txt): les 10 pages réunies.
 - [Catalogue Markdown](https://speechsynthe.si/markdown-catalog.json): correspondance entre les pages HTML et Markdown.
 - [Sitemap](https://speechsynthe.si/sitemap.xml): pages HTML publiques.
 - [Politique IA](https://speechsynthe.si/ai.txt): permissions, restrictions et attribution.
