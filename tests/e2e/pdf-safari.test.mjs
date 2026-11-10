@@ -6,7 +6,7 @@ import os from "node:os";
 import { startServer, launch } from "./harness.mjs";
 
 // Safari ne sait pas parcourir un ReadableStream avec « for await » : sans
-// src/stream-iteration.js, tout import de PDF y échoue avec « PDF ILLISIBLE ».
+// src/stream-iteration.js, tout import de PDF y échoue avec « PDF NON LU ».
 let server, browser, page, fixtures;
 
 before(async () => {
@@ -34,6 +34,6 @@ test("PDF importé sans itération asynchrone des flux, comme dans Safari", { ti
   await page.waitForSelector('#key-speak[aria-pressed="false"]');
   await (await page.$("#pdf-input")).uploadFile(path.join(fixtures, "texte.pdf"));
   await page.waitForFunction(() => document.querySelector("textarea")?.value.includes("Bonjour depuis Safari")
-    || document.body.innerText.includes("ILLISIBLE"), { timeout: 30_000 });
+    || document.querySelector("#status-left").textContent.startsWith("PDF "), { timeout: 30_000 });
   assert.match(await page.$eval("textarea", (el) => el.value), /Bonjour depuis Safari/);
 });

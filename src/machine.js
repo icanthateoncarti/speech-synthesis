@@ -15,6 +15,15 @@ function withInvalidation(state, patch) {
   return next;
 }
 
+// Cause d'un import raté, pour dire quoi faire au lieu d'un « illisible » fourre-tout.
+const BROKEN_FILE = new Set(["InvalidPDFException", "FormatError", "InvalidPptx"]);
+export function importFailureCause(error, online = true) {
+  if (error?.name === "PasswordException") return "password";
+  if (BROKEN_FILE.has(error?.name)) return "invalid";
+  if (!online || /Failed to fetch|NetworkError|network error|dynamically imported module|Importing a module script failed|Load failed/i.test(String(error?.message ?? error))) return "network";
+  return "other";
+}
+
 export function reduce(state, event) {
   switch (event.type) {
     // Événements de résultat : ne touchent pas à notice/error (sauf ERROR/PDF_EMPTY).
@@ -32,7 +41,7 @@ export function reduce(state, event) {
     case "PDF_EMPTY":
       return { ...state, error: null, notice: `${event.format ?? "pdf"}-empty` };
     case "PDF_ERROR":
-      return { ...state, phase: "idle", error: null, notice: `${event.format ?? "pdf"}-${event.password ? "password" : "invalid"}` };
+      return { ...state, phase: "idle", error: null, notice: `${event.format ?? "pdf"}-${event.cause ?? "invalid"}` };
   }
 
   // Événements d'action : effacent notice et error avant leur propre effet.
@@ -81,7 +90,10 @@ export function statusLine(state) {
   else if (state.notice === "empty") left = "ÉCRAN VIDE";
   else if (/-empty$/.test(state.notice)) left = `${formatName(state.notice)} SANS TEXTE`;
   else if (/-password$/.test(state.notice)) left = `${formatName(state.notice)} PROTÉGÉ · DÉVERROUILLE-LE`;
-  else if (/-invalid$/.test(state.notice)) left = `${formatName(state.notice)} ILLISIBLE · RÉESSAIE`;
+  else if (state.notice === "pdf-invalid") left = "PDF ABÎMÉ · RETÉLÉCHARGE-LE";
+  else if (/-invalid$/.test(state.notice)) left = `${formatName(state.notice)} ABÎMÉ · RÉENREGISTRE-LE`;
+  else if (/-network$/.test(state.notice)) left = "CONNEXION COUPÉE · RÉESSAIE";
+  else if (/-other$/.test(state.notice)) left = `${formatName(state.notice)} NON LU · RECHARGE LA PAGE`;
   else if (state.phase === "downloading") left = `CHARGEMENT VOIX ${Math.round(state.downloadPct ?? 0)} %`;
   else if (PHASE_LABELS[state.phase]) left = PHASE_LABELS[state.phase];
   else left = state.audio?.mp3 ? "✓ MP3 PRÊT" : "PRÊT";

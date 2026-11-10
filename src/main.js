@@ -1,4 +1,4 @@
-import { initialState, reduce, audioKey, statusLine } from "./machine.js";
+import { initialState, reduce, audioKey, statusLine, importFailureCause } from "./machine.js";
 import { createTts } from "./tts.js";
 import { createPlayer } from "./player.js";
 import { hasSpeakableContent, splitIntoChunks, wordTimeline, detectLanguage, hasDutch } from "./text.js";
@@ -528,7 +528,7 @@ async function importDocument(file, { example = false } = {}) {
     pdfBusy = false;
     countUsage(`import-error-${format}`);
     if (error.name === "TooLargeError") { message("FICHIER TROP VOLUMINEUX", 6000); return; }
-    dispatch({ type: "PDF_ERROR", format, password: error.name === "PasswordException" });
+    dispatch({ type: "PDF_ERROR", format, cause: importFailureCause(error, navigator.onLine) });
   } finally {
     if (importJob === job) importJob = null;
   }

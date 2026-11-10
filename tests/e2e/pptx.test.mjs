@@ -117,7 +117,7 @@ test("S02 : bombe de décompression refusée, texte précédent conservé ; ZIP 
   await page.waitForFunction(() => document.querySelector("#status-left").textContent === "FICHIER TROP VOLUMINEUX", { timeout: 30_000 });
   assert.equal(await page.$eval("#screen", (el) => el.value), "Gardé.");
   await (await page.$("#pdf-input")).uploadFile(path.join(fixtures, "truque.pptx"));
-  await page.waitForFunction(() => document.querySelector("#status-left").textContent === "PPTX ILLISIBLE · RÉESSAIE", { timeout: 30_000 });
+  await page.waitForFunction(() => document.querySelector("#status-left").textContent === "PPTX ABÎMÉ · RÉENREGISTRE-LE", { timeout: 30_000 });
   assert.equal(await page.$eval("#screen", (el) => el.value), "Gardé.");
 });
 

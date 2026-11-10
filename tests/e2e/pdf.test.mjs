@@ -55,7 +55,7 @@ test("PDF scanné et invalide : message explicite, texte précédent conservé",
   await page.click("#review-close");
   assert.equal(await page.$eval("#screen", el => el.value), "Gardé.");
   await upload("invalid.pdf");
-  await page.waitForFunction(() => document.querySelector("#status-left").textContent === "PDF ILLISIBLE · RÉESSAIE");
+  await page.waitForFunction(() => document.querySelector("#status-left").textContent === "PDF ABÎMÉ · RETÉLÉCHARGE-LE");
   assert.equal(await page.$eval("#screen", el => el.value), "Gardé.");
 });
 

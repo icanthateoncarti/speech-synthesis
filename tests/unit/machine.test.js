@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { initialState, audioKey, reduce, statusLine } from "../../src/machine.js";
+import { initialState, audioKey, reduce, statusLine, importFailureCause } from "../../src/machine.js";
 
 test("état initial : Jessica, 1.0×, PRÊT", () => {
   assert.deepEqual(statusLine(initialState()), { left: "PRÊT", right: "VOIX : JESSICA · VITESSE 1.0×" });
@@ -36,6 +36,22 @@ test("erreurs et avis", () => {
   assert.equal(statusLine(reduce(initialState(), { type: "ERROR", kind: "network" })).left, "ERREUR RÉSEAU · RÉESSAIE");
   const s = reduce({ ...initialState(), text: "Gardé." }, { type: "PDF_EMPTY" });
   assert.equal(statusLine(s).left, "PDF SANS TEXTE"); assert.equal(s.text, "Gardé.");
+});
+test("import raté : la cause dit quoi faire", () => {
+  const named = (name, message = "") => Object.assign(new Error(message), { name });
+  assert.equal(importFailureCause(named("PasswordException")), "password");
+  assert.equal(importFailureCause(named("InvalidPDFException")), "invalid");
+  assert.equal(importFailureCause(named("InvalidPptx")), "invalid");
+  assert.equal(importFailureCause(new TypeError("Failed to fetch dynamically imported module: https://speechsynthe.si/src/pdf.js")), "network");
+  assert.equal(importFailureCause(new TypeError("Importing a module script failed.")), "network");
+  assert.equal(importFailureCause(new TypeError("x is not async iterable"), false), "network");
+  assert.equal(importFailureCause(new TypeError("x is not async iterable")), "other");
+  const line = (format, cause) => statusLine(reduce(initialState(), { type: "PDF_ERROR", format, cause })).left;
+  assert.equal(line("pdf", "invalid"), "PDF ABÎMÉ · RETÉLÉCHARGE-LE");
+  assert.equal(line("pptx", "invalid"), "PPTX ABÎMÉ · RÉENREGISTRE-LE");
+  assert.equal(line("pptx", "password"), "PPTX PROTÉGÉ · DÉVERROUILLE-LE");
+  assert.equal(line("pdf", "network"), "CONNEXION COUPÉE · RÉESSAIE");
+  assert.equal(line("pdf", "other"), "PDF NON LU · RECHARGE LA PAGE");
 });
 test("vitesse et voix dans la partie droite", () => {
   let s = reduce(initialState(), { type: "VOICE_CHANGED", voice: "tom" });
