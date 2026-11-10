@@ -3,7 +3,7 @@
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/
-Last updated: 2026-11-09
+Last updated: 2026-11-10
 
 ## Révise tes cours en les écoutant
 
@@ -33,7 +33,7 @@ Non. La radio lit le texte extrait de ton document, sans le résumer ni le refor
 
 ### Mon document reste-t-il privé ?
 
-Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours.
+Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Seule exception, si tu la choisis : MP3 RAPIDE envoie le texte à Microsoft Azure pour fabriquer le MP3 d’un long cours en quelques secondes. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours.
 
 ### Est-ce que ça fonctionne avec un PDF scanné ?
 
@@ -41,7 +41,7 @@ Oui, la radio peut reconnaître le texte des pages scannées, en français ou en
 
 ### Pourquoi la préparation de l’audio prend-elle du temps ?
 
-La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache.
+La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone : pour son MP3, MP3 RAPIDE le fabrique en quelques secondes, en envoyant le texte à Microsoft Azure. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache.
 
 ### Puis-je écouter mon cours sans connexion ?
 

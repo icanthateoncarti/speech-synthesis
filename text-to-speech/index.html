@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-LaPohAu40EVZ3J4zBYONoOYYFlWmY4Id//woMOnay3Q=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9wGDozqmPKx34l3oobzrPw10nJbVN2BnEit4ioIi5M4=' https://cdn.jsdelivr.net https://static.cloudflareinsights.com; worker-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://cdn.jsdelivr.net https://cloudflareinsights.com https://speechsynthesi-sharing.speech-synthesis.workers.dev; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Text to speech gratuit — texte en voix, français et anglais</title>
   <meta name="description" content="Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.">
@@ -82,7 +82,7 @@
       "name": "Mon document reste-t-il privé ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
+        "text": "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Seule exception, si tu la choisis : MP3 RAPIDE envoie le texte à Microsoft Azure pour fabriquer le MP3 d’un long cours en quelques secondes. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
       }
     },
     {
@@ -90,7 +90,7 @@
       "name": "Pourquoi la préparation de l’audio prend-elle du temps ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
+        "text": "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone : pour son MP3, MP3 RAPIDE le fabrique en quelques secondes, en envoyant le texte à Microsoft Azure. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
       }
     },
     {
@@ -113,56 +113,57 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/assets/fonts/dotgothic16-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles/machine.css?v=f87f12730b">
+  <link rel="stylesheet" href="/styles/machine.css?v=87f0cfbdad">
   <script type="importmap">
   {
     "imports": {
       "@paper-design/shaders": "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.82/+esm",
       "@breezystack/lamejs": "https://cdn.jsdelivr.net/npm/@breezystack/lamejs@1.2.7/+esm",
       "pdfjs-dist": "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.4.299/build/pdf.min.mjs",
-      "/src/article.js": "/src/article.js?v=f87f12730b",
-      "/src/audio.js": "/src/audio.js?v=f87f12730b",
-      "/src/boot.js": "/src/boot.js?v=f87f12730b",
-      "/src/document-cleanup.js": "/src/document-cleanup.js?v=f87f12730b",
-      "/src/document-review.js": "/src/document-review.js?v=f87f12730b",
-      "/src/library-dialog.js": "/src/library-dialog.js?v=f87f12730b",
-      "/src/library-store.js": "/src/library-store.js?v=f87f12730b",
-      "/src/limits.js": "/src/limits.js?v=f87f12730b",
-      "/src/machine.js": "/src/machine.js?v=f87f12730b",
-      "/src/main.js": "/src/main.js?v=f87f12730b",
-      "/src/mp3-encode.js": "/src/mp3-encode.js?v=f87f12730b",
-      "/src/mp3-export.js": "/src/mp3-export.js?v=f87f12730b",
-      "/src/mp3-stream.js": "/src/mp3-stream.js?v=f87f12730b",
-      "/src/mp3-worker.js": "/src/mp3-worker.js?v=f87f12730b",
-      "/src/navigation.js": "/src/navigation.js?v=f87f12730b",
-      "/src/ocr-worker.js": "/src/ocr-worker.js?v=f87f12730b",
-      "/src/ocr.js": "/src/ocr.js?v=f87f12730b",
-      "/src/offline-worker.js": "/src/offline-worker.js?v=f87f12730b",
-      "/src/pages.js": "/src/pages.js?v=f87f12730b",
-      "/src/pdf-layout.js": "/src/pdf-layout.js?v=f87f12730b",
-      "/src/pdf-tables.js": "/src/pdf-tables.js?v=f87f12730b",
-      "/src/pdf-worker.js": "/src/pdf-worker.js?v=f87f12730b",
-      "/src/pdf.js": "/src/pdf.js?v=f87f12730b",
-      "/src/player.js": "/src/player.js?v=f87f12730b",
-      "/src/pptx.js": "/src/pptx.js?v=f87f12730b",
-      "/src/selection.js": "/src/selection.js?v=f87f12730b",
-      "/src/session-data.js": "/src/session-data.js?v=f87f12730b",
-      "/src/shader.js": "/src/shader.js?v=f87f12730b",
-      "/src/share-config.js": "/src/share-config.js?v=f87f12730b",
-      "/src/share-crypto.js": "/src/share-crypto.js?v=f87f12730b",
-      "/src/share-dialog.js": "/src/share-dialog.js?v=f87f12730b",
-      "/src/share-location.js": "/src/share-location.js?v=f87f12730b",
-      "/src/share.js": "/src/share.js?v=f87f12730b",
-      "/src/speech-cache.js": "/src/speech-cache.js?v=f87f12730b",
-      "/src/spoken.js": "/src/spoken.js?v=f87f12730b",
-      "/src/stream-iteration.js": "/src/stream-iteration.js?v=f87f12730b",
-      "/src/text-map.js": "/src/text-map.js?v=f87f12730b",
-      "/src/text.js": "/src/text.js?v=f87f12730b",
-      "/src/tts-worker.js": "/src/tts-worker.js?v=f87f12730b",
-      "/src/tts.js": "/src/tts.js?v=f87f12730b",
-      "/src/typewriter.js": "/src/typewriter.js?v=f87f12730b",
-      "/src/usage.js": "/src/usage.js?v=f87f12730b",
-      "/src/voice-commands.js": "/src/voice-commands.js?v=f87f12730b"
+      "/src/article.js": "/src/article.js?v=87f0cfbdad",
+      "/src/audio.js": "/src/audio.js?v=87f0cfbdad",
+      "/src/boot.js": "/src/boot.js?v=87f0cfbdad",
+      "/src/document-cleanup.js": "/src/document-cleanup.js?v=87f0cfbdad",
+      "/src/document-review.js": "/src/document-review.js?v=87f0cfbdad",
+      "/src/library-dialog.js": "/src/library-dialog.js?v=87f0cfbdad",
+      "/src/library-store.js": "/src/library-store.js?v=87f0cfbdad",
+      "/src/limits.js": "/src/limits.js?v=87f0cfbdad",
+      "/src/machine.js": "/src/machine.js?v=87f0cfbdad",
+      "/src/main.js": "/src/main.js?v=87f0cfbdad",
+      "/src/mp3-encode.js": "/src/mp3-encode.js?v=87f0cfbdad",
+      "/src/mp3-export.js": "/src/mp3-export.js?v=87f0cfbdad",
+      "/src/mp3-fast.js": "/src/mp3-fast.js?v=87f0cfbdad",
+      "/src/mp3-stream.js": "/src/mp3-stream.js?v=87f0cfbdad",
+      "/src/mp3-worker.js": "/src/mp3-worker.js?v=87f0cfbdad",
+      "/src/navigation.js": "/src/navigation.js?v=87f0cfbdad",
+      "/src/ocr-worker.js": "/src/ocr-worker.js?v=87f0cfbdad",
+      "/src/ocr.js": "/src/ocr.js?v=87f0cfbdad",
+      "/src/offline-worker.js": "/src/offline-worker.js?v=87f0cfbdad",
+      "/src/pages.js": "/src/pages.js?v=87f0cfbdad",
+      "/src/pdf-layout.js": "/src/pdf-layout.js?v=87f0cfbdad",
+      "/src/pdf-tables.js": "/src/pdf-tables.js?v=87f0cfbdad",
+      "/src/pdf-worker.js": "/src/pdf-worker.js?v=87f0cfbdad",
+      "/src/pdf.js": "/src/pdf.js?v=87f0cfbdad",
+      "/src/player.js": "/src/player.js?v=87f0cfbdad",
+      "/src/pptx.js": "/src/pptx.js?v=87f0cfbdad",
+      "/src/selection.js": "/src/selection.js?v=87f0cfbdad",
+      "/src/session-data.js": "/src/session-data.js?v=87f0cfbdad",
+      "/src/shader.js": "/src/shader.js?v=87f0cfbdad",
+      "/src/share-config.js": "/src/share-config.js?v=87f0cfbdad",
+      "/src/share-crypto.js": "/src/share-crypto.js?v=87f0cfbdad",
+      "/src/share-dialog.js": "/src/share-dialog.js?v=87f0cfbdad",
+      "/src/share-location.js": "/src/share-location.js?v=87f0cfbdad",
+      "/src/share.js": "/src/share.js?v=87f0cfbdad",
+      "/src/speech-cache.js": "/src/speech-cache.js?v=87f0cfbdad",
+      "/src/spoken.js": "/src/spoken.js?v=87f0cfbdad",
+      "/src/stream-iteration.js": "/src/stream-iteration.js?v=87f0cfbdad",
+      "/src/text-map.js": "/src/text-map.js?v=87f0cfbdad",
+      "/src/text.js": "/src/text.js?v=87f0cfbdad",
+      "/src/tts-worker.js": "/src/tts-worker.js?v=87f0cfbdad",
+      "/src/tts.js": "/src/tts.js?v=87f0cfbdad",
+      "/src/typewriter.js": "/src/typewriter.js?v=87f0cfbdad",
+      "/src/usage.js": "/src/usage.js?v=87f0cfbdad",
+      "/src/voice-commands.js": "/src/voice-commands.js?v=87f0cfbdad"
     }
   }
   </script>
@@ -305,11 +306,11 @@
     </details>
     <details>
       <summary>Mon document reste-t-il privé ?</summary>
-      <p class="answer">Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours.</p>
+      <p class="answer">Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Seule exception, si tu la choisis : MP3 RAPIDE envoie le texte à Microsoft Azure pour fabriquer le MP3 d’un long cours en quelques secondes. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours.</p>
     </details>
     <details>
       <summary>Pourquoi la préparation de l’audio prend-elle du temps ?</summary>
-      <p class="answer">La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache.</p>
+      <p class="answer">La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone : pour son MP3, MP3 RAPIDE le fabrique en quelques secondes, en envoyant le texte à Microsoft Azure. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache.</p>
     </details>
     <details>
       <summary>Puis-je écouter mon cours sans connexion ?</summary>
@@ -352,7 +353,7 @@
       <a href="/temps-lecture-voix-haute/">Durée d’écoute</a>
     </nav>
     <p>Voix : <a href="https://github.com/rhasspy/piper">Piper</a>. Jessica : jeu de données UPMC, licence CC BY-SA 4.0. Tom : modèle sous licence AGPLv3. Textes en anglais : Kristin (LibriVox, domaine public) et Joe (CC0).</p>
-    <p>Ton texte et tes documents restent sur ton appareil. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
+    <p>Ton texte et tes documents restent sur ton appareil, sauf si tu choisis MP3 rapide. <a href="https://github.com/icanthateoncarti/speech-synthesis">Code source</a></p>
   </footer>
 
 
@@ -385,6 +386,13 @@
     <p>Tu peux supprimer tes liens ici. Effacer les données de ce navigateur retire ce moyen de suppression ; les liens expirent quand même après 7 jours. Un destinataire peut conserver une copie de ton texte.</p>
     <button id="share-close" type="button">Fermer</button>
   </dialog>
+  <dialog id="mp3-dialog" class="cleanup-dialog" aria-labelledby="mp3-title">
+    <h2 id="mp3-title">Ton MP3 en quelques secondes ?</h2>
+    <p>Pour un long cours, ton appareil peut mettre plus de temps à préparer le MP3 qu’à le lire, surtout sur téléphone.</p>
+    <p><strong>MP3 rapide</strong> : prêt en quelques secondes, avec une voix proche. Ton texte est envoyé à Microsoft Azure pour fabriquer l’audio.</p>
+    <p><strong>Sur mon appareil</strong> : ton texte ne sort pas, mais c’est plus long.</p>
+    <div class="cleanup-actions"><button type="button" id="mp3-cancel">Annuler</button><button type="button" id="mp3-local">Sur mon appareil</button><button type="button" id="mp3-fast">MP3 rapide</button></div>
+  </dialog>
   <dialog id="library-dialog" class="cleanup-dialog" aria-labelledby="library-title">
     <h2 id="library-title">Mes cours</h2>
     <p>Enregistre le texte et tes réglages sur cet appareil. Ta position et les passages audio préparés seront conservés. Garde l’onglet ouvert pour terminer la préparation ; tu pourras reprendre après une interruption.</p>
@@ -415,7 +423,7 @@
     <div id="pages-list" class="pages-list"></div>
   </dialog>
 
-  <script type="module" src="/src/boot.js?v=f87f12730b"></script>
-  <script type="module" src="/src/main.js?v=f87f12730b"></script>
+  <script type="module" src="/src/boot.js?v=87f0cfbdad"></script>
+  <script type="module" src="/src/main.js?v=87f0cfbdad"></script>
 </body>
 </html>

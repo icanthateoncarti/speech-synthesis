@@ -4,6 +4,7 @@ import { createPlayer } from "./player.js";
 import { hasSpeakableContent, splitIntoChunks, wordTimeline, detectLanguage, hasDutch } from "./text.js";
 import { wavDuration } from "./audio.js";
 import { exportMp3Audio } from "./mp3-export.js";
+import { FAST_MIN_CHARS, fastAvailable, fastMp3 } from "./mp3-fast.js";
 import { buildReadingIndex, generatedDuration, navigationTarget, timeAtTextOffset, textOffsetAtTime } from "./navigation.js";
 import { createVoiceCommands, parseVoiceCommand } from "./voice-commands.js";
 import { MAX_FILE_BYTES } from "./limits.js";
@@ -134,7 +135,8 @@ function paintPosition(force = false) {
 function paint() {
   const { left, right } = statusLine(state);
   const audioPct = synthesis ? Math.min(100, Math.floor((synthesis.completedChars ?? 0) * 100 / Math.max(1, synthesis.totalChars ?? 0))) : 0;
-  const progress = exportJob?.stage === "encoding" ? `ENCODAGE MP3 ${exportJob.pct} %`
+  const progress = exportJob?.stage === "fast" ? `MP3 RAPIDE ${exportJob.pct} %`
+    : exportJob?.stage === "encoding" ? `ENCODAGE MP3 ${exportJob.pct} %`
     : exportJob ? state.phase === "downloading" && !synthesis?.durations.length ? left : `PRÉPARATION AUDIO ${audioPct} %` : null;
   $("status-left").textContent = state.error ? left : pdfBusy ? "LECTURE DU FICHIER…" : progress ?? note ?? (pendingNavigation ? "PRÉPARATION DU PASSAGE…" : paused && playbackActive ? "⏸ PAUSE" : left);
   $("status-right").textContent = right;
@@ -146,7 +148,7 @@ function paint() {
   speak.setAttribute("aria-label", playbackActive ? paused ? "Reprendre la lecture" : "Mettre en pause" : "Parle");
   speak.setAttribute("aria-pressed", String(playbackActive && !paused));
   $("key-mp3").disabled = Boolean(exportJob);
-  $("key-mp3").textContent = exportJob ? exportJob.stage === "encoding" ? `MP3 ${exportJob.pct} %` : `AUDIO ${audioPct} %` : "⬇ MP3";
+  $("key-mp3").textContent = exportJob ? exportJob.stage === "encoding" || exportJob.stage === "fast" ? `MP3 ${exportJob.pct} %` : `AUDIO ${audioPct} %` : "⬇ MP3";
   $("key-pdf").disabled = pdfBusy;
   const pages = documentInfo.pages;
   $("share-open").hidden = !hasSpeakableContent(state.text) && !createdShares().length;
@@ -407,10 +409,45 @@ function download(mp3, voice) {
   document.body.append(link); link.click(); link.remove();
   setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
+// Long cours dont l'audio n'est pas encore prêt : proposer MP3 RAPIDE (Azure), au choix.
+function chooseMp3Route() {
+  const dialog = $("mp3-dialog");
+  return new Promise((resolve) => {
+    const choose = (route) => () => { dialog.close(); resolve(route); };
+    $("mp3-fast").onclick = choose("fast"); $("mp3-local").onclick = choose("local"); $("mp3-cancel").onclick = choose(null);
+    dialog.oncancel = (event) => { event.preventDefault(); choose(null)(); };
+    dialog.showModal(); $("mp3-fast").focus();
+  });
+}
+async function exportFastMp3() {
+  const text = state.text, lang = detectLanguage(text);
+  const task = { key: audioKey(state), voice: state.voice, controller: new AbortController(), stage: "fast", pct: 0 };
+  exportJob = task; paint();
+  try {
+    const mp3 = await fastMp3(text, {
+      voice: task.voice, lang, speed: state.speed, signal: task.controller.signal,
+      onProgress(pct) { if (exportJob === task) { task.pct = pct; paint(); } },
+    });
+    if (exportJob !== task || task.key !== audioKey(state)) return true;
+    download(mp3, `${task.voice}-rapide`);
+    countUsage("export-mp3-fast");
+    return true;
+  } catch (error) {
+    if (error.name === "AbortError") return true;
+    message(error.kind === "quota" ? "MP3 RAPIDE ÉPUISÉ · MP3 SUR L’APPAREIL" : "MP3 RAPIDE INDISPONIBLE · MP3 SUR L’APPAREIL", 6000);
+    return false;
+  } finally { if (exportJob === task) { exportJob = null; paint(); } }
+}
 async function exportMp3() {
   dispatch({ type: "SPEAK_PRESSED" });
   if (!hasSpeakableContent(state.text) || exportJob || pdfBusy) return;
   const ready = player.unlock();
+  if (!state.audio && state.text.length >= FAST_MIN_CHARS && await fastAvailable()) {
+    const route = await chooseMp3Route();
+    if (!route) return;
+    if (route === "fast" && await exportFastMp3()) return;
+    if (exportJob || !hasSpeakableContent(state.text)) return;
+  }
   const job = ensureSynthesis();
   const task = { key: audioKey(state), voice: state.voice, controller: new AbortController() };
   exportJob = task; paint();
@@ -483,6 +520,7 @@ async function importDocument(file, { example = false } = {}) {
     typeOnScreen(document.text);
     dispatch({ type: "TEXT_CHANGED", text: document.text }); rebuildIndex();
     screen.focus({ preventScroll: true }); revealSpeakKey(); preload();
+    if (document.text.length >= FAST_MIN_CHARS) void fastAvailable();
     countUsage(example ? "import-example" : `import-${scanned ? "pdf-scan" : format}`);
     if (document.truncated) message("TEXTE COUPÉ À 2 MILLIONS DE CARACTÈRES", 8000);
   } catch (error) {

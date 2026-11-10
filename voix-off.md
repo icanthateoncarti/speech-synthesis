@@ -3,7 +3,7 @@
 > Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
 
 Canonical: https://speechsynthe.si/voix-off/
-Last updated: 2026-11-09
+Last updated: 2026-11-10
 
 ## Exemples de textes
 
@@ -43,7 +43,7 @@ Non. La radio propose deux voix par langue, en français et en anglais ; elle ne
 
 ### Mon script est-il envoyé à un service de synthèse vocale ?
 
-Non. La voix est préparée dans ton navigateur, sur ton appareil. Si tu choisis de partager une session, une copie chiffrée du texte est hébergée pendant 7 jours.
+Non. La voix est préparée dans ton navigateur, sur ton appareil. Seul MP3 RAPIDE, si tu le choisis, envoie le texte à Microsoft Azure pour fabriquer le MP3. Si tu choisis de partager une session, une copie chiffrée du texte est hébergée pendant 7 jours.
 
 ## Mode d’emploi
 

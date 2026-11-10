@@ -3,7 +3,7 @@
 > Ton cours PDF lu à voix haute sur ton téléphone, sans installer d’application : choisis les pages du doigt, écoute, puis garde le MP3 pour le trajet.
 
 Canonical: https://speechsynthe.si/pdf-voix-haute-telephone/
-Last updated: 2026-11-09
+Last updated: 2026-11-10
 
 Ton cours est un PDF sur ton téléphone et tu préférerais l’écouter plutôt que de le relire sur un petit écran. Pas besoin d’installer une application : speechsynthe.si s’ouvre dans le navigateur. Tu importes le PDF, la radio le lit à voix haute, et tu peux télécharger le MP3. C’est gratuit et sans compte.
 
@@ -65,7 +65,7 @@ Un tableau, une page à plusieurs colonnes ou une formule passent mal à l’ora
 
 L’écoute sert surtout aux passages rédigés : définitions, explications, textes à connaître. Écoute un chapitre, mets en pause et redis l’essentiel avec tes mots : c’est plus utile que de laisser tourner l’audio pendant une heure. Le guide pour écouter ses cours détaille cette méthode.
 
-Tes documents restent sur ton appareil. Si tu appuies sur PARTAGER, une copie chiffrée du texte et des réglages est envoyée pour créer un lien valable sept jours ; toute personne qui a ce lien peut ouvrir le cours. Réserve-le à un contenu que tu as le droit de partager.
+Tes documents restent sur ton appareil. Si tu appuies sur PARTAGER, une copie chiffrée du texte et des réglages est envoyée pour créer un lien valable sept jours ; toute personne qui a ce lien peut ouvrir le cours. Réserve-le à un contenu que tu as le droit de partager. Si tu choisis MP3 RAPIDE pour un long cours, le texte est envoyé à Microsoft Azure pour fabriquer le MP3 ; sinon, le MP3 est préparé sur ton appareil.
 
 ## À lire aussi
 

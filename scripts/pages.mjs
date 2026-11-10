@@ -39,11 +39,11 @@ export const PAGES = [
       ],
       [
         "Mon document reste-t-il privé ?",
-        "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
+        "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Seule exception, si tu la choisis : MP3 RAPIDE envoie le texte à Microsoft Azure pour fabriquer le MP3 d’un long cours en quelques secondes. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
       ],
       [
         "Pourquoi la préparation de l’audio prend-elle du temps ?",
-        "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
+        "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone : pour son MP3, MP3 RAPIDE le fabrique en quelques secondes, en envoyant le texte à Microsoft Azure. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
       ],
       [
         "Puis-je écouter mon cours sans connexion ?",
@@ -107,11 +107,11 @@ export const PAGES = [
       ],
       [
         "Mon document reste-t-il privé ?",
-        "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
+        "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Seule exception, si tu la choisis : MP3 RAPIDE envoie le texte à Microsoft Azure pour fabriquer le MP3 d’un long cours en quelques secondes. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
       ],
       [
         "Pourquoi la préparation de l’audio prend-elle du temps ?",
-        "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
+        "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone : pour son MP3, MP3 RAPIDE le fabrique en quelques secondes, en envoyant le texte à Microsoft Azure. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
       ],
       [
         "Puis-je écouter mon cours sans connexion ?",
@@ -177,7 +177,7 @@ export const PAGES = [
       ],
       [
         "Mon script est-il envoyé à un service de synthèse vocale ?",
-        "Non. La voix est préparée dans ton navigateur, sur ton appareil. Si tu choisis de partager une session, une copie chiffrée du texte est hébergée pendant 7 jours."
+        "Non. La voix est préparée dans ton navigateur, sur ton appareil. Seul MP3 RAPIDE, si tu le choisis, envoie le texte à Microsoft Azure pour fabriquer le MP3. Si tu choisis de partager une session, une copie chiffrée du texte est hébergée pendant 7 jours."
       ]
     ],
     "manual": [
@@ -301,7 +301,7 @@ export const HOME = {
     ],
     [
       "Mon document reste-t-il privé ?",
-      "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
+      "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Seule exception, si tu la choisis : MP3 RAPIDE envoie le texte à Microsoft Azure pour fabriquer le MP3 d’un long cours en quelques secondes. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
     ],
     [
       "Est-ce que ça fonctionne avec un PDF scanné ?",
@@ -309,7 +309,7 @@ export const HOME = {
     ],
     [
       "Pourquoi la préparation de l’audio prend-elle du temps ?",
-      "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
+      "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone : pour son MP3, MP3 RAPIDE le fabrique en quelques secondes, en envoyant le texte à Microsoft Azure. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
     ],
     [
       "Puis-je écouter mon cours sans connexion ?",

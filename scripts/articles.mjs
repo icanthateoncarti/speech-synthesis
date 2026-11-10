@@ -61,7 +61,7 @@ export const ARTICLES = [{
       id: "limites", title: "Quand garder le cours sous les yeux ?",
       paragraphs: [
         "Pour une liste de notions, un texte de droit ou une explication rédigée, essaie l’écoute et juge si elle te convient. Pour un schéma, une formule ou un tableau, garde le document à portée de main : entendre des nombres sans leur disposition peut faire perdre le sens.",
-        "Les documents sont traités dans ton navigateur. Si tu choisis PARTAGER, une copie chiffrée du texte et des réglages est envoyée pour créer un lien valable sept jours. Toute personne qui possède ce lien peut ouvrir le cours : utilise-le uniquement pour du contenu que tu peux partager."
+        "Les documents sont traités dans ton navigateur. Si tu choisis PARTAGER, une copie chiffrée du texte et des réglages est envoyée pour créer un lien valable sept jours. Toute personne qui possède ce lien peut ouvrir le cours : utilise-le uniquement pour du contenu que tu peux partager. Si tu choisis MP3 RAPIDE pour un long cours, le texte est envoyé à Microsoft Azure pour fabriquer le MP3 ; sinon, le MP3 est préparé sur ton appareil."
       ]
     }
   ]
@@ -215,7 +215,7 @@ export const ARTICLES = [{
       paragraphs: [
         "Un tableau, une page à plusieurs colonnes ou une formule passent mal à l’oral : l’ordre de lecture peut être faux, et entendre des nombres sans leur disposition fait vite perdre le sens. Rien ne décrit une image ou un schéma. Pour ces passages, garde le PDF sous les yeux, ou marque-les « À sauter » et revois-les à part.",
         "L’écoute sert surtout aux passages rédigés : définitions, explications, textes à connaître. Écoute un chapitre, mets en pause et redis l’essentiel avec tes mots : c’est plus utile que de laisser tourner l’audio pendant une heure. Le guide pour écouter ses cours détaille cette méthode.",
-        "Tes documents restent sur ton appareil. Si tu appuies sur PARTAGER, une copie chiffrée du texte et des réglages est envoyée pour créer un lien valable sept jours ; toute personne qui a ce lien peut ouvrir le cours. Réserve-le à un contenu que tu as le droit de partager."
+        "Tes documents restent sur ton appareil. Si tu appuies sur PARTAGER, une copie chiffrée du texte et des réglages est envoyée pour créer un lien valable sept jours ; toute personne qui a ce lien peut ouvrir le cours. Réserve-le à un contenu que tu as le droit de partager. Si tu choisis MP3 RAPIDE pour un long cours, le texte est envoyé à Microsoft Azure pour fabriquer le MP3 ; sinon, le MP3 est préparé sur ton appareil."
       ]
     }
   ]
