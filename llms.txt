@@ -20,6 +20,11 @@ Contact : [Signaler un problème](https://github.com/icanthateoncarti/speech-syn
 - [Comment faire lire à voix haute un PDF scanné](https://speechsynthe.si/pdf-scanne-a-voix-haute.md): Polycopié passé au scanner ou photos de pages : fais reconnaître le texte sur ton appareil, corrige-le, puis écoute ton cours ou garde le MP3.
 - [Combien de temps dure l’écoute d’un cours lu par une voix de synthèse ?](https://speechsynthe.si/temps-lecture-voix-haute.md): Mesuré sur un cours de 669 mots : 188 mots par minute avec la voix Jessica, 175 avec Tom. Durées de 1 000 à 10 000 mots et effet de la vitesse.
 
+## Agents (WebMCP)
+Sur https://speechsynthe.si/, la page déclare deux outils via `document.modelContext`, avec les paramètres `texte` (obligatoire), `voix` (`jessica` ou `tom`) et `vitesse` (0,7 à 1,5) :
+- `lire-a-voix-haute` : lit le texte à voix haute dans le navigateur.
+- `exporter-mp3` : convertit le texte en MP3 et le télécharge.
+
 ## Machine-readable
 - [Contenu complet](https://speechsynthe.si/llms-full.txt): les 10 pages réunies.
 - [Catalogue Markdown](https://speechsynthe.si/markdown-catalog.json): correspondance entre les pages HTML et Markdown.

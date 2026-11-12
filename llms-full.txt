@@ -2,7 +2,7 @@
 
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
-Generated: 2026-11-10
+Generated: 2026-11-12
 
 ---
 <!-- source: https://speechsynthe.si/ -->
@@ -11,7 +11,7 @@ Generated: 2026-11-10
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/
-Last updated: 2026-11-10
+Last updated: 2026-11-12
 
 ## Révise tes cours en les écoutant
 
@@ -104,7 +104,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 > Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/pdf-en-audio/
-Last updated: 2026-11-10
+Last updated: 2026-11-12
 
 ## Glisse ton cours. Écoute-le en sortant.
 
@@ -193,7 +193,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 > Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/text-to-speech/
-Last updated: 2026-11-10
+Last updated: 2026-11-12
 
 ## Colle ton texte. Écoute la suite.
 
@@ -266,7 +266,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 > Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
 
 Canonical: https://speechsynthe.si/voix-off/
-Last updated: 2026-11-10
+Last updated: 2026-11-12
 
 ## Exemples de textes
 
@@ -345,7 +345,7 @@ Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa pos
 > Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/message-repondeur/
-Last updated: 2026-11-10
+Last updated: 2026-11-12
 
 ## Exemples de textes
 
@@ -432,7 +432,7 @@ Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pend
 > Un cours à réviser dans le train ou en marchant ? Prépare ton PDF ou PowerPoint, retire les répétitions et emporte le MP3. Exemple et captures à l’appui.
 
 Canonical: https://speechsynthe.si/ecouter-ses-cours/
-Last updated: 2026-11-10
+Last updated: 2026-11-12
 
 Tu as un cours de vingt pages à revoir et un trajet devant toi. Avec speechsynthe.si, tu peux transformer le texte de ton PDF ou PowerPoint en audio, puis télécharger le MP3 pour l’écouter sans connexion. C’est gratuit et sans compte.
 
@@ -510,7 +510,7 @@ Les documents sont traités dans ton navigateur. Si tu choisis PARTAGER, une cop
 > Transforme les diapos de ton cours PowerPoint (.pptx) en MP3 à écouter hors ligne, une diapo par chapitre. Ce que la voix lit, ce qu’elle laisse de côté.
 
 Canonical: https://speechsynthe.si/powerpoint-en-mp3/
-Last updated: 2026-11-10
+Last updated: 2026-11-12
 
 Ton prof a déposé son cours en PowerPoint et tu voudrais le réviser dans le bus ou en marchant. Avec speechsynthe.si, tu importes le fichier .pptx, la radio lit le texte de tes diapos et tu télécharges le MP3. C’est gratuit, sans compte, et ta présentation est lue sur ton appareil.
 
@@ -593,7 +593,7 @@ Dans les deux cas, l’audio sert mieux la révision si tu l’écoutes par peti
 > Ton cours PDF lu à voix haute sur ton téléphone, sans installer d’application : choisis les pages du doigt, écoute, puis garde le MP3 pour le trajet.
 
 Canonical: https://speechsynthe.si/pdf-voix-haute-telephone/
-Last updated: 2026-11-10
+Last updated: 2026-11-12
 
 Ton cours est un PDF sur ton téléphone et tu préférerais l’écouter plutôt que de le relire sur un petit écran. Pas besoin d’installer une application : speechsynthe.si s’ouvre dans le navigateur. Tu importes le PDF, la radio le lit à voix haute, et tu peux télécharger le MP3. C’est gratuit et sans compte.
 
@@ -675,7 +675,7 @@ Tes documents restent sur ton appareil. Si tu appuies sur PARTAGER, une copie ch
 > Polycopié passé au scanner ou photos de pages : fais reconnaître le texte sur ton appareil, corrige-le, puis écoute ton cours ou garde le MP3.
 
 Canonical: https://speechsynthe.si/pdf-scanne-a-voix-haute/
-Last updated: 2026-11-10
+Last updated: 2026-11-12
 
 Ton cours est un polycopié passé au scanner, ou une série de photos de pages réunies en PDF. Tu l’ouvres pour l’écouter et rien ne se passe : il n’y a pas de texte, seulement des images. Avec speechsynthe.si, tu peux faire reconnaître ce texte dans ton navigateur, le relire, puis l’écouter ou le télécharger en MP3. C’est gratuit et sans compte.
 
@@ -756,7 +756,7 @@ Enfin, la reconnaissance ne fonctionne que sur les PDF. Si ton PowerPoint est fa
 > Mesuré sur un cours de 669 mots : 188 mots par minute avec la voix Jessica, 175 avec Tom. Durées de 1 000 à 10 000 mots et effet de la vitesse.
 
 Canonical: https://speechsynthe.si/temps-lecture-voix-haute/
-Last updated: 2026-11-10
+Last updated: 2026-11-12
 
 Avant de transformer un cours en audio, une question revient : combien de temps va durer l’écoute ? Nous avons mesuré la réponse avec les deux voix de synthèse françaises de speechsynthe.si, sur un texte de cours écrit pour l’occasion. Cette page donne les chiffres obtenus, la méthode, et une table pour estimer la durée de ton propre cours.
 

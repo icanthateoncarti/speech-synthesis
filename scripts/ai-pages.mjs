@@ -124,6 +124,11 @@ ${listing(routes.slice(0, 1))}
 ## Guides par usage
 ${listing(routes.slice(1))}
 
+## Agents (WebMCP)
+Sur ${absolute("/")}, la page déclare deux outils via \`document.modelContext\`, avec les paramètres \`texte\` (obligatoire), \`voix\` (\`jessica\` ou \`tom\`) et \`vitesse\` (0,7 à 1,5) :
+- \`lire-a-voix-haute\` : lit le texte à voix haute dans le navigateur.
+- \`exporter-mp3\` : convertit le texte en MP3 et le télécharge.
+
 ## Machine-readable
 - ${link("Contenu complet", absolute("/llms-full.txt"))}: les ${routes.length} pages réunies.
 - ${link("Catalogue Markdown", absolute("/markdown-catalog.json"))}: correspondance entre les pages HTML et Markdown.

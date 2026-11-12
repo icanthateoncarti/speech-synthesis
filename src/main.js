@@ -16,6 +16,7 @@ import { incomingShare, takeIncomingShare } from "./share-location.js";
 import { sessionData } from "./session-data.js";
 import { countUsage, ownerChange } from "./usage.js";
 import { createTypewriter } from "./typewriter.js";
+import { registerAgentTools } from "./agent-tools.js";
 
 const $ = (id) => document.getElementById(id);
 const screen = $("screen"), reader = $("reader"), speak = $("key-speak");
@@ -814,3 +815,5 @@ window.addEventListener("hashchange", () => {
 });
 
 window.addEventListener("storage", event => { if (event.key === "radio-created-shares") paint(); });
+
+registerAgentTools($);

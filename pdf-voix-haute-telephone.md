@@ -3,7 +3,7 @@
 > Ton cours PDF lu à voix haute sur ton téléphone, sans installer d’application : choisis les pages du doigt, écoute, puis garde le MP3 pour le trajet.
 
 Canonical: https://speechsynthe.si/pdf-voix-haute-telephone/
-Last updated: 2026-11-10
+Last updated: 2026-11-12
 
 Ton cours est un PDF sur ton téléphone et tu préférerais l’écouter plutôt que de le relire sur un petit écran. Pas besoin d’installer une application : speechsynthe.si s’ouvre dans le navigateur. Tu importes le PDF, la radio le lit à voix haute, et tu peux télécharger le MP3. C’est gratuit et sans compte.
 
