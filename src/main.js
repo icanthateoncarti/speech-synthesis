@@ -139,7 +139,9 @@ function paint() {
   const progress = exportJob?.stage === "fast" ? `MP3 RAPIDE ${exportJob.pct} %`
     : exportJob?.stage === "encoding" ? `ENCODAGE MP3 ${exportJob.pct} %`
     : exportJob ? state.phase === "downloading" && !synthesis?.durations.length ? left : `PRÉPARATION AUDIO ${audioPct} %` : null;
-  $("status-left").textContent = state.error ? left : pdfBusy ? "LECTURE DU FICHIER…" : progress ?? note ?? (pendingNavigation ? "PRÉPARATION DU PASSAGE…" : paused && playbackActive ? "⏸ PAUSE" : left);
+  // Un message (ex. MP3 RAPIDE ÉPUISÉ) passe avant la préparation sur l'appareil qui le suit aussitôt.
+  const noteFirst = note && exportJob && !exportJob.stage;
+  $("status-left").textContent = state.error ? left : pdfBusy ? "LECTURE DU FICHIER…" : noteFirst ? note : progress ?? note ?? (pendingNavigation ? "PRÉPARATION DU PASSAGE…" : paused && playbackActive ? "⏸ PAUSE" : left);
   $("status-right").textContent = right;
   const reading = playbackActive && !paused && !pendingNavigation && (synthesis?.durations.length ?? 0) > 0;
   reader.hidden = !reading;

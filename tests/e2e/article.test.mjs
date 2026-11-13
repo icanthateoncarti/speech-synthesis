@@ -134,3 +134,28 @@ test('guide durée d’écoute : tableaux lisibles sur mobile, textes mesurés t
   assert.ok(await page.$('.usages a[href="/temps-lecture-voix-haute/"]'));
   assert.deepEqual(errors,[]);
 });
+
+test('guide cours en podcast : tableau comparatif lisible sur mobile, liens croisés', async () => {
+  await page.setJavaScriptEnabled(true);
+  await page.setViewport({width:1280,height:900});
+  const errors=[];
+  page.on('console', msg=>{if(msg.type()==='error') errors.push(msg.text());});
+  await page.goto(server.url+'/cours-en-podcast/',{waitUntil:'networkidle0'});
+  assert.match(await page.$eval('h1',el=>el.textContent), /podcast/);
+  const tables=await page.$$eval('.article-table table',els=>els.map(t=>({caption:t.caption?.textContent,cols:t.querySelectorAll('thead th').length,rows:t.querySelectorAll('tbody tr').length,rowHeads:t.querySelectorAll('tbody th[scope=row]').length})));
+  assert.equal(tables.length,1);
+  assert.equal(tables[0].cols,3);
+  assert.equal(tables[0].rowHeads,tables[0].rows);
+  for(const href of await page.$$eval('.article-toc a',els=>els.map(el=>el.getAttribute('href')))) assert.ok(await page.$(href));
+  for(const href of await page.$$eval('.article-related a',els=>els.map(el=>el.getAttribute('href')))) assert.equal((await fetch(server.url+href)).status,200);
+  for(const other of ['/ecouter-ses-cours/','/powerpoint-en-mp3/']){
+    await page.goto(server.url+other,{waitUntil:'networkidle0'});
+    assert.ok(await page.$('.article-related a[href="/cours-en-podcast/"]'),other);
+  }
+  await page.setViewport({width:360,height:740});
+  await page.goto(server.url+'/cours-en-podcast/',{waitUntil:'networkidle0'});
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
+  await page.click('.article-button');
+  assert.ok(await page.$('.usages a[href="/cours-en-podcast/"]'));
+  assert.deepEqual(errors,[]);
+});
