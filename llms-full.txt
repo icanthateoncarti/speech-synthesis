@@ -2,7 +2,7 @@
 
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
-Generated: 2026-11-13
+Generated: 2026-11-19
 
 ---
 <!-- source: https://speechsynthe.si/ -->
@@ -11,7 +11,7 @@ Generated: 2026-11-13
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/
-Last updated: 2026-11-13
+Last updated: 2026-11-19
 
 ## Révise tes cours en les écoutant
 
@@ -97,6 +97,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 - [Comment faire lire à voix haute un PDF scanné](https://speechsynthe.si/pdf-scanne-a-voix-haute/)
 - [Combien de temps dure l’écoute d’un cours lu par une voix de synthèse ?](https://speechsynthe.si/temps-lecture-voix-haute/)
 - [Transformer son cours en podcast : deux façons très différentes](https://speechsynthe.si/cours-en-podcast/)
+- [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 
 ---
 <!-- source: https://speechsynthe.si/pdf-en-audio/ -->
@@ -105,7 +106,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 > Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/pdf-en-audio/
-Last updated: 2026-11-13
+Last updated: 2026-11-19
 
 ## Glisse ton cours. Écoute-le en sortant.
 
@@ -187,6 +188,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 - [Comment faire lire à voix haute un PDF scanné](https://speechsynthe.si/pdf-scanne-a-voix-haute/)
 - [Combien de temps dure l’écoute d’un cours lu par une voix de synthèse ?](https://speechsynthe.si/temps-lecture-voix-haute/)
 - [Transformer son cours en podcast : deux façons très différentes](https://speechsynthe.si/cours-en-podcast/)
+- [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 
 ---
 <!-- source: https://speechsynthe.si/text-to-speech/ -->
@@ -195,7 +197,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 > Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/text-to-speech/
-Last updated: 2026-11-13
+Last updated: 2026-11-19
 
 ## Colle ton texte. Écoute la suite.
 
@@ -261,6 +263,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 - [Comment faire lire à voix haute un PDF scanné](https://speechsynthe.si/pdf-scanne-a-voix-haute/)
 - [Combien de temps dure l’écoute d’un cours lu par une voix de synthèse ?](https://speechsynthe.si/temps-lecture-voix-haute/)
 - [Transformer son cours en podcast : deux façons très différentes](https://speechsynthe.si/cours-en-podcast/)
+- [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 
 ---
 <!-- source: https://speechsynthe.si/voix-off/ -->
@@ -269,7 +272,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 > Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
 
 Canonical: https://speechsynthe.si/voix-off/
-Last updated: 2026-11-13
+Last updated: 2026-11-19
 
 ## Exemples de textes
 
@@ -341,6 +344,7 @@ Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa pos
 - [Comment faire lire à voix haute un PDF scanné](https://speechsynthe.si/pdf-scanne-a-voix-haute/)
 - [Combien de temps dure l’écoute d’un cours lu par une voix de synthèse ?](https://speechsynthe.si/temps-lecture-voix-haute/)
 - [Transformer son cours en podcast : deux façons très différentes](https://speechsynthe.si/cours-en-podcast/)
+- [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 
 ---
 <!-- source: https://speechsynthe.si/message-repondeur/ -->
@@ -349,7 +353,7 @@ Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa pos
 > Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/message-repondeur/
-Last updated: 2026-11-13
+Last updated: 2026-11-19
 
 ## Exemples de textes
 
@@ -429,6 +433,7 @@ Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pend
 - [Comment faire lire à voix haute un PDF scanné](https://speechsynthe.si/pdf-scanne-a-voix-haute/)
 - [Combien de temps dure l’écoute d’un cours lu par une voix de synthèse ?](https://speechsynthe.si/temps-lecture-voix-haute/)
 - [Transformer son cours en podcast : deux façons très différentes](https://speechsynthe.si/cours-en-podcast/)
+- [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 
 ---
 <!-- source: https://speechsynthe.si/ecouter-ses-cours/ -->
@@ -437,7 +442,7 @@ Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pend
 > Un cours à réviser dans le train ou en marchant ? Prépare ton PDF ou PowerPoint, retire les répétitions et emporte le MP3. Exemple et captures à l’appui.
 
 Canonical: https://speechsynthe.si/ecouter-ses-cours/
-Last updated: 2026-11-13
+Last updated: 2026-11-19
 
 Tu as un cours de vingt pages à revoir et un trajet devant toi. Avec speechsynthe.si, tu peux transformer le texte de ton PDF ou PowerPoint en audio, puis télécharger le MP3 pour l’écouter sans connexion. C’est gratuit et sans compte.
 
@@ -504,6 +509,7 @@ Les documents sont traités dans ton navigateur. Si tu choisis PARTAGER, une cop
 - [Lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone/) : choisir les pages du doigt et préparer le MP3 avant de partir.
 - [Combien de temps dure l’écoute d’un cours ?](https://speechsynthe.si/temps-lecture-voix-haute/) : nos mesures avec les deux voix, et une table de 1 000 à 10 000 mots.
 - [Transformer son cours en podcast](https://speechsynthe.si/cours-en-podcast/) : podcast résumé par une IA ou cours lu mot pour mot : ce qui change, et comment faire un MP3 par chapitre.
+- [Lire un texte en anglais à voix haute](https://speechsynthe.si/texte-anglais-voix-haute/) : quand la radio prend une voix anglaise, et que faire d’un cours moitié français, moitié anglais.
 
 [Écouter mon cours](https://speechsynthe.si/)
 
@@ -516,7 +522,7 @@ Les documents sont traités dans ton navigateur. Si tu choisis PARTAGER, une cop
 > Transforme les diapos de ton cours PowerPoint (.pptx) en MP3 à écouter hors ligne, une diapo par chapitre. Ce que la voix lit, ce qu’elle laisse de côté.
 
 Canonical: https://speechsynthe.si/powerpoint-en-mp3/
-Last updated: 2026-11-13
+Last updated: 2026-11-19
 
 Ton prof a déposé son cours en PowerPoint et tu voudrais le réviser dans le bus ou en marchant. Avec speechsynthe.si, tu importes le fichier .pptx, la radio lit le texte de tes diapos et tu télécharges le MP3. C’est gratuit, sans compte, et ta présentation est lue sur ton appareil.
 
@@ -600,7 +606,7 @@ Dans les deux cas, l’audio sert mieux la révision si tu l’écoutes par peti
 > Ton cours PDF lu à voix haute sur ton téléphone, sans installer d’application : choisis les pages du doigt, écoute, puis garde le MP3 pour le trajet.
 
 Canonical: https://speechsynthe.si/pdf-voix-haute-telephone/
-Last updated: 2026-11-13
+Last updated: 2026-11-19
 
 Ton cours est un PDF sur ton téléphone et tu préférerais l’écouter plutôt que de le relire sur un petit écran. Pas besoin d’installer une application : speechsynthe.si s’ouvre dans le navigateur. Tu importes le PDF, la radio le lit à voix haute, et tu peux télécharger le MP3. C’est gratuit et sans compte.
 
@@ -682,7 +688,7 @@ Tes documents restent sur ton appareil. Si tu appuies sur PARTAGER, une copie ch
 > Polycopié passé au scanner ou photos de pages : fais reconnaître le texte sur ton appareil, corrige-le, puis écoute ton cours ou garde le MP3.
 
 Canonical: https://speechsynthe.si/pdf-scanne-a-voix-haute/
-Last updated: 2026-11-13
+Last updated: 2026-11-19
 
 Ton cours est un polycopié passé au scanner, ou une série de photos de pages réunies en PDF. Tu l’ouvres pour l’écouter et rien ne se passe : il n’y a pas de texte, seulement des images. Avec speechsynthe.si, tu peux faire reconnaître ce texte dans ton navigateur, le relire, puis l’écouter ou le télécharger en MP3. C’est gratuit et sans compte.
 
@@ -763,7 +769,7 @@ Enfin, la reconnaissance ne fonctionne que sur les PDF. Si ton PowerPoint est fa
 > Mesuré sur un cours de 669 mots : 188 mots par minute avec la voix Jessica, 175 avec Tom. Durées de 1 000 à 10 000 mots et effet de la vitesse.
 
 Canonical: https://speechsynthe.si/temps-lecture-voix-haute/
-Last updated: 2026-11-13
+Last updated: 2026-11-19
 
 Avant de transformer un cours en audio, une question revient : combien de temps va durer l’écoute ? Nous avons mesuré la réponse avec les deux voix de synthèse françaises de speechsynthe.si, sur un texte de cours écrit pour l’occasion. Cette page donne les chiffres obtenus, la méthode, et une table pour estimer la durée de ton propre cours.
 
@@ -871,7 +877,7 @@ Ils ne disent rien de ce que tu retiens. Une heure d’écoute n’équivaut pas
 > Un « podcast » de cours peut être un dialogue d’IA qui résume, ou ton cours lu mot pour mot. Comment faire le second, gratuitement, un MP3 par chapitre.
 
 Canonical: https://speechsynthe.si/cours-en-podcast/
-Last updated: 2026-11-13
+Last updated: 2026-11-19
 
 Tu voudrais réviser ton cours en l’écoutant, comme un podcast, dans le train ou en marchant. En cherchant comment le transformer, tu tombes surtout sur des outils d’intelligence artificielle qui fabriquent une émission à deux voix à partir de ton PDF. C’est une possibilité. Il en existe une autre : faire lire ton cours tel qu’il est écrit, et l’emporter en MP3. Ce guide explique la différence, puis montre comment faire la seconde avec speechsynthe.si, gratuitement et sans compte.
 
@@ -954,6 +960,87 @@ Rien n’empêche de combiner les deux formats. Un podcast généré peut t’ai
 - [Convertir un PowerPoint en MP3](https://speechsynthe.si/powerpoint-en-mp3/) : ce que la radio lit dans un diaporama .pptx, et ce qu’elle laisse de côté.
 - [Combien de temps dure l’écoute d’un cours ?](https://speechsynthe.si/temps-lecture-voix-haute/) : nos mesures : environ 5 minutes d’écoute pour 1 000 mots.
 - [Lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone/) : choisir les pages du doigt et préparer le MP3 avant de partir.
+
+[Écouter mon cours](https://speechsynthe.si/)
+
+[Consulter le mode d’emploi](https://speechsynthe.si/#mode-emploi)
+
+---
+<!-- source: https://speechsynthe.si/texte-anglais-voix-haute/ -->
+# Lire un texte en anglais à voix haute pour réviser
+
+> Un texte ou un cours en anglais à écouter ? Quand la radio prend une voix anglaise, pourquoi une phrase seule reste en français, et le cas du cours mixte.
+
+Canonical: https://speechsynthe.si/texte-anglais-voix-haute/
+Last updated: 2026-11-19
+
+Tu as un article en anglais à préparer, un chapitre de ton syllabus rédigé en anglais ou un texte à lire pour ton cours de langue. Tu voudrais l’entendre lu à voix haute, avec une prononciation anglaise et pas un anglais prononcé à la française. Avec speechsynthe.si, c’est gratuit et sans compte : tu colles le texte, et la radio choisit seule une voix anglaise. Ce guide explique quand elle le fait, et les cas où elle reste en français.
+
+La radio lit, elle ne traduit pas : un texte anglais est lu en anglais, mot pour mot. Elle choisit une seule langue pour tout le texte, d’après les petits mots qu’elle y trouve. Ce choix marche très bien pour un texte entièrement anglais. Il demande un peu d’attention pour une phrase isolée ou pour un cours qui mélange le français et l’anglais.
+
+## 1. Colle ton texte : la voix anglaise se choisit seule
+
+Ouvre speechsynthe.si et colle ton texte anglais dans la radio. Dans la ligne d’état, sous l’écran, tu lis alors « VOIX : JESSICA · EN · VITESSE 1.0× ». Le « · EN » veut dire que la radio a reconnu l’anglais et qu’elle lira avec une voix anglaise. Il n’y a rien à régler et aucune langue à choisir dans un menu.
+
+Le bouton de voix garde ses deux positions, JESSICA et TOM. Avec un texte anglais, elles correspondent à deux voix anglaises : une voix féminine et une voix masculine, toutes les deux à l’accent américain. Il n’y a pas de voix britannique. Si tu prépares un oral où l’accent britannique compte, garde-le en tête.
+
+Appuie sur PARLE. La première fois, la radio télécharge la voix anglaise, puis elle commence à lire. Pendant la lecture, le mot prononcé est surligné dans le texte, ce qui aide à suivre l’orthographe en même temps que le son.
+
+## 2. Pourquoi une phrase seule reste parfois en français
+
+Pour décider, la radio compte les petits mots les plus fréquents de chaque langue : the, and, of, to, is, you… d’un côté, le, la, de, et, est… de l’autre. Elle prend une voix anglaise quand elle trouve au moins trois de ces mots anglais, et une fois et demie plus de mots anglais que de mots français. Sinon, elle reste en français. Seuls les 20 000 premiers caractères du texte comptent.
+
+Sur un paragraphe entier, la règle ne pose aucun problème : un texte anglais contient des dizaines de ces petits mots. Sur une phrase courte, en revanche, il peut en manquer. Voici ce que donne la règle sur quelques phrases, vérifié avec le code de la radio le 19 novembre 2026.
+
+Si le « · EN » n’apparaît pas alors que ton texte est en anglais, ajoute la phrase suivante, ou colle le paragraphe entier : la radio bascule d’elle-même dès qu’elle a assez d’indices. Le statut se met à jour pendant que tu tapes, avant même d’appuyer sur PARLE.
+
+Langue choisie par la radio pour quelques phrases anglaises
+
+| Phrase collée seule | Voix choisie | Pourquoi |
+| --- | --- | --- |
+| This is a test. | Française | Deux petits mots anglais seulement (this, is) |
+| Hello, how are you? | Française | Deux seulement (are, you) |
+| I do not understand this exercise. | Française | Deux seulement (not, this) |
+| The cat is on the table. | Anglaise | Trois (the, is, the) ; « on » ne compte pas, il existe dans les deux langues |
+| Read the text and answer the questions below. | Anglaise | Trois (the, and, the) |
+| Summarise the chapter in your own words. | Anglaise | Trois (the, in, your) |
+
+## 3. Un cours moitié français, moitié anglais
+
+C’est le cas le plus courant à l’université : un cours en français qui cite des définitions en anglais, ou un syllabus anglais avec des consignes en français. La radio ne change pas de voix en cours de route. Elle choisit une seule langue pour tout le texte, celle qui domine.
+
+Si le français domine, tout est lu par la voix française, y compris les passages anglais, qui sont alors prononcés à la française. Si l’anglais domine, c’est l’inverse : la voix anglaise lit aussi les phrases françaises, avec son accent. Dans nos essais, deux phrases françaises suivies de deux phrases anglaises plus longues ont suffi à faire basculer tout le texte en anglais.
+
+La solution est de séparer les langues. Pour écouter le passage anglais, colle-le seul dans la radio. Pour un PDF importé, ouvre le menu ⋯, puis RELIRE LE TEXTE : tu peux y supprimer la partie française avant d’écouter, ou faire deux écoutes, une par langue. Ton fichier d’origine n’est pas modifié.
+
+## 4. PDF, PowerPoint et pages scannées en anglais
+
+Un PDF dont le texte est sélectionnable et un PowerPoint au format .pptx passent par la même règle qu’un texte collé : la radio extrait le texte, puis choisit la langue d’après les mots trouvés. Un article scientifique en anglais est donc lu par une voix anglaise dès l’import.
+
+Un PDF scanné demande une étape de plus. La reconnaissance du texte n’est pas lancée seule : dans l’écran « Relire avant d’écouter », ouvre « Texte en désordre ou incomplet ? », coche « Lire aussi les pages scannées (50 maximum) », choisis « Anglais » dans « Langue des scans », puis appuie sur « Relire le PDF ». La langue proposée par défaut est le français : si tu l’oublies, la reconnaissance d’un texte anglais sera moins bonne.
+
+La reconnaissance se fait sur ton appareil et peut se tromper, surtout sur les noms propres et les nombres. Relis le texte avant de le mettre dans la radio. Le guide sur les PDF scannés détaille chaque message affiché.
+
+## 5. S’en servir pour réviser un cours d’anglais
+
+Entendre un texte pendant que tu le lis aide à repérer comment se prononcent les mots que tu connais seulement à l’écrit. Commence à une vitesse plus basse : le curseur de vitesse va de 0,7× à 1,5×. À 0,7×, chaque mot est plus facile à distinguer ; une fois le texte familier, remonte à 1,0×.
+
+Pour un texte à présenter à l’oral, une méthode simple consiste à écouter une phrase, mettre en pause, la redire à voix haute, puis comparer. Le bouton « ↶ 30 s » permet de réentendre un passage. Pour réécouter dans le train, appuie sur MP3 : le fichier garde la voix et la vitesse choisies et s’écoute sans connexion.
+
+Pour un long texte, la radio peut proposer MP3 RAPIDE, qui prépare le fichier en quelques secondes avec une voix anglaise de Microsoft Azure. Dans ce cas, ton texte est envoyé à Azure pour fabriquer l’audio. Si tu choisis « Sur mon appareil », le MP3 est préparé dans ton navigateur et le texte ne quitte pas ton appareil.
+
+## Ce que la radio ne fait pas
+
+Elle ne traduit pas : si tu as besoin du sens d’un passage, il faut un dictionnaire ou un traducteur à côté. Elle ne corrige pas ta prononciation et ne t’écoute pas parler. Elle ne change pas de voix d’un paragraphe à l’autre entre le français et l’anglais.
+
+Une voix de synthèse peut aussi mal prononcer un nom propre, un sigle ou un mot très technique. Pour un mot dont la prononciation compte à l’examen, vérifie-le dans un dictionnaire qui donne la prononciation. La radio sert surtout à entendre un texte entier de façon régulière, autant de fois que tu veux.
+
+## À lire aussi
+
+- [Écouter ses cours pour réviser](https://speechsynthe.si/ecouter-ses-cours/) : la méthode pas à pas, du PDF ou du PowerPoint jusqu’au MP3.
+- [PDF scanné à voix haute](https://speechsynthe.si/pdf-scanne-a-voix-haute/) : lancer la reconnaissance du texte, en français ou en anglais, et la relire.
+- [Combien de temps dure l’écoute d’un cours ?](https://speechsynthe.si/temps-lecture-voix-haute/) : nos mesures avec les deux voix françaises, et une table de 1 000 à 10 000 mots.
+- [Lire un PDF à voix haute](https://speechsynthe.si/pdf-en-audio/) : importer un PDF, choisir les pages et exporter le MP3.
 
 [Écouter mon cours](https://speechsynthe.si/)
 

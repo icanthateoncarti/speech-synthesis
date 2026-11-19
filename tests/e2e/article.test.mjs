@@ -159,3 +159,26 @@ test('guide cours en podcast : tableau comparatif lisible sur mobile, liens croi
   assert.ok(await page.$('.usages a[href="/cours-en-podcast/"]'));
   assert.deepEqual(errors,[]);
 });
+
+test('guide texte anglais : exemples du tableau et « · EN » de la radio conformes au guide', async () => {
+  await page.setJavaScriptEnabled(true);
+  await page.setViewport({width:1280,height:900});
+  const errors=[];
+  page.on('console', msg=>{if(msg.type()==='error') errors.push(msg.text());});
+  await page.goto(server.url+'/texte-anglais-voix-haute/',{waitUntil:'networkidle0'});
+  assert.match(await page.$eval('h1',el=>el.textContent), /anglais à voix haute/);
+  assert.match(await page.$eval('#coller',el=>el.textContent), /VOIX : JESSICA · EN · VITESSE 1\.0×/);
+  for(const href of await page.$$eval('.article-toc a',els=>els.map(el=>el.getAttribute('href')))) assert.ok(await page.$(href));
+  for(const href of await page.$$eval('.article-related a',els=>els.map(el=>el.getAttribute('href')))) assert.equal((await fetch(server.url+href)).status,200);
+  const rows=await page.$$eval('.article-table tbody tr',trs=>trs.map(tr=>[tr.querySelector('th').textContent,tr.querySelector('td').textContent]));
+  await page.goto(server.url+'/ecouter-ses-cours/',{waitUntil:'networkidle0'});
+  assert.ok(await page.$('.article-related a[href="/texte-anglais-voix-haute/"]'));
+  // Ce que le guide promet : le statut change pendant la frappe, avant PARLE.
+  await page.goto(server.url+'/',{waitUntil:'networkidle0'});
+  for(const [phrase,voice] of rows){
+    await page.$eval('#screen',el=>{el.value='';el.dispatchEvent(new Event('input',{bubbles:true}));});
+    await page.type('#screen',phrase);
+    await page.waitForFunction((english)=>document.getElementById('status-right').textContent.includes(' · EN ')===english,{timeout:3000},voice==='Anglaise');
+  }
+  assert.deepEqual(errors,[]);
+});

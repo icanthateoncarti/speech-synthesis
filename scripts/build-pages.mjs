@@ -120,11 +120,13 @@ export function renderPage(home, page) {
   return html;
 }
 
+// Un guide garde sa date de mise à jour (`updated`) : un lastmod qui change à chaque build pour toutes
+// les pages n'apprend rien à Google, qui finit par l'ignorer. Les autres pages suivent le build.
 export function sitemap(date) {
-  const urls = PUBLIC_PAGES.map((page) => absolute(pagePath(page)));
+  const entries = PUBLIC_PAGES.map((page) => [absolute(pagePath(page)), page.updated ?? date]);
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url>\n    <loc>${u}</loc>\n    <lastmod>${date}</lastmod>\n  </url>`).join("\n")}
+${entries.map(([u, lastmod]) => `  <url>\n    <loc>${u}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`).join("\n")}
 </urlset>
 `;
 }

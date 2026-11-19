@@ -27,6 +27,14 @@ test("sitemap : accueil et toutes les pages", async () => {
   assert.equal((file.match(/<loc>/g) ?? []).length, PUBLIC_PAGES.length);
 });
 
+test("sitemap : un guide garde sa date de mise à jour, pas celle du build", () => {
+  const file = sitemap("2099-01-01");
+  for (const page of PUBLIC_PAGES.filter((page) => page.kind === "article")) {
+    assert.match(file, new RegExp(`/${page.slug}/</loc>\\n    <lastmod>${page.updated}</lastmod>`), page.slug);
+  }
+  assert.match(file, /speechsynthe\.si\/<\/loc>\n    <lastmod>2099-01-01<\/lastmod>/);
+});
+
 test("contenu des pages : titres courts, réponses de 1 à 4 phrases, exemples sans balise", () => {
   for (const page of PAGES) {
     assert.ok(page.title.length <= 65, `${page.slug} : titre de ${page.title.length} caractères`);
@@ -40,4 +48,13 @@ test("contenu des pages : titres courts, réponses de 1 à 4 phrases, exemples s
     const sentences = page.guide.why.split(/(?<=[.!?])\s+/).length;
     assert.ok(sentences >= 1 && sentences <= 4, `${page.slug} : « ${page.guide.whyTitle} » en ${sentences} phrases`);
   }
+});
+
+test("guide texte anglais : le tableau des exemples dit ce que fait vraiment la détection de langue", async () => {
+  const { ARTICLES } = await import("../../scripts/articles.mjs");
+  const { detectLanguage } = await import("../../src/text.js");
+  const guide = ARTICLES.find((page) => page.slug === "texte-anglais-voix-haute");
+  const rows = guide.sections.find((section) => section.table).table.rows;
+  assert.ok(rows.length >= 4);
+  for (const [phrase, voice] of rows) assert.equal(detectLanguage(phrase), voice === "Anglaise" ? "en" : "fr", phrase);
 });
