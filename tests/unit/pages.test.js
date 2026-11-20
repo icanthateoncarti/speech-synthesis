@@ -58,3 +58,14 @@ test("guide texte anglais : le tableau des exemples dit ce que fait vraiment la 
   assert.ok(rows.length >= 4);
   for (const [phrase, voice] of rows) assert.equal(detectLanguage(phrase), voice === "Anglaise" ? "en" : "fr", phrase);
 });
+
+// /pdf-en-audio/ reprenait la FAQ et le mode d’emploi de l’accueil mot pour mot (87 % du texte en commun) :
+// Google l’a explorée sans l’indexer. Ses réponses doivent rester propres au PDF.
+test("pdf-en-audio : aucune réponse ni étape recopiée de l’accueil", async () => {
+  const { HOME } = await import("../../scripts/pages.mjs");
+  const page = PAGES.find((p) => p.slug === "pdf-en-audio");
+  const home = new Set([...HOME.faq, ...HOME.manual].map(([, text]) => text));
+  for (const [title, text] of [...page.faq, ...page.manual]) assert.ok(!home.has(text), title);
+  const homeTitles = new Set([...HOME.faq, ...HOME.manual].map(([title]) => title));
+  assert.ok([...page.faq, ...page.manual].filter(([title]) => homeTitles.has(title)).length <= 1);
+});

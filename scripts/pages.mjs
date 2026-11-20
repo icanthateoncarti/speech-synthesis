@@ -26,58 +26,62 @@ export const PAGES = [
     "h1": "PDF en audio",
     "faq": [
       [
-        "Est-ce que mon cours est résumé ?",
-        "Non. La radio lit le texte extrait de ton document, sans le résumer ni le reformuler : un long cours peut donc donner plusieurs heures d’audio. Tu peux choisir les passages à écouter et retirer les répétitions."
+        "Combien de temps dure l’audio d’un PDF de cours ?",
+        "Mesuré sur un cours rédigé, à vitesse 1,0× : environ 188 mots par minute avec Jessica et 175 avec Tom. 1 000 mots donnent donc un peu plus de 5 minutes d’écoute, et un syllabus de plusieurs dizaines de pages se compte en heures."
       ],
       [
-        "Est-ce que ça fonctionne avec un PDF scanné ?",
-        "Oui, la radio peut reconnaître le texte des pages scannées, en français ou en anglais, jusqu’à 50 pages par import. Cette étape peut prendre plusieurs minutes et se tromper sur les mots ou les nombres : vérifie le texte avant de l’écouter."
+        "Les numéros de page et les en-têtes sont-ils lus ?",
+        "Au départ, oui : la radio lit le texte tel qu’il est dans le PDF. Si une même ligne revient au bord d’au moins la moitié des pages, comme le titre du cours ou le numéro de page, le bouton NETTOYER apparaît et la retire de la lecture en un clic. Les titres de chapitres et les cellules de tableaux ne sont jamais retirés. NETTOYER n’existe pas pour un PDF scanné relu."
+      ],
+      [
+        "Et les notes de bas de page ?",
+        "Elles sont lues avec le reste de la page : comme elles changent d’une page à l’autre, NETTOYER ne les retire pas. Pour les sauter, marque-les « À sauter » dans PAGES."
+      ],
+      [
+        "La radio retrouve-t-elle les chapitres de mon PDF ?",
+        "Pour un PDF dont le texte est sélectionnable : s’il a des signets, la table des matières cliquable de ton lecteur PDF, la radio s’en sert comme chapitres. Sinon, elle repère les titres du type « Chapitre 2 », « Partie III » ou « Section 1.4 ». Tu passes ensuite d’un chapitre à l’autre avec le menu des chapitres, ou en écrivant « chapitre suivant » dans COMMANDES."
+      ],
+      [
+        "Mon PDF est protégé par un mot de passe : que faire ?",
+        "La radio ne peut pas l’ouvrir et affiche « PDF PROTÉGÉ · DÉVERROUILLE-LE ». Ouvre-le avec son mot de passe dans ton lecteur PDF, enregistre une copie sans protection si tu en as le droit, puis importe cette copie."
+      ],
+      [
+        "Un PDF en anglais est-il lu en anglais ?",
+        "Oui : la langue est détectée dans le texte, et un PDF en anglais est lu par Kristin ou Joe, avec un accent américain, sans traduction. Un PDF qui mélange les deux langues est lu avec une seule voix pour tout le texte."
       ],
       [
         "Les schémas et les tableaux sont-ils lus aussi ?",
         "La radio lit le texte qu’elle peut extraire ; elle ne décrit pas les schémas ni les images. L’ordre de lecture d’un tableau ou d’une page à plusieurs colonnes peut être incorrect. Vérifie l’aperçu et garde le PDF à côté pour les informations visuelles."
       ],
       [
-        "Mon document reste-t-il privé ?",
-        "Son texte est extrait et lu sur ton appareil, sans être envoyé à un serveur pour produire la voix. Seule exception, si tu la choisis : MP3 RAPIDE envoie le texte à Microsoft Azure pour fabriquer le MP3 d’un long cours en quelques secondes. Si tu crées un lien de partage, une copie chiffrée du texte est hébergée pendant 7 jours ; toute personne ayant le lien complet peut l’ouvrir. Le site mesure les visites et l’usage des fonctions, jamais le contenu de tes cours."
-      ],
-      [
-        "Pourquoi la préparation de l’audio prend-elle du temps ?",
-        "La première fois, la radio télécharge la voix, puis ton appareil prépare l’audio. Un long cours demande davantage de calcul, surtout sur téléphone : pour son MP3, MP3 RAPIDE le fabrique en quelques secondes, en envoyant le texte à Microsoft Azure. Les voix et les passages déjà préparés peuvent être réutilisés tant qu’ils restent en cache."
-      ],
-      [
-        "Puis-je écouter mon cours sans connexion ?",
-        "Oui, une fois le MP3 téléchargé, tu peux l’écouter sans connexion dans ton lecteur audio habituel. Dans la radio, un cours enregistré peut aussi rejouer hors connexion ses passages déjà préparés, tant que le navigateur les conserve. Pour emporter un cours entier, garde le MP3."
+        "Mon PDF est-il envoyé quelque part ?",
+        "Non : le PDF est ouvert et lu dans ton navigateur, et la voix est produite sur ton appareil. Seule exception, si tu la choisis : MP3 RAPIDE envoie le texte extrait, pas le fichier, à Microsoft Azure pour fabriquer le MP3 en quelques secondes. Un lien de partage héberge une copie chiffrée du texte pendant 7 jours, que toute personne ayant le lien complet peut ouvrir."
       ]
     ],
     "manual": [
       [
-        "Importer un PDF ou un PowerPoint",
-        "Dépose un PDF ou un fichier PPTX sur la radio, ou utilise IMPORTER. Pour un ancien fichier PPT, enregistre-le d’abord en PPTX. Limites : 100 Mo par fichier, 5 000 pages PDF et 2 millions de caractères extraits ; la reconnaissance des scans est limitée à 50 pages. Sur téléphone, commence par un extrait court."
+        "Importer un PDF",
+        "Dépose le PDF sur la radio ou utilise IMPORTER ; un PowerPoint marche aussi, à condition d’être en .pptx. Limites : 100 Mo par fichier, 5 000 pages et 2 millions de caractères extraits. Si la radio affiche « PDF ABÎMÉ · RETÉLÉCHARGE-LE », le fichier est abîmé ou incomplet : télécharge-le à nouveau depuis ta plateforme de cours."
       ],
       [
-        "Choisir et nettoyer les passages",
-        "Pour un PDF avec du texte sélectionnable, PAGES permet de marquer les passages à lire ou à sauter. Après l’import, si des en-têtes ou pieds de page se répètent, le bouton NETTOYER apparaît : un clic les retire, un second les remet. Les chapitres numérotés sont protégés ; ton fichier n’est pas modifié."
+        "Écouter un seul chapitre d’un long PDF",
+        "Pour un PDF dont le texte est sélectionnable, ouvre PAGES : ses vraies pages s’affichent. Avec « À lire », sélectionne le premier mot du passage puis le dernier, ou glisse entre les deux ; la barre indique le nombre de passages et leur durée approximative. « Revenir à la radio » garde tes marques, et ton fichier n’est pas modifié."
       ],
       [
-        "Lire un scan ou corriger l’ordre du texte",
-        "Dans la relecture, ouvre « Texte en désordre ou incomplet ? ». Pour un scan, coche « Lire aussi les pages scannées », choisis la langue, puis « Relire le PDF ». Pour des colonnes ou un tableau, change l’ordre de lecture avant de relire le PDF. Corrige le résultat si nécessaire, puis valide avec « Mettre dans la radio » ; cela réinitialise les sélections et le nettoyage précédents."
+        "Sauter la bibliographie, les exercices ou les annexes",
+        "Dans PAGES, choisis « À sauter » et marque le passage de la même façon, du premier au dernier mot. La gomme retire une marque ; « Effacer les marques » les retire toutes."
       ],
       [
-        "Choisir la voix et la vitesse",
-        "Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3."
+        "Retirer les en-têtes et les numéros de page",
+        "Quand des lignes se répètent au bord des pages, NETTOYER apparaît après l’import. Un clic les retire de la lecture et du MP3, un second les remet."
       ],
       [
-        "Retrouver un passage",
-        "Pendant l’écoute, utilise les boutons ±30 s, la barre de lecture ou le menu des chapitres. COMMANDES accepte aussi une instruction écrite comme « reviens 3 phrases en arrière ». PARLE devient PAUSE pendant la lecture, puis REPRENDRE."
+        "PDF scanné, en colonnes ou avec des tableaux",
+        "Si des pages sont scannées, la radio ouvre la relecture : ouvre « Texte en désordre ou incomplet ? », coche « Lire aussi les pages scannées » (50 au plus), choisis la langue, puis « Relire le PDF ». Pour un PDF en deux colonnes ou un tableau, change l’ordre de lecture au même endroit avant de relire. La reconnaissance peut se tromper sur les mots et les nombres : corrige le texte si besoin, puis valide avec « Mettre dans la radio ». PAGES, NETTOYER et les chapitres ne sont alors plus disponibles pour ce document."
       ],
       [
-        "Télécharger le MP3",
-        "Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pendant la préparation et l’export ; sur téléphone, évite de verrouiller l’écran. Le fichier reprend le texte et les passages sélectionnés, avec le nettoyage appliqué."
-      ],
-      [
-        "Enregistrer ou partager un cours",
-        "Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglages et ta position sur cet appareil. PARTAGER crée un lien valable 7 jours ; la personne qui l’ouvre reçoit le texte et les réglages, puis prépare l’audio sur son appareil. La bibliothèque accepte 20 cours et jusqu’à 200 Mo d’audio préparé ; elle ne se synchronise pas entre tes appareils."
+        "Faire un MP3 par chapitre",
+        "Marque un chapitre « À lire » dans PAGES, choisis la voix et la vitesse, puis appuie sur MP3 : le fichier ne contient que ce passage. Renomme-le avec le titre du chapitre avant de passer au suivant."
       ]
     ]
   },
