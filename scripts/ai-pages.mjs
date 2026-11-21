@@ -22,6 +22,7 @@ export function renderMarkdown(page, date) {
       }
       if (section.figure) lines.push(`![${escapeMarkdown(section.figure.alt)}](${absolute(section.figure.src)})`, "", escapeMarkdown(section.figure.caption), "");
     }
+    if (page.sources?.length) lines.push("## Sources", "", ...page.sources.map(r => `- ${link(r.label, r.href)} : ${escapeMarkdown(r.text)}`), "");
     if (page.related?.length) lines.push("## À lire aussi", "", ...page.related.map(r => `- ${link(r.label, absolute(r.href))} : ${escapeMarkdown(r.text)}`), "");
     lines.push(link("Écouter mon cours", SITE.url), "", link("Consulter le mode d’emploi", SITE.url + "#mode-emploi"), "");
     return lines.join("\n");

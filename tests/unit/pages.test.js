@@ -69,3 +69,19 @@ test("pdf-en-audio : aucune réponse ni étape recopiée de l’accueil", async 
   const homeTitles = new Set([...HOME.faq, ...HOME.manual].map(([title]) => title));
   assert.ok([...page.faq, ...page.manual].filter(([title]) => homeTitles.has(title)).length <= 1);
 });
+
+test("guide dyslexie : les sources sont citées avec leur lien, en HTML comme en Markdown", async () => {
+  const { ARTICLES } = await import("../../scripts/articles.mjs");
+  const { renderArticle } = await import("../../scripts/article-page.mjs");
+  const { renderMarkdown } = await import("../../scripts/ai-pages.mjs");
+  const guide = ARTICLES.find((page) => page.slug === "outil-lecture-dyslexie");
+  assert.ok(guide.sources.length >= 3);
+  const html = renderArticle(guide, "test"), markdown = renderMarkdown(guide, "2026-11-21");
+  for (const source of guide.sources) {
+    assert.match(source.href, /^https:\/\//);
+    assert.ok(html.includes(`<a href="${source.href}" rel="noopener">`), source.href);
+    assert.ok(markdown.includes(`](${source.href})`), source.href);
+  }
+  // Les guides sans sources n'affichent pas de bloc vide.
+  assert.ok(!renderArticle(ARTICLES.find((page) => !page.sources), "test").includes('aria-label="Sources"'));
+});

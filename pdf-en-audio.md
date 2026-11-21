@@ -3,7 +3,7 @@
 > Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/pdf-en-audio/
-Last updated: 2026-11-20
+Last updated: 2026-11-21
 
 ## Glisse ton cours. Écoute-le en sortant.
 
@@ -90,3 +90,4 @@ Marque un chapitre « À lire » dans PAGES, choisis la voix et la vitesse, puis
 - [Combien de temps dure l’écoute d’un cours lu par une voix de synthèse ?](https://speechsynthe.si/temps-lecture-voix-haute/)
 - [Transformer son cours en podcast : deux façons très différentes](https://speechsynthe.si/cours-en-podcast/)
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
+- [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie/)

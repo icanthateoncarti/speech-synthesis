@@ -3,7 +3,7 @@
 > Un « podcast » de cours peut être un dialogue d’IA qui résume, ou ton cours lu mot pour mot. Comment faire le second, gratuitement, un MP3 par chapitre.
 
 Canonical: https://speechsynthe.si/cours-en-podcast/
-Last updated: 2026-11-20
+Last updated: 2026-11-21
 
 Tu voudrais réviser ton cours en l’écoutant, comme un podcast, dans le train ou en marchant. En cherchant comment le transformer, tu tombes surtout sur des outils d’intelligence artificielle qui fabriquent une émission à deux voix à partir de ton PDF. C’est une possibilité. Il en existe une autre : faire lire ton cours tel qu’il est écrit, et l’emporter en MP3. Ce guide explique la différence, puis montre comment faire la seconde avec speechsynthe.si, gratuitement et sans compte.
 

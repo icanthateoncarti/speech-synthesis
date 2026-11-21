@@ -21,6 +21,7 @@ Contact : [Signaler un problème](https://github.com/icanthateoncarti/speech-syn
 - [Combien de temps dure l’écoute d’un cours lu par une voix de synthèse ?](https://speechsynthe.si/temps-lecture-voix-haute.md): Mesuré sur un cours de 669 mots : 188 mots par minute avec la voix Jessica, 175 avec Tom. Durées de 1 000 à 10 000 mots et effet de la vitesse.
 - [Transformer son cours en podcast : deux façons très différentes](https://speechsynthe.si/cours-en-podcast.md): Un « podcast » de cours peut être un dialogue d’IA qui résume, ou ton cours lu mot pour mot. Comment faire le second, gratuitement, un MP3 par chapitre.
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute.md): Un texte ou un cours en anglais à écouter ? Quand la radio prend une voix anglaise, pourquoi une phrase seule reste en français, et le cas du cours mixte.
+- [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie.md): Dyslexique ? speechsynthe.si lit ton PDF ou PowerPoint à voix haute et surligne le mot lu, de 0,7× à 1,5×, avec export MP3. Et ce qu’il ne fait pas.
 
 ## Agents (WebMCP)
 Sur https://speechsynthe.si/, la page déclare deux outils via `document.modelContext`, avec les paramètres `texte` (obligatoire), `voix` (`jessica` ou `tom`) et `vitesse` (0,7 à 1,5) :
@@ -28,7 +29,7 @@ Sur https://speechsynthe.si/, la page déclare deux outils via `document.modelCo
 - `exporter-mp3` : convertit le texte en MP3 et le télécharge.
 
 ## Machine-readable
-- [Contenu complet](https://speechsynthe.si/llms-full.txt): les 12 pages réunies.
+- [Contenu complet](https://speechsynthe.si/llms-full.txt): les 13 pages réunies.
 - [Catalogue Markdown](https://speechsynthe.si/markdown-catalog.json): correspondance entre les pages HTML et Markdown.
 - [Sitemap](https://speechsynthe.si/sitemap.xml): pages HTML publiques.
 - [Politique IA](https://speechsynthe.si/ai.txt): permissions, restrictions et attribution.
