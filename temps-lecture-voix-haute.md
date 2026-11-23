@@ -3,7 +3,7 @@
 > Mesuré sur un cours de 669 mots : 188 mots par minute avec la voix Jessica, 175 avec Tom. Durées de 1 000 à 10 000 mots et effet de la vitesse.
 
 Canonical: https://speechsynthe.si/temps-lecture-voix-haute/
-Last updated: 2026-11-21
+Last updated: 2026-11-23
 
 Avant de transformer un cours en audio, une question revient : combien de temps va durer l’écoute ? Nous avons mesuré la réponse avec les deux voix de synthèse françaises de speechsynthe.si, sur un texte de cours écrit pour l’occasion. Cette page donne les chiffres obtenus, la méthode, et une table pour estimer la durée de ton propre cours.
 
@@ -99,6 +99,7 @@ Ils ne disent rien de ce que tu retiens. Une heure d’écoute n’équivaut pas
 - [PDF en audio](https://speechsynthe.si/pdf-en-audio/) : le mode d’emploi complet de la radio pour les PDF, avec le choix des pages.
 - [Convertir un PowerPoint en MP3](https://speechsynthe.si/powerpoint-en-mp3/) : ce que la radio lit dans un diaporama .pptx, et ce qu’elle laisse de côté.
 - [Lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone/) : préparer le MP3 avant de partir, sans installer d’application.
+- [Réviser son blocus en écoutant ses cours](https://speechsynthe.si/blocus-reviser-en-ecoutant/) : combien d’heures d’écoute représentent tes cours, et où les placer dans le blocus.
 
 [Écouter mon cours](https://speechsynthe.si/)
 

@@ -2,27 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://speechsynthe.si/</loc>
-    <lastmod>2026-11-21</lastmod>
+    <lastmod>2026-11-23</lastmod>
   </url>
   <url>
     <loc>https://speechsynthe.si/pdf-en-audio/</loc>
-    <lastmod>2026-11-21</lastmod>
+    <lastmod>2026-11-23</lastmod>
   </url>
   <url>
     <loc>https://speechsynthe.si/text-to-speech/</loc>
-    <lastmod>2026-11-21</lastmod>
+    <lastmod>2026-11-23</lastmod>
   </url>
   <url>
     <loc>https://speechsynthe.si/voix-off/</loc>
-    <lastmod>2026-11-21</lastmod>
+    <lastmod>2026-11-23</lastmod>
   </url>
   <url>
     <loc>https://speechsynthe.si/message-repondeur/</loc>
-    <lastmod>2026-11-21</lastmod>
+    <lastmod>2026-11-23</lastmod>
   </url>
   <url>
     <loc>https://speechsynthe.si/ecouter-ses-cours/</loc>
-    <lastmod>2026-11-21</lastmod>
+    <lastmod>2026-11-23</lastmod>
   </url>
   <url>
     <loc>https://speechsynthe.si/powerpoint-en-mp3/</loc>
@@ -38,7 +38,7 @@
   </url>
   <url>
     <loc>https://speechsynthe.si/temps-lecture-voix-haute/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-23</lastmod>
   </url>
   <url>
     <loc>https://speechsynthe.si/cours-en-podcast/</loc>
@@ -51,5 +51,9 @@
   <url>
     <loc>https://speechsynthe.si/outil-lecture-dyslexie/</loc>
     <lastmod>2026-11-21</lastmod>
+  </url>
+  <url>
+    <loc>https://speechsynthe.si/blocus-reviser-en-ecoutant/</loc>
+    <lastmod>2026-11-23</lastmod>
   </url>
 </urlset>

@@ -3,7 +3,7 @@
 > Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/message-repondeur/
-Last updated: 2026-11-21
+Last updated: 2026-11-23
 
 ## Exemples de textes
 
@@ -85,3 +85,4 @@ Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pend
 - [Transformer son cours en podcast : deux façons très différentes](https://speechsynthe.si/cours-en-podcast/)
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 - [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie/)
+- [Réviser son blocus en écoutant ses cours : quoi écouter, et quand](https://speechsynthe.si/blocus-reviser-en-ecoutant/)
