@@ -3,7 +3,7 @@
 > Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/pdf-en-audio/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 ## Glisse ton cours. Écoute-le en sortant.
 
@@ -92,3 +92,4 @@ Marque un chapitre « À lire » dans PAGES, choisis la voix et la vitesse, puis
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 - [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie/)
 - [Réviser son blocus en écoutant ses cours : quoi écouter, et quand](https://speechsynthe.si/blocus-reviser-en-ecoutant/)
+- [Réviser la veille d’un examen : ce qui vaut encore la peine d’être écouté](https://speechsynthe.si/reviser-veille-examen/)

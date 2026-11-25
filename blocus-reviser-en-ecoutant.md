@@ -3,7 +3,7 @@
 > Pendant le blocus, tout ne se révise pas à l’oral. Quels cours écouter, à quel moment, à quelle vitesse, et ce qui doit rester sur papier.
 
 Canonical: https://speechsynthe.si/blocus-reviser-en-ecoutant/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 Le blocus commence, tu as six cours à revoir et quelques semaines devant toi. Relire chaque syllabus deux fois ne tiendra pas dans le planning, et tu te demandes si tu pourrais en écouter une partie, dans le bus ou en marchant. C’est possible : speechsynthe.si lit tes PDF et tes PowerPoint à voix haute, gratuitement et sans compte. Mais tout ne se révise pas bien à l’oreille. Ce guide t’aide à trier tes cours, à placer l’écoute au bon moment du blocus, et à vérifier qu’elle sert à quelque chose.
 
@@ -51,7 +51,7 @@ Au début du blocus, fais une première écoute de chaque chapitre de la pile «
 
 Au milieu du blocus, inverse l’ordre : teste-toi d’abord, avec les questions du cours, d’anciens examens ou une feuille blanche. Ne réécoute que les chapitres que tu n’as pas su redire, à une vitesse plus haute si tu les connais déjà. Laisse quelques jours entre deux passages sur le même chapitre, et alterne les cours d’un jour à l’autre.
 
-Les derniers jours avant un examen, arrête les écoutes complètes. Il reste les tests et quelques réécoutes très ciblées : une définition ratée, un passage d’une page. En Belgique, les examens de janvier sont souvent étalés sur plusieurs semaines : recommence ce cycle pour chaque cours, en commençant par le premier examen.
+Les derniers jours avant un examen, arrête les écoutes complètes. Il reste les tests et quelques réécoutes très ciblées : une définition ratée, un passage d’une page. Le guide sur la veille d’un examen détaille ces dernières vingt-quatre heures. En Belgique, les examens de janvier sont souvent étalés sur plusieurs semaines : recommence ce cycle pour chaque cours, en commençant par le premier examen.
 
 ## 5. Prépare tes cours en quelques minutes
 
@@ -89,6 +89,7 @@ Utilisée pour ce qu’elle sait faire, elle libère du temps de bureau : chaque
 - [Combien de temps dure l’écoute d’un cours ?](https://speechsynthe.si/temps-lecture-voix-haute/) : nos mesures avec les deux voix, et une table de 1 000 à 10 000 mots.
 - [Transformer son cours en podcast](https://speechsynthe.si/cours-en-podcast/) : un MP3 par chapitre, et pourquoi un cours lu n’est pas un résumé.
 - [Lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone/) : choisir les pages du doigt et préparer le MP3 avant le trajet.
+- [Réviser la veille d’un examen](https://speechsynthe.si/reviser-veille-examen/) : ce qui vaut encore la peine d’être écouté la veille, et un MP3 prêt pour le trajet du matin.
 
 [Écouter mon cours](https://speechsynthe.si/)
 

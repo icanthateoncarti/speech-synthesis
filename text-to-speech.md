@@ -3,7 +3,7 @@
 > Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/text-to-speech/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 ## Colle ton texte. Écoute la suite.
 
@@ -72,3 +72,4 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 - [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie/)
 - [Réviser son blocus en écoutant ses cours : quoi écouter, et quand](https://speechsynthe.si/blocus-reviser-en-ecoutant/)
+- [Réviser la veille d’un examen : ce qui vaut encore la peine d’être écouté](https://speechsynthe.si/reviser-veille-examen/)

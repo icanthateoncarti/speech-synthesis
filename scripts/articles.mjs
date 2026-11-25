@@ -7,7 +7,7 @@ export const ARTICLES = [{
   navLabel: "Guide étudiant",
   description: "Un cours à réviser dans le train ou en marchant ? Prépare ton PDF ou PowerPoint, retire les répétitions et emporte le MP3. Exemple et captures à l’appui.",
   published: "2026-10-29",
-  updated: "2026-11-23",
+  updated: "2026-11-25",
   intro: "Tu as un cours de vingt pages à revoir et un trajet devant toi. Avec speechsynthe.si, tu peux transformer le texte de ton PDF ou PowerPoint en audio, puis télécharger le MP3 pour l’écouter sans connexion. C’est gratuit et sans compte.",
   premise: "La radio lit le texte extrait : elle ne le résume pas et ne le reformule pas. Une définition reste une définition, une longue liste reste une longue liste. C’est utile si tu veux retrouver le contenu du cours, mais l’audio peut durer longtemps. Les schémas, les tableaux et les formules demandent encore de regarder le document.",
   related: [
@@ -18,7 +18,8 @@ export const ARTICLES = [{
     { href: "/cours-en-podcast/", label: "Transformer son cours en podcast", text: "podcast résumé par une IA ou cours lu mot pour mot : ce qui change, et comment faire un MP3 par chapitre." },
     { href: "/texte-anglais-voix-haute/", label: "Lire un texte en anglais à voix haute", text: "quand la radio prend une voix anglaise, et que faire d’un cours moitié français, moitié anglais." },
     { href: "/outil-lecture-dyslexie/", label: "Dyslexie : écouter ses cours au lieu de les déchiffrer", text: "le mot lu surligné, la vitesse, et ce que la radio ne fait pas pour un lecteur dys." },
-    { href: "/blocus-reviser-en-ecoutant/", label: "Réviser son blocus en écoutant ses cours", text: "quels cours écouter, à quel moment du blocus, et le test à faire après chaque écoute." }
+    { href: "/blocus-reviser-en-ecoutant/", label: "Réviser son blocus en écoutant ses cours", text: "quels cours écouter, à quel moment du blocus, et le test à faire après chaque écoute." },
+    { href: "/reviser-veille-examen/", label: "Réviser la veille d’un examen", text: "ce qui vaut encore la peine d’être écouté la veille, et un MP3 prêt pour le trajet du matin." }
   ],
   sample: { href: "/assets/guides/cours-exemple-moyenne-mediane.pdf", label: "Télécharger le cours d’exemple (PDF, 2 pages)", description: "Un mini-cours original sur la moyenne et la médiane, créé pour ce guide. Aucun document d’étudiant n’est utilisé dans les captures." },
   sections: [
@@ -655,7 +656,7 @@ export const ARTICLES = [{
   navLabel: "Blocus",
   description: "Pendant le blocus, tout ne se révise pas à l’oral. Quels cours écouter, à quel moment, à quelle vitesse, et ce qui doit rester sur papier.",
   published: "2026-11-23",
-  updated: "2026-11-23",
+  updated: "2026-11-25",
   tocTitle: "Dans cette page",
   intro: "Le blocus commence, tu as six cours à revoir et quelques semaines devant toi. Relire chaque syllabus deux fois ne tiendra pas dans le planning, et tu te demandes si tu pourrais en écouter une partie, dans le bus ou en marchant. C’est possible : speechsynthe.si lit tes PDF et tes PowerPoint à voix haute, gratuitement et sans compte. Mais tout ne se révise pas bien à l’oreille. Ce guide t’aide à trier tes cours, à placer l’écoute au bon moment du blocus, et à vérifier qu’elle sert à quelque chose.",
   premise: "Écouter son cours, c’est le repasser, pas le tester. La recherche sur les techniques de révision montre que relire aide moins que se tester. Ce guide utilise donc l’écoute pour sortir une partie des relectures du bureau, et garde l’essentiel du blocus pour les questions, la récitation et les exercices.",
@@ -663,7 +664,8 @@ export const ARTICLES = [{
     { href: "/ecouter-ses-cours/", label: "Écouter ses cours pour réviser", text: "la méthode pas à pas, du PDF ou du PowerPoint jusqu’au MP3, avec un cours d’exemple." },
     { href: "/temps-lecture-voix-haute/", label: "Combien de temps dure l’écoute d’un cours ?", text: "nos mesures avec les deux voix, et une table de 1 000 à 10 000 mots." },
     { href: "/cours-en-podcast/", label: "Transformer son cours en podcast", text: "un MP3 par chapitre, et pourquoi un cours lu n’est pas un résumé." },
-    { href: "/pdf-voix-haute-telephone/", label: "Lire un PDF à voix haute sur son téléphone", text: "choisir les pages du doigt et préparer le MP3 avant le trajet." }
+    { href: "/pdf-voix-haute-telephone/", label: "Lire un PDF à voix haute sur son téléphone", text: "choisir les pages du doigt et préparer le MP3 avant le trajet." },
+    { href: "/reviser-veille-examen/", label: "Réviser la veille d’un examen", text: "ce qui vaut encore la peine d’être écouté la veille, et un MP3 prêt pour le trajet du matin." }
   ],
   sources: [
     { href: "https://doi.org/10.1177/1529100612453266", label: "Dunlosky, Rawson, Marsh, Nathan et Willingham (2013)", text: "« Improving Students’ Learning With Effective Learning Techniques », Psychological Science in the Public Interest." },
@@ -711,7 +713,7 @@ export const ARTICLES = [{
         "Le second résultat solide de la recherche, c’est l’espacement. Dans leur synthèse de 317 expériences de mémorisation, surtout de mots et de faits, Cepeda et ses collègues ont trouvé que l’écart idéal entre deux révisions augmente avec le délai jusqu’au test final. Ce qui suit n’est pas un protocole testé : c’est notre façon d’appliquer ces deux résultats à l’écoute. Pour un examen dans trois semaines, nous te conseillons de revenir sur un chapitre à quelques jours d’intervalle plutôt que de le réécouter trois fois le même soir.",
         "Au début du blocus, fais une première écoute de chaque chapitre de la pile « à écouter », à vitesse normale, en suivant le texte des yeux si tu peux. À la fin de chaque chapitre, mets en pause et redis-en l’essentiel. Note les chapitres où tu bloques.",
         "Au milieu du blocus, inverse l’ordre : teste-toi d’abord, avec les questions du cours, d’anciens examens ou une feuille blanche. Ne réécoute que les chapitres que tu n’as pas su redire, à une vitesse plus haute si tu les connais déjà. Laisse quelques jours entre deux passages sur le même chapitre, et alterne les cours d’un jour à l’autre.",
-        "Les derniers jours avant un examen, arrête les écoutes complètes. Il reste les tests et quelques réécoutes très ciblées : une définition ratée, un passage d’une page. En Belgique, les examens de janvier sont souvent étalés sur plusieurs semaines : recommence ce cycle pour chaque cours, en commençant par le premier examen."
+        "Les derniers jours avant un examen, arrête les écoutes complètes. Il reste les tests et quelques réécoutes très ciblées : une définition ratée, un passage d’une page. Le guide sur la veille d’un examen détaille ces dernières vingt-quatre heures. En Belgique, les examens de janvier sont souvent étalés sur plusieurs semaines : recommence ce cycle pour chaque cours, en commençant par le premier examen."
       ]
     },
     {
@@ -736,6 +738,86 @@ export const ARTICLES = [{
         "Elle ne vérifie pas que tu sais, et elle ne remplace pas les exercices : on ne devient pas meilleur en résolution de problèmes en écoutant leur énoncé.",
         "La radio lit ton cours tel qu’il est écrit, avec ses fautes et ses passages confus. Elle ne le résume pas et n’explique pas ce qui manque, par exemple les explications données oralement en classe. Si tes diapos ne contiennent que des mots-clés, l’audio ne contiendra que ces mots-clés.",
         "Utilisée pour ce qu’elle sait faire, elle libère du temps de bureau : chaque relecture écoutée dans le bus laisse plus de temps, à ton bureau, pour te tester et faire des exercices."
+      ]
+    }
+  ]
+}, {
+  kind: "article",
+  slug: "reviser-veille-examen",
+  title: "Réviser la veille d’un examen : ce qui s’écoute encore",
+  h1: "Réviser la veille d’un examen : ce qui vaut encore la peine d’être écouté",
+  navLabel: "Veille d’examen",
+  description: "La veille d’un examen, tout ne s’écoute pas. Les passages à réécouter, ceux à laisser sur papier, et un MP3 prêt pour le trajet du matin.",
+  published: "2026-11-25",
+  updated: "2026-11-25",
+  tocTitle: "Dans cette page",
+  intro: "Ton examen est demain. Tu ne vas pas relire tout le syllabus ce soir, et tu te demandes ce que tu pourrais encore écouter : pendant le repas, dans le bus demain matin, dans la file devant l’auditoire. speechsynthe.si lit tes PDF et tes PowerPoint à voix haute, gratuitement et sans compte. Mais la veille, le temps est compté et tout ne vaut pas la peine d’être écouté. Ce guide t’aide à choisir les quelques passages qui méritent encore ton oreille, à les préparer en quelques minutes, et à garder le reste de la soirée pour ce qui compte davantage.",
+  premise: "La veille, on ne découvre plus un cours : on remet en mémoire ce qu’on a déjà travaillé, et on vérifie qu’on sait le redire. L’écoute sert à la première partie, pas à la seconde. Ce guide la réserve donc à des passages courts et choisis, et garde l’essentiel de la soirée pour te tester.",
+  related: [
+    { href: "/blocus-reviser-en-ecoutant/", label: "Réviser son blocus en écoutant ses cours", text: "trier ses cours en trois piles, et placer l’écoute dans les semaines de blocus." },
+    { href: "/temps-lecture-voix-haute/", label: "Combien de temps dure l’écoute d’un cours ?", text: "nos mesures avec les deux voix, et une table de 1 000 à 10 000 mots." },
+    { href: "/pdf-voix-haute-telephone/", label: "Lire un PDF à voix haute sur son téléphone", text: "choisir les pages du doigt et préparer le MP3 avant de partir." },
+    { href: "/ecouter-ses-cours/", label: "Écouter ses cours pour réviser", text: "la méthode pas à pas, du PDF ou du PowerPoint jusqu’au MP3, avec un cours d’exemple." }
+  ],
+  sources: [
+    { href: "https://doi.org/10.1111/j.1467-9280.2006.01693.x", label: "Roediger et Karpicke (2006)", text: "« Test-enhanced learning: taking memory tests improves long-term retention », Psychological Science." }
+  ],
+  sections: [
+    {
+      id: "veille", title: "1. Ce que la veille peut encore faire",
+      paragraphs: [
+        "La veille d’un examen n’est pas le moment d’apprendre un chapitre que tu n’as jamais ouvert. C’est le moment de rafraîchir ce que tu as déjà travaillé, de combler deux ou trois trous précis, et de vérifier que tu sais redire l’essentiel sans support.",
+        "Une expérience souvent citée aide à placer l’écoute. Roediger et Karpicke (2006) ont fait lire des textes à des étudiants, puis les leur ont fait relire, ou bien écrire de mémoire. Au test passé cinq minutes plus tard, ceux qui avaient relu faisaient mieux. Deux jours ou une semaine plus tard, c’était l’inverse. Leur étude n’a pas testé de délai d’une nuit : elle ne dit donc pas laquelle des deux gagne quand l’examen est le lendemain. Nous en tirons un conseil prudent : la relecture, et l’écoute qui en est une version par l’oreille, peut rafraîchir un passage la veille, mais elle ne remplace pas le moment où tu essaies de le redire toi-même.",
+        "Si ton blocus n’a pas encore commencé, le guide sur le blocus explique comment placer l’écoute sur plusieurs semaines. Celui-ci ne parle que des dernières vingt-quatre heures."
+      ]
+    },
+    {
+      id: "choisir", title: "2. Choisis les passages à réécouter",
+      paragraphs: [
+        "Commence par te tester, pas par écouter. Prends une feuille blanche ou les questions d’un ancien examen, et passe chaque chapitre en revue en quelques minutes : ce que tu sais redire, ce qui te fait hésiter, ce qui manque. Ce sont les passages où tu hésites qui méritent une écoute ce soir. Ceux que tu sais déjà redire n’en ont pas besoin ; ceux qui manquent complètement demandent plutôt une vraie lecture, crayon en main.",
+        "Parmi ces passages, certains s’écoutent bien : une définition à connaître mot pour mot, un raisonnement rédigé, une chronologie racontée, l’introduction d’un chapitre qui en donne le plan. D’autres s’écoutent mal : formules, tableaux, schémas, diapos faites de trois mots-clés. La radio lit le texte dans l’ordre, mot pour mot. Elle ne décrit pas les images et ne lit pas les notes du présentateur d’un PowerPoint : si l’explication d’une diapo était à l’oral pendant le cours, l’audio ne la contiendra pas.",
+        "Entendus sans leur disposition, les nombres et les formules se comprennent mal : garde-les, avec les exercices, pour ton bureau."
+      ]
+    },
+    {
+      id: "temps", title: "3. Combien d’écoute tient dans une soirée",
+      paragraphs: [
+        "La veille, il est facile de surestimer ce qu’on peut écouter. À partir de nos mesures (188 mots par minute à vitesse normale avec Jessica, 253 à 1,5×), voici quelques repères calculés, pas mesurés sur un vrai cours, en comptant environ 500 mots par page.",
+        "Vingt minutes d’écoute représentent donc environ 3 800 mots à 1,0× (7 à 8 pages) ou 5 000 mots à 1,5× (une dizaine de pages). C’est assez pour les passages choisis à l’étape 2, pas pour un syllabus entier. Les durées sont arrondies à la minute et ne comptent que l’écoute : ajoute le temps de te tester après chaque passage."
+      ],
+      table: {
+        caption: "Durée d’écoute calculée avec la voix Jessica",
+        head: ["Ce que tu écoutes", "Nombre de mots (environ)", "À 1,0×", "À 1,5×"],
+        rows: [
+          ["Une page de cours rédigé", "500", "3 min", "2 min"],
+          ["Un chapitre de 8 pages", "4 000", "21 min", "16 min"],
+          ["Une liste de définitions", "300", "2 min", "1 min"]
+        ]
+      }
+    },
+    {
+      id: "preparer", title: "4. Prépare ton écoute en quelques minutes",
+      paragraphs: [
+        "Ouvre speechsynthe.si et importe ton PDF ou ton PowerPoint. Le .pptx est accepté ; un ancien fichier .ppt doit d’abord être enregistré en .pptx. Les .docx ne sont pas lus : enregistre-les en PDF.",
+        "Avec un PDF au texte sélectionnable, PAGES te permet de ne garder que les passages repérés à l’étape 2 : touche ou clique le premier mot du passage, puis le dernier. Si la radio repère des numéros de page ou des en-têtes répétés, NETTOYER te propose de les retirer, pour qu’ils ne coupent pas l’écoute.",
+        "Tu peux aussi coller directement du texte dans la radio : les définitions que tu as ratées à ton test, recopiées de ton cours, ou ta liste de points à revoir. Une vingtaine de lignes s’écoute en une à deux minutes.",
+        "Règle la vitesse : 1,0× pour ce que tu as raté au test, plus vite pour ce que tu reconnais en l’entendant. Puis appuie sur MP3 : le fichier garde la voix et la vitesse choisies. Pour un passage long, la radio peut proposer MP3 RAPIDE, avec une voix proche, qui envoie ton texte à Microsoft Azure ; « Sur mon appareil » le garde chez toi."
+      ]
+    },
+    {
+      id: "trajet", title: "5. Le soir et le matin : courts passages, pas de nouveau chapitre",
+      paragraphs: [
+        "Pendant l’écoute dans la radio, garde l’onglet ouvert et, sur téléphone, évite de verrouiller l’écran. Pour le trajet du matin, le MP3 est plus simple : une fois téléchargé, il s’écoute sans connexion dans ton lecteur audio habituel, l’écran éteint.",
+        "Après chaque passage, mets en pause et redis-le à voix haute ou dans ta tête. Avec le MP3, recule avec ton lecteur audio. Dans la radio, le bouton « ↶ 30 s » recule de trente secondes, et dans COMMANDES tu peux écrire « phrase précédente » ou « reviens 3 phrases en arrière ».",
+        "Le matin de l’examen, nous te conseillons de ne rien écouter de neuf : seulement ta courte liste de définitions et de points ratés la veille. Si un passage ne rentre toujours pas après deux écoutes, relis-le une fois sur papier, puis passe à autre chose."
+      ]
+    },
+    {
+      id: "limites", title: "Ce que l’écoute ne fera pas la veille",
+      paragraphs: [
+        "Elle ne vérifie pas que tu sais : seul le test le fait. Et pour un exercice, l’écouter ne t’apprend pas à le résoudre.",
+        "La radio lit ton cours tel qu’il est écrit. Elle ne le résume pas, n’explique pas ce qui manque et ne décrit pas les schémas. Elle ne synchronise pas non plus tes cours entre ton ordinateur et ton téléphone : prépare le MP3 sur l’appareil que tu emporteras, ou, depuis le menu ⋯, utilise PARTAGER pour ouvrir le texte sur ton téléphone avec un lien valable 7 jours.",
+        "Nous te conseillons vingt minutes d’écoute choisie plutôt qu’une soirée de syllabus en fond sonore, et une vraie nuit de sommeil."
       ]
     }
   ]

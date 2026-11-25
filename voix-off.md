@@ -3,7 +3,7 @@
 > Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
 
 Canonical: https://speechsynthe.si/voix-off/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 ## Exemples de textes
 
@@ -78,3 +78,4 @@ Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa pos
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 - [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie/)
 - [Réviser son blocus en écoutant ses cours : quoi écouter, et quand](https://speechsynthe.si/blocus-reviser-en-ecoutant/)
+- [Réviser la veille d’un examen : ce qui vaut encore la peine d’être écouté](https://speechsynthe.si/reviser-veille-examen/)

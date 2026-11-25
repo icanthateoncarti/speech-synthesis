@@ -2,7 +2,7 @@
 
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
-Generated: 2026-11-23
+Generated: 2026-11-25
 
 ---
 <!-- source: https://speechsynthe.si/ -->
@@ -11,7 +11,7 @@ Generated: 2026-11-23
 > Du texte en audio pour réviser : écoute tes cours sans résumé et garde le MP3 pour sortir. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 ## Révise tes cours en les écoutant
 
@@ -100,6 +100,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 - [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie/)
 - [Réviser son blocus en écoutant ses cours : quoi écouter, et quand](https://speechsynthe.si/blocus-reviser-en-ecoutant/)
+- [Réviser la veille d’un examen : ce qui vaut encore la peine d’être écouté](https://speechsynthe.si/reviser-veille-examen/)
 
 ---
 <!-- source: https://speechsynthe.si/pdf-en-audio/ -->
@@ -108,7 +109,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 > Écoute tes cours PDF ou PowerPoint sans résumé, en français ou en anglais. Télécharge le MP3 pour réviser en sortant. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/pdf-en-audio/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 ## Glisse ton cours. Écoute-le en sortant.
 
@@ -197,6 +198,7 @@ Marque un chapitre « À lire » dans PAGES, choisis la voix et la vitesse, puis
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 - [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie/)
 - [Réviser son blocus en écoutant ses cours : quoi écouter, et quand](https://speechsynthe.si/blocus-reviser-en-ecoutant/)
+- [Réviser la veille d’un examen : ce qui vaut encore la peine d’être écouté](https://speechsynthe.si/reviser-veille-examen/)
 
 ---
 <!-- source: https://speechsynthe.si/text-to-speech/ -->
@@ -205,7 +207,7 @@ Marque un chapitre « À lire » dans PAGES, choisis la voix et la vitesse, puis
 > Transforme ton texte en voix : colle-le, choisis une voix et écoute ou télécharge le MP3. Synthèse vocale gratuite en français et en anglais, sans compte.
 
 Canonical: https://speechsynthe.si/text-to-speech/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 ## Colle ton texte. Écoute la suite.
 
@@ -274,6 +276,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 - [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie/)
 - [Réviser son blocus en écoutant ses cours : quoi écouter, et quand](https://speechsynthe.si/blocus-reviser-en-ecoutant/)
+- [Réviser la veille d’un examen : ce qui vaut encore la peine d’être écouté](https://speechsynthe.si/reviser-veille-examen/)
 
 ---
 <!-- source: https://speechsynthe.si/voix-off/ -->
@@ -282,7 +285,7 @@ Ouvre le menu ⋯ en haut à droite : MES COURS enregistre le texte, les réglag
 > Donne une voix à tes vidéos : écris ton script, écoute le résultat et télécharge le MP3. Deux voix par langue, en français et en anglais. Gratuit, sans compte.
 
 Canonical: https://speechsynthe.si/voix-off/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 ## Exemples de textes
 
@@ -357,6 +360,7 @@ Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa pos
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 - [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie/)
 - [Réviser son blocus en écoutant ses cours : quoi écouter, et quand](https://speechsynthe.si/blocus-reviser-en-ecoutant/)
+- [Réviser la veille d’un examen : ce qui vaut encore la peine d’être écouté](https://speechsynthe.si/reviser-veille-examen/)
 
 ---
 <!-- source: https://speechsynthe.si/message-repondeur/ -->
@@ -365,7 +369,7 @@ Importe le MP3 dans ton logiciel de montage comme une piste audio. Ajuste sa pos
 > Prépare ton message de répondeur sans t’enregistrer : adapte un exemple, choisis une voix et télécharge le MP3. Gratuit et sans compte.
 
 Canonical: https://speechsynthe.si/message-repondeur/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 ## Exemples de textes
 
@@ -448,6 +452,7 @@ Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pend
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute/)
 - [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie/)
 - [Réviser son blocus en écoutant ses cours : quoi écouter, et quand](https://speechsynthe.si/blocus-reviser-en-ecoutant/)
+- [Réviser la veille d’un examen : ce qui vaut encore la peine d’être écouté](https://speechsynthe.si/reviser-veille-examen/)
 
 ---
 <!-- source: https://speechsynthe.si/ecouter-ses-cours/ -->
@@ -456,7 +461,7 @@ Choisis la voix et la vitesse, puis appuie sur MP3. Garde l’onglet ouvert pend
 > Un cours à réviser dans le train ou en marchant ? Prépare ton PDF ou PowerPoint, retire les répétitions et emporte le MP3. Exemple et captures à l’appui.
 
 Canonical: https://speechsynthe.si/ecouter-ses-cours/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 Tu as un cours de vingt pages à revoir et un trajet devant toi. Avec speechsynthe.si, tu peux transformer le texte de ton PDF ou PowerPoint en audio, puis télécharger le MP3 pour l’écouter sans connexion. C’est gratuit et sans compte.
 
@@ -526,6 +531,7 @@ Les documents sont traités dans ton navigateur. Si tu choisis PARTAGER, une cop
 - [Lire un texte en anglais à voix haute](https://speechsynthe.si/texte-anglais-voix-haute/) : quand la radio prend une voix anglaise, et que faire d’un cours moitié français, moitié anglais.
 - [Dyslexie : écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie/) : le mot lu surligné, la vitesse, et ce que la radio ne fait pas pour un lecteur dys.
 - [Réviser son blocus en écoutant ses cours](https://speechsynthe.si/blocus-reviser-en-ecoutant/) : quels cours écouter, à quel moment du blocus, et le test à faire après chaque écoute.
+- [Réviser la veille d’un examen](https://speechsynthe.si/reviser-veille-examen/) : ce qui vaut encore la peine d’être écouté la veille, et un MP3 prêt pour le trajet du matin.
 
 [Écouter mon cours](https://speechsynthe.si/)
 
@@ -538,7 +544,7 @@ Les documents sont traités dans ton navigateur. Si tu choisis PARTAGER, une cop
 > Transforme les diapos de ton cours PowerPoint (.pptx) en MP3 à écouter hors ligne, une diapo par chapitre. Ce que la voix lit, ce qu’elle laisse de côté.
 
 Canonical: https://speechsynthe.si/powerpoint-en-mp3/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 Ton prof a déposé son cours en PowerPoint et tu voudrais le réviser dans le bus ou en marchant. Avec speechsynthe.si, tu importes le fichier .pptx, la radio lit le texte de tes diapos et tu télécharges le MP3. C’est gratuit, sans compte, et ta présentation est lue sur ton appareil.
 
@@ -622,7 +628,7 @@ Dans les deux cas, l’audio sert mieux la révision si tu l’écoutes par peti
 > Ton cours PDF lu à voix haute sur ton téléphone, sans installer d’application : choisis les pages du doigt, écoute, puis garde le MP3 pour le trajet.
 
 Canonical: https://speechsynthe.si/pdf-voix-haute-telephone/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 Ton cours est un PDF sur ton téléphone et tu préférerais l’écouter plutôt que de le relire sur un petit écran. Pas besoin d’installer une application : speechsynthe.si s’ouvre dans le navigateur. Tu importes le PDF, la radio le lit à voix haute, et tu peux télécharger le MP3. C’est gratuit et sans compte.
 
@@ -704,7 +710,7 @@ Tes documents restent sur ton appareil. Si tu appuies sur PARTAGER, une copie ch
 > Polycopié passé au scanner ou photos de pages : fais reconnaître le texte sur ton appareil, corrige-le, puis écoute ton cours ou garde le MP3.
 
 Canonical: https://speechsynthe.si/pdf-scanne-a-voix-haute/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 Ton cours est un polycopié passé au scanner, ou une série de photos de pages réunies en PDF. Tu l’ouvres pour l’écouter et rien ne se passe : il n’y a pas de texte, seulement des images. Avec speechsynthe.si, tu peux faire reconnaître ce texte dans ton navigateur, le relire, puis l’écouter ou le télécharger en MP3. C’est gratuit et sans compte.
 
@@ -785,7 +791,7 @@ Enfin, la reconnaissance ne fonctionne que sur les PDF. Si ton PowerPoint est fa
 > Mesuré sur un cours de 669 mots : 188 mots par minute avec la voix Jessica, 175 avec Tom. Durées de 1 000 à 10 000 mots et effet de la vitesse.
 
 Canonical: https://speechsynthe.si/temps-lecture-voix-haute/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 Avant de transformer un cours en audio, une question revient : combien de temps va durer l’écoute ? Nous avons mesuré la réponse avec les deux voix de synthèse françaises de speechsynthe.si, sur un texte de cours écrit pour l’occasion. Cette page donne les chiffres obtenus, la méthode, et une table pour estimer la durée de ton propre cours.
 
@@ -894,7 +900,7 @@ Ils ne disent rien de ce que tu retiens. Une heure d’écoute n’équivaut pas
 > Un « podcast » de cours peut être un dialogue d’IA qui résume, ou ton cours lu mot pour mot. Comment faire le second, gratuitement, un MP3 par chapitre.
 
 Canonical: https://speechsynthe.si/cours-en-podcast/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 Tu voudrais réviser ton cours en l’écoutant, comme un podcast, dans le train ou en marchant. En cherchant comment le transformer, tu tombes surtout sur des outils d’intelligence artificielle qui fabriquent une émission à deux voix à partir de ton PDF. C’est une possibilité. Il en existe une autre : faire lire ton cours tel qu’il est écrit, et l’emporter en MP3. Ce guide explique la différence, puis montre comment faire la seconde avec speechsynthe.si, gratuitement et sans compte.
 
@@ -989,7 +995,7 @@ Rien n’empêche de combiner les deux formats. Un podcast généré peut t’ai
 > Un texte ou un cours en anglais à écouter ? Quand la radio prend une voix anglaise, pourquoi une phrase seule reste en français, et le cas du cours mixte.
 
 Canonical: https://speechsynthe.si/texte-anglais-voix-haute/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 Tu as un article en anglais à préparer, un chapitre de ton syllabus rédigé en anglais ou un texte à lire pour ton cours de langue. Tu voudrais l’entendre lu à voix haute, avec une prononciation anglaise et pas un anglais prononcé à la française. Avec speechsynthe.si, c’est gratuit et sans compte : tu colles le texte, et la radio choisit seule une voix anglaise. Ce guide explique quand elle le fait, et les cas où elle reste en français.
 
@@ -1070,7 +1076,7 @@ Une voix de synthèse peut aussi mal prononcer un nom propre, un sigle ou un mot
 > Dyslexique ? speechsynthe.si lit ton PDF ou PowerPoint à voix haute et surligne le mot lu, de 0,7× à 1,5×, avec export MP3. Et ce qu’il ne fait pas.
 
 Canonical: https://speechsynthe.si/outil-lecture-dyslexie/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 Tu es dyslexique, tu es dans le supérieur, et ton cours tient en quatre-vingts pages de PDF. Le lire, c’est déchiffrer ligne après ligne et arriver au bout fatigué, sans être sûr d’avoir tout compris. speechsynthe.si lit ce PDF ou ce PowerPoint à voix haute, gratuitement et sans compte. La radio a été créée par un étudiant dys pour réviser en écoutant. Cette page dit ce qu’elle fait pour un lecteur dys, et surtout ce qu’elle ne fait pas.
 
@@ -1146,7 +1152,7 @@ Garde le PDF sous les yeux pour les tableaux, les schémas et les formules : ent
 > Pendant le blocus, tout ne se révise pas à l’oral. Quels cours écouter, à quel moment, à quelle vitesse, et ce qui doit rester sur papier.
 
 Canonical: https://speechsynthe.si/blocus-reviser-en-ecoutant/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 Le blocus commence, tu as six cours à revoir et quelques semaines devant toi. Relire chaque syllabus deux fois ne tiendra pas dans le planning, et tu te demandes si tu pourrais en écouter une partie, dans le bus ou en marchant. C’est possible : speechsynthe.si lit tes PDF et tes PowerPoint à voix haute, gratuitement et sans compte. Mais tout ne se révise pas bien à l’oreille. Ce guide t’aide à trier tes cours, à placer l’écoute au bon moment du blocus, et à vérifier qu’elle sert à quelque chose.
 
@@ -1194,7 +1200,7 @@ Au début du blocus, fais une première écoute de chaque chapitre de la pile «
 
 Au milieu du blocus, inverse l’ordre : teste-toi d’abord, avec les questions du cours, d’anciens examens ou une feuille blanche. Ne réécoute que les chapitres que tu n’as pas su redire, à une vitesse plus haute si tu les connais déjà. Laisse quelques jours entre deux passages sur le même chapitre, et alterne les cours d’un jour à l’autre.
 
-Les derniers jours avant un examen, arrête les écoutes complètes. Il reste les tests et quelques réécoutes très ciblées : une définition ratée, un passage d’une page. En Belgique, les examens de janvier sont souvent étalés sur plusieurs semaines : recommence ce cycle pour chaque cours, en commençant par le premier examen.
+Les derniers jours avant un examen, arrête les écoutes complètes. Il reste les tests et quelques réécoutes très ciblées : une définition ratée, un passage d’une page. Le guide sur la veille d’un examen détaille ces dernières vingt-quatre heures. En Belgique, les examens de janvier sont souvent étalés sur plusieurs semaines : recommence ce cycle pour chaque cours, en commençant par le premier examen.
 
 ## 5. Prépare tes cours en quelques minutes
 
@@ -1232,6 +1238,91 @@ Utilisée pour ce qu’elle sait faire, elle libère du temps de bureau : chaque
 - [Combien de temps dure l’écoute d’un cours ?](https://speechsynthe.si/temps-lecture-voix-haute/) : nos mesures avec les deux voix, et une table de 1 000 à 10 000 mots.
 - [Transformer son cours en podcast](https://speechsynthe.si/cours-en-podcast/) : un MP3 par chapitre, et pourquoi un cours lu n’est pas un résumé.
 - [Lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone/) : choisir les pages du doigt et préparer le MP3 avant le trajet.
+- [Réviser la veille d’un examen](https://speechsynthe.si/reviser-veille-examen/) : ce qui vaut encore la peine d’être écouté la veille, et un MP3 prêt pour le trajet du matin.
+
+[Écouter mon cours](https://speechsynthe.si/)
+
+[Consulter le mode d’emploi](https://speechsynthe.si/#mode-emploi)
+
+---
+<!-- source: https://speechsynthe.si/reviser-veille-examen/ -->
+# Réviser la veille d’un examen : ce qui s’écoute encore
+
+> La veille d’un examen, tout ne s’écoute pas. Les passages à réécouter, ceux à laisser sur papier, et un MP3 prêt pour le trajet du matin.
+
+Canonical: https://speechsynthe.si/reviser-veille-examen/
+Last updated: 2026-11-25
+
+Ton examen est demain. Tu ne vas pas relire tout le syllabus ce soir, et tu te demandes ce que tu pourrais encore écouter : pendant le repas, dans le bus demain matin, dans la file devant l’auditoire. speechsynthe.si lit tes PDF et tes PowerPoint à voix haute, gratuitement et sans compte. Mais la veille, le temps est compté et tout ne vaut pas la peine d’être écouté. Ce guide t’aide à choisir les quelques passages qui méritent encore ton oreille, à les préparer en quelques minutes, et à garder le reste de la soirée pour ce qui compte davantage.
+
+La veille, on ne découvre plus un cours : on remet en mémoire ce qu’on a déjà travaillé, et on vérifie qu’on sait le redire. L’écoute sert à la première partie, pas à la seconde. Ce guide la réserve donc à des passages courts et choisis, et garde l’essentiel de la soirée pour te tester.
+
+## 1. Ce que la veille peut encore faire
+
+La veille d’un examen n’est pas le moment d’apprendre un chapitre que tu n’as jamais ouvert. C’est le moment de rafraîchir ce que tu as déjà travaillé, de combler deux ou trois trous précis, et de vérifier que tu sais redire l’essentiel sans support.
+
+Une expérience souvent citée aide à placer l’écoute. Roediger et Karpicke (2006) ont fait lire des textes à des étudiants, puis les leur ont fait relire, ou bien écrire de mémoire. Au test passé cinq minutes plus tard, ceux qui avaient relu faisaient mieux. Deux jours ou une semaine plus tard, c’était l’inverse. Leur étude n’a pas testé de délai d’une nuit : elle ne dit donc pas laquelle des deux gagne quand l’examen est le lendemain. Nous en tirons un conseil prudent : la relecture, et l’écoute qui en est une version par l’oreille, peut rafraîchir un passage la veille, mais elle ne remplace pas le moment où tu essaies de le redire toi-même.
+
+Si ton blocus n’a pas encore commencé, le guide sur le blocus explique comment placer l’écoute sur plusieurs semaines. Celui-ci ne parle que des dernières vingt-quatre heures.
+
+## 2. Choisis les passages à réécouter
+
+Commence par te tester, pas par écouter. Prends une feuille blanche ou les questions d’un ancien examen, et passe chaque chapitre en revue en quelques minutes : ce que tu sais redire, ce qui te fait hésiter, ce qui manque. Ce sont les passages où tu hésites qui méritent une écoute ce soir. Ceux que tu sais déjà redire n’en ont pas besoin ; ceux qui manquent complètement demandent plutôt une vraie lecture, crayon en main.
+
+Parmi ces passages, certains s’écoutent bien : une définition à connaître mot pour mot, un raisonnement rédigé, une chronologie racontée, l’introduction d’un chapitre qui en donne le plan. D’autres s’écoutent mal : formules, tableaux, schémas, diapos faites de trois mots-clés. La radio lit le texte dans l’ordre, mot pour mot. Elle ne décrit pas les images et ne lit pas les notes du présentateur d’un PowerPoint : si l’explication d’une diapo était à l’oral pendant le cours, l’audio ne la contiendra pas.
+
+Entendus sans leur disposition, les nombres et les formules se comprennent mal : garde-les, avec les exercices, pour ton bureau.
+
+## 3. Combien d’écoute tient dans une soirée
+
+La veille, il est facile de surestimer ce qu’on peut écouter. À partir de nos mesures (188 mots par minute à vitesse normale avec Jessica, 253 à 1,5×), voici quelques repères calculés, pas mesurés sur un vrai cours, en comptant environ 500 mots par page.
+
+Vingt minutes d’écoute représentent donc environ 3 800 mots à 1,0× (7 à 8 pages) ou 5 000 mots à 1,5× (une dizaine de pages). C’est assez pour les passages choisis à l’étape 2, pas pour un syllabus entier. Les durées sont arrondies à la minute et ne comptent que l’écoute : ajoute le temps de te tester après chaque passage.
+
+Durée d’écoute calculée avec la voix Jessica
+
+| Ce que tu écoutes | Nombre de mots (environ) | À 1,0× | À 1,5× |
+| --- | --- | --- | --- |
+| Une page de cours rédigé | 500 | 3 min | 2 min |
+| Un chapitre de 8 pages | 4 000 | 21 min | 16 min |
+| Une liste de définitions | 300 | 2 min | 1 min |
+
+## 4. Prépare ton écoute en quelques minutes
+
+Ouvre speechsynthe.si et importe ton PDF ou ton PowerPoint. Le .pptx est accepté ; un ancien fichier .ppt doit d’abord être enregistré en .pptx. Les .docx ne sont pas lus : enregistre-les en PDF.
+
+Avec un PDF au texte sélectionnable, PAGES te permet de ne garder que les passages repérés à l’étape 2 : touche ou clique le premier mot du passage, puis le dernier. Si la radio repère des numéros de page ou des en-têtes répétés, NETTOYER te propose de les retirer, pour qu’ils ne coupent pas l’écoute.
+
+Tu peux aussi coller directement du texte dans la radio : les définitions que tu as ratées à ton test, recopiées de ton cours, ou ta liste de points à revoir. Une vingtaine de lignes s’écoute en une à deux minutes.
+
+Règle la vitesse : 1,0× pour ce que tu as raté au test, plus vite pour ce que tu reconnais en l’entendant. Puis appuie sur MP3 : le fichier garde la voix et la vitesse choisies. Pour un passage long, la radio peut proposer MP3 RAPIDE, avec une voix proche, qui envoie ton texte à Microsoft Azure ; « Sur mon appareil » le garde chez toi.
+
+## 5. Le soir et le matin : courts passages, pas de nouveau chapitre
+
+Pendant l’écoute dans la radio, garde l’onglet ouvert et, sur téléphone, évite de verrouiller l’écran. Pour le trajet du matin, le MP3 est plus simple : une fois téléchargé, il s’écoute sans connexion dans ton lecteur audio habituel, l’écran éteint.
+
+Après chaque passage, mets en pause et redis-le à voix haute ou dans ta tête. Avec le MP3, recule avec ton lecteur audio. Dans la radio, le bouton « ↶ 30 s » recule de trente secondes, et dans COMMANDES tu peux écrire « phrase précédente » ou « reviens 3 phrases en arrière ».
+
+Le matin de l’examen, nous te conseillons de ne rien écouter de neuf : seulement ta courte liste de définitions et de points ratés la veille. Si un passage ne rentre toujours pas après deux écoutes, relis-le une fois sur papier, puis passe à autre chose.
+
+## Ce que l’écoute ne fera pas la veille
+
+Elle ne vérifie pas que tu sais : seul le test le fait. Et pour un exercice, l’écouter ne t’apprend pas à le résoudre.
+
+La radio lit ton cours tel qu’il est écrit. Elle ne le résume pas, n’explique pas ce qui manque et ne décrit pas les schémas. Elle ne synchronise pas non plus tes cours entre ton ordinateur et ton téléphone : prépare le MP3 sur l’appareil que tu emporteras, ou, depuis le menu ⋯, utilise PARTAGER pour ouvrir le texte sur ton téléphone avec un lien valable 7 jours.
+
+Nous te conseillons vingt minutes d’écoute choisie plutôt qu’une soirée de syllabus en fond sonore, et une vraie nuit de sommeil.
+
+## Sources
+
+- [Roediger et Karpicke (2006)](https://doi.org/10.1111/j.1467-9280.2006.01693.x) : « Test-enhanced learning: taking memory tests improves long-term retention », Psychological Science.
+
+## À lire aussi
+
+- [Réviser son blocus en écoutant ses cours](https://speechsynthe.si/blocus-reviser-en-ecoutant/) : trier ses cours en trois piles, et placer l’écoute dans les semaines de blocus.
+- [Combien de temps dure l’écoute d’un cours ?](https://speechsynthe.si/temps-lecture-voix-haute/) : nos mesures avec les deux voix, et une table de 1 000 à 10 000 mots.
+- [Lire un PDF à voix haute sur son téléphone](https://speechsynthe.si/pdf-voix-haute-telephone/) : choisir les pages du doigt et préparer le MP3 avant de partir.
+- [Écouter ses cours pour réviser](https://speechsynthe.si/ecouter-ses-cours/) : la méthode pas à pas, du PDF ou du PowerPoint jusqu’au MP3, avec un cours d’exemple.
 
 [Écouter mon cours](https://speechsynthe.si/)
 

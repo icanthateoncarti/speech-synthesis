@@ -23,6 +23,7 @@ Contact : [Signaler un problème](https://github.com/icanthateoncarti/speech-syn
 - [Faire lire un texte en anglais à voix haute : voix anglaise ou française ?](https://speechsynthe.si/texte-anglais-voix-haute.md): Un texte ou un cours en anglais à écouter ? Quand la radio prend une voix anglaise, pourquoi une phrase seule reste en français, et le cas du cours mixte.
 - [Dyslexie : un outil gratuit pour écouter ses cours au lieu de les déchiffrer](https://speechsynthe.si/outil-lecture-dyslexie.md): Dyslexique ? speechsynthe.si lit ton PDF ou PowerPoint à voix haute et surligne le mot lu, de 0,7× à 1,5×, avec export MP3. Et ce qu’il ne fait pas.
 - [Réviser son blocus en écoutant ses cours : quoi écouter, et quand](https://speechsynthe.si/blocus-reviser-en-ecoutant.md): Pendant le blocus, tout ne se révise pas à l’oral. Quels cours écouter, à quel moment, à quelle vitesse, et ce qui doit rester sur papier.
+- [Réviser la veille d’un examen : ce qui vaut encore la peine d’être écouté](https://speechsynthe.si/reviser-veille-examen.md): La veille d’un examen, tout ne s’écoute pas. Les passages à réécouter, ceux à laisser sur papier, et un MP3 prêt pour le trajet du matin.
 
 ## Agents (WebMCP)
 Sur https://speechsynthe.si/, la page déclare deux outils via `document.modelContext`, avec les paramètres `texte` (obligatoire), `voix` (`jessica` ou `tom`) et `vitesse` (0,7 à 1,5) :
@@ -30,7 +31,7 @@ Sur https://speechsynthe.si/, la page déclare deux outils via `document.modelCo
 - `exporter-mp3` : convertit le texte en MP3 et le télécharge.
 
 ## Machine-readable
-- [Contenu complet](https://speechsynthe.si/llms-full.txt): les 14 pages réunies.
+- [Contenu complet](https://speechsynthe.si/llms-full.txt): les 15 pages réunies.
 - [Catalogue Markdown](https://speechsynthe.si/markdown-catalog.json): correspondance entre les pages HTML et Markdown.
 - [Sitemap](https://speechsynthe.si/sitemap.xml): pages HTML publiques.
 - [Politique IA](https://speechsynthe.si/ai.txt): permissions, restrictions et attribution.

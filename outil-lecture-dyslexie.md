@@ -3,7 +3,7 @@
 > Dyslexique ? speechsynthe.si lit ton PDF ou PowerPoint à voix haute et surligne le mot lu, de 0,7× à 1,5×, avec export MP3. Et ce qu’il ne fait pas.
 
 Canonical: https://speechsynthe.si/outil-lecture-dyslexie/
-Last updated: 2026-11-23
+Last updated: 2026-11-25
 
 Tu es dyslexique, tu es dans le supérieur, et ton cours tient en quatre-vingts pages de PDF. Le lire, c’est déchiffrer ligne après ligne et arriver au bout fatigué, sans être sûr d’avoir tout compris. speechsynthe.si lit ce PDF ou ce PowerPoint à voix haute, gratuitement et sans compte. La radio a été créée par un étudiant dys pour réviser en écoutant. Cette page dit ce qu’elle fait pour un lecteur dys, et surtout ce qu’elle ne fait pas.
 
