@@ -7,7 +7,7 @@ export const ARTICLES = [{
   navLabel: "Guide étudiant",
   description: "Un cours à réviser dans le train ou en marchant ? Prépare ton PDF ou PowerPoint, retire les répétitions et emporte le MP3. Exemple et captures à l’appui.",
   published: "2026-10-29",
-  updated: "2026-11-25",
+  updated: "2026-11-26",
   intro: "Tu as un cours de vingt pages à revoir et un trajet devant toi. Avec speechsynthe.si, tu peux transformer le texte de ton PDF ou PowerPoint en audio, puis télécharger le MP3 pour l’écouter sans connexion. C’est gratuit et sans compte.",
   premise: "La radio lit le texte extrait : elle ne le résume pas et ne le reformule pas. Une définition reste une définition, une longue liste reste une longue liste. C’est utile si tu veux retrouver le contenu du cours, mais l’audio peut durer longtemps. Les schémas, les tableaux et les formules demandent encore de regarder le document.",
   related: [
@@ -26,14 +26,14 @@ export const ARTICLES = [{
     {
       id: "preparer", title: "1. Pars d’un passage que tu veux vraiment revoir",
       paragraphs: [
-        "Choisis un chapitre, quelques diapositives ou une synthèse. Pour un premier essai, un passage court te permet de vérifier le résultat avant de préparer tout un cours. Un PowerPoint très visuel, avec trois mots et un graphique par diapositive, ne devient pas une explication orale complète : la radio n’invente pas ce qui manque.",
+        "Choisis un chapitre, quelques diapositives ou une synthèse. Pour un premier essai, un passage court te permet de vérifier le résultat avant de préparer tout un cours. Un [PowerPoint très visuel](/powerpoint-en-mp3/), avec trois mots et un graphique par diapositive, ne devient pas une explication orale complète : la radio n’invente pas ce qui manque.",
         "Ouvre la radio, clique sur IMPORTER ou glisse ton fichier dessus. Elle accepte les PDF et les PowerPoint au format .pptx. Si ton fichier est un ancien .ppt, enregistre-le en .pptx ou en PDF depuis ton logiciel de présentation."
       ]
     },
     {
       id: "verifier", title: "2. Relis ce que la radio va prononcer",
       paragraphs: [
-        "Après l’import, le texte apparaît dans la radio. Ouvre le menu ⋯, puis RELIRE LE TEXTE pour le vérifier dans un écran plus grand. Si le PDF contient des pages scannées, cet écran s’ouvre automatiquement. Vérifie quelques lignes : les phrases sont-elles dans le bon ordre ? Les nombres sont-ils corrects ? Tu peux corriger le texte directement, puis cliquer sur « Mettre dans la radio ».",
+        "Après l’import, le texte apparaît dans la radio. Ouvre le menu ⋯, puis RELIRE LE TEXTE pour le vérifier dans un écran plus grand. Si le PDF contient des [pages scannées](/pdf-scanne-a-voix-haute/), cet écran s’ouvre automatiquement. Vérifie quelques lignes : les phrases sont-elles dans le bon ordre ? Les nombres sont-ils corrects ? Tu peux corriger le texte directement, puis cliquer sur « Mettre dans la radio ».",
         "Si les colonnes se mélangent ou si du texte manque, ouvre « Texte en désordre ou incomplet ? ». Pour un PDF scanné, tu peux activer la reconnaissance du texte, en français ou en anglais, jusqu’à 50 pages par import. Elle s’exécute sur ton appareil, peut prendre plusieurs minutes et peut se tromper."
       ],
       figure: { src: "/assets/guides/relire-cours.jpg", width: 1100, height: 850, alt: "Le cours d’exemple dans l’écran sombre Relire avant d’écouter, avec le texte modifiable et le bouton Mettre dans la radio.", caption: "Le texte affiché ici est celui qui sera lu. Une vérification rapide évite d’écouter une colonne dans le mauvais ordre." }
@@ -749,7 +749,7 @@ export const ARTICLES = [{
   navLabel: "Veille d’examen",
   description: "La veille d’un examen, tout ne s’écoute pas. Les passages à réécouter, ceux à laisser sur papier, et un MP3 prêt pour le trajet du matin.",
   published: "2026-11-25",
-  updated: "2026-11-25",
+  updated: "2026-11-26",
   tocTitle: "Dans cette page",
   intro: "Ton examen est demain. Tu ne vas pas relire tout le syllabus ce soir, et tu te demandes ce que tu pourrais encore écouter : pendant le repas, dans le bus demain matin, dans la file devant l’auditoire. speechsynthe.si lit tes PDF et tes PowerPoint à voix haute, gratuitement et sans compte. Mais la veille, le temps est compté et tout ne vaut pas la peine d’être écouté. Ce guide t’aide à choisir les quelques passages qui méritent encore ton oreille, à les préparer en quelques minutes, et à garder le reste de la soirée pour ce qui compte davantage.",
   premise: "La veille, on ne découvre plus un cours : on remet en mémoire ce qu’on a déjà travaillé, et on vérifie qu’on sait le redire. L’écoute sert à la première partie, pas à la seconde. Ce guide la réserve donc à des passages courts et choisis, et garde l’essentiel de la soirée pour te tester.",
@@ -808,7 +808,7 @@ export const ARTICLES = [{
       id: "trajet", title: "5. Le soir et le matin : courts passages, pas de nouveau chapitre",
       paragraphs: [
         "Pendant l’écoute dans la radio, garde l’onglet ouvert et, sur téléphone, évite de verrouiller l’écran. Pour le trajet du matin, le MP3 est plus simple : une fois téléchargé, il s’écoute sans connexion dans ton lecteur audio habituel, l’écran éteint.",
-        "Après chaque passage, mets en pause et redis-le à voix haute ou dans ta tête. Avec le MP3, recule avec ton lecteur audio. Dans la radio, le bouton « ↶ 30 s » recule de trente secondes, et dans COMMANDES tu peux écrire « phrase précédente » ou « reviens 3 phrases en arrière ».",
+        "Après chaque passage, mets en pause et redis-le à voix haute ou par écrit. Avec le MP3, recule avec ton lecteur audio. Dans la radio, le bouton « ↶ 30 s » recule de trente secondes, et dans COMMANDES tu peux écrire « phrase précédente » ou « reviens 3 phrases en arrière ».",
         "Le matin de l’examen, nous te conseillons de ne rien écouter de neuf : seulement ta courte liste de définitions et de points ratés la veille. Si un passage ne rentre toujours pas après deux écoutes, relis-le une fois sur papier, puis passe à autre chose."
       ]
     },

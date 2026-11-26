@@ -3,7 +3,7 @@
 > Un texte ou un cours en anglais à écouter ? Quand la radio prend une voix anglaise, pourquoi une phrase seule reste en français, et le cas du cours mixte.
 
 Canonical: https://speechsynthe.si/texte-anglais-voix-haute/
-Last updated: 2026-11-25
+Last updated: 2026-11-26
 
 Tu as un article en anglais à préparer, un chapitre de ton syllabus rédigé en anglais ou un texte à lire pour ton cours de langue. Tu voudrais l’entendre lu à voix haute, avec une prononciation anglaise et pas un anglais prononcé à la française. Avec speechsynthe.si, c’est gratuit et sans compte : tu colles le texte, et la radio choisit seule une voix anglaise. Ce guide explique quand elle le fait, et les cas où elle reste en français.
 

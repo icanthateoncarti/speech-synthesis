@@ -17,3 +17,9 @@ export const EXCLUDED_PATHS = ["/admin/", "/api/", "/dashboard/", "/auth/", "/te
 export const pagePath = (page) => page.slug ? `/${page.slug}/` : "/";
 export const markdownPath = (page) => page.slug ? `/${page.slug}.md` : "/index.md";
 export const absolute = (pathname) => new URL(pathname, SITE.url).href;
+
+// Lien interne dans une phrase éditoriale : « [mots liés](/chemin/) ». Seuls les chemins du site
+// sont reconnus. Le HTML en fait un <a> ; le texte brut (Markdown, tests) ne garde que les mots.
+const INLINE_LINK = /\[([^\]]+)\]\((\/[a-z0-9\-/#]*)\)/g;
+export const plainText = (text) => text.replace(INLINE_LINK, "$1");
+export const inlineLinks = (escapedHtml) => escapedHtml.replace(INLINE_LINK, '<a href="$2">$1</a>');

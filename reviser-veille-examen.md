@@ -3,7 +3,7 @@
 > La veille d’un examen, tout ne s’écoute pas. Les passages à réécouter, ceux à laisser sur papier, et un MP3 prêt pour le trajet du matin.
 
 Canonical: https://speechsynthe.si/reviser-veille-examen/
-Last updated: 2026-11-25
+Last updated: 2026-11-26
 
 Ton examen est demain. Tu ne vas pas relire tout le syllabus ce soir, et tu te demandes ce que tu pourrais encore écouter : pendant le repas, dans le bus demain matin, dans la file devant l’auditoire. speechsynthe.si lit tes PDF et tes PowerPoint à voix haute, gratuitement et sans compte. Mais la veille, le temps est compté et tout ne vaut pas la peine d’être écouté. Ce guide t’aide à choisir les quelques passages qui méritent encore ton oreille, à les préparer en quelques minutes, et à garder le reste de la soirée pour ce qui compte davantage.
 
@@ -53,7 +53,7 @@ Règle la vitesse : 1,0× pour ce que tu as raté au test, plus vite pour ce que
 
 Pendant l’écoute dans la radio, garde l’onglet ouvert et, sur téléphone, évite de verrouiller l’écran. Pour le trajet du matin, le MP3 est plus simple : une fois téléchargé, il s’écoute sans connexion dans ton lecteur audio habituel, l’écran éteint.
 
-Après chaque passage, mets en pause et redis-le à voix haute ou dans ta tête. Avec le MP3, recule avec ton lecteur audio. Dans la radio, le bouton « ↶ 30 s » recule de trente secondes, et dans COMMANDES tu peux écrire « phrase précédente » ou « reviens 3 phrases en arrière ».
+Après chaque passage, mets en pause et redis-le à voix haute ou par écrit. Avec le MP3, recule avec ton lecteur audio. Dans la radio, le bouton « ↶ 30 s » recule de trente secondes, et dans COMMANDES tu peux écrire « phrase précédente » ou « reviens 3 phrases en arrière ».
 
 Le matin de l’examen, nous te conseillons de ne rien écouter de neuf : seulement ta courte liste de définitions et de points ratés la veille. Si un passage ne rentre toujours pas après deux écoutes, relis-le une fois sur papier, puis passe à autre chose.
 

@@ -1,4 +1,4 @@
-import { SITE, absolute, pagePath, markdownPath } from "./site.mjs";
+import { SITE, absolute, pagePath, markdownPath, inlineLinks } from "./site.mjs";
 import { contentSecurityPolicy } from "./stamp-version.mjs";
 const esc = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const json = (data) => JSON.stringify(data, null, 2).replace(/</g, "\\u003c");
@@ -45,7 +45,7 @@ ${json(schema)}
       <header class="article-heading"><p class="article-kicker">LE GUIDE ÉTUDIANT</p><h1>${esc(page.h1)}</h1><p class="article-date">Par speechsynthe.si · <time datetime="${page.updated}">${displayDate}</time></p><p class="article-intro">${esc(page.intro)}</p></header>
       <p>${esc(page.premise)}</p>
 ${page.sample ? `      <aside class="article-sample"><h2>Essaie avec un petit cours</h2><p>${esc(page.sample.description)}</p><a href="${page.sample.href}" download>${esc(page.sample.label)} <span aria-hidden="true">↓</span></a></aside>\n` : ""}      <nav class="article-toc" aria-label="Dans ce guide"><h2>${esc(page.tocTitle ?? "Du fichier au MP3")}</h2><ol>${page.sections.map(s => `<li><a href="#${s.id}">${esc(s.title.replace(/^\d+\. /, ""))}</a></li>`).join("")}</ol></nav>
-${page.sections.map(s => `      <section id="${s.id}"><h2>${esc(s.title)}</h2>${s.paragraphs.map(p => `<p>${esc(p)}</p>`).join("")}${s.table ? table(s.table) : ""}${s.figure ? figure(s.figure) : ""}</section>`).join("\n")}
+${page.sections.map(s => `      <section id="${s.id}"><h2>${esc(s.title)}</h2>${s.paragraphs.map(p => `<p>${inlineLinks(esc(p))}</p>`).join("")}${s.table ? table(s.table) : ""}${s.figure ? figure(s.figure) : ""}</section>`).join("\n")}
 ${page.sources?.length ? `      <nav class="article-related article-sources" aria-label="Sources"><h2>Sources</h2><ul>${page.sources.map(r => `<li><a href="${r.href}" rel="noopener">${esc(r.label)}</a> : ${esc(r.text)}</li>`).join("")}</ul></nav>\n` : ""}${page.related?.length ? `      <nav class="article-related" aria-label="À lire aussi"><h2>À lire aussi</h2><ul>${page.related.map(r => `<li><a href="${r.href}">${esc(r.label)}</a> : ${esc(r.text)}</li>`).join("")}</ul></nav>\n` : ""}      <aside class="article-cta"><h2>Commence par quelques pages</h2><p>Importe un passage, écoute le résultat et garde les réglages qui te conviennent.</p><a class="article-button" href="/">Écouter mon cours <span aria-hidden="true">→</span></a><a href="/#mode-emploi">Consulter le mode d’emploi</a></aside>
     </article>
   </main>

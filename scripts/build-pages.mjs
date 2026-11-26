@@ -7,7 +7,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { HOME, PAGES, PUBLIC_PAGES } from "./pages.mjs";
-import { SITE, absolute, pagePath, markdownPath } from "./site.mjs";
+import { SITE, absolute, pagePath, markdownPath, inlineLinks } from "./site.mjs";
 import { generatedAiFiles } from "./ai-pages.mjs";
 import { ROOT, computeVersion, localModules, stamp } from "./stamp-version.mjs";
 import { renderArticle } from "./article-page.mjs";
@@ -72,7 +72,7 @@ function manualSection(manual = []) {
     <h2 id="manual-title">Mode d’emploi</h2>
 ${manual.map(([title, text]) => `    <details>
       <summary>${escapeHtml(title)}</summary>
-      <p class="answer">${escapeHtml(text)}</p>
+      <p class="answer">${inlineLinks(escapeHtml(text))}</p>
     </details>`).join("\n")}
   </section>`;
 }

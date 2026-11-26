@@ -125,7 +125,7 @@ export const PAGES = [
     "manual": [
       [
         "Choisir la voix et la vitesse",
-        "Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : un cours en anglais est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3."
+        "Deux voix par langue, en français et en anglais. La langue est détectée dans le texte : [un cours en anglais](/texte-anglais-voix-haute/) est lu en anglais, sans traduction. Le bouton rotatif choisit la voix ; VITESSE règle le débit de 0,7× à 1,5×, pour l’écoute et le MP3."
       ],
       [
         "Retrouver un passage",

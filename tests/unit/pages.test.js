@@ -85,3 +85,28 @@ test("guide dyslexie : les sources sont citées avec leur lien, en HTML comme en
   // Les guides sans sources n'affichent pas de bloc vide.
   assert.ok(!renderArticle(ARTICLES.find((page) => !page.sources), "test").includes('aria-label="Sources"'));
 });
+
+test("liens dans les phrases : un vrai <a> vers une page publique, texte brut dans le Markdown", async () => {
+  const { renderArticle } = await import("../../scripts/article-page.mjs");
+  const { renderMarkdown } = await import("../../scripts/ai-pages.mjs");
+  const { pagePath } = await import("../../scripts/site.mjs");
+  const home = await readFile(new URL("../../index.html", import.meta.url), "utf8");
+  const paths = new Set(PUBLIC_PAGES.map(pagePath));
+  const linkPattern = /\[([^\]]+)\]\((\/[^)]*)\)/g;
+  let count = 0;
+  for (const page of PUBLIC_PAGES.filter(page => page.slug)) {
+    // Seuls les paragraphes des guides et les réponses du mode d'emploi savent afficher un lien.
+    const linkable = page.kind === "article" ? page.sections.flatMap(s => s.paragraphs) : (page.manual ?? []).map(([, text]) => text);
+    const other = page.kind === "article" ? [page.title, page.description, page.intro, page.premise, ...page.sections.map(s => s.title)] : [page.title, page.description, ...page.guide.steps, page.guide.why, ...page.faq.flat(), ...(page.manual ?? []).map(([title]) => title)];
+    for (const text of other) assert.ok(!linkPattern.test(text), `lien non rendu ici : ${text}`), linkPattern.lastIndex = 0;
+    const html = page.kind === "article" ? renderArticle(page, "test") : renderPage(home, page);
+    const markdown = renderMarkdown(page, "2026-11-26");
+    for (const text of linkable) for (const [source, label, href] of text.matchAll(linkPattern)) {
+      count++;
+      assert.ok(paths.has(href), `${page.slug} : ${href} n'est pas une page publique`);
+      assert.ok(html.includes(`<a href="${href}">${label}</a>`), `${page.slug} : ${href}`);
+      assert.ok(!html.includes(source) && !markdown.includes(`](${href})`), `${page.slug} : syntaxe visible`);
+    }
+  }
+  assert.ok(count >= 3);
+});

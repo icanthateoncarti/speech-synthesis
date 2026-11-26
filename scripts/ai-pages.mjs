@@ -1,12 +1,13 @@
 import { HOME, PUBLIC_PAGES } from "./pages.mjs";
-import { SITE, SEARCH_BOTS, TRAINING_BOTS, BLOCKED_BOTS, EXCLUDED_PATHS, pagePath, markdownPath, absolute } from "./site.mjs";
+import { SITE, SEARCH_BOTS, TRAINING_BOTS, BLOCKED_BOTS, EXCLUDED_PATHS, pagePath, markdownPath, absolute, plainText } from "./site.mjs";
 
 // Données éditoriales uniquement : ni DOM, ni texte saisi, ni document importé.
 export function listMarkdownRoutes() {
   return PUBLIC_PAGES.map((page) => ({ page, html: pagePath(page), markdown: markdownPath(page) }));
 }
 
-export const escapeMarkdown = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\\`*_{}\[\]]/g, "\\$&");
+// Les liens internes des phrases ([mots](/chemin/)) sont rendus en texte brut dans le Markdown.
+export const escapeMarkdown = (text) => plainText(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\\`*_{}\[\]]/g, "\\$&");
 const link = (label, url) => `[${escapeMarkdown(label)}](${url})`;
 
 export function renderMarkdown(page, date) {
